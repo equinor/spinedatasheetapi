@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore datasheetapi/datasheetapi.csproj
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test datasheetapi.Tests --no-build --verbosity normal
