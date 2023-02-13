@@ -1,6 +1,4 @@
-using Xunit;
-
-namespace datasheetapi.Tests;
+namespace tests;
 
 public class UnitTest1
 {
@@ -10,4 +8,3 @@ public class UnitTest1
 
     }
 }
-

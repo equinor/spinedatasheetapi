@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
     - name: Test
-      run: dotnet test datasheetapi.Tests --no-build --verbosity normal
+      run: dotnet test tests --no-build --verbosity normal
