@@ -1,31 +1,85 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: ".NET CI Pipeline"
-
+name: 🚀 Push
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force deploy to prod"
+        type: boolean
+        default: false
+        required: true
+
+env:
+  FUSION_APP_KEY: spinedatasheet  
 
 jobs:
   build:
     name: Build
+    uses: equinor/spinedatasheet/.github/workflows/build.yml@main
+    
+  release_please:
+    name: 🔖 Release Please
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore datasheetapi/datasheetapi.csproj
-    - name: Build
-      run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
-    - name: Test
-      run: dotnet test tests --no-build --verbosity normal
-    # - name: "Docker Login dynatrace"
-    #   run: echo ${{ parameters.dt_password }} | docker login -u ${{ parameters.dt_tenant }} ${{ parameters.dt_url }} --password-stdin
-    # - name: "Docker build with OneAgent"
-    #   run: docker build -f ${{ parameters.sourcesDirectory }}/${{ parameters.appName }}/Dockerfile --build-arg DYNATRACE_URL=${{ parameters.dt_url }} --build-arg DYNATRACE_TENANT=${{ parameters.dt_tenant }} --build-arg DYNATRACE_PAAS_TOKEN=${{ parameters.dt_password }} --build-arg environment=dev  ${{ parameters.sourcesDirectory }}/${{ parameters.appName }}/  -t crpia.azurecr.io/${{ parameters.appName }}:${{ parameters.buildId }}
+      - name: Create Release
+        id: release
+        uses: google-github-actions/release-please-action@v3
+        with:
+          release-type: node
+          package-name: spinereview
+          changelog-types: >
+            [{"type":"feat","section":"Features","hidden":false},
+            {"type":"fix","section":"Bug Fixes","hidden":false},
+            {"type":"style", "section":"Cosmetic changes","hidden":false},
+            {"type":"docs","section":"For developers","hidden":false},
+            {"type":"refactor","section":"For developers","hidden":false},
+            {"type":"ci", "section":"For developers","hidden":false},
+            {"type":"chore", "section":"For developers","hidden":false},
+            {"type":"perf", "section":"Optimalization","hidden":false}]
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+    
+  deploy-ci:
+    name: '🚀 CI'
+    runs-on: ubuntu-latest
+    needs: build
+    environment: CI
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Download artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUSION_APP_KEY }}.zip
+          
+  deploy_qa:
+    name: '🚀 QA'
+    runs-on: ubuntu-latest
+    needs: [release_please, deploy-ci]
+    if: ${{ needs.release_please.outputs.release_created || inputs.force }}
+    environment: QA
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Download artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUSION_APP_KEY }}.zip
+
+  deploy_prod:
+    name: '🚀 Prod'
+    runs-on: ubuntu-latest
+    needs: [deploy_qa]
+    environment: PROD
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: 'Download artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ env.FUSION_APP_KEY }}.zip
