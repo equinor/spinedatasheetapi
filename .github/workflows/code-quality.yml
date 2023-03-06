@@ -2,21 +2,53 @@ name: '💎 Code Quality'
 on:
   workflow_dispatch:
   workflow_call:
-    secrets:
-      SNYK_SECRET:
-        required: true
   schedule:
-    # Run every monday at 0200UTC
-    - cron: '0 2 * * 1'
-
+  # Run every monday at 0200UTC
+    - cron: "0 2 * * 1"
+    
+env:
+  DOTNET_VERSION: '6.x.x'
 
 jobs:
-  unit_tests:
-    name: 🧪 Unit tests
+  code_quality:
+    name: '🛠️ Build & 🧪 Test'
     runs-on: ubuntu-latest
     steps:
-    - name: Test
-      run: dotnet test tests --no-build --verbosity normal
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+      - name: 📦 Restore dependencies
+        run: dotnet restore -r linux-x64 datasheetapi/ &&  dotnet restore -r linux-x64 tests/
+                
+      - name: 🛠️ Build Solution
+        run: dotnet build datasheetapi --configuration Release && dotnet build tests --configuration Release
+      
+      - name: 🧪 Run Tests
+        run: dotnet test tests --configuration Release
+        
+  security_vulnerabilities:
+    name: 🚨 Security vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          
+      - name: 📦 Restore dependencies
+        run: dotnet restore -r linux-x64 datasheetapi/ &&  dotnet restore -r linux-x64 tests/
+
+      - uses: snyk/actions/setup@master
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk test --file=datasheetapi/datasheetapi.csproj --fail-on=upgradable
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
   lint:
     name: 💅 Linting
@@ -29,14 +61,3 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  security_vulnerabilities:
-    name: 🚨 Security vulnerabilities
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: snyk/actions/setup@master
-      - name: Test dependencies for known issues
-        run: snyk test --fail-on=all --severity-threshold=high --strict-out-of-sync=false
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_SECRET }}
