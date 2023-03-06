@@ -1,0 +1,369 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.14.6.61914",
+      "templateHash": "7443549741184436519"
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "baseAppName": "datasheet"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "appInsight",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "baseAppName": {
+            "value": "[variables('baseAppName')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.14.6.61914",
+              "templateHash": "8660614763276301719"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "baseAppName": {
+              "type": "string",
+              "defaultValue": ""
+            }
+          },
+          "variables": {
+            "logWorkspaceName": "[format('log-{0}', parameters('baseAppName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.OperationalInsights/workspaces",
+              "apiVersion": "2021-06-01",
+              "name": "[variables('logWorkspaceName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "sku": {
+                  "name": "PerGB2018"
+                },
+                "retentionInDays": 30,
+                "features": {
+                  "enableLogAccessUsingOnlyResourcePermissions": true
+                },
+                "workspaceCapping": {
+                  "dailyQuotaGb": -1
+                },
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+              }
+            },
+            {
+              "type": "Microsoft.Insights/components",
+              "apiVersion": "2020-02-02",
+              "name": "[format('appi-{0}', parameters('baseAppName'))]",
+              "location": "[parameters('location')]",
+              "kind": "web",
+              "properties": {
+                "Application_Type": "web",
+                "RetentionInDays": 90,
+                "WorkspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('logWorkspaceName'))]",
+                "IngestionMode": "LogAnalytics",
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled"
+              },
+              "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', variables('logWorkspaceName'))]"
+              ]
+            }
+          ],
+          "outputs": {
+            "appInsightKey": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Insights/components', format('appi-{0}', parameters('baseAppName'))), '2020-02-02').InstrumentationKey]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "appcs",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "baseAppName": {
+            "value": "[variables('baseAppName')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.14.6.61914",
+              "templateHash": "13303617857564636725"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "baseAppName": {
+              "type": "string",
+              "defaultValue": ""
+            }
+          },
+          "variables": {
+            "appConfigName": "[format('appcs-{0}', parameters('baseAppName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.AppConfiguration/configurationStores",
+              "apiVersion": "2021-10-01-preview",
+              "name": "[variables('appConfigName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "disableLocalAuth": false,
+                "encryption": {},
+                "softDeleteRetentionInDays": 7,
+                "enablePurgeProtection": false
+              },
+              "sku": {
+                "name": "standard"
+              },
+              "identity": {
+                "type": "SystemAssigned"
+              }
+            }
+          ],
+          "outputs": {
+            "id": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.AppConfiguration/configurationStores', variables('appConfigName'))]"
+            },
+            "apiVersion": {
+              "type": "string",
+              "value": "2021-10-01-preview"
+            },
+            "name": {
+              "type": "string",
+              "value": "[variables('appConfigName')]"
+            },
+            "resource": {
+              "type": "object",
+              "value": "[reference(resourceId('Microsoft.AppConfiguration/configurationStores', variables('appConfigName')), '2021-10-01-preview', 'full')]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "cr",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "baseAppName": {
+            "value": "[variables('baseAppName')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.14.6.61914",
+              "templateHash": "9013573277183710682"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "baseAppName": {
+              "type": "string",
+              "defaultValue": ""
+            }
+          },
+          "variables": {
+            "containerRegistryName": "[format('cr{0}', parameters('baseAppName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.ContainerRegistry/registries",
+              "apiVersion": "2021-06-01-preview",
+              "name": "[variables('containerRegistryName')]",
+              "location": "[parameters('location')]",
+              "sku": {
+                "name": "Standard"
+              },
+              "properties": {
+                "adminUserEnabled": true,
+                "anonymousPullEnabled": false,
+                "dataEndpointEnabled": false,
+                "encryption": {
+                  "status": "disabled"
+                },
+                "networkRuleBypassOptions": "AzureServices",
+                "policies": {
+                  "exportPolicy": {
+                    "status": "enabled"
+                  },
+                  "quarantinePolicy": {
+                    "status": "disabled"
+                  },
+                  "retentionPolicy": {
+                    "days": 7,
+                    "status": "disabled"
+                  },
+                  "trustPolicy": {
+                    "status": "disabled",
+                    "type": "Notary"
+                  }
+                },
+                "publicNetworkAccess": "Enabled",
+                "zoneRedundancy": "Disabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2020-10-01",
+      "name": "kv",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "baseAppName": {
+            "value": "[variables('baseAppName')]"
+          },
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "accessPolicies": {
+            "value": [
+              {
+                "applicationId": "string",
+                "objectId": "string",
+                "permissions": {
+                  "certificates": [
+                    "string"
+                  ],
+                  "keys": [
+                    "string"
+                  ],
+                  "secrets": [
+                    "string"
+                  ],
+                  "storage": [
+                    "string"
+                  ]
+                },
+                "tenantId": "string"
+              }
+            ]
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.14.6.61914",
+              "templateHash": "9373258773530482225"
+            }
+          },
+          "parameters": {
+            "location": {
+              "type": "string",
+              "defaultValue": "[resourceGroup().location]"
+            },
+            "baseAppName": {
+              "type": "string",
+              "defaultValue": ""
+            },
+            "tenantId": {
+              "type": "string",
+              "defaultValue": "[subscription().tenantId]"
+            },
+            "accessPolicies": {
+              "type": "array"
+            }
+          },
+          "variables": {
+            "keyvaultName": "[format('kv-{0}', parameters('baseAppName'))]"
+          },
+          "resources": [
+            {
+              "type": "Microsoft.KeyVault/vaults",
+              "apiVersion": "2019-09-01",
+              "name": "[variables('keyvaultName')]",
+              "location": "[parameters('location')]",
+              "properties": {
+                "enableRbacAuthorization": false,
+                "enabledForDeployment": false,
+                "enabledForDiskEncryption": false,
+                "enabledForTemplateDeployment": false,
+                "publicNetworkAccess": "Enabled",
+                "tenantId": "[parameters('tenantId')]",
+                "softDeleteRetentionInDays": 90,
+                "accessPolicies": "[parameters('accessPolicies')]",
+                "sku": {
+                  "family": "A",
+                  "name": "standard"
+                }
+              }
+            }
+          ],
+          "outputs": {
+            "kv": {
+              "type": "object",
+              "value": "[reference(resourceId('Microsoft.KeyVault/vaults', variables('keyvaultName')), '2019-09-01', 'full')]"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

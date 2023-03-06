@@ -1,0 +1,29 @@
+name: Build
+on:
+  workflow_call:
+
+env:
+  ARTIFACT_NAME: spinedatasheet.zip
+
+jobs:
+  build:
+    name: '🛠️ Build'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore datasheetapi/datasheetapi.csproj
+    - name: Build
+      run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
+    - name: Test
+      run: dotnet test tests --no-build --verbosity normal
+    - name: 'Upload artifact'
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: out/${{ env.ARTIFACT_NAME }}
+        retention-days: 7
