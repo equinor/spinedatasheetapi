@@ -1,0 +1,42 @@
+name: '💎 Code Quality'
+on:
+  workflow_dispatch:
+  workflow_call:
+    secrets:
+      SNYK_SECRET:
+        required: true
+  schedule:
+    # Run every monday at 0200UTC
+    - cron: '0 2 * * 1'
+
+
+jobs:
+  unit_tests:
+    name: 🧪 Unit tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test
+      run: dotnet test tests --no-build --verbosity normal
+
+  lint:
+    name: 💅 Linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  security_vulnerabilities:
+    name: 🚨 Security vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: snyk/actions/setup@master
+      - name: Test dependencies for known issues
+        run: snyk test --fail-on=all --severity-threshold=high --strict-out-of-sync=false
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_SECRET }}
