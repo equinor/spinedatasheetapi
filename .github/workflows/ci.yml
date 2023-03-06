@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     name: Build
-    uses: equinor/spinedatasheet/.github/workflows/build.yml@main
+    uses: equinor/spinedatasheetapi/.github/workflows/build.yml@main
     
   release_please:
     name: 🔖 Release Please
