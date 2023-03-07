@@ -46,7 +46,7 @@ jobs:
 
       - uses: snyk/actions/setup@master
       - name: Run Snyk to check for vulnerabilities
-        run: snyk test --file=datasheetapi/datasheetapi.csproj --fail-on=upgradable
+        run: snyk test --fail-on=upgradable
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 

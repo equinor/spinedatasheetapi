@@ -21,9 +21,3 @@ jobs:
       run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
     - name: Test
       run: dotnet test tests --no-build --verbosity normal
-    - name: 'Upload artifact'
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ env.ARTIFACT_NAME }}
-        path: out/${{ env.ARTIFACT_NAME }}
-        retention-days: 7
