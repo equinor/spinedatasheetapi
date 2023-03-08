@@ -1,0 +1,66 @@
+namespace datasheetapi.Models;
+
+public class SupplierOfferedProduct
+{
+    public string Manufacturer { get; set; }
+    public string ModelNumber { get; set; }
+    public string EquipmentManufacturerSerialNumber { get; set; }
+    public int MinimumAmbientTemperature { get; set; }
+    public int MaximumAmbientTemperature { get; set; }
+    public string PressureRetainingBoltMaterial { get; set; }
+    public string PressureRetainingNutMaterial { get; set; }
+    public string SILRating { get; set; }
+    public string IngressProtection { get; set; }
+    public string ExProtection { get; set; }
+    public string HazardousAreaClassificationStandard { get; set; }
+    public string ExplosionHazardClassification { get; set; }
+    public string ExplosionGroup { get; set; }
+    public string TemperatureClass { get; set; }
+    public double MaximumUnrecoverablePressureLoss { get; set; }
+    public string BodyElementSensorManufacturerModelNumber { get; set; }
+    public string BodyMaterial { get; set; }
+    public string FlangeMaterial { get; set; }
+    public string LinerMaterial { get; set; }
+    public string CoilCoverMaterial { get; set; }
+    public string JunctionBoxMaterial { get; set; }
+    public string ElectrodeType { get; set; }
+    public string ElectrodeMaterial { get; set; }
+    public double MeterMinimumConductivity { get; set; }
+    public bool GroundingRing { get; set; }
+    public string GroundingRingMaterial { get; set; }
+    public string LiningProtector { get; set; }
+    public double BodySize { get; set; }
+    public double EndConnectionSize { get; set; }
+    public string EndConnectionFlangeType { get; set; }
+    public double EndConnectionFlangeRating { get; set; }
+    public string TransmitterModelNumber { get; set; }
+    public string TransmitterEnclosureMaterial { get; set; }
+    public string TransmitterMounting { get; set; }
+    public bool TransmitterDisplay { get; set; }
+    public int TransmitterConnectingCables { get; set; }
+    public double TransmitterConnectingCableLength { get; set; }
+    public int TransmitterConnectingCableQuantity { get; set; }
+    public double SupplyVoltage { get; set; }
+    public double ExternalPowerVoltage { get; set; }
+    public bool IsolatedOutputs { get; set; }
+    public string CableEntry { get; set; }
+    public string CableTermination { get; set; }
+    public string CommunicationProtocol { get; set; }
+    public string ProtocolVersion { get; set; }
+    public string FailSafeDirection { get; set; }
+    public bool CalibrationBespoke { get; set; }
+    public double MeasurementRangeMinimum { get; set; }
+    public double MeasurementRangeMaximum { get; set; }
+    public string SpanAndZeroAdjustment { get; set; }
+    public double LowerRangeLimit { get; set; }
+    public double UpperRangeLimit { get; set; }
+    public double Accuracy { get; set; }
+    public double Repeatability { get; set; }
+    public double StepResponse { get; set; }
+    public double LongTermDrift { get; set; }
+    public double LongTermStability { get; set; }
+    public bool Vibration { get; set; }
+    public bool WeatherEnclosure { get; set; }
+    public bool ElectricalSurgeProtector { get; set; }
+    public bool Sunshade { get; set; }
+}
