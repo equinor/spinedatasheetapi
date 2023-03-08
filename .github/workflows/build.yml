@@ -21,3 +21,21 @@ jobs:
       run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
     - name: Test
       run: dotnet test tests --no-build --verbosity normal
+
+
+  docker:
+    name: ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to Dynatrace
+        uses: docker/login-action@v2
+        with:
+          registry: spa-equinor.kanari.com
+          username: ${{ secrets.DYNATRACE_PREPROD_TENANT }}
+          password: ${{ secrets.DYNATRACE_PREPROD_TOKEN }}
+      - run: |
+          docker build --build-arg DYNATRACE_URL=spa-equinor.kanari.com --build-arg DYNATRACE_TENANT=${{ secrets.DYNATRACE_PREPROD_TENANT }} --build-arg DYNATRACE_PAAS_TOKEN=${{ secrets.DYNATRACE_PREPROD_TOKEN }} --build-arg environment=dev . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/datasheetapi:${{ github.sha }}
