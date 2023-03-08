@@ -50,10 +50,8 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: 'Download artifact'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.FUSION_APP_KEY }}.zip
+      - name: ci-step
+        run: echo "Hello CI!"
           
   deploy_qa:
     name: '🚀 QA'
@@ -65,10 +63,8 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: 'Download artifact'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.FUSION_APP_KEY }}.zip
+      - name: qa-step
+        run: echo "Hello QA!"
 
   deploy_prod:
     name: '🚀 Prod'
@@ -79,7 +75,5 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: 'Download artifact'
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.FUSION_APP_KEY }}.zip
+      - name: prod-step
+        run: echo "Hello PROD!"
