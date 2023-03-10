@@ -11,11 +11,9 @@ on:
         default: false
         required: true
 
-env:
-  FUSION_APP_KEY: spinedatasheet  
-
 jobs:
   build:
+    secrets: inherit
     name: Build
     uses: equinor/spinedatasheetapi/.github/workflows/build.yml@main
     
