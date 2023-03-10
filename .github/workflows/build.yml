@@ -40,18 +40,24 @@ jobs:
       - name: Login to Dynatrace
         uses: docker/login-action@v2
         with:
-          registry: ${{ envs.DYNATRACEURL }}
-          username: $DynatraceTenant
-          password: $DynatraceToken
+          registry: spa-equinor.kanari.com
+          username: ${{ secrets.DYNATRACEPREPRODTENANT }}
+          password: ${{ secrets.DYNATRACEPREPRODTOKEN }}
+      - name: Log into registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ secrets.ACR_ENDPOINT }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - name: Build & Push
         uses: docker/build-push-action@v4
         with:
           push: true
           build-args: |
-            DYNATRACE_URL=${{ envs.DYNATRACEURL }}
-            DYNATRACE_TENANT=$DynatraceTenant
-            DYNATRACE_PAAS_TOKEN=$DynatraceToken
+            DYNATRACE_URL=${{ secrets.DYNATRACEURL }}
+            DYNATRACE_TENANT=${{ secrets.DYNATRACEPREPRODTENANT }}
+            DYNATRACE_PAAS_TOKEN=${{ secrets.DYNATRACEPREPRODTOKEN }}
             environment=dev
-          tags: $Registry/datasheetapi:${{ github.sha }}
+          tags: ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}
           file: ./Dockerfile
           context: .
