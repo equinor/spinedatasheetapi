@@ -1,9 +1,16 @@
 name: Build
 on:
   workflow_call:
+    secrets:
+        Registry:
+          required: true
+        DynatraceTenant:
+          required: true
+        DynatraceToken:
+          required: true
 
 jobs:
-  build:
+  build:    
     name: '🛠️ Build'
     runs-on: ubuntu-latest
     steps:
@@ -21,13 +28,30 @@ jobs:
 
 
   docker:
-    name: ''
+    name: 'Container '
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - run: |
-          docker login -u ${{ secrets.DYNATRACE_PREPROD_TENANT }} spa-equinor.kanari.com -p ${{ secrets.DYNATRACE_PREPROD_TOKEN }}
-          docker build --build-arg DYNATRACE_URL=spa-equinor.kanari.com --build-arg DYNATRACE_TENANT=${{ secrets.DYNATRACE_PREPROD_TENANT }} --build-arg DYNATRACE_PAAS_TOKEN=${{ secrets.DYNATRACE_PREPROD_TOKEN }} --build-arg environment=dev . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/datasheetapi:${{ github.sha }}
+      - name: Login to Dynatrace
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ envs.DYNATRACEURL }}
+          username: $DynatraceTenant
+          password: $DynatraceToken
+      - name: Build & Push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          build-args: |
+            DYNATRACE_URL=${{ envs.DYNATRACEURL }}
+            DYNATRACE_TENANT=$DynatraceTenant
+            DYNATRACE_PAAS_TOKEN=$DynatraceToken
+            environment=dev
+          tags: $Registry/datasheetapi:${{ github.sha }}
+          file: ./Dockerfile
+          context: .
