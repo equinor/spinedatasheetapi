@@ -11,18 +11,18 @@ public class ContractService : IContractService
         _logger = loggerFactory.CreateLogger<DatasheetService>();
     }
 
-    public Contract GetContract(Guid id)
+    public async Task<Contract> GetContract(Guid id)
     {
-        return new Contract();
+        return await Task.Run(() => new Contract());
     }
 
-    public List<Contract> GetContracts()
+    public async Task<List<Contract>> GetContracts()
     {
-        return new List<Contract>();
+        return await Task.Run(() => new List<Contract>());
     }
 
-    public List<Contract> GetContractsForContractor(Guid contractorId)
+    public async Task<List<Contract>> GetContractsForContractor(Guid contractorId)
     {
-        return new List<Contract>();
+        return await Task.Run(() => new List<Contract>());
     }
 }

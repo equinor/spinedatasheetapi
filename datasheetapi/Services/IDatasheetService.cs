@@ -4,7 +4,7 @@ namespace api.Services;
 
 public interface IDatasheetService
 {
-    Datasheet GetDatasheet(Guid id);
-    List<Datasheet> GetDatasheetsForContractor(Guid contractorId);
-    List<Datasheet> GetDatasheets();
+    Task<Datasheet> GetDatasheet(Guid id);
+    Task<List<Datasheet>> GetDatasheetsForContractor(Guid contractorId);
+    Task<List<Datasheet>> GetDatasheets();
 }

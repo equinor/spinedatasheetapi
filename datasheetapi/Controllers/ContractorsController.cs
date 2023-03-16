@@ -20,20 +20,20 @@ public class ContractorsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetContractor")]
-    public Contractor GetContractor([FromQuery] Guid id)
+    public async Task<ActionResult<Contractor>> GetContractor([FromQuery] Guid id)
     {
-        return _contractorService.GetContractor(id);
+        return await _contractorService.GetContractor(id);
     }
 
     [HttpGet(Name = "GetContractors")]
-    public List<Contractor> GetContractors()
+    public async Task<ActionResult<List<Contractor>>> GetContractors()
     {
-        return _contractorService.GetContractors();
+        return await _contractorService.GetContractors();
     }
 
     [HttpGet("contractor/{id}", Name = "GetContractorsForProject")]
-    public List<Contractor> GetContractorsForProject([FromQuery] Guid id)
+    public async Task<ActionResult<List<Contractor>>> GetContractorsForProject([FromQuery] Guid id)
     {
-        return _contractorService.GetContractorsForProject(id);
+        return await _contractorService.GetContractorsForProject(id);
     }
 }

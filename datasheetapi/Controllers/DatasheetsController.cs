@@ -20,20 +20,20 @@ public class DatasheetsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetDatasheet")]
-    public Datasheet GetDatasheet([FromQuery] Guid id)
+    public async Task<ActionResult<Datasheet>> GetDatasheet([FromQuery] Guid id)
     {
-        return _datasheetService.GetDatasheet(id);
+        return await _datasheetService.GetDatasheet(id);
     }
 
     [HttpGet(Name = "GetDatasheets")]
-    public List<Datasheet> GetDatasheets()
+    public async Task<ActionResult<List<Datasheet>>> GetDatasheets()
     {
-        return _datasheetService.GetDatasheets();
+        return await _datasheetService.GetDatasheets();
     }
 
     [HttpGet("contractor/{id}", Name = "GetDatasheetsForContractor")]
-    public List<Datasheet> GetDatasheetsForContractor([FromQuery] Guid id)
+    public async Task<ActionResult<List<Datasheet>>> GetDatasheetsForContractor([FromQuery] Guid id)
     {
-        return _datasheetService.GetDatasheetsForContractor(id);
+        return await _datasheetService.GetDatasheetsForContractor(id);
     }
 }

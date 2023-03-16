@@ -1,3 +1,5 @@
+using System.Reflection.Metadata.Ecma335;
+
 using datasheetapi.Models;
 
 namespace api.Services;
@@ -11,18 +13,18 @@ public class ContractorService : IContractorService
         _logger = loggerFactory.CreateLogger<DatasheetService>();
     }
 
-    public Contractor GetContractor(Guid id)
+    public async Task<Contractor> GetContractor(Guid id)
     {
-        return new Contractor();
+        return await Task.Run(() => new Contractor());
     }
 
-    public List<Contractor> GetContractors()
+    public async Task<List<Contractor>> GetContractors()
     {
-        return new List<Contractor>();
+        return await Task.Run( () =>  new List<Contractor>());
     }
 
-    public List<Contractor> GetContractorsForProject(Guid projectId)
+    public async Task<List<Contractor>> GetContractorsForProject(Guid projectId)
     {
-        return new List<Contractor>();
+        return await Task.Run( () =>  new List<Contractor>());
     }
 }

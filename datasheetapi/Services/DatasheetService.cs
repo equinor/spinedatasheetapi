@@ -11,18 +11,18 @@ public class DatasheetService : IDatasheetService
         _logger = loggerFactory.CreateLogger<DatasheetService>();
     }
 
-    public Datasheet GetDatasheet(Guid id)
+    public async Task<Datasheet> GetDatasheet(Guid id)
     {
-        return new Datasheet();
+        return await Task.Run(() => new Datasheet());
     }
 
-    public List<Datasheet> GetDatasheets()
+    public async Task<List<Datasheet>> GetDatasheets()
     {
-        return new List<Datasheet>();
+        return await Task.Run(() => new List<Datasheet>());
     }
 
-    public List<Datasheet> GetDatasheetsForContractor(Guid contractorId)
+    public async Task<List<Datasheet>> GetDatasheetsForContractor(Guid contractorId)
     {
-        return new List<Datasheet>();
+        return await Task.Run(() => new List<Datasheet>());
     }
 }
