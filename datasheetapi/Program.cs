@@ -1,8 +1,11 @@
+using api.Services;
+
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IDatasheetService, DatasheetService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -34,10 +37,10 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer",
                 },
             },
-            new string[] { }
+            Array.Empty<string>()
         },
     });
-}    
+}
 );
 
 var app = builder.Build();
