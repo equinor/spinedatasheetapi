@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IDatasheetService, DatasheetService>();
+builder.Services.AddScoped<IContractService, ContractService>();
+builder.Services.AddScoped<IContractorService, ContractorService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
