@@ -1,13 +1,22 @@
 using api.Services;
 
+using Equinor.TI.CommonLibrary.Client;
+
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string commonLibTokenConnection = CommonLibraryService.BuildTokenConnectionString(
+                builder.Configuration.GetSection("AzureAd:ClientId").Value,
+                builder.Configuration.GetSection("AzureAd:TenantId").Value,
+                Environment.GetEnvironmentVariable("AzureAd__ClientSecret")!);
 
 // Add services to the container.
 builder.Services.AddScoped<IDatasheetService, DatasheetService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IContractorService, ContractorService>();
+builder.Services.AddScoped(_ => new CommonLibraryClientOptions { TokenProviderConnectionString = commonLibTokenConnection });
+builder.Services.AddScoped<ICommonLibraryService, CommonLibraryService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
