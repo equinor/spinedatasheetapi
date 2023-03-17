@@ -1,3 +1,5 @@
+using datasheetapi.Service;
+
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddScoped<IDataSheetService, DataSheetService>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -37,7 +42,7 @@ builder.Services.AddSwaggerGen(c =>
             new string[] { }
         },
     });
-}    
+}
 );
 
 var app = builder.Build();

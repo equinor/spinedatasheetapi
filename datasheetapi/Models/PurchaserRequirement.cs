@@ -42,7 +42,7 @@ public class PurchaserRequirement
     public string ProcessFluidCorrosiveCompounds { get; set; }
     public string ProcessFluidErosionPossibility { get; set; }
     public int ProcessFluidConductivity { get; set; }
-    public int ProcessFluidSpecificHeatRatio { get; set; }
+    public double ProcessFluidSpecificHeatRatio { get; set; }
     public bool ProcessVacuumPossibility { get; set; }
     public int MinimumOperatingVolumetricFlow { get; set; }
     public int MinimumOperatingVelocity { get; set; }
