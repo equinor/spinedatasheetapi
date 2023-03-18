@@ -99,7 +99,7 @@ jobs:
           docker image pull ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}
           docker tag ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }} ${{ secrets.REGISTRY }}/datasheetapi:qa-release
           docker push ${{ secrets.REGISTRY }}/datasheetapi:qa-release
-            - name: "Login to Azure"
+      - name: "Login to Azure"
         uses: azure/login@v1
         with:
             client-id: ${{ vars.AZURE_SERVICE_PRINCIPAL_CLIENT_ID }}
