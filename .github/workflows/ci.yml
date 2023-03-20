@@ -25,8 +25,8 @@ jobs:
         id: release
         uses: google-github-actions/release-please-action@v3
         with:
-          release-type: node
-          package-name: spinereview
+          release-type: simple
+          package-name: spinedatasheet
           changelog-types: >
             [{"type":"feat","section":"Features","hidden":false},
             {"type":"fix","section":"Bug Fixes","hidden":false},
