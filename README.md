@@ -84,27 +84,21 @@ The following diagrams have been created using PlantUML.
 
 ### System Context Diagram
 
-System context diagram for the DCD application.
-![SysContextDiagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/equinor/dcd///main/PlantUMLC4L1)
+System context diagram for the Spine Datasheet application.
+
 
 ### Container Diagram
 
-Container diagram for the DCD application.
-![SysContextDiagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/equinor/dcd///main/DCD_C4Container.iuml)
+Container diagram for the Spine Datasheet application.
+
 
 ## Access to application and data - UNDER CONSTRUCTION
 
 AD groups that can view data (AccessIT groups work in progress)
 |Name|Description|User types|How to check|
 |-|-|-|-|
-|Project Users| Read/write access to app | Employees, external hire, consultants | [ConceptApp Users](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Overview/groupId/cd75d09b-5f90-4fac-be54-de4af8b5b279), [fg_2S_IAF](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Overview/groupId/a64069dd-12fd-422b-8c1e-2093fa32819d), [fg_PRD EP CD VALU](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Overview/groupId/553eada8-9205-4c81-bd32-488ebc5dc349) |
-|Read Only User| Only able to read all information in app | Employees, external hire, consultants | Currently no groups |
-|Admin| Set/change specific settings in app | Employees, external hire, consultants | [ConceptApp Admins](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Overview/groupId/196697db-1a55-4e46-8581-7f2463016e8f), [fg_2S_IAF](https://portal.azure.com/#view/Microsoft_AAD_IAM/GroupDetailsMenuBlade/~/Overview/groupId/a64069dd-12fd-422b-8c1e-2093fa32819d) |
 
 ### Admin Consent Decision Matrix
-|Privilege requested|In-house developed applications|Scope|
-|-|-|-|
-|Application API permissions (App to App).|Application: API Owner: Team IAF, Data Owner: Atle Svandal|Sites.Read.All, user_impersonation|
 
 
 
