@@ -5,7 +5,11 @@ on:
   schedule:
   # Run every monday at 0200UTC
     - cron: "0 2 * * 1"
-    
+  push:
+    branches-ignore: [master, main]
+    # Remove the line above to run when pushing to master
+  pull_request:
+    branches: [master, main]
 env:
   DOTNET_VERSION: '6.x.x'
 
@@ -54,7 +58,10 @@ jobs:
     name: 💅 Linting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Lint Code Base
         uses: github/super-linter@v4
         env:
