@@ -1,30 +1,42 @@
+---
 name: Build
 on:
   workflow_call:
     secrets:
-        Registry:
-          required: true
-        DynatraceTenant:
-          required: true
-        DynatraceToken:
-          required: true
-
+      Registry:
+        required: true
+      DynatraceTenant:
+        required: true
+      DynatraceToken:
+        required: true
+      DYNATRACEPREPRODTENANT:
+        required: true
+      DYNATRACEPREPRODTOKEN:
+        required: true
+      ACR_ENDPOINT:
+        required: true
+      ACR_USERNAME:
+        required: true
+      ACR_PASSWORD:
+        required: true
+      DYNATRACEURL:
+        required: true
 jobs:
-  build:    
+  build:
     name: '🛠️ Build'
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore datasheetapi/datasheetapi.csproj
-    - name: Build
-      run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
-    - name: Test
-      run: dotnet test tests --no-build --verbosity normal
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore datasheetapi/datasheetapi.csproj
+      - name: Build
+        run: dotnet build datasheetapi/datasheetapi.csproj --no-restore
+      - name: Test
+        run: dotnet test tests --no-build --verbosity normal
 
 
   docker:
