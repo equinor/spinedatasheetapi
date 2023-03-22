@@ -17,11 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Checkout current PR
-        run: |
-          git status
-          gh pr status
-      - name: Checkout current PR
-        run: gh pr checkout -b $GITHUB_HEAD_REF
+        run: gh pr checkout $GITHUB_HEAD_REF
 
       - name: Create Label
         continue-on-error: true
