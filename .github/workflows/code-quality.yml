@@ -1,3 +1,4 @@
+---
 name: '💎 Code Quality'
 on:
   workflow_dispatch:
@@ -19,40 +20,48 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      
+
       - name: 📦 Restore dependencies
         run: dotnet restore -r linux-x64 datasheetapi/ &&  dotnet restore -r linux-x64 tests/
-                
+      
       - name: 🛠️ Build Solution
         run: dotnet build datasheetapi --configuration Release && dotnet build tests --configuration Release
-      
+
       - name: 🧪 Run Tests
         run: dotnet test tests --configuration Release
-        
+
   security_vulnerabilities:
     name: 🚨 Security vulnerabilities
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-          
+
       - name: 📦 Restore dependencies
         run: dotnet restore -r linux-x64 datasheetapi/ &&  dotnet restore -r linux-x64 tests/
 
-      - uses: snyk/actions/setup@master
+      - name: 🛠️ Build Solution
+        run: dotnet build datasheetapi --configuration Release && dotnet build tests --configuration Release
+
+      - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        run: snyk test --fail-on=upgradable
+        uses: snyk/actions/dotnet@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: |
+            --severity-threshold=high
+            --file=/home/runner/work/spinedatasheetapi/spinedatasheetapi/datasheetapi/datasheetapi.csproj
+
 
   lint:
     name: 💅 Linting
