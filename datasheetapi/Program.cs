@@ -1,3 +1,5 @@
+using datasheetapi.Authorization;
+using datasheetapi.Helpers;
 using datasheetapi.Service;
 
 using Microsoft.OpenApi.Models;
@@ -55,7 +57,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseMiddleware<ClaimsMiddelware>();
+app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();

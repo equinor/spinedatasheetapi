@@ -85,7 +85,7 @@ public class ClaimsMiddelware
         if (httpContext.User.IsAccountType(FusionAccountType.Consultant))
         {
             _logger.LogInformation("Check for Fusion Account Type: " + ApplicationRole.User);
-            return ApplicationRole.ReadOnly;
+            return ApplicationRole.ReadOnlyUser;
         }
 
         _logger.LogInformation("Check for Fusion Account Type: null");
