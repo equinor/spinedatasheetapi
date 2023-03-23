@@ -19,8 +19,8 @@ public enum ApplicationRole
     /// <summary>
     /// ...
     /// </summary>
-    [Display(Name = "ReadOnly")]
-    ReadOnly,
+    [Display(Name = "ReadOnlyUser")]
+    ReadOnlyUser,
 
     /// <summary>
     /// ...
