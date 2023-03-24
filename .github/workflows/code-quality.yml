@@ -49,11 +49,7 @@ jobs:
       - name: 📦 Restore dependencies
         run: dotnet restore -r linux-x64 datasheetapi/ &&  dotnet restore -r linux-x64 tests/
 
-      - name: 🛠️ Build Solution
-        run: dotnet build datasheetapi --configuration Release && dotnet build tests --configuration Release
-
       - uses: actions/checkout@master
-      - run: echo ${{ secrets.GITHUB_TOKEN }}
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/dotnet@master
         continue-on-error: true
@@ -61,7 +57,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: |
-            --severity-threshold=high --file=/home/runner/work/spinedatasheetapi/spinedatasheetapi/datasheetapi/datasheetapi.csproj
+            --severity-threshold=high
 
 
   lint:
