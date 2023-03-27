@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Checkout current PR
-        run: gh pr checkout $GITHUB_HEAD_REF
 
       - name: Create Label
         continue-on-error: true
