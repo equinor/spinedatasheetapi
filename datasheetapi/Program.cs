@@ -1,6 +1,8 @@
+using api.Services;
+
 using datasheetapi.Authorization;
 using datasheetapi.Helpers;
-using datasheetapi.Service;
+using datasheetapi.Services;
 
 using Microsoft.OpenApi.Models;
 
@@ -12,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<IDataSheetService, DataSheetService>();
+builder.Services.AddScoped<IContractService, ContractService>();
 
 builder.Services.AddSwaggerGen(c =>
 {
