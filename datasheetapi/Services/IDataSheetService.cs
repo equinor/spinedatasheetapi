@@ -1,4 +1,4 @@
-namespace datasheetapi.Service;
+namespace datasheetapi.Services;
 
 public interface IDataSheetService
 {

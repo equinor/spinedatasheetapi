@@ -1,6 +1,8 @@
+using api.Services;
+
 using datasheetapi.Authorization;
 using datasheetapi.Helpers;
-using datasheetapi.Service;
+using datasheetapi.Services;
 
 using Microsoft.OpenApi.Models;
 
@@ -37,6 +39,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IDataSheetService, DataSheetService>();
+builder.Services.AddScoped<IContractService, ContractService>();
 
 builder.Services.AddSwaggerGen(c =>
 {
