@@ -4,43 +4,43 @@ public class PurchaserRequirement
 {
     public int CodeRequirement { get; set; }
     public int ConformityAssessmentSystemLevel { get; set; }
-    public string TagNumber { get; set; }
-    public string ServiceDescription { get; set; }
-    public string EquipmentManufacturerSerialNumber { get; set; }
-    public string ProjectCountry { get; set; }
-    public string ProjectRegion { get; set; }
-    public string PlantEnvironmentalLocation { get; set; }
-    public string PIDNumber { get; set; }
-    public string LineOrEquipmentNumber { get; set; }
+    public string? TagNumber { get; set; }
+    public string? ServiceDescription { get; set; }
+    public string? EquipmentManufacturerSerialNumber { get; set; }
+    public string? ProjectCountry { get; set; }
+    public string? ProjectRegion { get; set; }
+    public string? PlantEnvironmentalLocation { get; set; }
+    public string? PIDNumber { get; set; }
+    public string? LineOrEquipmentNumber { get; set; }
     public int MinimumAmbientTemperature { get; set; }
     public int MaximumAmbientTemperature { get; set; }
-    public string BaseConditions { get; set; }
+    public string? BaseConditions { get; set; }
     public int BaseTemperature { get; set; }
     public int BasePressure { get; set; }
-    public string CoatingDurability { get; set; }
-    public string SILRating { get; set; }
-    public string IngressProtection { get; set; }
-    public string ExProtection { get; set; }
-    public string HazardousAreaClassificationStandard { get; set; }
-    public string ExplosionHazardClassification { get; set; }
-    public string ExplosionGroup { get; set; }
-    public string TemperatureClass { get; set; }
-    public string UpstreamHighSidePipeSchedule { get; set; }
-    public string UpstreamHighSideLineSize { get; set; }
-    public string UpstreamHighSideLineEquipmentRating { get; set; }
-    public string UpstreamHighSideLineConnectionType { get; set; }
-    public string UpstreamHighSideConnectionOrientation { get; set; }
-    public string UpstreamHighSideMaterialType { get; set; }
+    public string? CoatingDurability { get; set; }
+    public string? SILRating { get; set; }
+    public string? IngressProtection { get; set; }
+    public string? ExProtection { get; set; }
+    public string? HazardousAreaClassificationStandard { get; set; }
+    public string? ExplosionHazardClassification { get; set; }
+    public string? ExplosionGroup { get; set; }
+    public string? TemperatureClass { get; set; }
+    public string? UpstreamHighSidePipeSchedule { get; set; }
+    public string? UpstreamHighSideLineSize { get; set; }
+    public string? UpstreamHighSideLineEquipmentRating { get; set; }
+    public string? UpstreamHighSideLineConnectionType { get; set; }
+    public string? UpstreamHighSideConnectionOrientation { get; set; }
+    public string? UpstreamHighSideMaterialType { get; set; }
     public int DesignPressureMaximum { get; set; }
     public int DesignPressureMinimum { get; set; }
     public int DesignTemperatureMaximum { get; set; }
     public int DesignTemperatureMinimum { get; set; }
-    public string SourServiceSpecification { get; set; }
-    public string ProcessFluids { get; set; }
-    public string ProcessFluidState { get; set; }
-    public string ServiceDescription2 { get; set; }
-    public string ProcessFluidCorrosiveCompounds { get; set; }
-    public string ProcessFluidErosionPossibility { get; set; }
+    public string? SourServiceSpecification { get; set; }
+    public string? ProcessFluids { get; set; }
+    public string? ProcessFluidState { get; set; }
+    public string? ServiceDescription2 { get; set; }
+    public string? ProcessFluidCorrosiveCompounds { get; set; }
+    public string? ProcessFluidErosionPossibility { get; set; }
     public int ProcessFluidConductivity { get; set; }
     public double ProcessFluidSpecificHeatRatio { get; set; }
     public bool ProcessVacuumPossibility { get; set; }
@@ -60,21 +60,21 @@ public class PurchaserRequirement
     public double MaximumOperatingLiquidViscosity { get; set; }
     public double MaximumRecoverablePressureDrop { get; set; }
     public double MaximumUnrecoverablePressureLoss { get; set; }
-    public string BodyMaterial { get; set; }
-    public string TransmitterMounting { get; set; }
+    public string? BodyMaterial { get; set; }
+    public string? TransmitterMounting { get; set; }
     public bool TransmitterDisplay { get; set; }
     public double TransmitterConnectingCableLength { get; set; }
     public double SupplyVoltage { get; set; }
     public double ExternalPowerVoltage { get; set; }
-    public string CableEntry { get; set; }
-    public string CableTermination { get; set; }
-    public string CommunicationProtocol { get; set; }
-    public string ProtocolVersion { get; set; }
-    public string FailSafeDirection { get; set; }
+    public string? CableEntry { get; set; }
+    public string? CableTermination { get; set; }
+    public string? CommunicationProtocol { get; set; }
+    public string? ProtocolVersion { get; set; }
+    public string? FailSafeDirection { get; set; }
     public bool CalibrationBespoke { get; set; }
     public double MeasurementRangeMinimum { get; set; }
     public double MeasurementRangeMaximum { get; set; }
-    public string SpanAndZeroAdjustment { get; set; }
+    public string? SpanAndZeroAdjustment { get; set; }
     public double Accuracy { get; set; }
     public double Repeatability { get; set; }
     public double StepResponse { get; set; }

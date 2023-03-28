@@ -1,8 +1,8 @@
 namespace datasheetapi.Dtos;
 
-public class DataSheetDto
+public class DatasheetDto
 {
     public Guid Id { get; set; }
-    public PurchaserRequirement PurchaserRequirement { get; set; }
-    public SupplierOfferedProduct SupplierOfferedProduct { get; set; }
+    public PurchaserRequirement? PurchaserRequirement { get; set; }
+    public SupplierOfferedProduct? SupplierOfferedProduct { get; set; }
 }

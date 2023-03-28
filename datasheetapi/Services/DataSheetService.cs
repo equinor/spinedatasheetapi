@@ -1,12 +1,12 @@
 namespace datasheetapi.Services;
 
-public class DataSheetService : IDataSheetService
+public class DatasheetService : IDatasheetService
 {
-    private readonly List<DataSheet> _dataSheets;
+    private readonly List<Datasheet> _dataSheets;
 
-    public DataSheetService()
+    public DatasheetService()
     {
-        _dataSheets = new List<DataSheet>
+        _dataSheets = new List<Datasheet>
         {
             new()
             {
@@ -313,39 +313,40 @@ public class DataSheetService : IDataSheetService
         };
     }
 
-    public async Task<DataSheetDto> GetDataSheetById(Guid id)
+    public async Task<DatasheetDto?> GetDatasheetById(Guid id)
     {
-        var dataSheet = _dataSheets.FirstOrDefault(ds => ds.Id == id);
+        var dataSheet = await Task.Run(() => _dataSheets.FirstOrDefault(ds => ds.Id == id));
 
         if (dataSheet == null)
         {
             return null;
         }
 
-        return MapDataSheetToDto(dataSheet);
+        return MapDatasheetToDto(dataSheet);
     }
 
-    public async Task<IEnumerable<DataSheetDto>> GetAllDatasheets()
+    public async Task<List<DatasheetDto>> GetAllDatasheets()
     {
-        var datasheets = new List<DataSheetDto>();
+        var datasheets = new List<DatasheetDto>();
         foreach (var dataSheet in _dataSheets)
         {
-            datasheets?.Add(MapDataSheetToDto(dataSheet));
+            datasheets?.Add(MapDatasheetToDto(dataSheet));
         }
 
-        return datasheets;
+        return await Task.Run(() => datasheets);
     }
 
-    public async Task<ActionResult<List<DataSheetDto>>> GetDatasheetsForContractor(Guid id)
+    public async Task<ActionResult<List<DatasheetDto>>> GetDatasheetsForContractor(Guid id)
     {
+        await Task.Run(() => { });
         throw new NotImplementedException();
     }
 
-    private DataSheet MapDtoToDataSheet(DataSheetDto dataSheetDto, DataSheet dataSheet = null)
+    private Datasheet MapDtoToDatasheet(DatasheetDto dataSheetDto, Datasheet? dataSheet = null)
     {
         if (dataSheet == null)
         {
-            dataSheet = new DataSheet();
+            dataSheet = new Datasheet();
         }
 
         dataSheet.Id = dataSheetDto.Id;
@@ -355,9 +356,9 @@ public class DataSheetService : IDataSheetService
         return dataSheet;
     }
 
-    private DataSheetDto MapDataSheetToDto(DataSheet dataSheet)
+    private DatasheetDto MapDatasheetToDto(Datasheet dataSheet)
     {
-        return new DataSheetDto
+        return new DatasheetDto
         {
             Id = dataSheet.Id,
             PurchaserRequirement = dataSheet.PurchaserRequirement,

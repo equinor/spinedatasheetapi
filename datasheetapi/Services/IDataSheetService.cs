@@ -1,8 +1,8 @@
 namespace datasheetapi.Services;
 
-public interface IDataSheetService
+public interface IDatasheetService
 {
-    Task<DataSheetDto> GetDataSheetById(Guid id);
-    Task<IEnumerable<DataSheetDto>> GetAllDatasheets();
-    Task<ActionResult<List<DataSheetDto>>> GetDatasheetsForContractor(Guid id);
+    Task<DatasheetDto?> GetDatasheetById(Guid id);
+    Task<List<DatasheetDto>> GetAllDatasheets();
+    Task<ActionResult<List<DatasheetDto>>> GetDatasheetsForContractor(Guid id);
 }
