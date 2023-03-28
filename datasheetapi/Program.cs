@@ -11,6 +11,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+// Set up CORS
+var _accessControlPolicyName = "AllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(_accessControlPolicyName,
+        builder =>
+        {
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+            builder.WithExposedHeaders("Location");
+            builder.WithOrigins(
+                "http://localhost:3000",
+                "https://fusion.equinor.com",
+                "https://pro-s-portal-ci.azurewebsites.net",
+                "https://pro-s-portal-fqa.azurewebsites.net",
+                "https://pro-s-portal-fprd.azurewebsites.net",
+                "https://fusion-s-portal-ci.azurewebsites.net",
+                "https://fusion-s-portal-fqa.azurewebsites.net",
+                "https://fusion-s-portal-fprd.azurewebsites.net",
+                "https://pr-3422.fusion-dev.net",
+                "https://pr-*.fusion-dev.net"
+            ).SetIsOriginAllowedToAllowWildcardSubdomains();
+        });
+});
+
 builder.Services.AddScoped<IDataSheetService, DataSheetService>();
 
 builder.Services.AddSwaggerGen(c =>
@@ -55,6 +80,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(_accessControlPolicyName);
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
