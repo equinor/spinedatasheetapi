@@ -1,8 +1,8 @@
 namespace datasheetapi.Models;
 
-public class DataSheet
+public class Datasheet
 {
     public Guid Id { get; set; }
-    public PurchaserRequirement PurchaserRequirement { get; set; }
-    public SupplierOfferedProduct SupplierOfferedProduct { get; set; }
+    public PurchaserRequirement? PurchaserRequirement { get; set; }
+    public SupplierOfferedProduct? SupplierOfferedProduct { get; set; }
 }
