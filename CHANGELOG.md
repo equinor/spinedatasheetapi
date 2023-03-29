@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.1.0](https://github.com/equinor/spinedatasheetapi/compare/v1.0.0...v1.1.0) (2023-03-29)
+
+
+### Features
+
+* Add contract service and endpoint ([#46](https://github.com/equinor/spinedatasheetapi/issues/46)) ([5a42ee8](https://github.com/equinor/spinedatasheetapi/commit/5a42ee8cc6ac64e2b01b3f604547ea35a21b966a))
+* Add CORS ([#45](https://github.com/equinor/spinedatasheetapi/issues/45)) ([8808f99](https://github.com/equinor/spinedatasheetapi/commit/8808f99e5bd1c65ea03e2dd632cff8cd7e123e0a))
+* Add endpoint to get datasheet per project ([#48](https://github.com/equinor/spinedatasheetapi/issues/48)) ([5260dd2](https://github.com/equinor/spinedatasheetapi/commit/5260dd22fad69087750b53baf670542bc1e72946))
+* **auth:** ✨ Add auth to backend AB#{102792} ([96c612e](https://github.com/equinor/spinedatasheetapi/commit/96c612e02dd867fc564516ad9a3185295309f816))
+* **logging:** ✨ Add logging feature to backend. AB#{105475} ([33faed8](https://github.com/equinor/spinedatasheetapi/commit/33faed891b5ca997253feff1a075d4fec55fff6b))
+
+
+### Bug Fixes
+
+* **config:** 🐛 Nuget config missing ([560f15f](https://github.com/equinor/spinedatasheetapi/commit/560f15fc31d6c2b2bae28e4b0a1f562ab19ba4bf))
+* Make datasheet properties nullable ([#47](https://github.com/equinor/spinedatasheetapi/issues/47)) ([6b65992](https://github.com/equinor/spinedatasheetapi/commit/6b659926e8db60abf3f25f80c8f33c5287d6ed3e))
+* **pipeline:** 🐛 Add dependabot yml to repo ([dc7f460](https://github.com/equinor/spinedatasheetapi/commit/dc7f460ef65c87e980b8873524c2ed04661829c5))
+* **pipelines:** 🐛 Changes in snyk auth ([4bdcfe0](https://github.com/equinor/spinedatasheetapi/commit/4bdcfe0251c32d20db0634b172ace346b971d1c4))
+* **pipelines:** 🐛 Error in PR Name Validator ([bf873a2](https://github.com/equinor/spinedatasheetapi/commit/bf873a252836f6996fe16a89826c726ee7ff52ce))
+* **pipelines:** 🐛 Error in Superlint job in Code Quality ([82e7a82](https://github.com/equinor/spinedatasheetapi/commit/82e7a82b763a0f566e8f5206746307117a24051a))
+* **pipelines:** 🐛 Linting errors in yml ([8d37897](https://github.com/equinor/spinedatasheetapi/commit/8d3789738faa7748906647d7c19c98557e775a8a))
+
+
+### For developers
+
+* 📚 Some duplicate and incorrect data in docs ([1b1dded](https://github.com/equinor/spinedatasheetapi/commit/1b1dded589ffb260c9f8cadf3447b3f436400ab4))
+* Add some structure and content to README ([170a098](https://github.com/equinor/spinedatasheetapi/commit/170a0983740f41c5bab711cb859b2dadde783dbb))
+* **deps:** bump actions/checkout from 2 to 3 ([1c22659](https://github.com/equinor/spinedatasheetapi/commit/1c22659cd2e3bfd911dad06bce6607399d45fc74))
+* **deps:** bump docker/login-action from 1 to 2 ([ccbda83](https://github.com/equinor/spinedatasheetapi/commit/ccbda8363888a67c3aa70c351294eda27bb2856a))
+
 ## 1.0.0 (2023-03-20)
 
 
