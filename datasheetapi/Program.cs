@@ -41,6 +41,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<IDatasheetService, DatasheetService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 
+builder.Services.AddScoped<IDummyFAMService, DummyFAMService>();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
