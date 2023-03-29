@@ -48,9 +48,18 @@ public class DataSheetsController : ControllerBase
         }
     }
 
-    [HttpGet("contractor/{id:guid}", Name = "GetDatasheetsForContractor")]
-    public async Task<ActionResult<List<DatasheetDto>>> GetDatasheetsForContractor([FromQuery] Guid id)
+    [HttpGet("project/{id:guid}", Name = "GetDatasheetsForProject")]
+    public async Task<ActionResult<List<DatasheetDto>>> GetDatasheetsForProject([FromQuery] Guid id)
     {
-        return await _dataSheetService.GetDatasheetsForContractor(id);
+        try
+        {
+            var dataSheets = await _dataSheetService.GetDatasheetsForProject(id);
+
+            return Ok(dataSheets);
+        }
+        catch
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }
