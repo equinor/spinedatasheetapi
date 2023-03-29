@@ -63,9 +63,14 @@ public class DatasheetService : IDatasheetService
         return new DatasheetDto
         {
             Id = dataSheet.Id,
+            TagNo = dataSheet.TagNo,
+            Area = dataSheet.Area,
+            Category = dataSheet.Category,
+            Description = dataSheet.Description,
+            Dicipline = dataSheet.Dicipline,
+            ProjectId = dataSheet.ProjectId,
             PurchaserRequirement = dataSheet.PurchaserRequirement,
             SupplierOfferedProduct = dataSheet.SupplierOfferedProduct,
         };
     }
 }
-
