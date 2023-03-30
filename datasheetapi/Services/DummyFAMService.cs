@@ -1,7 +1,3 @@
-using api.Services;
-
-using datasheetapi.Models;
-
 namespace datasheetapi.Services;
 
 public class DummyFAMService : IDummyFAMService
