@@ -9,7 +9,7 @@ var configurationBuilder = new ConfigurationBuilder()
     {
         options.Connect(azureAppConfigurationConnectionString).ConfigureKeyVault(x =>
                 x.SetCredential(new DefaultAzureCredential(new DefaultAzureCredentialOptions
-                    { ExcludeSharedTokenCacheCredential = true })))
+                { ExcludeSharedTokenCacheCredential = true })))
             .Select(KeyFilter.Any).Select(KeyFilter.Any, environment);
     });
 
