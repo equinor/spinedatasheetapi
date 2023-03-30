@@ -1,5 +1,3 @@
-using datasheetapi.Models;
-
 namespace api.Services;
 
 public interface IContractService
