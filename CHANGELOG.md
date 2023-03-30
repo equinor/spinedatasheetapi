@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/equinor/spinedatasheetapi/compare/v1.1.0...v1.2.0) (2023-03-29)
+
+
+### Features
+
+* Add missing properties to datsheet model ([#49](https://github.com/equinor/spinedatasheetapi/issues/49)) ([199d791](https://github.com/equinor/spinedatasheetapi/commit/199d7914914cd79751ab85784062a375f9c15ec7))
+
+
+### For developers
+
+* Update dummy data ([#51](https://github.com/equinor/spinedatasheetapi/issues/51)) ([1fcfd92](https://github.com/equinor/spinedatasheetapi/commit/1fcfd927fdf6876f56dfeefabc64e7c7ae0e917a))
+
 ## [1.1.0](https://github.com/equinor/spinedatasheetapi/compare/v1.0.0...v1.1.0) (2023-03-29)
 
 
