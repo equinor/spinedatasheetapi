@@ -1,12 +1,20 @@
-using api.Services;
-
-using datasheetapi.Authorization;
-using datasheetapi.Helpers;
-using datasheetapi.Services;
-
-using Microsoft.OpenApi.Models;
-
 var builder = WebApplication.CreateBuilder(args);
+var azureAppConfigurationConnectionString =
+    builder.Configuration.GetSection("AppConfiguration").GetValue<string>("ConnectionString");
+var environment = builder.Configuration.GetSection("AppConfiguration").GetValue<string>("Environment");
+Console.WriteLine("Loading configuration for: " + environment);
+
+var configurationBuilder = new ConfigurationBuilder()
+    .AddAzureAppConfiguration(options =>
+    {
+        options.Connect(azureAppConfigurationConnectionString).ConfigureKeyVault(x =>
+                x.SetCredential(new DefaultAzureCredential(new DefaultAzureCredentialOptions
+                { ExcludeSharedTokenCacheCredential = true })))
+            .Select(KeyFilter.Any).Select(KeyFilter.Any, environment);
+    });
+
+var config = configurationBuilder.Build();
+builder.Configuration.AddConfiguration(config);
 
 // Add services to the container.
 

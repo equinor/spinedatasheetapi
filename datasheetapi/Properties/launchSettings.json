@@ -1,4 +1,4 @@
-﻿{    
+﻿{
   "profiles": {
     "datasheetapi": {
       "commandName": "Project",
@@ -12,6 +12,6 @@
         "AppConfiguration__ConnectionString": "",
         "AppConfiguration__Environment": ""
       }
-    }    
+    }
   }
 }

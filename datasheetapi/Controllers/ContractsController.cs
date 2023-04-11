@@ -1,10 +1,3 @@
-using api.Services;
-
-using datasheetapi.Models;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
 namespace api.Controllers;
 
 [ApiController]
