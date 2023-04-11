@@ -9,7 +9,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ApplicationInsights__InstrumentationKey": "",
-        "AppConfiguration__ConnectionString": "Endpoint=https://appcs-datasheet.azconfig.io;Id=gdHP-lac-s0:UB3pghL8H3jablw/uUAv;Secret=BvOZYGu/g3wuKx9YSblXFL1KTAcGddLWBWWp+rDVNBU=",
+        "AppConfiguration__ConnectionString": "",
         "AppConfiguration__Environment": "fusion-ci"
       }
     }
