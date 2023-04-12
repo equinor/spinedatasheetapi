@@ -6,7 +6,7 @@ builder.Host.ConfigureAppConfiguration(config =>
 var azureAppConfigurationConnectionString =
     builder.Configuration.GetSection("AppConfiguration").GetValue<string>("ConnectionString");
 var environment = builder.Configuration.GetSection("AppConfiguration").GetValue<string>("Environment");
-Console.WriteLine("Loading configuration for: " + environment + ":" + azureAppConfigurationConnectionString);
+Console.WriteLine("Loading configuration for: " + environment);
 
 var configurationBuilder = new ConfigurationBuilder()
     .AddAzureAppConfiguration(options =>
