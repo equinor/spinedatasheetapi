@@ -18,17 +18,16 @@ public class DummyFAMService : IDummyFAMService
             new()
             {
                 Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea41"),
-                TagNo = "L-62FT0201",
+                TagNo = "Tag001",
                 Area = "Area 1",
                 Category = "",
-                Description = "IOGP S-718D (1.0) Procurement Data Sheet for Basic Process Measurement Instruments"
-                              + "Flow Transmitter Coriolis",
+                Description = "Flow Transmitter Coriolis",
                 Dicipline = "Instrumentation",
                 SupplierOfferedProduct = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = "OPTIMASS 7400C/EX-I H15",
-                    EquipmentManufacturerSerialNumber = "G190000003302811",
+                    EquipmentManufacturerSerialNumber = "G19000000332s964",
                     MinimumAmbientTemperature = null,
                     MaximumAmbientTemperature = null,
                     PressureRetainingBoltMaterial = "IS109",
