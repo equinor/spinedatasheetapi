@@ -53,9 +53,9 @@ jobs:
         with:
           registry: ${{ secrets.ACR_ENDPOINT }}
           username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
+          password: ${{ secrets.ACR_PASSWORD }} 
       - run: |
-          docker image pull ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}
+          docker image pull ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}  
           docker tag ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }} ${{ secrets.REGISTRY }}/datasheetapi:ci-release
           docker push ${{ secrets.REGISTRY }}/datasheetapi:ci-release
       - name: "Login to Azure"
