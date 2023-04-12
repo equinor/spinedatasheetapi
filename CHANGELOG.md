@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.3.0](https://github.com/equinor/spinedatasheetapi/compare/v1.2.0...v1.3.0) (2023-04-12)
+
+
+### Features
+
+* More dummy data examples ([#59](https://github.com/equinor/spinedatasheetapi/issues/59)) ([a368f84](https://github.com/equinor/spinedatasheetapi/commit/a368f84965c824144df93a4aa9b403ce46b62089))
+
+
+### Bug Fixes
+
+* added appsettings in runtime ([#56](https://github.com/equinor/spinedatasheetapi/issues/56)) ([c303c89](https://github.com/equinor/spinedatasheetapi/commit/c303c896cf85848d9c7b2676d4d2b8376e46a5c1))
+
+
+### For developers
+
+* Dummy data ([#53](https://github.com/equinor/spinedatasheetapi/issues/53)) ([e8a96ce](https://github.com/equinor/spinedatasheetapi/commit/e8a96ce7c4f153277ae44896bec9a59438da2205))
+* dummy data ([#55](https://github.com/equinor/spinedatasheetapi/issues/55)) ([d81577b](https://github.com/equinor/spinedatasheetapi/commit/d81577b387237197e16ed8e48cdbcfaa23e8e9f0))
+* remove config logging ([eb457c5](https://github.com/equinor/spinedatasheetapi/commit/eb457c52e67948446c75ead006f72f3a3a128e2b))
+* remove too much logging in config setup appconfig ([#57](https://github.com/equinor/spinedatasheetapi/issues/57)) ([eb457c5](https://github.com/equinor/spinedatasheetapi/commit/eb457c52e67948446c75ead006f72f3a3a128e2b))
+* update dummy data ([e8a96ce](https://github.com/equinor/spinedatasheetapi/commit/e8a96ce7c4f153277ae44896bec9a59438da2205))
+
 ## [1.2.0](https://github.com/equinor/spinedatasheetapi/compare/v1.1.0...v1.2.0) (2023-03-29)
 
 
