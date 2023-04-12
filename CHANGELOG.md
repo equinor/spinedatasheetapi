@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/equinor/spinedatasheetapi/compare/v1.3.0...v1.4.0) (2023-04-12)
+
+
+### Features
+
+* Add more dummy data ([#60](https://github.com/equinor/spinedatasheetapi/issues/60)) ([15bb78f](https://github.com/equinor/spinedatasheetapi/commit/15bb78fd91594faec70ab7cad4ee473e87d6e0f1))
+* adding two more set of dummy data ([15bb78f](https://github.com/equinor/spinedatasheetapi/commit/15bb78fd91594faec70ab7cad4ee473e87d6e0f1))
+
 ## [1.3.0](https://github.com/equinor/spinedatasheetapi/compare/v1.2.0...v1.3.0) (2023-04-12)
 
 
