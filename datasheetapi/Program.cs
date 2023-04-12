@@ -1,8 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.ConfigureAppConfiguration(config =>
+{
+    config.AddJsonFile("appsettings.json");
+});
 var azureAppConfigurationConnectionString =
     builder.Configuration.GetSection("AppConfiguration").GetValue<string>("ConnectionString");
 var environment = builder.Configuration.GetSection("AppConfiguration").GetValue<string>("Environment");
-Console.WriteLine("Loading configuration for: " + environment);
+Console.WriteLine("Loading configuration for: " + environment + ":" + azureAppConfigurationConnectionString);
 
 var configurationBuilder = new ConfigurationBuilder()
     .AddAzureAppConfiguration(options =>
