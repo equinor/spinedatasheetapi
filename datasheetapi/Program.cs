@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(config =>
 {
@@ -19,6 +22,12 @@ var configurationBuilder = new ConfigurationBuilder()
 
 var config = configurationBuilder.Build();
 builder.Configuration.AddConfiguration(config);
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddInMemoryTokenCaches();
 
 // Add services to the container.
 
