@@ -1,7 +1,17 @@
-namespace api.Controllers;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
+
+namespace datasheetapi.Controllers;
 
 [ApiController]
 [Route("contracts")]
+[Authorize]
+[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
+[RequiresApplicationRoles(
+    ApplicationRole.Admin,
+    ApplicationRole.ReadOnlyUser,
+    ApplicationRole.User
+)]
 public class ContractsController : ControllerBase
 {
     private readonly IContractService _contractService;
