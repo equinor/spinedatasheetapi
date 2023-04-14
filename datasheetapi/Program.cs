@@ -1,5 +1,9 @@
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
+
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureAppConfiguration(config =>
@@ -9,6 +13,10 @@ builder.Host.ConfigureAppConfiguration(config =>
 var azureAppConfigurationConnectionString =
     builder.Configuration.GetSection("AppConfiguration").GetValue<string>("ConnectionString");
 var environment = builder.Configuration.GetSection("AppConfiguration").GetValue<string>("Environment");
+var appInsightTelemetryOptions = new ApplicationInsightsServiceOptions
+{
+    ConnectionString = builder.Configuration.GetSection("ApplicationInsights").GetValue<string>("ConnectionString")
+};
 Console.WriteLine("Loading configuration for: " + environment);
 
 var configurationBuilder = new ConfigurationBuilder()
@@ -22,15 +30,12 @@ var configurationBuilder = new ConfigurationBuilder()
 
 var config = configurationBuilder.Build();
 builder.Configuration.AddConfiguration(config);
-
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
-    .EnableTokenAcquisitionToCallDownstreamApi()
-    .AddInMemoryTokenCaches();
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -59,11 +64,52 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+builder.Services.AddFusionIntegration(options =>
+{
+    var fusionEnvironment = environment switch
+    {
+        "dev" => "CI",
+        "qa" => "FQA",
+        "prod" => "FPRD",
+        "radix-prod" => "FPRD",
+        "radix-qa" => "FQA",
+        "radix-dev" => "CI",
+        _ => "CI",
+    };
+
+    Console.WriteLine("Fusion environment: " + fusionEnvironment);
+    options.UseServiceInformation("Spine Datasheet", fusionEnvironment);
+    options.UseDefaultEndpointResolver(fusionEnvironment);
+    options.UseDefaultTokenProvider(opts =>
+    {
+        opts.ClientId = builder.Configuration.GetSection("AzureAd").GetValue<string>("ClientId");
+        opts.ClientSecret = builder.Configuration.GetSection("AzureAd").GetValue<string>("ClientSecret");
+    });
+    options.AddFusionRoles();
+    options.ApplicationMode = true;
+});
+
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .ReadFrom.Configuration(config)
+    .Enrich.WithMachineName()
+    .Enrich.WithProperty("Environment", environment)
+    .Enrich.FromLogContext()
+    .CreateBootstrapLogger();
+
+builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<IDatasheetService, DatasheetService>();
 builder.Services.AddScoped<IContractService, ContractService>();
-
+builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IDummyFAMService, DummyFAMService>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
+builder.Services.Configure<IConfiguration>(builder.Configuration);
 
+//Swagger config
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -98,6 +144,7 @@ builder.Services.AddSwaggerGen(c =>
 }
 );
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -111,9 +158,10 @@ app.UseCors(_accessControlPolicyName);
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseMiddleware<ClaimsMiddelware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
-app.UseAuthorization();
+
 
 app.MapControllers();
 
