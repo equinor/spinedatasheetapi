@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/equinor/spinedatasheetapi/compare/v1.4.0...v1.5.0) (2023-04-18)
+
+
+### Features
+
+* Add auth config ([#62](https://github.com/equinor/spinedatasheetapi/issues/62)) ([85ae41e](https://github.com/equinor/spinedatasheetapi/commit/85ae41e24748ebcb8d53563a6731003ab9d798dc))
+
+
+### Bug Fixes
+
+* Update duplicate GUIDs on dummy data ([#65](https://github.com/equinor/spinedatasheetapi/issues/65)) ([bb9e075](https://github.com/equinor/spinedatasheetapi/commit/bb9e0759e283786a82c1760809ca395096985493))
+
 ## [1.4.0](https://github.com/equinor/spinedatasheetapi/compare/v1.3.0...v1.4.0) (2023-04-12)
 
 
