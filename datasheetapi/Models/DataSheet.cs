@@ -11,4 +11,6 @@ public class Datasheet
     public string? Dicipline { get; set; }
     public PurchaserRequirement? PurchaserRequirement { get; set; }
     public SupplierOfferedProduct? SupplierOfferedProduct { get; set; }
+    public ElectricalPurchaserRequirement? ElectricalPurchaserRequirement { get; set; }
+    public ElectricalSupplierOfferedProduct? ElectricalSupplierOfferedProduct { get; set; }
 }

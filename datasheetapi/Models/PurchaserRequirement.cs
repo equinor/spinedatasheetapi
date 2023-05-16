@@ -91,7 +91,7 @@ public class PurchaserRequirement
     public string? MountingBracketMaterial { get; set; }
     public string? ElectricalSurgeProtector { get; set; }
     public string? Sunshade { get; set; }
-     public string? Manufacturer { get; set; }
+    public string? Manufacturer { get; set; }
     public string? ModelNumber { get; set; }
     public string? PressureRetainingBoltMaterial { get; set; }
     public string? PressureRetainingNutMaterial { get; set; }
