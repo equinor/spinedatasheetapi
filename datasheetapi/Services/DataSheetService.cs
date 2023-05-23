@@ -54,6 +54,8 @@ public class DatasheetService : IDatasheetService
         dataSheet.Id = dataSheetDto.Id;
         dataSheet.PurchaserRequirement = dataSheetDto.PurchaserRequirement;
         dataSheet.SupplierOfferedProduct = dataSheetDto.SupplierOfferedProduct;
+        dataSheet.ElectricalPurchaserRequirement = dataSheetDto.ElectricalPurchaserRequirement;
+        dataSheet.ElectricalSupplierOfferedProduct = dataSheetDto.ElectricalSupplierOfferedProduct;
 
         return dataSheet;
     }
@@ -71,6 +73,8 @@ public class DatasheetService : IDatasheetService
             ProjectId = dataSheet.ProjectId,
             PurchaserRequirement = dataSheet.PurchaserRequirement,
             SupplierOfferedProduct = dataSheet.SupplierOfferedProduct,
+            ElectricalPurchaserRequirement = dataSheet.ElectricalPurchaserRequirement,
+            ElectricalSupplierOfferedProduct = dataSheet.ElectricalSupplierOfferedProduct,
         };
     }
 }
