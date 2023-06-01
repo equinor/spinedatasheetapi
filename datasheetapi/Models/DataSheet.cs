@@ -13,4 +13,6 @@ public class Datasheet
     public SupplierOfferedProduct? SupplierOfferedProduct { get; set; }
     public ElectricalPurchaserRequirement? ElectricalPurchaserRequirement { get; set; }
     public ElectricalSupplierOfferedProduct? ElectricalSupplierOfferedProduct { get; set; }
+    public MechanicalPurchaserRequirement? MechanicalPurchaserRequirement { get; set; }
+    public MechanicalSupplierOfferedProduct? MechanicalSupplierOfferedProduct { get; set; }
 }
