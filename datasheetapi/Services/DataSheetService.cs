@@ -56,6 +56,8 @@ public class DatasheetService : IDatasheetService
         dataSheet.SupplierOfferedProduct = dataSheetDto.SupplierOfferedProduct;
         dataSheet.ElectricalPurchaserRequirement = dataSheetDto.ElectricalPurchaserRequirement;
         dataSheet.ElectricalSupplierOfferedProduct = dataSheetDto.ElectricalSupplierOfferedProduct;
+        dataSheet.MechanicalPurchaserRequirement = dataSheetDto.MechanicalPurchaserRequirement;
+        dataSheet.MechanicalSupplierOfferedProduct = dataSheetDto.MechanicalSupplierOfferedProduct;
 
         return dataSheet;
     }
@@ -75,6 +77,8 @@ public class DatasheetService : IDatasheetService
             SupplierOfferedProduct = dataSheet.SupplierOfferedProduct,
             ElectricalPurchaserRequirement = dataSheet.ElectricalPurchaserRequirement,
             ElectricalSupplierOfferedProduct = dataSheet.ElectricalSupplierOfferedProduct,
+            MechanicalPurchaserRequirement = dataSheet.MechanicalPurchaserRequirement,
+            MechanicalSupplierOfferedProduct = dataSheet.MechanicalSupplierOfferedProduct,
         };
     }
 }
