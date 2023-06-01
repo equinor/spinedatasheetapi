@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.0](https://github.com/equinor/spinedatasheetapi/compare/v1.5.0...v1.6.0) (2023-06-01)
+
+
+### Features
+
+* Added JIP33 Electrical to backend ([6b3d6b1](https://github.com/equinor/spinedatasheetapi/commit/6b3d6b1fbcb7d93fd8661477736bd90c88368ad0))
+* Added JIP33 Mechanical with dummy data ([5ba7aaa](https://github.com/equinor/spinedatasheetapi/commit/5ba7aaa6bb7435eaa9933e5a692398ad478eeec7))
+* Token auth in backend AB#{108506} ([52281b3](https://github.com/equinor/spinedatasheetapi/commit/52281b3902df1d139fb1d148b685566b22e32436))
+
 ## [1.5.0](https://github.com/equinor/spinedatasheetapi/compare/v1.4.0...v1.5.0) (2023-04-18)
 
 
