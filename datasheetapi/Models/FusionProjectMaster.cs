@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Models;
+namespace datasheetapi.Models;
 
 using System;
 using System.Collections.Generic;

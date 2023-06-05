@@ -1,6 +1,7 @@
-﻿namespace datasheetapi.Services;
+namespace datasheetapi.Services;
 using System;
 using System.Threading.Tasks;
+
 using Models;
 
 public interface IFusionService
