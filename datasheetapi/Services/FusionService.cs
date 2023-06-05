@@ -1,11 +1,15 @@
-﻿namespace datasheetapi.Services;
+namespace datasheetapi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Models;
+
 using Fusion.Integration;
+
 using Microsoft.Extensions.Logging;
+
+using Models;
+
 using Newtonsoft.Json;
 
 public class FusionService : IFusionService
