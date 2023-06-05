@@ -52,8 +52,8 @@ public class DatasheetService : IDatasheetService
         }
 
         dataSheet.Id = dataSheetDto.Id;
-        dataSheet.PurchaserRequirement = dataSheetDto.PurchaserRequirement;
-        dataSheet.SupplierOfferedProduct = dataSheetDto.SupplierOfferedProduct;
+        dataSheet.InstrumentPurchaserRequirement = dataSheetDto.InstrumentPurchaserRequirement;
+        dataSheet.InstrumentSupplierOfferedProduct = dataSheetDto.InstrumentSupplierOfferedProduct;
         dataSheet.ElectricalPurchaserRequirement = dataSheetDto.ElectricalPurchaserRequirement;
         dataSheet.ElectricalSupplierOfferedProduct = dataSheetDto.ElectricalSupplierOfferedProduct;
         dataSheet.MechanicalPurchaserRequirement = dataSheetDto.MechanicalPurchaserRequirement;
@@ -73,8 +73,8 @@ public class DatasheetService : IDatasheetService
             Description = dataSheet.Description,
             Dicipline = dataSheet.Dicipline,
             ProjectId = dataSheet.ProjectId,
-            PurchaserRequirement = dataSheet.PurchaserRequirement,
-            SupplierOfferedProduct = dataSheet.SupplierOfferedProduct,
+            InstrumentPurchaserRequirement = dataSheet.InstrumentPurchaserRequirement,
+            InstrumentSupplierOfferedProduct = dataSheet.InstrumentSupplierOfferedProduct,
             ElectricalPurchaserRequirement = dataSheet.ElectricalPurchaserRequirement,
             ElectricalSupplierOfferedProduct = dataSheet.ElectricalSupplierOfferedProduct,
             MechanicalPurchaserRequirement = dataSheet.MechanicalPurchaserRequirement,

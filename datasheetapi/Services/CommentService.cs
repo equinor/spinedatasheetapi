@@ -45,14 +45,14 @@ public class CommentService
         }
         else if (comment.CommentLevel == CommentLevel.PurchaserRequirement && comment.Property != null)
         {
-            if (ValidateProperty<PurchaserRequirement>(comment.Property))
+            if (ValidateProperty<InstrumentPurchaserRequirement>(comment.Property))
             {
                 savedComment = await _commentRepository.AddComment(comment);
             }
         }
         else if (comment.CommentLevel == CommentLevel.SupplierOfferedValue && comment.Property != null)
         {
-            if (ValidateProperty<SupplierOfferedProduct>(comment.Property))
+            if (ValidateProperty<InstrumentSupplierOfferedProduct>(comment.Property))
             {
                 savedComment = await _commentRepository.AddComment(comment);
             }

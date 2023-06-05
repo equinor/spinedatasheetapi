@@ -9,8 +9,8 @@ public class Datasheet
     public string? Category { get; set; }
     public string? Area { get; set; }
     public string? Dicipline { get; set; }
-    public PurchaserRequirement? PurchaserRequirement { get; set; }
-    public SupplierOfferedProduct? SupplierOfferedProduct { get; set; }
+    public InstrumentPurchaserRequirement? InstrumentPurchaserRequirement { get; set; }
+    public InstrumentSupplierOfferedProduct? InstrumentSupplierOfferedProduct { get; set; }
     public ElectricalPurchaserRequirement? ElectricalPurchaserRequirement { get; set; }
     public ElectricalSupplierOfferedProduct? ElectricalSupplierOfferedProduct { get; set; }
     public MechanicalPurchaserRequirement? MechanicalPurchaserRequirement { get; set; }
