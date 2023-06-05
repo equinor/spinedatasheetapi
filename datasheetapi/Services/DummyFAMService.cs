@@ -23,7 +23,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "",
                 Description = "Flow Transmitter Coriolis",
                 Dicipline = "Instrumentation",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = "OPTIMASS 7400C/EX-I H15",
@@ -149,7 +149,7 @@ public class DummyFAMService : IDummyFAMService
                     MaximumRecoverablePressureDrop = null,
                     MaximumUnrecoverablePressureLoss = "0.7",
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = null,
@@ -284,7 +284,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "",
                 Description = "Flow Transmitter Coriolis",
                 Dicipline = "Instrumentation",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = "OPTIMASS 7400C/EX-I H15",
@@ -410,7 +410,7 @@ public class DummyFAMService : IDummyFAMService
                     MaximumRecoverablePressureDrop = null,
                     MaximumUnrecoverablePressureLoss = "0.7",
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = null,
@@ -546,7 +546,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "Category 2",
                 Description = "Level Transmitter",
                 Dicipline = "Instrumental",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = null,
                     ModelNumber = null,
@@ -672,7 +672,7 @@ public class DummyFAMService : IDummyFAMService
                     RuptureDiscBurstPressure = null,
                     ProcessSecondaryContainment = null
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     CodeRequirement = null,
                     ConformityAssessmentSystemLevel = 1,
@@ -808,7 +808,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "Category 2",
                 Description = "Pressure Transmitter",
                 Dicipline = "Instrumental",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = null,
                     ModelNumber = null,
@@ -934,7 +934,7 @@ public class DummyFAMService : IDummyFAMService
                     RuptureDiscBurstPressure = null,
                     ProcessSecondaryContainment = null
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     CodeRequirement = null,
                     ConformityAssessmentSystemLevel = 3,
@@ -1070,7 +1070,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "Category 2",
                 Description = "Flow Transmitter Corolis",
                 Dicipline = "Instrumental",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = "OPTIMASS 7400C/EX-I",
@@ -1196,7 +1196,7 @@ public class DummyFAMService : IDummyFAMService
                     RuptureDiscBurstPressure = null,
                     ProcessSecondaryContainment = "fully rated"
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     CodeRequirement = 1,
                     ConformityAssessmentSystemLevel = 3,
@@ -1332,7 +1332,7 @@ public class DummyFAMService : IDummyFAMService
                 Category = "Category 2",
                 Description = "Flow Transmitter Corolis",
                 Dicipline = "Instrumental",
-                SupplierOfferedProduct = new()
+                InstrumentSupplierOfferedProduct = new()
                 {
                     Manufacturer = "KROHNE",
                     ModelNumber = "OPTIMASS 7400C/EX-I",
@@ -1458,7 +1458,7 @@ public class DummyFAMService : IDummyFAMService
                     RuptureDiscBurstPressure = null,
                     ProcessSecondaryContainment = "fully rated"
                 },
-                PurchaserRequirement = new()
+                InstrumentPurchaserRequirement = new()
                 {
                     CodeRequirement = 1,
                     ConformityAssessmentSystemLevel = 3,
