@@ -33,14 +33,11 @@ public class CommentService
         return await _commentRepository.GetCommentsForTags(tagIds);
     }
 
-    public async Task<Comment> CreateComment(Comment comment)
+    public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
     {
-        var tagData = await _datasheetService.GetDatasheetById(comment.TagDataId);
-        if (tagData == null)
-        {
-            throw new Exception("Invalid tag");
-        }
+        var tagData = await _datasheetService.GetDatasheetById(comment.TagDataId) ?? throw new Exception("Invalid tag");
         Comment? savedComment = null;
+        comment.UserId = azureUniqueId;
 
         if (comment.CommentLevel == CommentLevel.Tag)
         {

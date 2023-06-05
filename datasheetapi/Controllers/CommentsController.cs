@@ -44,6 +44,10 @@ public class CommentsController : ControllerBase
     [HttpPost(Name = "CreateComment")]
     public async Task<ActionResult<Comment>> CreateComment([FromBody] Comment comment)
     {
-        return await _commentService.CreateComment(comment);
+        var httpContext = HttpContext;
+        var user = httpContext.User;
+        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
+        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+        return await _commentService.CreateComment(comment, azureUniqueId);
     }
 }
