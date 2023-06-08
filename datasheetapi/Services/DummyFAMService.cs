@@ -14,7 +14,7 @@ public class DummyFAMService : IDummyFAMService
 
     private static List<TagData> InitializeDatasheets()
     {
-        return new List<Datasheet> {
+        return new List<TagData> {
             new()
             {
                 Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea41"),
@@ -2628,17 +2628,17 @@ public class DummyFAMService : IDummyFAMService
         };
     }
 
-    public async Task<Datasheet?> GetDatasheet(Guid id)
+    public async Task<TagData?> GetDatasheet(Guid id)
     {
         return await Task.Run(() => _datasheets.Find(d => d.Id == id));
     }
 
-    public async Task<List<Datasheet>> GetDatasheets()
+    public async Task<List<TagData>> GetDatasheets()
     {
         return await Task.Run(() => _datasheets);
     }
 
-    public async Task<List<Datasheet>> GetDatasheetsForProject(Guid projectId)
+    public async Task<List<TagData>> GetDatasheetsForProject(Guid projectId)
     {
         return await Task.Run(() => _datasheets);
     }
