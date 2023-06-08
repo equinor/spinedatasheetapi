@@ -3,10 +3,10 @@ namespace datasheetapi.Services;
 public class CommentService
 {
     private readonly ILogger<ContractService> _logger;
-    private readonly IDatasheetService _datasheetService;
+    private readonly ITagDataService _datasheetService;
     private readonly ICommentRepository _commentRepository;
 
-    public CommentService(ILoggerFactory loggerFactory, IDatasheetService datasheetService, ICommentRepository commentRepository)
+    public CommentService(ILoggerFactory loggerFactory, ITagDataService datasheetService, ICommentRepository commentRepository)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _datasheetService = datasheetService;

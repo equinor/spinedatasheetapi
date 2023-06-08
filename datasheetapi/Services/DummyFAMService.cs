@@ -4,7 +4,7 @@ public class DummyFAMService : IDummyFAMService
 {
     private readonly ILogger<DummyFAMService> _logger;
 
-    private readonly List<Datasheet> _datasheets;
+    private readonly List<TagData> _datasheets;
 
     public DummyFAMService(ILoggerFactory loggerFactory)
     {
@@ -12,7 +12,7 @@ public class DummyFAMService : IDummyFAMService
         _datasheets = InitializeDatasheets();
     }
 
-    private static List<Datasheet> InitializeDatasheets()
+    private static List<TagData> InitializeDatasheets()
     {
         return new List<Datasheet> {
             new()
