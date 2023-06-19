@@ -10,9 +10,7 @@ public class AzureUserCacheService : IAzureUserCacheService
 
     public AzureUser? GetAzureUserAsync(Guid id)
     {
-        var azureUser = _azureUsers.FirstOrDefault(x => x.AzureUniqueId == id);
-
-        return azureUser;
+        return _azureUsers.FirstOrDefault(x => x.AzureUniqueId == id);
     }
 
     public void AddAzureUser(AzureUser azureUser)
