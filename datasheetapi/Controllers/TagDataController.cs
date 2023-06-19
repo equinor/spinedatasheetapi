@@ -1,7 +1,7 @@
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("datasheets")]
+[Route("tagdata")]
 public class TagDataController : ControllerBase
 {
     private readonly ITagDataService _tagDataService;
