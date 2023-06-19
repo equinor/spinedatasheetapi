@@ -7,6 +7,7 @@ public class Comment : BaseEntity
     public string Text { get; set; } = string.Empty;
     public string? Property { get; set; }
     public CommentLevel CommentLevel { get; set; }
+    public bool External { get; set; }
 }
 
 public enum CommentLevel
