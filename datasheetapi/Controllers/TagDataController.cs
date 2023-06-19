@@ -4,26 +4,26 @@ namespace datasheetapi.Controllers;
 [Route("datasheets")]
 public class TagDataController : ControllerBase
 {
-    private readonly ITagDataService _dataSheetService;
+    private readonly ITagDataService _tagDataService;
 
-    public TagDataController(ITagDataService dataSheetService)
+    public TagDataController(ITagDataService tagDataService)
     {
-        _dataSheetService = dataSheetService;
+        _tagDataService = tagDataService;
     }
 
-    [HttpGet("{id:guid}", Name = "GetDatasheet")]
-    public async Task<ActionResult> GetById(Guid id)
+    [HttpGet("{id:guid}", Name = "GetTagDataById")]
+    public async Task<ActionResult> GetTagDataById(Guid id)
     {
         try
         {
-            var dataSheet = await _dataSheetService.GetTagDataById(id);
+            var tagData = await _tagDataService.GetTagDataById(id);
 
-            if (dataSheet == null)
+            if (tagData == null)
             {
                 return NotFound();
             }
 
-            return Ok(dataSheet);
+            return Ok(tagData);
         }
         catch
         {
@@ -31,14 +31,14 @@ public class TagDataController : ControllerBase
         }
     }
 
-    [HttpGet(Name = "GetDatasheets")]
-    public async Task<ActionResult> GetAll()
+    [HttpGet(Name = "GetAllTagData")]
+    public async Task<ActionResult> GetAllTagData()
     {
         try
         {
-            var dataSheets = await _dataSheetService.GetAllTagData();
+            var tagData = await _tagDataService.GetAllTagData();
 
-            return Ok(dataSheets);
+            return Ok(tagData);
         }
         catch
         {
@@ -46,14 +46,14 @@ public class TagDataController : ControllerBase
         }
     }
 
-    [HttpGet("project/{id:guid}", Name = "GetDatasheetsForProject")]
-    public async Task<ActionResult> GetDatasheetsForProject([FromQuery] Guid id)
+    [HttpGet("project/{id:guid}", Name = "GetTagDataForProject")]
+    public async Task<ActionResult> GetTagDataForProject([FromQuery] Guid id)
     {
         try
         {
-            var dataSheets = await _dataSheetService.GetTagDataForProject(id);
+            var tagData = await _tagDataService.GetTagDataForProject(id);
 
-            return Ok(dataSheets);
+            return Ok(tagData);
         }
         catch
         {

@@ -9,10 +9,10 @@ public class DummyFAMService : IDummyFAMService
     public DummyFAMService(ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory.CreateLogger<DummyFAMService>();
-        _tagData = InitializeDatasheets();
+        _tagData = InitializeTagData();
     }
 
-    private static List<ITagData> InitializeDatasheets()
+    private static List<ITagData> InitializeTagData()
     {
 
         var instrumentTagData1 = new InstrumentTagData

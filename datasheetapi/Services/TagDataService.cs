@@ -22,29 +22,29 @@ public class TagDataService : ITagDataService
 
     public async Task<List<ITagDataDto>> GetAllTagData()
     {
-        var dataSheetsDto = new List<ITagDataDto>();
-        var datasheets = await _dummyFAMService.GetTagData();
-        foreach (var dataSheet in datasheets)
+        var tagDataDtos = new List<ITagDataDto>();
+        var allTagData = await _dummyFAMService.GetTagData();
+        foreach (var tagData in allTagData)
         {
-            dataSheetsDto.Add(MapTagDataToTagDataDto(dataSheet));
+            tagDataDtos.Add(MapTagDataToTagDataDto(tagData));
         }
 
-        return dataSheetsDto;
+        return tagDataDtos;
     }
 
     public async Task<ActionResult<List<ITagDataDto>>> GetTagDataForProject(Guid id)
     {
-        var dataSheetsDto = new List<ITagDataDto>();
-        var datasheets = await _dummyFAMService.GetTagDataForProject(id);
-        foreach (var dataSheet in datasheets)
+        var tagDataDtos = new List<ITagDataDto>();
+        var tagDataForProject = await _dummyFAMService.GetTagDataForProject(id);
+        foreach (var tagData in tagDataForProject)
         {
-            dataSheetsDto.Add(MapTagDataToTagDataDto(dataSheet));
+            tagDataDtos.Add(MapTagDataToTagDataDto(tagData));
         }
 
-        return dataSheetsDto;
+        return tagDataDtos;
     }
 
-    private ITagDataDto MapTagDataToTagDataDto(ITagData tagData)
+    private static ITagDataDto MapTagDataToTagDataDto(ITagData tagData)
     {
         if (tagData is InstrumentTagData)
         {
@@ -58,7 +58,7 @@ public class TagDataService : ITagDataService
         {
             return MapMechanicalTagDataToTagDataDto(tagData as MechanicalTagData);
         }
-        return MapDatasheetToDto(tagData);
+        return MapDefaultTagDataToTagDataDto(tagData);
     }
 
     private static ITagDataDto MapInstrumentTagDataToTagDataDto(InstrumentTagData tagData)
@@ -109,17 +109,17 @@ public class TagDataService : ITagDataService
         };
     }
 
-    private static TagDataDto MapDatasheetToDto(ITagData dataSheet)
+    private static TagDataDto MapDefaultTagDataToTagDataDto(ITagData tagData)
     {
         return new TagDataDto
         {
-            Id = dataSheet.Id,
-            TagNo = dataSheet.TagNo,
-            Area = dataSheet.Area,
-            Category = dataSheet.Category,
-            Description = dataSheet.Description,
-            Discipline = dataSheet.Discipline,
-            ProjectId = dataSheet.ProjectId,
+            Id = tagData.Id,
+            TagNo = tagData.TagNo,
+            Area = tagData.Area,
+            Category = tagData.Category,
+            Description = tagData.Description,
+            Discipline = tagData.Discipline,
+            ProjectId = tagData.ProjectId,
         };
     }
 }
