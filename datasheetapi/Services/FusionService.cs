@@ -16,12 +16,16 @@ public class FusionService : IFusionService
 {
     private readonly IFusionContextResolver _fusionContextResolver;
     private readonly ILogger<FusionService> _logger;
+    private readonly IFusionProfileResolver _profileResolver;
+
 
     public FusionService(
         IFusionContextResolver fusionContextResolver,
+        IFusionProfileResolver profileResolver,
         ILogger<FusionService> logger)
     {
         _fusionContextResolver = fusionContextResolver;
+        _profileResolver = profileResolver;
         _logger = logger;
     }
 
@@ -76,5 +80,11 @@ public class FusionService : IFusionService
         }
 
         return projectMasterContext;
+    }
+
+    public async Task<Fusion.Integration.Profile.FusionPersonProfile?> ResolveUserFromPersonId(Guid azureUniqueId)
+    {
+        var fusionPersonProfile = await _profileResolver.ResolvePersonBasicProfileAsync(new Fusion.Integration.Profile.PersonIdentifier(azureUniqueId));
+        return fusionPersonProfile;
     }
 }

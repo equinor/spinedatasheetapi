@@ -109,6 +109,7 @@ builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
+builder.Services.AddSingleton<IAzureUserCacheService, AzureUserCacheService>();
 builder.Services.Configure<IConfiguration>(builder.Configuration);
 
 //Swagger config
@@ -163,7 +164,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<ClaimsMiddelware>();
 app.UseMiddleware<RequestLoggingMiddleware>();
-
 
 app.MapControllers();
 
