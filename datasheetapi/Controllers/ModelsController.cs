@@ -4,6 +4,12 @@ namespace datasheetapi.Controllers;
 [Route("models")]
 public class ModelsController : ControllerBase
 {
+    [HttpGet("/default", Name = "GetDefaultTagDataModel")]
+    public ActionResult<TagDataDto> GetDefaultTagDataModel()
+    {
+        return new TagDataDto();
+    }
+
     [HttpGet("/instrument", Name = "GetInstrumentTagDataModel")]
     public ActionResult<InstrumentTagDataDto> GetInstrumentTagDataModel()
     {

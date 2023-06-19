@@ -22,7 +22,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "",
             Description = "Flow Transmitter Coriolis",
-            Discipline = "Instrumentation",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -285,7 +285,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "",
             Description = "Flow Transmitter Coriolis",
-            Discipline = "Instrumentation",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -548,7 +548,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "Category 2",
             Description = "Level Transmitter",
-            Discipline = "Instrumental",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = null,
@@ -811,7 +811,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "Category 2",
             Description = "Pressure Transmitter",
-            Discipline = "Instrumental",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = null,
@@ -1074,7 +1074,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "Category 2",
             Description = "Flow Transmitter Corolis",
-            Discipline = "Instrumental",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -1337,7 +1337,7 @@ public class DummyFAMService : IDummyFAMService
             Area = "Area 1",
             Category = "Category 2",
             Description = "Flow Transmitter Corolis",
-            Discipline = "Instrumental",
+            Discipline = "Instrument",
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
