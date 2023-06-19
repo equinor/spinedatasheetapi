@@ -2,21 +2,21 @@ namespace datasheetapi.Controllers;
 
 [ApiController]
 [Route("datasheets")]
-public class DataSheetsController : ControllerBase
+public class TagDataController : ControllerBase
 {
-    private readonly IDatasheetService _dataSheetService;
+    private readonly ITagDataService _dataSheetService;
 
-    public DataSheetsController(IDatasheetService dataSheetService)
+    public TagDataController(ITagDataService dataSheetService)
     {
         _dataSheetService = dataSheetService;
     }
 
     [HttpGet("{id:guid}", Name = "GetDatasheet")]
-    public async Task<ActionResult<DatasheetDto>> GetById(Guid id)
+    public async Task<ActionResult> GetById(Guid id)
     {
         try
         {
-            var dataSheet = await _dataSheetService.GetDatasheetById(id);
+            var dataSheet = await _dataSheetService.GetTagDataById(id);
 
             if (dataSheet == null)
             {
@@ -32,11 +32,11 @@ public class DataSheetsController : ControllerBase
     }
 
     [HttpGet(Name = "GetDatasheets")]
-    public async Task<ActionResult<List<DatasheetDto>>> GetAll()
+    public async Task<ActionResult> GetAll()
     {
         try
         {
-            var dataSheets = await _dataSheetService.GetAllDatasheets();
+            var dataSheets = await _dataSheetService.GetAllTagData();
 
             return Ok(dataSheets);
         }
@@ -47,11 +47,11 @@ public class DataSheetsController : ControllerBase
     }
 
     [HttpGet("project/{id:guid}", Name = "GetDatasheetsForProject")]
-    public async Task<ActionResult<List<DatasheetDto>>> GetDatasheetsForProject([FromQuery] Guid id)
+    public async Task<ActionResult> GetDatasheetsForProject([FromQuery] Guid id)
     {
         try
         {
-            var dataSheets = await _dataSheetService.GetDatasheetsForProject(id);
+            var dataSheets = await _dataSheetService.GetTagDataForProject(id);
 
             return Ok(dataSheets);
         }
