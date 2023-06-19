@@ -5,32 +5,72 @@ public class CommentService
     private readonly ILogger<ContractService> _logger;
     private readonly IDatasheetService _datasheetService;
     private readonly ICommentRepository _commentRepository;
+    private readonly IAzureUserCacheService _azureUserCacheService;
+    private readonly IFusionService _fusionService;
 
-    public CommentService(ILoggerFactory loggerFactory, IDatasheetService datasheetService, ICommentRepository commentRepository)
+    public CommentService(ILoggerFactory loggerFactory, IDatasheetService datasheetService, ICommentRepository commentRepository,
+        IAzureUserCacheService azureUserCacheService, IFusionService fusionService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _datasheetService = datasheetService;
         _commentRepository = commentRepository;
+        _azureUserCacheService = azureUserCacheService;
+        _fusionService = fusionService;
     }
 
     public async Task<Comment?> GetComment(Guid id)
     {
-        return await _commentRepository.GetComment(id);
+        var comment = await _commentRepository.GetComment(id);
+        await AddUserNameToCommentAsync(comment);
+        return comment;
     }
 
     public async Task<List<Comment>> GetComments()
     {
-        return await _commentRepository.GetComments();
+        var comments = await _commentRepository.GetComments();
+        await AddUserNameToCommentsAsync(comments);
+        return comments;
     }
 
     public async Task<List<Comment>> GetCommentsForTag(Guid tagId)
     {
-        return await _commentRepository.GetCommentsForTag(tagId);
+        var comments = await _commentRepository.GetCommentsForTag(tagId);
+        await AddUserNameToCommentsAsync(comments);
+        return comments;
     }
 
     public async Task<List<Comment>> GetCommentsForTags(List<Guid> tagIds)
     {
-        return await _commentRepository.GetCommentsForTags(tagIds);
+        var comments = await _commentRepository.GetCommentsForTags(tagIds);
+        await AddUserNameToCommentsAsync(comments);
+        return comments;
+    }
+
+    private async Task AddUserNameToCommentsAsync(List<Comment> comments)
+    {
+        foreach (var comment in comments)
+        {
+            await AddUserNameToCommentAsync(comment);
+        }
+    }
+
+    private async Task AddUserNameToCommentAsync(Comment? comment)
+    {
+        if (comment == null) { return; }
+        var azureUser = _azureUserCacheService.GetAzureUserAsync(comment.UserId);
+        if (azureUser == null)
+        {
+            var user = await _fusionService.ResolveUserFromPersonId(comment.UserId);
+            if (user != null)
+            {
+                azureUser = new AzureUser() { AzureUniqueId = comment.UserId, Name = user?.Name };
+                _azureUserCacheService.AddAzureUser(azureUser);
+            }
+        }
+        if (azureUser != null)
+        {
+            comment.CommenterName = azureUser.Name ?? "Unknown user";
+        }
     }
 
     public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)

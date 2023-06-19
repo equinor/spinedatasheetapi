@@ -2,7 +2,7 @@ namespace datasheetapi.Services
 {
     public interface IAzureUserCacheService
     {
-        AzureUser? GetAzureUser(Guid id);
+        public AzureUser? GetAzureUserAsync(Guid id);
         void AddAzureUser(AzureUser azureUser);
     }
 }
