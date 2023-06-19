@@ -32,7 +32,7 @@ public class TagDataService : ITagDataService
         return tagDataDtos;
     }
 
-    public async Task<ActionResult<List<ITagDataDto>>> GetTagDataForProject(Guid id)
+    public async Task<List<ITagDataDto>> GetTagDataForProject(Guid id)
     {
         var tagDataDtos = new List<ITagDataDto>();
         var tagDataForProject = await _dummyFAMService.GetTagDataForProject(id);

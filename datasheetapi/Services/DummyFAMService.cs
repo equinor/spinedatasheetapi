@@ -18,7 +18,7 @@ public class DummyFAMService : IDummyFAMService
         var instrumentTagData1 = new InstrumentTagData
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea41"),
-            TagNo = "Tag001",
+            TagNo = "TAG-001",
             Area = "Area 1",
             Category = "",
             Description = "Flow Transmitter Coriolis",
@@ -281,7 +281,7 @@ public class DummyFAMService : IDummyFAMService
         {
 
             Id = new Guid("6e3c9243-2680-494c-842f-d8bda44cea41"),
-            TagNo = "Tag002",
+            TagNo = "TAG-002",
             Area = "Area 1",
             Category = "",
             Description = "Flow Transmitter Coriolis",
@@ -1595,7 +1595,7 @@ public class DummyFAMService : IDummyFAMService
         var electricalTagData1 = new ElectricalTagData
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea88"),
-            TagNo = "Tag789",
+            TagNo = "TAG-789",
             Area = "Area 51",
             Category = "",
             Description = "LV motor - motor-converter fed",
@@ -1921,7 +1921,7 @@ public class DummyFAMService : IDummyFAMService
         var mechanicalTagData1 = new MechanicalTagData
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea92"),
-            TagNo = "20PA001",
+            TagNo = "TAG-201",
             Area = "Area 1",
             Category = "",
             Description = "WELL CLEAN-UP PUMP",

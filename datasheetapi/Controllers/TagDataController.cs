@@ -32,13 +32,15 @@ public class TagDataController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllTagData")]
-    public async Task<ActionResult> GetAllTagData()
+    public async Task<ActionResult<List<object>>> GetAllTagData()
     {
         try
         {
             var tagData = await _tagDataService.GetAllTagData();
 
-            return Ok(tagData);
+            var tagDataDtos = tagData.Cast<object>().ToList();
+
+            return Ok(tagDataDtos);
         }
         catch
         {
@@ -53,7 +55,9 @@ public class TagDataController : ControllerBase
         {
             var tagData = await _tagDataService.GetTagDataForProject(id);
 
-            return Ok(tagData);
+            var tagDataDtos = tagData.Cast<object>().ToList();
+
+            return Ok(tagDataDtos);
         }
         catch
         {
