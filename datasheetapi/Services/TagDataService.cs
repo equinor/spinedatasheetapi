@@ -46,72 +46,49 @@ public class TagDataService : ITagDataService
 
     private static ITagDataDto MapTagDataToTagDataDto(ITagData tagData)
     {
-        if (tagData is InstrumentTagData)
+        if (tagData is InstrumentTagData instrumentTagData)
         {
-            return MapInstrumentTagDataToTagDataDto(tagData as InstrumentTagData);
+            return MapInstrumentTagDataToTagDataDto(instrumentTagData);
         }
-        if (tagData is ElectricalTagData)
+        if (tagData is ElectricalTagData electricalTagData)
         {
-            return MapElectricalTagDataToTagDataDto(tagData as ElectricalTagData);
+            return MapElectricalTagDataToTagDataDto(electricalTagData);
         }
-        if (tagData is MechanicalTagData)
+        if (tagData is MechanicalTagData mechanicalTagData)
         {
-            return MapMechanicalTagDataToTagDataDto(tagData as MechanicalTagData);
+            return MapMechanicalTagDataToTagDataDto(mechanicalTagData);
         }
-        return MapDefaultTagDataToTagDataDto(tagData);
+        return MapDefaultTagDataToTagDataDto<TagDataDto>(tagData);
     }
 
     private static ITagDataDto MapInstrumentTagDataToTagDataDto(InstrumentTagData tagData)
     {
-        return new InstrumentTagDataDto
-        {
-            Id = tagData.Id,
-            TagNo = tagData.TagNo,
-            Area = tagData.Area,
-            Category = tagData.Category,
-            Description = tagData.Description,
-            Discipline = tagData.Discipline,
-            ProjectId = tagData.ProjectId,
-            InstrumentPurchaserRequirement = tagData.InstrumentPurchaserRequirement,
-            InstrumentSupplierOfferedProduct = tagData.InstrumentSupplierOfferedProduct,
-        };
+        var dto = MapDefaultTagDataToTagDataDto<InstrumentTagDataDto>(tagData);
+        dto.InstrumentPurchaserRequirement = tagData.InstrumentPurchaserRequirement;
+        dto.InstrumentSupplierOfferedProduct = tagData.InstrumentSupplierOfferedProduct;
+        return dto;
     }
 
     private static ITagDataDto MapElectricalTagDataToTagDataDto(ElectricalTagData tagData)
     {
-        return new ElectricalTagDataDto
-        {
-            Id = tagData.Id,
-            TagNo = tagData.TagNo,
-            Area = tagData.Area,
-            Category = tagData.Category,
-            Description = tagData.Description,
-            Discipline = tagData.Discipline,
-            ProjectId = tagData.ProjectId,
-            ElectricalPurchaserRequirement = tagData.ElectricalPurchaserRequirement,
-            ElectricalSupplierOfferedProduct = tagData.ElectricalSupplierOfferedProduct,
-        };
+        var dto = MapDefaultTagDataToTagDataDto<ElectricalTagDataDto>(tagData);
+        dto.ElectricalPurchaserRequirement = tagData.ElectricalPurchaserRequirement;
+        dto.ElectricalSupplierOfferedProduct = tagData.ElectricalSupplierOfferedProduct;
+        return dto;
     }
 
     private static ITagDataDto MapMechanicalTagDataToTagDataDto(MechanicalTagData tagData)
     {
-        return new MechanicalTagDataDto
-        {
-            Id = tagData.Id,
-            TagNo = tagData.TagNo,
-            Area = tagData.Area,
-            Category = tagData.Category,
-            Description = tagData.Description,
-            Discipline = tagData.Discipline,
-            ProjectId = tagData.ProjectId,
-            MechanicalPurchaserRequirement = tagData.MechanicalPurchaserRequirement,
-            MechanicalSupplierOfferedProduct = tagData.MechanicalSupplierOfferedProduct,
-        };
+        var dto = MapDefaultTagDataToTagDataDto<MechanicalTagDataDto>(tagData);
+        dto.MechanicalPurchaserRequirement = tagData.MechanicalPurchaserRequirement;
+        dto.MechanicalSupplierOfferedProduct = tagData.MechanicalSupplierOfferedProduct;
+        return dto;
     }
 
-    private static TagDataDto MapDefaultTagDataToTagDataDto(ITagData tagData)
+    private static T MapDefaultTagDataToTagDataDto<T>(ITagData tagData)
+        where T : class, ITagDataDto, new()
     {
-        return new TagDataDto
+        return new T
         {
             Id = tagData.Id,
             TagNo = tagData.TagNo,
