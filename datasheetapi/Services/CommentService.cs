@@ -63,7 +63,7 @@ public class CommentService
             var user = await _fusionService.ResolveUserFromPersonId(comment.UserId);
             if (user != null)
             {
-                azureUser = new AzureUser() { AzureUniqueId = comment.UserId, Name = user?.Name };
+                azureUser = new AzureUser { AzureUniqueId = comment.UserId, Name = user?.Name };
                 _azureUserCacheService.AddAzureUser(azureUser);
             }
         }

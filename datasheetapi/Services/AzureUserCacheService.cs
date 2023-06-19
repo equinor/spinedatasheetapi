@@ -4,10 +4,6 @@ public class AzureUserCacheService : IAzureUserCacheService
 {
     private readonly List<AzureUser> _azureUsers = new();
 
-    public AzureUserCacheService()
-    {
-    }
-
     public AzureUser? GetAzureUserAsync(Guid id)
     {
         return _azureUsers.FirstOrDefault(x => x.AzureUniqueId == id);
