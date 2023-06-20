@@ -100,7 +100,7 @@ Log.Logger = new LoggerConfiguration()
     .CreateBootstrapLogger();
 
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
-builder.Services.AddScoped<IDatasheetService, DatasheetService>();
+builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<CommentService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
