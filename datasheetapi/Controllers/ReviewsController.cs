@@ -14,28 +14,44 @@ namespace datasheetapi.Controllers;
 )]
 public class ReviewsController : ControllerBase
 {
-    private readonly IContractService _contractService;
+    private readonly ReviewService _reviewService;
 
-    public ReviewsController(IContractService contractService)
+    public ReviewsController(ReviewService reviewService)
     {
-        _contractService = contractService;
+        _reviewService = reviewService;
     }
 
-    [HttpGet("{id}", Name = "GetContract")]
-    public async Task<ActionResult<Contract>> GetDatasheet([FromQuery] Guid id)
+    [HttpGet("{id}", Name = "GetReview")]
+    public async Task<ActionResult<Review?>> GetReview([FromQuery] Guid id)
     {
-        return await _contractService.GetContract(id);
+        return await _reviewService.GetReview(id);
     }
 
-    [HttpGet(Name = "GetContracts")]
-    public async Task<ActionResult<List<Contract>>> GetDatasheets()
+    [HttpGet(Name = "GetReviews")]
+    public async Task<ActionResult<List<Review>>> GetReviews()
     {
-        return await _contractService.GetContracts();
+        return await _reviewService.GetReviews();
     }
 
-    [HttpGet("contractor/{id}", Name = "GetContractsForContractor")]
-    public async Task<ActionResult<List<Contract>>> GetDatasheetsForContractor([FromQuery] Guid id)
+    [HttpGet("tag/{id}", Name = "GetReviewsForTag")]
+    public async Task<ActionResult<List<Review>>> GetReviewsForTag(Guid id)
     {
-        return await _contractService.GetContractsForContractor(id);
+        return await _reviewService.GetReviewsForTag(id);
+    }
+
+    [HttpGet("project/{id}", Name = "GetReviewsForProject")]
+    public async Task<ActionResult<List<Review>>> GetReviewsForProject([FromQuery] Guid id)
+    {
+        return await _reviewService.GetReviewsForProject(id);
+    }
+
+    [HttpPost(Name = "CreateReview")]
+    public async Task<ActionResult<Review>> CreateReview([FromBody] Review review)
+    {
+        var httpContext = HttpContext;
+        var user = httpContext.User;
+        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
+        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+        return await _reviewService.CreateReview(review, azureUniqueId);
     }
 }

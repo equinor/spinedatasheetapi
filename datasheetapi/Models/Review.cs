@@ -3,9 +3,9 @@ namespace datasheetapi.Models;
 public class Review : BaseEntity
 {
     public ReviewStatusEnum Status { get; set; }
-    public int TagId { get; set; }
-    public int RevisionId { get; set; }
-    public int UserId { get; set; }
+    public Guid TagId { get; set; }
+    public Guid RevisionId { get; set; }
+    public Guid UserId { get; set; }
     public bool Conflict { get; set; }
     public bool Approved { get; set; }
 }
