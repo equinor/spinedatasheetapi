@@ -3,16 +3,16 @@ namespace datasheetapi.Services;
 public class CommentService
 {
     private readonly ILogger<ContractService> _logger;
-    private readonly IDatasheetService _datasheetService;
+    private readonly ITagDataService _tagDataService;
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
 
-    public CommentService(ILoggerFactory loggerFactory, IDatasheetService datasheetService, ICommentRepository commentRepository,
+    public CommentService(ILoggerFactory loggerFactory, ITagDataService tagDataService, ICommentRepository commentRepository,
         IAzureUserCacheService azureUserCacheService, IFusionService fusionService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
-        _datasheetService = datasheetService;
+        _tagDataService = tagDataService;
         _commentRepository = commentRepository;
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
@@ -75,7 +75,7 @@ public class CommentService
 
     public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
     {
-        var tagData = await _datasheetService.GetDatasheetById(comment.TagDataId) ?? throw new Exception("Invalid tag");
+        var tagData = await _tagDataService.GetTagDataById(comment.TagDataId) ?? throw new Exception("Invalid tag");
         Comment? savedComment = null;
         comment.UserId = azureUniqueId;
 
