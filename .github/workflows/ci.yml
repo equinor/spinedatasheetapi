@@ -58,6 +58,16 @@ jobs:
           docker image pull ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}
           docker tag ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }} ${{ secrets.REGISTRY }}/datasheetapi:ci-release
           docker push ${{ secrets.REGISTRY }}/datasheetapi:ci-release
+      - name: "Tag Image with Env"
+        uses: equinor/iaf-actions/add-container-tags@main
+        with:
+            build-id: ${{ github.sha }}
+            environment-shortname: 'ci'
+            registry: ${{ secrets.ACR_ENDPOINT }}
+            registry-repository: 'datasheetapi'
+            tag: 'ci-deleteme-esf'
+            client-id: ${{ secrets.ACR_USERNAME }}
+            client-secret: ${{ secrets.ACR_PASSWORD }}
       - name: "Login to Azure"
         uses: azure/login@v1
         with:
