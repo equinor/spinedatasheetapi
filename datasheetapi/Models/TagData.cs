@@ -9,4 +9,5 @@ public class TagData : ITagData
     public string? Category { get; set; }
     public string? Area { get; set; }
     public string? Discipline { get; set; }
+    public List<Revision> Revisions { get; set; } = new List<Revision>();
 }

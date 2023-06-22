@@ -47,7 +47,7 @@ public class ReviewService
     public async Task<Review> CreateReview(Review review, Guid azureUniqueId)
     {
         _ = await _tagDataService.GetTagDataById(review.TagId) ?? throw new Exception("Invalid tag");
-        review.UserId = azureUniqueId;
+        review.ApproverId = azureUniqueId;
 
         Review? savedReview = await _reviewRepository.AddComment(review) ?? throw new Exception("Invalid comment");
         return savedReview;

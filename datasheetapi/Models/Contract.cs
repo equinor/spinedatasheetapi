@@ -2,5 +2,5 @@ namespace datasheetapi.Models;
 
 public class Contract
 {
-    public List<string>? Tags { get; set; }
+    public List<TagData>? Tags { get; set; }
 }

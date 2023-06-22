@@ -2,12 +2,13 @@ namespace datasheetapi.Models;
 
 public class Review : BaseEntity
 {
-    public ReviewStatusEnum Status { get; set; }
     public Guid TagId { get; set; }
     public Guid RevisionId { get; set; }
-    public Guid UserId { get; set; }
-    public bool Conflict { get; set; }
+    public ReviewStatusEnum Status { get; set; }
+    public Guid ApproverId { get; set; }
+    public Guid CommentResponsible { get; set; }
     public bool Approved { get; set; }
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
 
 public enum ReviewStatusEnum
