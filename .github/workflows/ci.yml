@@ -48,16 +48,6 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Log into registry
-        uses: docker/login-action@v2
-        with:
-          registry: ${{ secrets.ACR_ENDPOINT }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-      - run: |
-          docker image pull ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }}
-          docker tag ${{ secrets.REGISTRY }}/datasheetapi:${{ github.sha }} ${{ secrets.REGISTRY }}/datasheetapi:ci-release
-          docker push ${{ secrets.REGISTRY }}/datasheetapi:ci-release
       - name: "Tag Image with Env"
         uses: equinor/iaf-actions/add-container-tags@main
         with:
@@ -65,7 +55,7 @@ jobs:
             environment-shortname: 'ci'
             registry: ${{ secrets.ACR_ENDPOINT }}
             registry-repository: 'datasheetapi'
-            tag: 'ci-deleteme-esf'
+            tag: 'ci-release'
             client-id: ${{ secrets.ACR_USERNAME }}
             client-secret: ${{ secrets.ACR_PASSWORD }}
       - name: "Login to Azure"
