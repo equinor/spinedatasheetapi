@@ -97,6 +97,9 @@ public class TagDataService : ITagDataService
             Description = tagData.Description,
             Discipline = tagData.Discipline,
             ProjectId = tagData.ProjectId,
+            RevisionNumber = tagData.RevisionNumber,
+            Review = tagData.Review,
+            Package = tagData.Package,
         };
     }
 }

@@ -9,4 +9,7 @@ public class TagDataDto : ITagDataDto
     public string? Category { get; set; }
     public string? Area { get; set; }
     public string? Discipline { get; set; }
+    public int RevisionNumber { get; set; }
+    public Review? Review { get; set; }
+    public Package? Package { get; set; }
 }

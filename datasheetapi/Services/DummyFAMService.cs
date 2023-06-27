@@ -14,8 +14,19 @@ public class DummyFAMService : IDummyFAMService
 
     private static List<ITagData> InitializeTagData()
     {
+        var contract1 = new Contract()
+        {
+            Id = new Guid("a0a0a0a0-0a0a-0a0a-0a0a-0a0a0a0a0a0a"),
+            ContractName = "Contract 1",
+        };
 
-        var instrumentTagData1 = new InstrumentTagData
+        var package1 = new Package(contract1)
+        {
+            Id = new Guid("b3b0b2a0-0b1e-4e1e-9b9a-0b9b0b9b0b9b"),
+            Tags = new List<TagData>()
+        };
+
+        var instrumentTagData1 = new InstrumentTagData(package1)
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea41"),
             TagNo = "TAG-001",
@@ -23,6 +34,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "",
             Description = "Flow Transmitter Coriolis",
             Discipline = "Instrument",
+            RevisionNumber = 1,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -277,7 +289,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var instrumentTagData2 = new InstrumentTagData
+        var instrumentTagData2 = new InstrumentTagData(package1)
         {
 
             Id = new Guid("6e3c9243-2680-494c-842f-d8bda44cea41"),
@@ -286,6 +298,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "",
             Description = "Flow Transmitter Coriolis",
             Discipline = "Instrument",
+            RevisionNumber = 1,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -540,7 +553,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var instrumentTagData3 = new InstrumentTagData
+        var instrumentTagData3 = new InstrumentTagData(package1)
         {
             Id = new Guid("0db99855-f5e4-40dd-b4c3-da201ee89ff9"),
             ProjectId = default,
@@ -803,7 +816,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var instrumentTagData4 = new InstrumentTagData
+        var instrumentTagData4 = new InstrumentTagData(package1)
         {
             Id = new Guid("3db99855-f5e4-40ad-b4c3-da201ee89ff9"),
             ProjectId = default,
@@ -1066,7 +1079,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var instrumentTagData5 = new InstrumentTagData
+        var instrumentTagData5 = new InstrumentTagData(package1)
         {
             Id = new Guid("a1f235e4-3a32-4f21-8391-7ab27bc3cfdc"),
             ProjectId = default,
@@ -1329,7 +1342,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var instrumentTagData6 = new InstrumentTagData
+        var instrumentTagData6 = new InstrumentTagData(package1)
         {
             Id = new Guid("93bc3d53-6888-4d0e-8809-67715e00ecb0"),
             ProjectId = default,
@@ -1592,7 +1605,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var electricalTagData1 = new ElectricalTagData
+        var electricalTagData1 = new ElectricalTagData(package1)
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea88"),
             TagNo = "TAG-789",
@@ -1918,7 +1931,7 @@ public class DummyFAMService : IDummyFAMService
             },
         };
 
-        var mechanicalTagData1 = new MechanicalTagData
+        var mechanicalTagData1 = new MechanicalTagData(package1)
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea92"),
             TagNo = "TAG-201",
@@ -2644,6 +2657,10 @@ public class DummyFAMService : IDummyFAMService
             electricalTagData1,
             mechanicalTagData1,
         };
+
+        package1.Tags.Add(mechanicalTagData1);
+        package1.Tags.Add(electricalTagData1);
+        package1.Tags.Add(mechanicalTagData1);
 
         return tagDataList;
     }
