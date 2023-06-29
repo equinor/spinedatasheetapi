@@ -2,9 +2,8 @@ namespace datasheetapi.Models;
 
 public class TagData : BaseEntity, ITagData
 {
-    public TagData(Package package)
+    public TagData()
     {
-        Package = package;
     }
 
     public Guid ProjectId { get; set; }
@@ -13,7 +12,7 @@ public class TagData : BaseEntity, ITagData
     public string? Category { get; set; }
     public string? Area { get; set; }
     public string? Discipline { get; set; }
-    public int RevisionNumber { get; set; }
-    public Package Package { get; set; }
+    public int Version { get; set; }
+    public RevisionPackage? RevisionPackage { get; set; }
     public Review? Review { get; set; }
 }

@@ -2,7 +2,7 @@ namespace datasheetapi.Models;
 
 public class MechanicalTagData : TagData
 {
-    public MechanicalTagData(Package package) : base(package)
+    public MechanicalTagData() : base()
     {
     }
 

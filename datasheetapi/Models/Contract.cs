@@ -5,6 +5,6 @@ namespace datasheetapi.Models;
 public class Contract : BaseEntity
 {
     [JsonIgnore]
-    public List<Package> Packages { get; set; } = new List<Package>();
+    public List<RevisionPackage> Packages { get; set; } = new List<RevisionPackage>();
     public string ContractName { get; set; } = string.Empty;
 }

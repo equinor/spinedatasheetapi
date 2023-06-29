@@ -2,9 +2,9 @@ using System.Text.Json.Serialization;
 
 namespace datasheetapi.Models;
 
-public class Package : BaseEntity
+public class RevisionPackage : BaseEntity
 {
-    public Package(Contract contract)
+    public RevisionPackage(Contract contract)
     {
         Contract = contract;
         AddContractToPackage(contract);
@@ -16,6 +16,8 @@ public class Package : BaseEntity
     }
 
     [JsonIgnore]
-    public List<TagData>? Tags { get; set; }
+    public List<TagData> TagData { get; set; } = new List<TagData>();
     public Contract Contract { get; set; }
+    public string PackageName { get; set; } = string.Empty;
+    public int RevisionNumber { get; set; }
 }

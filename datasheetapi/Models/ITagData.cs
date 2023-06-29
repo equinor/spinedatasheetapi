@@ -9,8 +9,8 @@ namespace datasheetapi.Models
         string? Category { get; set; }
         string? Area { get; set; }
         string? Discipline { get; set; }
-        int RevisionNumber { get; set; }
-        Review Review { get; set; }
-        Package? Package { get; set; }
+        int Version { get; set; }
+        Review? Review { get; set; }
+        RevisionPackage? RevisionPackage { get; set; }
     }
 }

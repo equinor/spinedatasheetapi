@@ -9,8 +9,8 @@ namespace datasheetapi.Dtos
         string? Category { get; set; }
         string? Area { get; set; }
         string? Discipline { get; set; }
-        int RevisionNumber { get; set; }
+        int Version { get; set; }
         Review? Review { get; set; }
-        Package? Package { get; set; }
+        RevisionPackage? RevisionPackage { get; set; }
     }
 }
