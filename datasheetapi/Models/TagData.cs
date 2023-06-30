@@ -14,5 +14,5 @@ public class TagData : BaseEntity, ITagData
     public string? Discipline { get; set; }
     public int Version { get; set; }
     public RevisionPackage? RevisionPackage { get; set; }
-    public Review? Review { get; set; }
+    public TagDataReview? Review { get; set; }
 }

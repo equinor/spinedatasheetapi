@@ -1,6 +1,6 @@
 namespace datasheetapi.Services;
 
-public class DummyFAMService : IDummyFAMService
+public class DummyFAMService : IFAMService
 {
     private readonly ILogger<DummyFAMService> _logger;
 
@@ -20,27 +20,27 @@ public class DummyFAMService : IDummyFAMService
             ContractName = "Contract 1",
         };
 
-        var instrumentRevisionPackage1 = new RevisionPackage(contract1)
+        var packageA = new RevisionPackage(contract1)
         {
             Id = new Guid("a1a1a1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a"),
             RevisionNumber = 2,
-            PackageName = "Instrument package 1",
+            PackageName = "Package A",
             TagData = new List<TagData>()
         };
 
-        var electricalRevisionPackage1 = new RevisionPackage(contract1)
+        var packageB = new RevisionPackage(contract1)
         {
             Id = new Guid("b3b0b2a0-0b1e-4e1e-9b9a-0b9b0b9b0b9b"),
             RevisionNumber = 5,
-            PackageName = "Electrical package 1",
+            PackageName = "Package B",
             TagData = new List<TagData>()
         };
 
-        var mechanicalRevisionPackage1 = new RevisionPackage(contract1)
+        var packageC = new RevisionPackage(contract1)
         {
             Id = new Guid("c3c0c2a0-0c1e-4e1e-9c9a-0c9c0c9c0c9c"),
             RevisionNumber = 1,
-            PackageName = "Mechanical package 1",
+            PackageName = "Package C",
             TagData = new List<TagData>()
         };
 
@@ -53,7 +53,7 @@ public class DummyFAMService : IDummyFAMService
             Description = "Flow Transmitter Coriolis",
             Discipline = "Instrument",
             Version = 3,
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageA,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -318,7 +318,7 @@ public class DummyFAMService : IDummyFAMService
             Description = "Flow Transmitter Coriolis",
             Discipline = "Instrument",
             Version = 1,
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageA,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -582,7 +582,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "Category 2",
             Description = "Level Transmitter",
             Discipline = "Instrument",
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageB,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = null,
@@ -846,7 +846,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "Category 2",
             Description = "Pressure Transmitter",
             Discipline = "Instrument",
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageB,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = null,
@@ -1110,7 +1110,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "Category 2",
             Description = "Flow Transmitter Corolis",
             Discipline = "Instrument",
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageC,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -1374,7 +1374,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "Category 2",
             Description = "Flow Transmitter Corolis",
             Discipline = "Instrument",
-            RevisionPackage = instrumentRevisionPackage1,
+            RevisionPackage = packageC,
             InstrumentSupplierOfferedProduct = new()
             {
                 Manufacturer = "KROHNE",
@@ -1637,7 +1637,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "",
             Description = "LV motor - motor-converter fed",
             Discipline = "Electrical",
-            RevisionPackage = mechanicalRevisionPackage1,
+            RevisionPackage = packageC,
             ElectricalSupplierOfferedProduct = new()
             {
                 OrderStatus = "for enquiry",
@@ -1964,7 +1964,7 @@ public class DummyFAMService : IDummyFAMService
             Category = "",
             Description = "WELL CLEAN-UP PUMP",
             Discipline = "Mechanical",
-            RevisionPackage = electricalRevisionPackage1,
+            RevisionPackage = packageC,
             MechanicalPurchaserRequirement = new()
             {
                 ConformityAssesmentSystemLevel = "D",
@@ -2684,9 +2684,9 @@ public class DummyFAMService : IDummyFAMService
             mechanicalTagData1,
         };
 
-        instrumentRevisionPackage1.TagData.Add(mechanicalTagData1);
-        instrumentRevisionPackage1.TagData.Add(electricalTagData1);
-        instrumentRevisionPackage1.TagData.Add(mechanicalTagData1);
+        packageA.TagData.Add(mechanicalTagData1);
+        packageA.TagData.Add(electricalTagData1);
+        packageA.TagData.Add(mechanicalTagData1);
 
         return tagDataList;
     }

@@ -1,6 +1,6 @@
 namespace datasheetapi.Services;
 
-public class CommentService
+public class CommentService : ICommentService
 {
     private readonly ILogger<ContractService> _logger;
     private readonly ITagDataService _tagDataService;
@@ -75,7 +75,7 @@ public class CommentService
 
     public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
     {
-        var tagData = await _tagDataService.GetTagDataById(comment.TagDataId) ?? throw new Exception("Invalid tag");
+        var tagData = await _tagDataService.GetTagDataDtoById(comment.TagDataId) ?? throw new Exception("Invalid tag");
         Comment? savedComment = null;
         comment.UserId = azureUniqueId;
 

@@ -2,13 +2,13 @@ namespace datasheetapi.Services;
 
 public class TagDataService : ITagDataService
 {
-    private readonly IDummyFAMService _dummyFAMService;
-    public TagDataService(IDummyFAMService dummyFAMService)
+    private readonly IFAMService _dummyFAMService;
+    public TagDataService(IFAMService dummyFAMService)
     {
         _dummyFAMService = dummyFAMService;
     }
 
-    public async Task<ITagDataDto?> GetTagDataById(Guid id)
+    public async Task<ITagDataDto?> GetTagDataDtoById(Guid id)
     {
         var tagData = await _dummyFAMService.GetTagData(id);
 
@@ -20,7 +20,14 @@ public class TagDataService : ITagDataService
         return MapTagDataToTagDataDto(tagData);
     }
 
-    public async Task<List<ITagDataDto>> GetAllTagData()
+    public async Task<ITagData?> GetTagDataById(Guid id)
+    {
+        var tagData = await _dummyFAMService.GetTagData(id);
+
+        return tagData;
+    }
+
+    public async Task<List<ITagDataDto>> GetAllTagDataDtos()
     {
         var tagDataDtos = new List<ITagDataDto>();
         var allTagData = await _dummyFAMService.GetTagData();
@@ -32,7 +39,7 @@ public class TagDataService : ITagDataService
         return tagDataDtos;
     }
 
-    public async Task<List<ITagDataDto>> GetTagDataForProject(Guid id)
+    public async Task<List<ITagDataDto>> GetTagDataDtosForProject(Guid id)
     {
         var tagDataDtos = new List<ITagDataDto>();
         var tagDataForProject = await _dummyFAMService.GetTagDataForProject(id);

@@ -10,7 +10,7 @@ namespace datasheetapi.Dtos
         string? Area { get; set; }
         string? Discipline { get; set; }
         int Version { get; set; }
-        Review? Review { get; set; }
+        TagDataReview? Review { get; set; }
         RevisionPackage? RevisionPackage { get; set; }
     }
 }

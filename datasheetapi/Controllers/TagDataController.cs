@@ -16,7 +16,7 @@ public class TagDataController : ControllerBase
     {
         try
         {
-            var tagData = await _tagDataService.GetTagDataById(id);
+            var tagData = await _tagDataService.GetTagDataDtoById(id);
 
             if (tagData == null)
             {
@@ -36,7 +36,7 @@ public class TagDataController : ControllerBase
     {
         try
         {
-            var tagData = await _tagDataService.GetAllTagData();
+            var tagData = await _tagDataService.GetAllTagDataDtos();
 
             var tagDataDtos = tagData.Cast<object>().ToList();
 
@@ -53,7 +53,7 @@ public class TagDataController : ControllerBase
     {
         try
         {
-            var tagData = await _tagDataService.GetTagDataForProject(id);
+            var tagData = await _tagDataService.GetTagDataDtosForProject(id);
 
             var tagDataDtos = tagData.Cast<object>().ToList();
 

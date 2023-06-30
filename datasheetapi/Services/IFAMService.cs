@@ -1,6 +1,6 @@
 namespace datasheetapi.Services;
 
-public interface IDummyFAMService
+public interface IFAMService
 {
     Task<ITagData?> GetTagData(Guid id);
     Task<List<ITagData>> GetTagData();

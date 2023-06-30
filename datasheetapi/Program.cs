@@ -102,10 +102,12 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<IContractService, ContractService>();
-builder.Services.AddScoped<CommentService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<TagDataReviewService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
-builder.Services.AddScoped<IDummyFAMService, DummyFAMService>();
+builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
+builder.Services.AddSingleton<ITagDataReviewRepository, DummyTagDataReviewRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
