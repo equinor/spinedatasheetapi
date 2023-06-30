@@ -25,7 +25,8 @@ public class DummyFAMService : IFAMService
             Id = new Guid("a1a1a1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a"),
             RevisionNumber = 2,
             PackageName = "Package A",
-            TagData = new List<TagData>()
+            TagData = new List<TagData>(),
+            PackageDate = DateTimeOffset.Now.AddDays(-2)
         };
 
         var packageB = new RevisionPackage(contract1)
@@ -33,7 +34,8 @@ public class DummyFAMService : IFAMService
             Id = new Guid("b3b0b2a0-0b1e-4e1e-9b9a-0b9b0b9b0b9b"),
             RevisionNumber = 5,
             PackageName = "Package B",
-            TagData = new List<TagData>()
+            TagData = new List<TagData>(),
+            PackageDate = DateTimeOffset.Now.AddDays(-11)
         };
 
         var packageC = new RevisionPackage(contract1)
@@ -41,7 +43,8 @@ public class DummyFAMService : IFAMService
             Id = new Guid("c3c0c2a0-0c1e-4e1e-9c9a-0c9c0c9c0c9c"),
             RevisionNumber = 1,
             PackageName = "Package C",
-            TagData = new List<TagData>()
+            TagData = new List<TagData>(),
+            PackageDate = DateTimeOffset.Now.AddDays(-7)
         };
 
         var instrumentTagData1 = new InstrumentTagData()
