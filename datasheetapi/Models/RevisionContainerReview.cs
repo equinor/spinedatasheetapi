@@ -1,6 +1,6 @@
 namespace datasheetapi.Models;
 
-public class RevisionPackageReview : BaseEntity
+public class RevisionContainerReview : BaseEntity
 {
     public Guid TagId { get; set; }
     public Guid RevisionId { get; set; }

@@ -11,6 +11,6 @@ namespace datasheetapi.Models
         string? Discipline { get; set; }
         int Version { get; set; }
         TagDataReview? Review { get; set; }
-        RevisionPackage? RevisionPackage { get; set; }
+        RevisionContainer? RevisionContainer { get; set; }
     }
 }

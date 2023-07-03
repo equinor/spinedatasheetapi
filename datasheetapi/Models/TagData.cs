@@ -13,6 +13,6 @@ public class TagData : BaseEntity, ITagData
     public string? Area { get; set; }
     public string? Discipline { get; set; }
     public int Version { get; set; }
-    public RevisionPackage? RevisionPackage { get; set; }
+    public RevisionContainer? RevisionContainer { get; set; }
     public TagDataReview? Review { get; set; }
 }

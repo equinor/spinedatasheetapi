@@ -39,6 +39,13 @@ public class TagDataService : ITagDataService
         return tagDataDtos;
     }
 
+        public async Task<List<ITagData>> GetAllTagData()
+    {
+        var allTagData = await _dummyFAMService.GetTagData();
+
+        return allTagData;
+    }
+
     public async Task<List<ITagDataDto>> GetTagDataDtosForProject(Guid id)
     {
         var tagDataDtos = new List<ITagDataDto>();
@@ -106,7 +113,7 @@ public class TagDataService : ITagDataService
             ProjectId = tagData.ProjectId,
             Version = tagData.Version,
             Review = tagData.Review,
-            RevisionPackage = tagData.RevisionPackage,
+            RevisionContainer = tagData.RevisionContainer,
         };
     }
 }

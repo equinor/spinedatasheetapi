@@ -11,5 +11,5 @@ public class TagDataDto : ITagDataDto
     public string? Discipline { get; set; }
     public int Version { get; set; }
     public TagDataReview? Review { get; set; }
-    public RevisionPackage? RevisionPackage { get; set; }
+    public RevisionContainer? RevisionContainer { get; set; }
 }

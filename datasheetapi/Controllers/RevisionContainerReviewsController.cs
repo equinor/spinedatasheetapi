@@ -4,7 +4,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("tagdatareviews")]
+[Route("revisionreviews")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -12,41 +12,41 @@ namespace datasheetapi.Controllers;
     ApplicationRole.ReadOnlyUser,
     ApplicationRole.User
 )]
-public class TagDataReviewsController : ControllerBase
+public class RevisionContainerReviewsController : ControllerBase
 {
-    private readonly TagDataReviewService _reviewService;
+    private readonly RevisionContainerReviewService _reviewService;
 
-    public TagDataReviewsController(TagDataReviewService reviewService)
+    public RevisionContainerReviewsController(RevisionContainerReviewService reviewService)
     {
         _reviewService = reviewService;
     }
 
-    [HttpGet("{id}", Name = "GetReview")]
-    public async Task<ActionResult<TagDataReview?>> GetReview([FromQuery] Guid id)
+    [HttpGet("{id}", Name = "GetRevisionReview")]
+    public async Task<ActionResult<RevisionContainerReview?>> GetReview([FromQuery] Guid id)
     {
         return await _reviewService.GetTagDataReview(id);
     }
 
-    [HttpGet(Name = "GetReviews")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviews()
+    [HttpGet(Name = "GetRevisionReviews")]
+    public async Task<ActionResult<List<RevisionContainerReview>>> GetReviews()
     {
         return await _reviewService.GetTagDataReviews();
     }
 
-    [HttpGet("tag/{id}", Name = "GetReviewsForTag")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviewsForTag(Guid id)
+    [HttpGet("tag/{id}", Name = "GetRevisionReviewsForTag")]
+    public async Task<ActionResult<List<RevisionContainerReview>>> GetReviewsForTag(Guid id)
     {
         return await _reviewService.GetReviewsForTag(id);
     }
 
-    [HttpGet("project/{id}", Name = "GetReviewsForProject")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviewsForProject([FromQuery] Guid id)
+    [HttpGet("project/{id}", Name = "GetRevisionReviewsForProject")]
+    public async Task<ActionResult<List<RevisionContainerReview>>> GetReviewsForProject([FromQuery] Guid id)
     {
         return await _reviewService.GetTagDataReviewsForProject(id);
     }
 
-    [HttpPost(Name = "CreateReview")]
-    public async Task<ActionResult<TagDataReview>> CreateReview([FromBody] TagDataReview review)
+    [HttpPost(Name = "CreateRevisionReview")]
+    public async Task<ActionResult<RevisionContainerReview>> CreateReview([FromBody] RevisionContainerReview review)
     {
         var httpContext = HttpContext;
         var user = httpContext.User;
