@@ -56,7 +56,7 @@ public class InstrumentSupplierOfferedProduct
     public double? LowerRangeLimit { get; set; }
     public double? UpperRangeLimit { get; set; }
     public string? Accuracy { get; set; }
-    public double? Repeatability { get; set; }
+    public string? Repeatability { get; set; }
     public double? StepResponse { get; set; }
     public double? LongTermDrift { get; set; }
     public string? LongTermStability { get; set; }
@@ -100,8 +100,8 @@ public class InstrumentSupplierOfferedProduct
     public bool? ProcessVacuumPossibility { get; set; }
     public string? ProcessFluidVapourPressure { get; set; }
     public int? MinimumOperatingVolumetricFlow { get; set; }
-    public int? MinimumOperatingVelocity { get; set; }
-    public int? MinimumOperatingTemperature { get; set; }
+    public double? MinimumOperatingVelocity { get; set; }
+    public string? MinimumOperatingTemperature { get; set; }
     public int? MinimumOperatingPressure { get; set; }
     public int? NormalOperatingVolumetricFlow { get; set; }
     public double? NormalOperatingVelocity { get; set; }
@@ -125,4 +125,67 @@ public class InstrumentSupplierOfferedProduct
     public string? CoriolisOuterCasingBurstPressure { get; set; }
     public string? RuptureDiscBurstPressure { get; set; }
     public string? ProcessSecondaryContainment { get; set; }
+    public string? PipeClassSheet { get; set; }
+    public string? SetAlarmPoint { get; set; }
+    public string? PONumber { get; set; }
+    public string? Type { get; set; }
+    public string? OperatingTemperatureLimits { get; set; }
+    public string? OperatingPressureLimit { get; set; }
+    public string? PressureLossAtFullRange { get; set; }
+    public string? Mounting { get; set; }
+    public double? Weight { get; set; }
+    public string? CalibratedRange { get; set; }
+    public string? Characteristics { get; set; }
+    public string? Linearity { get; set; }
+    public string? MinMaxRangeLimit { get; set; }
+    public double? BodyNominalSize { get; set; }
+    public string? ProcessConnectionSizeType { get; set; }
+    public double? PressureRating { get; set; }
+    public double? FaceToFaceDimension { get; set; }
+    public double? NumberOfTubeRuns { get; set; }
+    public double? TubeInnerDiameter { get; set; }
+    public string? MaterialTube { get; set; }
+    public string? MaterialFlangeConnection { get; set; }
+    public string? MaterialTubeCover { get; set; }
+    public string? BodyEnclosureProtection { get; set; }
+    public string? BodyProtectiveCoatingColor { get; set; }
+    public string? TransmitterCableConnection { get; set; }
+    public string? TransmitterDimension { get; set; }
+    public string? TransmitterEnclosureProtection { get; set; }
+    public string? TransmitterExClassification { get; set; }
+    public string? TransmitterProtectiveCoating { get; set; }
+    public string? TransmitterConsumption { get; set; }
+    public string? TransmitterLoadLimitation { get; set; }
+    public string? TransmitterFlowRange { get; set; }
+    public double? LineNominalSize { get; set; }
+    public double? LineInnerDiameter { get; set; }
+    public string? LineMaterial { get; set; }
+    public string? FlangeStandardOrCode { get; set; }
+    public double? FlangeSize { get; set; }
+    public string? FlangePressureClass { get; set; }
+    public string? FlangeFacing { get; set; }
+    public string? PipingDesignTemperature { get; set; }
+    public string? PipingDesignPressure { get; set; }
+    public string? Fluid { get; set; }
+    public string? Phase { get; set; }
+    public string? CorrosiveCompounds { get; set; }
+    public double? MaximumPressureLoss { get; set; }
+    public double? MinimumFlowRate { get; set; }
+    public double? MinimumInletPressure { get; set; }
+    public string? MinimumDensityAtTAndP { get; set; }
+    public string? MinimumViscosityAtT { get; set; }
+    public string? MinimumOperatingVapourMolecularWeight { get; set; }
+    public string? MinimumVapourCompressFactor { get; set; }
+    public string? MinimumVapourSpecificHeatRatio { get; set; }
+    public double? MaximumFlowRate { get; set; }
+    public double? MaximumInletPressure { get; set; }
+    public string? MaximumDensityAtTAndP { get; set; }
+    public string? MaximumViscosityAtT { get; set; }
+    public string? MaximumVapourCompressFactor { get; set; }
+    public string? MaximumVapourSpecificHeatRatio { get; set; }
+    public string? MaxDistanceMeterTrans { get; set; }
+    public string? TransmitterIndicator { get; set; }
+    public string? TransmitterOutputSignal { get; set; }
+    public string? LineEquipmentNumber { get; set; }
+    public string? PAndID { get; set; }
 }
