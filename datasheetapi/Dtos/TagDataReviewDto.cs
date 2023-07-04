@@ -3,7 +3,6 @@ namespace datasheetapi.Dtos;
 public record TagDataReviewDto
 {
     public Guid TagId { get; set; }
-    public Guid RevisionId { get; set; }
     public ReviewStatusEnum Status { get; set; }
     public Guid ApproverId { get; set; }
     public Guid CommentResponsible { get; set; }

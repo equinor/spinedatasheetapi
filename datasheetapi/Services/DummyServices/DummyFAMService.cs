@@ -20,37 +20,41 @@ public class DummyFAMService : IFAMService
             Contracts = new List<Contract>()
         };
 
-        var contract1 = new Contract(project1)
+        var contract1 = new Contract()
         {
             Id = new Guid("a0a0a0a0-0a0a-0a0a-0a0a-0a0a0a0a0a0a"),
             ContractName = "Contract 1",
+            Project = project1,
         };
 
-        var revisionContainerA = new RevisionContainer(contract1)
+        var revisionContainerA = new RevisionContainer()
         {
             Id = new Guid("a1a1a1a1-1a1a-1a1a-1a1a-1a1a1a1a1a1a"),
             RevisionNumber = 2,
             RevisionContainerName = "Container A",
             TagData = new List<TagData>(),
-            RevisionContainerDate = DateTimeOffset.Now.AddDays(-2)
+            RevisionContainerDate = DateTimeOffset.Now.AddDays(-2),
+            Contract = contract1
         };
 
-        var revisionContainerB = new RevisionContainer(contract1)
+        var revisionContainerB = new RevisionContainer()
         {
             Id = new Guid("b3b0b2a0-0b1e-4e1e-9b9a-0b9b0b9b0b9b"),
             RevisionNumber = 5,
             RevisionContainerName = "Container B",
             TagData = new List<TagData>(),
-            RevisionContainerDate = DateTimeOffset.Now.AddDays(-11)
+            RevisionContainerDate = DateTimeOffset.Now.AddDays(-11),
+            Contract = contract1
         };
 
-        var revisionContainerC = new RevisionContainer(contract1)
+        var revisionContainerC = new RevisionContainer()
         {
             Id = new Guid("c3c0c2a0-0c1e-4e1e-9c9a-0c9c0c9c0c9c"),
             RevisionNumber = 1,
             RevisionContainerName = "Container C",
             TagData = new List<TagData>(),
-            RevisionContainerDate = DateTimeOffset.Now.AddDays(-7)
+            RevisionContainerDate = DateTimeOffset.Now.AddDays(-7),
+            Contract = contract1
         };
 
         var instrumentTagData1 = new InstrumentTagData()
