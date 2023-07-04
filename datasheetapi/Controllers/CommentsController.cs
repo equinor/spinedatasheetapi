@@ -17,28 +17,64 @@ namespace datasheetapi.Controllers;
 public class CommentsController : ControllerBase
 {
     private readonly CommentService _commentService;
+    private readonly ILogger<CommentsController> _logger;
 
-    public CommentsController(CommentService commentService)
+    public CommentsController(ILoggerFactory loggerFactory, CommentService commentService)
     {
+        _logger = loggerFactory.CreateLogger<CommentsController>();
         _commentService = commentService;
     }
 
     [HttpGet("{id}", Name = "GetComment")]
-    public async Task<ActionResult<Comment?>> GetComment([FromQuery] Guid id)
+    public async Task<ActionResult<Comment>> GetComment([FromQuery] Guid id)
     {
-        return await _commentService.GetComment(id);
+        if (id == Guid.Empty)
+        {
+            return BadRequest();
+        }
+        
+        try
+        {
+            var comment = await _commentService.GetComment(id);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            return Ok(comment);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting comment with id {id}", id);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet(Name = "GetComments")]
     public async Task<ActionResult<List<Comment>>> GetComments()
     {
-        return await _commentService.GetComments();
+        try
+        {
+            return await _commentService.GetComments();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting all comments");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpGet("tag/{id}", Name = "GetCommentsForTag")]
     public async Task<ActionResult<List<Comment>>> GetCommentsForTag(Guid id)
     {
-        return await _commentService.GetCommentsForTag(id);
+        try
+        {
+            return await _commentService.GetCommentsForTag(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting comments for tag with id {id}", id);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 
     [HttpPost(Name = "CreateComment")]
@@ -48,6 +84,18 @@ public class CommentsController : ControllerBase
         var user = httpContext.User;
         var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
         var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-        return await _commentService.CreateComment(comment, azureUniqueId);
+
+        if (comment == null) { return BadRequest("Comment cannot be null"); }
+        if (comment.Text == null) { return BadRequest("Comment text cannot be null"); }
+
+        try
+        {
+            return await _commentService.CreateComment(comment, azureUniqueId);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating comment", comment);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }

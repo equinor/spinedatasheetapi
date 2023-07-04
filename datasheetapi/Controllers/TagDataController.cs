@@ -4,10 +4,12 @@ namespace datasheetapi.Controllers;
 [Route("tagdata")]
 public class TagDataController : ControllerBase
 {
+    private readonly ILogger<TagDataController> _logger;
     private readonly ITagDataService _tagDataService;
 
-    public TagDataController(ITagDataService tagDataService)
+    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService)
     {
+        _logger = loggerFactory.CreateLogger<TagDataController>();
         _tagDataService = tagDataService;
     }
 
@@ -25,14 +27,15 @@ public class TagDataController : ControllerBase
 
             return Ok(tagData);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting tagdata for id {id}", id);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet(Name = "GetAllTagData")]
-    public async Task<ActionResult<List<object>>> GetAllTagData()
+    public async Task<ActionResult> GetAllTagData()
     {
         try
         {
@@ -42,8 +45,9 @@ public class TagDataController : ControllerBase
 
             return Ok(tagDataDtos);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting all tagdata");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -59,8 +63,9 @@ public class TagDataController : ControllerBase
 
             return Ok(tagDataDtos);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting tagdata for project {id}", id);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
