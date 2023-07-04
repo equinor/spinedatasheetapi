@@ -1,8 +1,8 @@
-namespace datasheetapi.Services;
+namespace datasheetapi.Repositories;
 
 public class DummyCommentRepository : ICommentRepository
 {
-    private List<Comment> _comments = new();
+    private readonly List<Comment> _comments = new();
     private readonly ILogger<ContractService> _logger;
 
     public DummyCommentRepository(ILoggerFactory loggerFactory)

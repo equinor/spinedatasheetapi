@@ -22,7 +22,7 @@ public class ContractsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetContract")]
-    public async Task<ActionResult<Contract>> GetContract([FromQuery] Guid id)
+    public async Task<ActionResult<Contract?>> GetContract([FromQuery] Guid id)
     {
         return await _contractService.GetContract(id);
     }

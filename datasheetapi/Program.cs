@@ -1,3 +1,5 @@
+using datasheetapi.Repositories;
+
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -106,9 +108,12 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<TagDataReviewService>();
 builder.Services.AddScoped<RevisionContainerReviewService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
+
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
+builder.Services.AddSingleton<IContractRepository, DummyContractRepository>();
 builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
 builder.Services.AddSingleton<ITagDataReviewRepository, DummyTagDataReviewRepository>();
+builder.Services.AddSingleton<IRevisionContainerRepository, DummyRevisionContainerRepository>();
 builder.Services.AddSingleton<IRevisionContainerReviewRepository, DummyRevisionContainerReviewRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();

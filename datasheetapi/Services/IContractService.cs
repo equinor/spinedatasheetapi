@@ -2,7 +2,8 @@ namespace api.Services;
 
 public interface IContractService
 {
-    Task<Contract> GetContract(Guid id);
+    Task<Contract?> GetContract(Guid id);
     Task<List<Contract>> GetContracts();
     Task<List<Contract>> GetContractsForContractor(Guid contractorId);
+    Task<List<Contract>> GetContractsForProject(Guid projectId);
 }

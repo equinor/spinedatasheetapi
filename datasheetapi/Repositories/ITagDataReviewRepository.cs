@@ -1,4 +1,4 @@
-namespace datasheetapi.Services;
+namespace datasheetapi.Repositories;
 
 public interface ITagDataReviewRepository
 {

@@ -1,3 +1,5 @@
+using datasheetapi.Repositories;
+
 namespace datasheetapi.Services;
 
 public class CommentService : ICommentService
@@ -21,40 +23,40 @@ public class CommentService : ICommentService
     public async Task<Comment?> GetComment(Guid id)
     {
         var comment = await _commentRepository.GetComment(id);
-        await AddUserNameToCommentAsync(comment);
+        await AddUserNameToComment(comment);
         return comment;
     }
 
     public async Task<List<Comment>> GetComments()
     {
         var comments = await _commentRepository.GetComments();
-        await AddUserNameToCommentsAsync(comments);
+        await AddUserNameToComments(comments);
         return comments;
     }
 
     public async Task<List<Comment>> GetCommentsForTag(Guid tagId)
     {
         var comments = await _commentRepository.GetCommentsForTag(tagId);
-        await AddUserNameToCommentsAsync(comments);
+        await AddUserNameToComments(comments);
         return comments;
     }
 
     public async Task<List<Comment>> GetCommentsForTags(List<Guid> tagIds)
     {
         var comments = await _commentRepository.GetCommentsForTags(tagIds);
-        await AddUserNameToCommentsAsync(comments);
+        await AddUserNameToComments(comments);
         return comments;
     }
 
-    private async Task AddUserNameToCommentsAsync(List<Comment> comments)
+    private async Task AddUserNameToComments(List<Comment> comments)
     {
         foreach (var comment in comments)
         {
-            await AddUserNameToCommentAsync(comment);
+            await AddUserNameToComment(comment);
         }
     }
 
-    private async Task AddUserNameToCommentAsync(Comment? comment)
+    private async Task AddUserNameToComment(Comment? comment)
     {
         if (comment == null) { return; }
         var azureUser = _azureUserCacheService.GetAzureUserAsync(comment.UserId);

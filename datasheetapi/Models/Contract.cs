@@ -7,4 +7,6 @@ public class Contract : BaseEntity
     [JsonIgnore]
     public List<RevisionContainer> RevisionContainers { get; set; } = new List<RevisionContainer>();
     public string ContractName { get; set; } = string.Empty;
+    public Guid ContractorId { get; set; }
+    public Guid ProjectId { get; set; }
 }
