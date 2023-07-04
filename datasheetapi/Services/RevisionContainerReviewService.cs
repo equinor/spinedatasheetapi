@@ -36,13 +36,13 @@ public class RevisionContainerReviewService
 
     public async Task<List<RevisionContainerReview>> GetReviewsForTag(Guid tagId)
     {
-        var comments = await _reviewRepository.GetTagDataReviewsForTag(tagId);
+        var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
         return comments;
     }
 
     public async Task<List<RevisionContainerReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
     {
-        var comments = await _reviewRepository.GetTagDataReviewsForTags(tagIds);
+        var comments = await _reviewRepository.GetRevisionContainerReviewsForRevisions(tagIds);
         return comments;
     }
 
@@ -51,7 +51,7 @@ public class RevisionContainerReviewService
         review.ApproverId = azureUniqueId;
 
         var tagData = await _tagDataService.GetAllTagData();
-        var revisionContainer = tagData.FirstOrDefault(td => td.RevisionContainer?.Id == review.RevisionId)?.RevisionContainer ?? throw new Exception("Invalid revision");
+        var revisionContainer = tagData.FirstOrDefault(td => td.RevisionContainer?.Id == review.RevisionContainerId)?.RevisionContainer ?? throw new Exception("Invalid revision");
 
         revisionContainer.RevisionContainerReview = review;
 

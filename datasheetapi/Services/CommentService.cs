@@ -6,18 +6,27 @@ public class CommentService : ICommentService
 {
     private readonly ILogger<ContractService> _logger;
     private readonly ITagDataService _tagDataService;
+    private readonly TagDataReviewService _tagDataReviewService;
+    private readonly RevisionContainerReviewService _revisionContainerReviewService;
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
 
-    public CommentService(ILoggerFactory loggerFactory, ITagDataService tagDataService, ICommentRepository commentRepository,
-        IAzureUserCacheService azureUserCacheService, IFusionService fusionService)
+    public CommentService(ILoggerFactory loggerFactory,
+        ITagDataService tagDataService,
+        ICommentRepository commentRepository,
+        IAzureUserCacheService azureUserCacheService,
+        IFusionService fusionService,
+        TagDataReviewService tagDataReviewService,
+        RevisionContainerReviewService revisionContainerReviewService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _tagDataService = tagDataService;
         _commentRepository = commentRepository;
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
+        _tagDataReviewService = tagDataReviewService;
+        _revisionContainerReviewService = revisionContainerReviewService;
     }
 
     public async Task<Comment?> GetComment(Guid id)
@@ -34,16 +43,16 @@ public class CommentService : ICommentService
         return comments;
     }
 
-    public async Task<List<Comment>> GetCommentsForTag(Guid tagId)
+    public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
     {
-        var comments = await _commentRepository.GetCommentsForTag(tagId);
+        var comments = await _commentRepository.GetCommentsForTagReview(tagId);
         await AddUserNameToComments(comments);
         return comments;
     }
 
-    public async Task<List<Comment>> GetCommentsForTags(List<Guid> tagIds)
+    public async Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds)
     {
-        var comments = await _commentRepository.GetCommentsForTags(tagIds);
+        var comments = await _commentRepository.GetCommentsForTagReviews(tagIds);
         await AddUserNameToComments(comments);
         return comments;
     }
@@ -75,9 +84,28 @@ public class CommentService : ICommentService
         }
     }
 
-    public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
+    public async Task<Comment> CreateTagDataReviewComment(Comment comment, Guid azureUniqueId)
     {
-        var tagData = await _tagDataService.GetTagDataDtoById(comment.TagDataId) ?? throw new Exception("Invalid tag");
+        if (comment.TagDataReviewId == null || comment.TagDataReviewId == Guid.Empty) { throw new Exception("Invalid tag data review id"); }
+        var tagDataReview = await _tagDataReviewService.GetTagDataReview((Guid)comment.TagDataReviewId) ?? throw new Exception("Invalid tag data review");
+
+        comment.SetTagDataReview(tagDataReview);
+
+        return await CreateComment(comment, azureUniqueId);
+    }
+
+    public async Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId)
+    {
+        if (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty) { throw new Exception("Invalid revision container review id"); }
+        var revisionContainerReview = await _revisionContainerReviewService.GetTagDataReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
+
+        comment.SetRevisionContainerReview(revisionContainerReview);
+
+        return await CreateComment(comment, azureUniqueId);
+    }
+
+    private async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
+    {
         Comment? savedComment = null;
         comment.UserId = azureUniqueId;
 

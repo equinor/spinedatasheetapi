@@ -1,6 +1,6 @@
 namespace datasheetapi.Dtos;
 
-public class TagDataDto : ITagDataDto
+public record TagDataDto : ITagDataDto
 {
     public Guid Id { get; set; }
     public Guid ProjectId { get; set; }
@@ -10,6 +10,6 @@ public class TagDataDto : ITagDataDto
     public string? Area { get; set; }
     public string? Discipline { get; set; }
     public int Version { get; set; }
-    public TagDataReview? Review { get; set; }
+    public TagDataReviewDto? Review { get; set; }
     public RevisionContainer? RevisionContainer { get; set; }
 }

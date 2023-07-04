@@ -20,14 +20,14 @@ public class DummyRevisionContainerReviewRepository : IRevisionContainerReviewRe
         return await Task.Run(() => _reviews);
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviewsForTag(Guid tagId)
+    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewForRevision(Guid id)
     {
-        return await Task.Run(() => _reviews.Where(c => c.TagId == tagId).ToList());
+        return await Task.Run(() => _reviews.Where(c => c.RevisionContainerId == id).ToList());
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
+    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForRevisions(List<Guid> tagIds)
     {
-        return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.TagId)).ToList());
+        return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.RevisionContainerId)).ToList());
     }
 
 

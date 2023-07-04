@@ -22,12 +22,12 @@ public class DummyTagDataReviewRepository : ITagDataReviewRepository
 
     public async Task<List<TagDataReview>> GetTagDataReviewsForTag(Guid tagId)
     {
-        return await Task.Run(() => _reviews.Where(c => c.TagId == tagId).ToList());
+        return await Task.Run(() => _reviews.Where(c => c.TagDataId == tagId).ToList());
     }
 
     public async Task<List<TagDataReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
     {
-        return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.TagId)).ToList());
+        return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.TagDataId)).ToList());
     }
 
 

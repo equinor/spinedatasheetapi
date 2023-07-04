@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 using datasheetapi.Repositories;
 
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
@@ -38,7 +40,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddEndpointsApiExplorer();
 
 // Set up CORS

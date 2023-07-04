@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace datasheetapi.Models;
 
 public class RevisionContainer : BaseEntity
@@ -15,12 +13,13 @@ public class RevisionContainer : BaseEntity
         contract.RevisionContainers.Add(this);
     }
 
-    [JsonIgnore]
+    public string RevisionContainerName { get; set; } = string.Empty;
+    public int RevisionNumber { get; set; }
+    public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
+
+    // Relationships
     public List<TagData> TagData { get; set; } = new List<TagData>();
     public RevisionContainerReview? RevisionContainerReview { get; set; }
-    public Contract Contract { get; set; }
     public Guid ContractId { get; set; }
-    public string RevisionContainerName { get; set; } = string.Empty;
-    public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
-    public int RevisionNumber { get; set; }
+    public Contract Contract { get; set; }
 }

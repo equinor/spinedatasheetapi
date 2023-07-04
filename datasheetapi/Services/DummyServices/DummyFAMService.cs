@@ -14,7 +14,13 @@ public class DummyFAMService : IFAMService
 
     private static List<ITagData> InitializeTagData()
     {
-        var contract1 = new Contract()
+        var project1 = new Project()
+        {
+            Id = new Guid("a0a0a0a0-0a0a-0a0a-0a0a-0a0a0a0a0a0a"),
+            Contracts = new List<Contract>()
+        };
+
+        var contract1 = new Contract(project1)
         {
             Id = new Guid("a0a0a0a0-0a0a-0a0a-0a0a-0a0a0a0a0a0a"),
             ContractName = "Contract 1",
@@ -579,7 +585,7 @@ public class DummyFAMService : IFAMService
         var instrumentTagData3 = new InstrumentTagData()
         {
             Id = new Guid("0db99855-f5e4-40dd-b4c3-da201ee89ff9"),
-            ProjectId = default,
+            // ProjectId = default,
             TagNo = "TAG-456",
             Area = "Area 1",
             Category = "Category 2",
@@ -843,7 +849,7 @@ public class DummyFAMService : IFAMService
         var instrumentTagData4 = new InstrumentTagData()
         {
             Id = new Guid("3db99855-f5e4-40ad-b4c3-da201ee89ff9"),
-            ProjectId = default,
+            // ProjectId = default,
             TagNo = "TAG-998",
             Area = "Area 1",
             Category = "Category 2",
@@ -1107,7 +1113,7 @@ public class DummyFAMService : IFAMService
         var instrumentTagData5 = new InstrumentTagData()
         {
             Id = new Guid("a1f235e4-3a32-4f21-8391-7ab27bc3cfdc"),
-            ProjectId = default,
+            // ProjectId = default,
             TagNo = "TAG-333",
             Area = "Area 1",
             Category = "Category 2",
@@ -1371,7 +1377,7 @@ public class DummyFAMService : IFAMService
         var instrumentTagData6 = new InstrumentTagData()
         {
             Id = new Guid("93bc3d53-6888-4d0e-8809-67715e00ecb0"),
-            ProjectId = default,
+            // ProjectId = default,
             TagNo = "TAG-444",
             Area = "Area 1",
             Category = "Category 2",

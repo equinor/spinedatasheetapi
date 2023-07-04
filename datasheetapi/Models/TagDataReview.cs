@@ -2,13 +2,27 @@ namespace datasheetapi.Models;
 
 public class TagDataReview : BaseEntity
 {
-    public Guid TagId { get; set; }
-    public Guid RevisionId { get; set; }
+    public TagDataReview(TagData tagData)
+    {
+        TagDataId = tagData.Id;
+        TagData = tagData;
+        AddTagDataReviewToTagData(tagData);
+    }
+
+    private void AddTagDataReviewToTagData(TagData tagData) {
+        tagData.TagDataReview = this;
+        tagData.TagDataReviewId = Id;
+    }
+
     public ReviewStatusEnum Status { get; set; }
     public Guid ApproverId { get; set; }
     public Guid CommentResponsible { get; set; }
     public bool Approved { get; set; }
-    public bool TagDataVersion { get; init; }
+    public int TagDataVersion { get; init; }
+
+    // Relationships
+    public Guid TagDataId { get; set; }
+    public TagData TagData { get; set; }
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }
 

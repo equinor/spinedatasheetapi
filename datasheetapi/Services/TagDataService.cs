@@ -110,9 +110,9 @@ public class TagDataService : ITagDataService
             Category = tagData.Category,
             Description = tagData.Description,
             Discipline = tagData.Discipline,
-            ProjectId = tagData.ProjectId,
+            // ProjectId = tagData.ProjectId,
             Version = tagData.Version,
-            Review = tagData.Review,
+            Review = TagDataReviewDto.MapTagDataReviewToTagDataReviewDto(tagData.TagDataReview),
             RevisionContainer = tagData.RevisionContainer,
         };
     }
