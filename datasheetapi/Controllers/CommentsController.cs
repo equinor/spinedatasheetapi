@@ -127,48 +127,4 @@ public class CommentsController : ControllerBase
         RevisionContainerReview,
         Invalid
     }
-
-    // [HttpPost(Name = "CreateTagDataReviewComment")]
-    // public async Task<ActionResult<Comment>> CreateTagDataReviewComment([FromBody] Comment comment)
-    // {
-    //     var httpContext = HttpContext;
-    //     var user = httpContext.User;
-    //     var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-    //     var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-
-    //     if (comment == null) { return BadRequest("Comment cannot be null"); }
-    //     if (comment.Text == null) { return BadRequest("Comment text cannot be null"); }
-
-    //     try
-    //     {
-    //         return await _commentService.CreateTagDataReviewComment(comment, azureUniqueId);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.LogError(ex, "Error creating comment", comment);
-    //         return StatusCode(StatusCodes.Status500InternalServerError);
-    //     }
-    // }
-
-    // [HttpPost(Name = "CreateRevisionContainerReviewComment")]
-    // public async Task<ActionResult<Comment>> CreateRevisionContainerReviewComment([FromBody] Comment comment)
-    // {
-    //     var httpContext = HttpContext;
-    //     var user = httpContext.User;
-    //     var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-    //     var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-
-    //     if (comment == null) { return BadRequest("Comment cannot be null"); }
-    //     if (comment.Text == null) { return BadRequest("Comment text cannot be null"); }
-
-    //     try
-    //     {
-    //         return await _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId);
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         _logger.LogError(ex, "Error creating comment", comment);
-    //         return StatusCode(StatusCodes.Status500InternalServerError);
-    //     }
-    // }
 }

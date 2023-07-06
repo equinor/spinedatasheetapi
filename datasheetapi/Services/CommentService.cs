@@ -32,6 +32,7 @@ public class CommentService : ICommentService
     public async Task<Comment?> GetComment(Guid id)
     {
         var comment = await _commentRepository.GetComment(id);
+        if (comment == null) { return null; }
         await AddUserNameToComment(comment);
         return comment;
     }
@@ -65,9 +66,8 @@ public class CommentService : ICommentService
         }
     }
 
-    private async Task AddUserNameToComment(Comment? comment)
+    private async Task AddUserNameToComment(Comment comment)
     {
-        if (comment == null) { return; }
         var azureUser = _azureUserCacheService.GetAzureUserAsync(comment.UserId);
         if (azureUser == null)
         {
