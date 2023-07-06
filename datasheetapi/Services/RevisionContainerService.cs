@@ -20,7 +20,7 @@ public class RevisionContainerService
     }
 
     public async Task<List<RevisionContainer>> GetRevisionContainers()
-    { 
+    {
         var revisionContainer = await _revisionContainerRepository.GetRevisionContainers();
         return revisionContainer;
     }

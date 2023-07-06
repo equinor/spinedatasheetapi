@@ -39,7 +39,7 @@ public class TagDataService : ITagDataService
         return tagDataDtos;
     }
 
-        public async Task<List<ITagData>> GetAllTagData()
+    public async Task<List<ITagData>> GetAllTagData()
     {
         var allTagData = await _dummyFAMService.GetTagData();
 

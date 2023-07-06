@@ -7,7 +7,7 @@ public class ContractService : IContractService
     private readonly ILogger<ContractService> _logger;
     private readonly IContractRepository _contractRepository;
 
-    public ContractService(ILoggerFactory loggerFactory, 
+    public ContractService(ILoggerFactory loggerFactory,
         IContractRepository contractRepository)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();

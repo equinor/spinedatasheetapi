@@ -25,7 +25,7 @@ public class DummyContractRepository : IContractRepository
         return await Task.Run(() => _contracts.Where(c => c.ContractorId == contractorId).ToList());
     }
 
-        public async Task<List<Contract>> GetContractForProject(Guid projectId)
+    public async Task<List<Contract>> GetContractForProject(Guid projectId)
     {
         return await Task.Run(() => _contracts.Where(c => c.ProjectId == projectId).ToList());
     }

@@ -24,7 +24,7 @@ public class RevisionContainerReviewService
     }
 
     public async Task<List<RevisionContainerReview>> GetTagDataReviews()
-    { 
+    {
         var reviews = await _reviewRepository.GetTagDataReviews();
         return reviews;
     }

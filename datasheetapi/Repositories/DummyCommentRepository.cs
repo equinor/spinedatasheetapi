@@ -25,7 +25,7 @@ public class DummyCommentRepository : ICommentRepository
         return await Task.Run(() => _comments.Where(c => c.TagDataReviewId == tagId).ToList());
     }
 
-        public async Task<List<Comment>> GetCommentsForRevisionContainerReview(Guid tagId)
+    public async Task<List<Comment>> GetCommentsForRevisionContainerReview(Guid tagId)
     {
         return await Task.Run(() => _comments.Where(c => c.RevisionContainerReviewId == tagId).ToList());
     }
@@ -35,7 +35,7 @@ public class DummyCommentRepository : ICommentRepository
         return await Task.Run(() => _comments.Where(c => tagIds.Contains(c.TagDataReviewId)).ToList());
     }
 
-        public async Task<List<Comment>> GetCommentsForRevisionContainerReviews(List<Guid?> tagIds)
+    public async Task<List<Comment>> GetCommentsForRevisionContainerReviews(List<Guid?> tagIds)
     {
         return await Task.Run(() => _comments.Where(c => tagIds.Contains(c.RevisionContainerReviewId)).ToList());
     }
