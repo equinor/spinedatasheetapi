@@ -7,15 +7,16 @@ public class DummyProjectRepository : IProjectRepository
     public DummyProjectRepository(ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory.CreateLogger<DummyProjectRepository>();
+        _projects = DummyData.GetProjects();
     }
 
     public Task<Project?> GetProject(Guid id)
     {
-        return Task.FromResult<Project?>(null);
+        return Task.Run(() => _projects.Find(p => p.Id == id));
     }
 
     public Task<List<Project>> GetProjects()
     {
-        return Task.FromResult(new List<Project>());
+        return Task.Run(() => _projects);
     }
 }

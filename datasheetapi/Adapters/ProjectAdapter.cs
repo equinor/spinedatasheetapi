@@ -14,7 +14,6 @@ public static class ProjectAdapter
             Id = project.Id,
             CreatedDate = project.CreatedDate,
             ModifiedDate = project.ModifiedDate,
-            ProjectName = project.ProjectName,
             Contracts = project.Contracts.ToDto(),
         };
     }
@@ -38,7 +37,6 @@ public static class ProjectAdapter
             Id = projectDto.Id,
             CreatedDate = projectDto.CreatedDate,
             ModifiedDate = projectDto.ModifiedDate,
-            ProjectName = projectDto.ProjectName,
             Contracts = projectDto.Contracts.ToModel(),
         };
     }

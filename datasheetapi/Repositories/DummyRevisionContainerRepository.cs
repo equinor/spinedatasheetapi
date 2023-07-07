@@ -8,6 +8,7 @@ public class DummyRevisionContainerRepository : IRevisionContainerRepository
     public DummyRevisionContainerRepository(ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory.CreateLogger<DummyRevisionContainerRepository>();
+        _revisionContainer = DummyData.GetRevisionContainers();
     }
 
     public async Task<RevisionContainer?> GetRevisionContainer(Guid id)

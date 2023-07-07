@@ -15,7 +15,7 @@ public static class ContractAdapter
             ContractorId = contract.ContractorId,
             ProjectId = contract.ProjectId,
             RevisionContainers = contract.RevisionContainers.ToDto(),
-        }
+        };
     }
 
     public static List<ContractDto> ToDto(this List<Contract>? contracts)

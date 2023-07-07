@@ -32,4 +32,33 @@ public static class RevisionContainerAdapter
         if (revisionContainers is null) { return new List<RevisionContainerDto>(); }
         return revisionContainers.Select(ToDto).ToList();
     }
+
+    public static RevisionContainer? ToModelOrNull(this RevisionContainerDto? revisionContainerDto)
+    {
+        if (revisionContainerDto is null) { return null; }
+        return revisionContainerDto.ToModel();
+    }
+
+    private static RevisionContainer ToModel(this RevisionContainerDto revisionContainerDto)
+    {
+        return new RevisionContainer
+        {
+            Id = revisionContainerDto.Id,
+            CreatedDate = revisionContainerDto.CreatedDate,
+            ModifiedDate = revisionContainerDto.ModifiedDate,
+            RevisionContainerName = revisionContainerDto.RevisionContainerName,
+            RevisionNumber = revisionContainerDto.RevisionNumber,
+            RevisionContainerDate = revisionContainerDto.RevisionContainerDate,
+            // TagData = revisionContainerDto.TagData.ToModel(),
+            RevisionContainerReview = revisionContainerDto.RevisionContainerReview.ToModelOrNull(),
+            ContractId = revisionContainerDto.ContractId,
+            Contract = null,
+        };
+    }
+
+    public static List<RevisionContainer> ToModel(this List<RevisionContainerDto>? revisionContainerDtos)
+    {
+        if (revisionContainerDtos is null) { return new List<RevisionContainer>(); }
+        return revisionContainerDtos.Select(ToModel).ToList();
+    }
 }

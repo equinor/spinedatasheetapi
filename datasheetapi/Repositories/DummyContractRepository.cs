@@ -8,6 +8,7 @@ public class DummyContractRepository : IContractRepository
     public DummyContractRepository(ILoggerFactory loggerFactory)
     {
         _logger = loggerFactory.CreateLogger<DummyContractRepository>();
+        _contracts = DummyData.GetContracts();
     }
 
     public async Task<Contract?> GetContract(Guid id)

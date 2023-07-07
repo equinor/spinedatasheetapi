@@ -97,7 +97,6 @@ builder.Services.AddFusionIntegration(options =>
     options.ApplicationMode = true;
 });
 
-
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .ReadFrom.Configuration(config)
@@ -113,8 +112,10 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<TagDataReviewService>();
 builder.Services.AddScoped<RevisionContainerReviewService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
+builder.Services.AddSingleton<IProjectRepository, DummyProjectRepository>();
 builder.Services.AddSingleton<IContractRepository, DummyContractRepository>();
 builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
 builder.Services.AddSingleton<ITagDataReviewRepository, DummyTagDataReviewRepository>();
@@ -155,7 +156,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer",
                 },
             },
-            new string[] { }
+            Array.Empty<string>()
         },
     });
 }
