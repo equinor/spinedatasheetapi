@@ -1,6 +1,5 @@
-namespace datasheetapi.Models;
-
-public class RevisionContainerReview : BaseEntity
+﻿namespace datasheetapi.Dtos;
+public record RevisionContainerReviewDto : BaseEntityDto
 {
     public ReviewStatusEnum Status { get; set; }
     public Guid ApproverId { get; set; }
@@ -8,6 +7,6 @@ public class RevisionContainerReview : BaseEntity
     public bool Approved { get; set; }
     public int RevisionContainerVersion { get; init; }
     public Guid RevisionContainerId { get; set; }
-    public RevisionContainer? RevisionContainer { get; set; }
-    public List<Comment> Comments { get; set; } = new List<Comment>();
+    public RevisionContainerDto? RevisionContainer { get; set; }
+    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
 }

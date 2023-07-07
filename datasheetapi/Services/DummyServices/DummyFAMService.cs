@@ -3022,9 +3022,10 @@ public class DummyFAMService : IFAMService
             mechanicalTagData1,
         };
 
-        revisionContainerA.TagData.Add(mechanicalTagData1);
-        revisionContainerA.TagData.Add(electricalTagData1);
-        revisionContainerA.TagData.Add(mechanicalTagData1);
+        revisionContainerA.TagData.Add(instrumentTagData1);
+        revisionContainerA.TagData.Add(instrumentTagData2);
+        revisionContainerB.TagData.Add(instrumentTagData3);
+        revisionContainerB.TagData.Add(instrumentTagData4);
 
         return tagDataList;
     }

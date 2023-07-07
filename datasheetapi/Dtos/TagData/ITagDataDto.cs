@@ -10,6 +10,6 @@ namespace datasheetapi.Dtos
         string? Discipline { get; set; }
         int Version { get; set; }
         TagDataReviewDto? Review { get; set; }
-        RevisionContainer? RevisionContainer { get; set; }
+        RevisionContainerDto? RevisionContainer { get; set; }
     }
 }

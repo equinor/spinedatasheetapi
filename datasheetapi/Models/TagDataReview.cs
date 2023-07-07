@@ -13,7 +13,7 @@ public class TagDataReview : BaseEntity
     // Relationships
     public Guid TagDataId { get; set; }
     public TagData? TagData { get; set; }
-    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    public List<Comment> Comments { get; set; } = new List<Comment>();
 }
 
 public enum ReviewStatusEnum
