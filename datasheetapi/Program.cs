@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 
+using datasheetapi;
 using datasheetapi.Repositories;
 
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
@@ -173,6 +174,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(_accessControlPolicyName);
+
+DummyData.InitializeDummyData();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

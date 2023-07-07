@@ -18,6 +18,12 @@ public class ProjectService : IProjectService
         return await _projectRepository.GetProject(id);
     }
 
+    public async Task<ProjectDto?> GetProjectDto(Guid id)
+    {
+        var project = await GetProject(id);
+        return project?.ToDtoOrNull();
+    }
+
     public async Task<List<Project>> GetProjects()
     {
         return await _projectRepository.GetProjects();

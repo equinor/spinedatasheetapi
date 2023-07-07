@@ -24,7 +24,7 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetProject")]
-    public async Task<ActionResult<Project>> GetProject([FromQuery] Guid id)
+    public async Task<ActionResult<ProjectDto>> GetProject(Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -33,12 +33,12 @@ public class ProjectsController : ControllerBase
 
         try
         {
-            var project = await _projectService.GetProject(id);
-            if (project == null)
+            var projectDto = await _projectService.GetProjectDto(id);
+            if (projectDto == null)
             {
                 return NotFound();
             }
-            return Ok(project);
+            return Ok(projectDto);
         }
 
         catch (Exception ex)

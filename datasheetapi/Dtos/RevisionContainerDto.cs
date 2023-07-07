@@ -1,4 +1,6 @@
-﻿namespace datasheetapi.Dtos;
+﻿using System.Text.Json.Serialization;
+
+namespace datasheetapi.Dtos;
 public record RevisionContainerDto : BaseEntityDto
 {
     public string RevisionContainerName { get; set; } = string.Empty;
@@ -6,6 +8,7 @@ public record RevisionContainerDto : BaseEntityDto
     public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
 
     // Relationships
+    [JsonConverter(typeof(ITagDataDtoConverter))]
     public List<ITagDataDto> TagData { get; set; } = new List<ITagDataDto>();
     public RevisionContainerReviewDto? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }

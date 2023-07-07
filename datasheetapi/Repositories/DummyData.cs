@@ -1,7 +1,16 @@
-﻿namespace datasheetapi;
+﻿using Fusion.Integration.Meeting.Http.Models;
+
+namespace datasheetapi;
 public static class DummyData
 {
-    private static readonly Project project1 = new()
+    public static void InitializeDummyData() {
+        GetTagDatas();
+        GetRevisionContainers();
+        GetContracts();
+        GetProjects();
+    }
+
+    public static readonly Project project1 = new()
     {
         Id = new Guid("8b8e0895-d9bf-43fc-9309-08ec8bb604bf"),
         Contracts = new List<Contract>()
@@ -57,7 +66,7 @@ public static class DummyData
         Id = new Guid("699544e7-e2a5-4a40-945d-be31f8f02a66"),
         RevisionNumber = 2,
         RevisionContainerName = "Container A",
-        TagData = new List<TagData>(),
+        TagData = new List<ITagData>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-2),
         Contract = contract1
     };
@@ -67,7 +76,7 @@ public static class DummyData
         Id = new Guid("9e8dd591-3cbd-4511-8d4a-54e31ea085bf"),
         RevisionNumber = 5,
         RevisionContainerName = "Container B",
-        TagData = new List<TagData>(),
+        TagData = new List<ITagData>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-11),
         Contract = contract1
     };
@@ -77,7 +86,7 @@ public static class DummyData
         Id = new Guid("d82f23f4-1612-421a-980e-4315ec642496"),
         RevisionNumber = 1,
         RevisionContainerName = "Container C",
-        TagData = new List<TagData>(),
+        TagData = new List<ITagData>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-7),
         Contract = contract1
     };
@@ -102,9 +111,9 @@ public static class DummyData
         revisionContainer.TagData.Add(tagData);
     }
 
-    private static InstrumentTagData instrumentTagData1 = new()
+    private static readonly InstrumentTagData instrumentTagData1 = new()
     {
-        Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea41"),
+        Id = new Guid("aa08630f-e0ee-4167-adc1-4999866116c9"),
         TagNo = "TAG-001",
         Area = "Area 1",
         Category = "",
@@ -366,7 +375,7 @@ public static class DummyData
         },
     };
 
-    private static InstrumentTagData instrumentTagData2 = new()
+    private static readonly InstrumentTagData instrumentTagData2 = new()
         {
 
             Id = new Guid("6e3c9243-2680-494c-842f-d8bda44cea41"),
@@ -631,7 +640,7 @@ public static class DummyData
             },
         };
 
-    private static InstrumentTagData instrumentTagData3 = new()
+    private static readonly InstrumentTagData instrumentTagData3 = new()
         {
             Id = new Guid("0db99855-f5e4-40dd-b4c3-da201ee89ff9"),
             // ProjectId = default,
@@ -895,7 +904,7 @@ public static class DummyData
             },
         };
 
-    private static InstrumentTagData instrumentTagData4 = new()
+    private static readonly InstrumentTagData instrumentTagData4 = new()
         {
             Id = new Guid("3db99855-f5e4-40ad-b4c3-da201ee89ff9"),
             // ProjectId = default,
@@ -1159,7 +1168,7 @@ public static class DummyData
             },
         };
 
-    private static InstrumentTagData instrumentTagData5 = new()
+    private static readonly InstrumentTagData instrumentTagData5 = new()
         {
             Id = new Guid("a1f235e4-3a32-4f21-8391-7ab27bc3cfdc"),
             // ProjectId = default,
@@ -1423,7 +1432,7 @@ public static class DummyData
             },
         };
 
-    private static InstrumentTagData instrumentTagData6 = new()
+    private static readonly InstrumentTagData instrumentTagData6 = new()
         {
             Id = new Guid("93bc3d53-6888-4d0e-8809-67715e00ecb0"),
             // ProjectId = default,
@@ -1687,7 +1696,7 @@ public static class DummyData
             },
         };
 
-    private static InstrumentTagData instrumentTagData7 = new()
+    private static readonly InstrumentTagData instrumentTagData7 = new()
         {
             Id = new Guid("2e3c9263-2680-494c-842f-d8bda44cea46"),
             TagNo = "R-42FT0090",
@@ -2012,9 +2021,9 @@ public static class DummyData
             },
         };
 
-    private static ElectricalTagData electricalTagData1 = new()
+    private static readonly ElectricalTagData electricalTagData1 = new()
         {
-            Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea88"),
+            Id = new Guid("75ea4987-4155-4bcd-a72c-63f3c7f3a9e2"),
             TagNo = "TAG-789",
             Area = "Area 51",
             Category = "",
@@ -2339,7 +2348,7 @@ public static class DummyData
             },
         };
 
-    private static MechanicalTagData mechanicalTagData1 = new()
+    private static readonly MechanicalTagData mechanicalTagData1 = new()
         {
             Id = new Guid("8e3c9263-2680-494c-842f-d8bda44cea92"),
             TagNo = "TAG-201",

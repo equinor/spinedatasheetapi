@@ -27,13 +27,13 @@ public static class TagDataAdapter
     public static List<ITagDataDto> ToDto(this List<ITagData>? tagData)
     {
         if (tagData is null) { return new List<ITagDataDto>(); }
-        return tagData.Select(x => x.ToDto()).ToList();
+        return tagData.Select(ToDto).ToList();
     }
 
     public static List<ITagDataDto> ToDto(this List<TagData>? tagData)
     {
         if (tagData is null) { return new List<ITagDataDto>(); }
-        return tagData.Select(x => x.ToDto()).ToList();
+        return tagData.Select(ToDto).ToList();
     }
 
     private static ITagDataDto InstrumentToDto(InstrumentTagData tagData)

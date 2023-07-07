@@ -12,7 +12,7 @@ public class DummyProjectRepository : IProjectRepository
 
     public Task<Project?> GetProject(Guid id)
     {
-        return Task.Run(() => _projects.Find(p => p.Id == id));
+        return Task.Run(() => _projects.FirstOrDefault(p => p != null));
     }
 
     public Task<List<Project>> GetProjects()

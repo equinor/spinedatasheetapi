@@ -7,7 +7,7 @@ public class RevisionContainer : BaseEntity
     public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
 
     // Relationships
-    public List<TagData> TagData { get; set; } = new List<TagData>();
+    public List<ITagData> TagData { get; set; } = new List<ITagData>();
     public RevisionContainerReview? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }
     public Contract? Contract { get; set; }
