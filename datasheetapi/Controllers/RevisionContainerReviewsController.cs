@@ -24,7 +24,7 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReview>> GetRevisionReview([FromQuery] Guid id)
+    public async Task<ActionResult<RevisionContainerReviewDto>> GetRevisionReview([FromQuery] Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -48,7 +48,7 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpGet(Name = "GetRevisionReviews")]
-    public async Task<ActionResult<List<RevisionContainerReview>>> GetRevisionReviews()
+    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviews()
     {
         try
         {
@@ -62,7 +62,7 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpGet("tag/{id}", Name = "GetRevisionReviewsForTag")]
-    public async Task<ActionResult<List<RevisionContainerReview>>> GetRevisionReviewsForTag(Guid id)
+    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviewsForTag(Guid id)
     {
         try
         {
@@ -76,7 +76,7 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpGet("project/{id}", Name = "GetRevisionReviewsForProject")]
-    public async Task<ActionResult<List<RevisionContainerReview>>> GetRevisionReviewsForProject([FromQuery] Guid id)
+    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviewsForProject([FromQuery] Guid id)
     {
         try
         {
@@ -90,7 +90,7 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpPost(Name = "CreateRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReview>> CreateRevisionReview([FromBody] RevisionContainerReview review)
+    public async Task<ActionResult<RevisionContainerReviewDto>> CreateRevisionReview([FromBody] RevisionContainerReviewDto review)
     {
         var httpContext = HttpContext;
         var user = httpContext.User;

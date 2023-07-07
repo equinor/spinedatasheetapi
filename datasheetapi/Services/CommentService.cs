@@ -1,4 +1,5 @@
 using datasheetapi.Repositories;
+using datasheetapi.Adapters;
 
 namespace datasheetapi.Services;
 
@@ -37,6 +38,12 @@ public class CommentService : ICommentService
         return comment;
     }
 
+    public async Task<CommentDto?> GetCommentDto(Guid id)
+    {
+        var comment = await GetComment(id);
+        return comment?.ToDtoOrNull();
+    }
+
     public async Task<List<Comment>> GetComments()
     {
         var comments = await _commentRepository.GetComments();
@@ -44,11 +51,24 @@ public class CommentService : ICommentService
         return comments;
     }
 
+
+    public async Task<List<CommentDto>> GetCommentDtos()
+    {
+        var comments = await GetComments();
+        return comments.ToDto();
+    }
+
     public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
     {
         var comments = await _commentRepository.GetCommentsForTagReview(tagId);
         await AddUserNameToComments(comments);
         return comments;
+    }
+
+    public async Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId)
+    {
+        var comments = await GetCommentsForTagReview(tagId);
+        return comments.ToDto();
     }
 
     public async Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds)
@@ -143,5 +163,19 @@ public class CommentService : ICommentService
         var propertyInfo = obj.GetType().GetProperty(propertyName);
 
         return propertyInfo != null;
+    }
+
+    public async Task<CommentDto> CreateTagDataReviewComment(CommentDto comment, Guid azureUniqueId)
+    {
+        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
+        var savedComment = await CreateTagDataReviewComment(commentModel, azureUniqueId);
+        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
+    }
+
+    public async Task<CommentDto> CreateRevisionContainerReviewComment(CommentDto comment, Guid azureUniqueId)
+    {
+        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
+        var savedComment = await CreateRevisionContainerReviewComment(commentModel, azureUniqueId);
+        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
     }
 }

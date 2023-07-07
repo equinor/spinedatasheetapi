@@ -3,10 +3,13 @@ namespace datasheetapi.Services
     public interface ICommentService
     {
         Task<Comment?> GetComment(Guid id);
+        Task<CommentDto?> GetCommentDto(Guid id);
         Task<List<Comment>> GetComments();
+        Task<List<CommentDto>> GetCommentDtos();
         Task<List<Comment>> GetCommentsForTagReview(Guid tagId);
+        Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId);
         Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds);
-        Task<Comment> CreateTagDataReviewComment(Comment comment, Guid azureUniqueId);
-        Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId);
+        Task<CommentDto> CreateTagDataReviewComment(CommentDto comment, Guid azureUniqueId);
+        Task<CommentDto> CreateRevisionContainerReviewComment(CommentDto comment, Guid azureUniqueId);
     }
 }

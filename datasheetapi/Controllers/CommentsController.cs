@@ -26,7 +26,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetComment")]
-    public async Task<ActionResult<Comment>> GetComment([FromQuery] Guid id)
+    public async Task<ActionResult<CommentDto>> GetComment([FromQuery] Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -35,7 +35,7 @@ public class CommentsController : ControllerBase
 
         try
         {
-            var comment = await _commentService.GetComment(id);
+            var comment = await _commentService.GetCommentDto(id);
             if (comment == null)
             {
                 return NotFound();
@@ -50,11 +50,11 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet(Name = "GetComments")]
-    public async Task<ActionResult<List<Comment>>> GetComments()
+    public async Task<ActionResult<List<CommentDto>>> GetComments()
     {
         try
         {
-            return await _commentService.GetComments();
+            return await _commentService.GetCommentDtos();
         }
         catch (Exception ex)
         {
@@ -64,11 +64,11 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet("tagreview/{id}", Name = "GetCommentsForTagReview")]
-    public async Task<ActionResult<List<Comment>>> GetCommentsForTagReview(Guid id)
+    public async Task<ActionResult<List<CommentDto>>> GetCommentsForTagReview(Guid id)
     {
         try
         {
-            return await _commentService.GetCommentsForTagReview(id);
+            return await _commentService.GetCommentDtosForTagReview(id);
         }
         catch (Exception ex)
         {
@@ -78,7 +78,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPost(Name = "CreateComment")]
-    public async Task<ActionResult<Comment>> CreateComment([FromBody] Comment comment)
+    public async Task<ActionResult<CommentDto>> CreateComment([FromBody] CommentDto comment)
     {
         var httpContext = HttpContext;
         var user = httpContext.User;
@@ -106,7 +106,7 @@ public class CommentsController : ControllerBase
         }
     }
 
-    private static CommentType IsTagReviewComment(Comment comment)
+    private static CommentType IsTagReviewComment(CommentDto comment)
     {
         if (comment.TagDataReviewId != null && comment.TagDataReviewId != Guid.Empty
         && (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty))

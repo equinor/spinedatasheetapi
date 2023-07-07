@@ -14,7 +14,7 @@ public class TagDataController : ControllerBase
     }
 
     [HttpGet("{id:guid}", Name = "GetTagDataById")]
-    public async Task<ActionResult> GetTagDataById(Guid id)
+    public async Task<ActionResult<ITagDataDto>> GetTagDataById(Guid id)
     {
         try
         {
@@ -35,7 +35,7 @@ public class TagDataController : ControllerBase
     }
 
     [HttpGet(Name = "GetAllTagData")]
-    public async Task<ActionResult> GetAllTagData()
+    public async Task<ActionResult<List<ITagDataDto>>> GetAllTagData()
     {
         try
         {
@@ -51,7 +51,7 @@ public class TagDataController : ControllerBase
     }
 
     [HttpGet("project/{id:guid}", Name = "GetTagDataForProject")]
-    public async Task<ActionResult> GetTagDataForProject([FromQuery] Guid id)
+    public async Task<ActionResult<List<ITagDataDto>>> GetTagDataForProject([FromQuery] Guid id)
     {
         try
         {

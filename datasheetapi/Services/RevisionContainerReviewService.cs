@@ -17,36 +17,36 @@ public class RevisionContainerReviewService
         _logger = loggerFactory.CreateLogger<TagDataReviewService>();
     }
 
-    public async Task<RevisionContainerReview?> GetTagDataReview(Guid id)
+    public async Task<RevisionContainerReviewDto?> GetTagDataReview(Guid id)
     {
         var review = await _reviewRepository.GetTagDataReview(id);
         return review;
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviews()
+    public async Task<List<RevisionContainerReviewDto>> GetTagDataReviews()
     {
         var reviews = await _reviewRepository.GetTagDataReviews();
         return reviews;
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviewsForProject(Guid projectId)
+    public async Task<List<RevisionContainerReviewDto>> GetTagDataReviewsForProject(Guid projectId)
     {
-        return await Task.Run(() => new List<RevisionContainerReview>());
+        return await Task.Run(() => new List<RevisionContainerReviewDto>());
     }
 
-    public async Task<List<RevisionContainerReview>> GetReviewsForTag(Guid tagId)
+    public async Task<List<RevisionContainerReviewDto>> GetReviewsForTag(Guid tagId)
     {
         var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
         return comments;
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
+    public async Task<List<RevisionContainerReviewDto>> GetTagDataReviewsForTags(List<Guid> tagIds)
     {
         var comments = await _reviewRepository.GetRevisionContainerReviewsForRevisions(tagIds);
         return comments;
     }
 
-    public async Task<RevisionContainerReview> CreateTagDataReview(RevisionContainerReview review, Guid azureUniqueId)
+    public async Task<RevisionContainerReviewDto> CreateTagDataReview(RevisionContainerReviewDto review, Guid azureUniqueId)
     {
         review.ApproverId = azureUniqueId;
 
