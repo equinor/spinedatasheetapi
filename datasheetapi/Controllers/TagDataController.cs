@@ -41,9 +41,7 @@ public class TagDataController : ControllerBase
         {
             var tagData = await _tagDataService.GetAllTagDataDtos();
 
-            var tagDataDtos = tagData.Cast<object>().ToList();
-
-            return Ok(tagDataDtos);
+            return Ok(tagData);
         }
         catch (Exception ex)
         {
@@ -59,9 +57,7 @@ public class TagDataController : ControllerBase
         {
             var tagData = await _tagDataService.GetTagDataDtosForProject(id);
 
-            var tagDataDtos = tagData.Cast<object>().ToList();
-
-            return Ok(tagDataDtos);
+            return Ok(tagData);
         }
         catch (Exception ex)
         {

@@ -7,8 +7,7 @@ public record RevisionContainerDto : BaseEntityDto
     public int RevisionNumber { get; set; }
     public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
 
-    // Relationships
-    [JsonConverter(typeof(ITagDataDtoConverter))]
+    [JsonConverter(typeof(ListITagDataDtoConverter))]
     public List<ITagDataDto> TagData { get; set; } = new List<ITagDataDto>();
     public RevisionContainerReviewDto? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }

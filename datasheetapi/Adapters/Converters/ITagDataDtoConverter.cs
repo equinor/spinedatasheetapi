@@ -2,27 +2,19 @@
 using System.Text.Json.Serialization;
 
 namespace datasheetapi;
-public class ITagDataDtoConverter : JsonConverter<List<ITagDataDto>>
+public class ITagDataDtoConverter : JsonConverter<ITagDataDto>
 {
-    public override List<ITagDataDto>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override ITagDataDto? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        throw new NotImplementedException();
+        return new TagDataDto();
     }
 
-    public override void Write(Utf8JsonWriter writer, List<ITagDataDto> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, ITagDataDto value, JsonSerializerOptions options)
     {
-        writer.WriteStartArray();
-        foreach (var tagDataDto in value)
-        {
-            writer.WriteStartObject();
-            writer.WriteString("TagDataType", tagDataDto.GetType().Name);
-            SerializeTagData(writer, tagDataDto, options);
-            writer.WriteEndObject();
-        }
-        writer.WriteEndArray();
+        SerializeTagData(writer, value, options);
     }
 
-    private void SerializeTagData(Utf8JsonWriter writer, ITagDataDto tagDataDto, JsonSerializerOptions options)
+    public static void SerializeTagData(Utf8JsonWriter writer, ITagDataDto tagDataDto, JsonSerializerOptions options)
     {
         if (tagDataDto is InstrumentTagDataDto instrumentTagDataDto)
         {

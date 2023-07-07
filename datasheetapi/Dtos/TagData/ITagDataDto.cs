@@ -1,5 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace datasheetapi.Dtos
 {
+    [JsonConverter(typeof(ITagDataDtoConverter))]
     public interface ITagDataDto
     {
         Guid Id { get; set; }
