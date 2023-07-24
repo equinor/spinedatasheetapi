@@ -19,7 +19,7 @@ public static class DummyData
 
     public static List<Project> GetProjects()
     {
-        return new List<Project>()
+        return new List<Project>
         {
             project1
         };
@@ -49,7 +49,7 @@ public static class DummyData
     {
         AddContractToProjectIfMissing(contract1, project1);
         AddContractToProjectIfMissing(contract2, project1);
-        return new List<Contract>()
+        return new List<Contract>
         {
             contract1,
             contract2
@@ -97,7 +97,7 @@ public static class DummyData
         AddRevisionContainerToContractIfMissing(revisionContainerA, contract1);
         AddRevisionContainerToContractIfMissing(revisionContainerB, contract1);
         AddRevisionContainerToContractIfMissing(revisionContainerC, contract1);
-        return new List<RevisionContainer>()
+        return new List<RevisionContainer>
         {
             revisionContainerA,
             revisionContainerB,
