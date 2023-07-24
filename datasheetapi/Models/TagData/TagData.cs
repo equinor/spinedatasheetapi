@@ -2,11 +2,6 @@ namespace datasheetapi.Models;
 
 public class TagData : BaseEntity, ITagData
 {
-    public TagData()
-    {
-    }
-
-    // public Guid ProjectId { get; set; }
     public string? TagNo { get; set; }
     public string? Description { get; set; }
     public string? Category { get; set; }

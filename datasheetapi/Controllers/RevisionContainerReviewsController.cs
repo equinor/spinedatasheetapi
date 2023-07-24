@@ -52,7 +52,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetTagDataReviews();
+            return await _reviewService.GetTagDataReviewDtos();
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetReviewsForTag(id);
+            return await _reviewService.GetReviewDtosForTag(id);
         }
         catch (Exception ex)
         {
@@ -80,7 +80,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetTagDataReviewsForProject(id);
+            return await _reviewService.GetTagDataReviewDtosForProject(id);
         }
         catch (Exception ex)
         {
