@@ -1,3 +1,8 @@
+using System.Text.Json.Serialization;
+
+using datasheetapi;
+using datasheetapi.Repositories;
+
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -36,7 +41,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddEndpointsApiExplorer();
 
 // Set up CORS
@@ -90,7 +98,6 @@ builder.Services.AddFusionIntegration(options =>
     options.ApplicationMode = true;
 });
 
-
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
     .ReadFrom.Configuration(config)
@@ -102,10 +109,19 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<IContractService, ContractService>();
-builder.Services.AddScoped<CommentService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<TagDataReviewService>();
+builder.Services.AddScoped<RevisionContainerReviewService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
-builder.Services.AddScoped<IDummyFAMService, DummyFAMService>();
+builder.Services.AddScoped<IProjectService, ProjectService>();
+
+builder.Services.AddSingleton<IFAMService, DummyFAMService>();
+builder.Services.AddSingleton<IProjectRepository, DummyProjectRepository>();
+builder.Services.AddSingleton<IContractRepository, DummyContractRepository>();
 builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
+builder.Services.AddSingleton<ITagDataReviewRepository, DummyTagDataReviewRepository>();
+builder.Services.AddSingleton<IRevisionContainerRepository, DummyRevisionContainerRepository>();
+builder.Services.AddSingleton<IRevisionContainerReviewRepository, DummyRevisionContainerReviewRepository>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
@@ -141,7 +157,7 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "Bearer",
                 },
             },
-            new string[] { }
+            Array.Empty<string>()
         },
     });
 }
@@ -158,6 +174,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(_accessControlPolicyName);
+
+DummyData.InitializeDummyData();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

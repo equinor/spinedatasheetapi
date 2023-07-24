@@ -4,19 +4,21 @@ namespace datasheetapi.Controllers;
 [Route("tagdata")]
 public class TagDataController : ControllerBase
 {
+    private readonly ILogger<TagDataController> _logger;
     private readonly ITagDataService _tagDataService;
 
-    public TagDataController(ITagDataService tagDataService)
+    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService)
     {
+        _logger = loggerFactory.CreateLogger<TagDataController>();
         _tagDataService = tagDataService;
     }
 
     [HttpGet("{id:guid}", Name = "GetTagDataById")]
-    public async Task<ActionResult> GetTagDataById(Guid id)
+    public async Task<ActionResult<ITagDataDto>> GetTagDataById(Guid id)
     {
         try
         {
-            var tagData = await _tagDataService.GetTagDataById(id);
+            var tagData = await _tagDataService.GetTagDataDtoById(id);
 
             if (tagData == null)
             {
@@ -25,42 +27,41 @@ public class TagDataController : ControllerBase
 
             return Ok(tagData);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting tagdata for id {id}", id);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet(Name = "GetAllTagData")]
-    public async Task<ActionResult<List<object>>> GetAllTagData()
+    public async Task<ActionResult<List<ITagDataDto>>> GetAllTagData()
     {
         try
         {
-            var tagData = await _tagDataService.GetAllTagData();
+            var tagData = await _tagDataService.GetAllTagDataDtos();
 
-            var tagDataDtos = tagData.Cast<object>().ToList();
-
-            return Ok(tagDataDtos);
+            return Ok(tagData);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting all tagdata");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
     [HttpGet("project/{id:guid}", Name = "GetTagDataForProject")]
-    public async Task<ActionResult> GetTagDataForProject([FromQuery] Guid id)
+    public async Task<ActionResult<List<ITagDataDto>>> GetTagDataForProject([FromQuery] Guid id)
     {
         try
         {
-            var tagData = await _tagDataService.GetTagDataForProject(id);
+            var tagData = await _tagDataService.GetTagDataDtosForProject(id);
 
-            var tagDataDtos = tagData.Cast<object>().ToList();
-
-            return Ok(tagDataDtos);
+            return Ok(tagData);
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex, "Error getting tagdata for project {id}", id);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

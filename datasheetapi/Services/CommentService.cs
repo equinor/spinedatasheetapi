@@ -1,62 +1,93 @@
+using datasheetapi.Adapters;
+using datasheetapi.Repositories;
+
 namespace datasheetapi.Services;
 
-public class CommentService
+public class CommentService : ICommentService
 {
     private readonly ILogger<ContractService> _logger;
     private readonly ITagDataService _tagDataService;
+    private readonly TagDataReviewService _tagDataReviewService;
+    private readonly RevisionContainerReviewService _revisionContainerReviewService;
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
 
-    public CommentService(ILoggerFactory loggerFactory, ITagDataService tagDataService, ICommentRepository commentRepository,
-        IAzureUserCacheService azureUserCacheService, IFusionService fusionService)
+    public CommentService(ILoggerFactory loggerFactory,
+        ITagDataService tagDataService,
+        ICommentRepository commentRepository,
+        IAzureUserCacheService azureUserCacheService,
+        IFusionService fusionService,
+        TagDataReviewService tagDataReviewService,
+        RevisionContainerReviewService revisionContainerReviewService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _tagDataService = tagDataService;
         _commentRepository = commentRepository;
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
+        _tagDataReviewService = tagDataReviewService;
+        _revisionContainerReviewService = revisionContainerReviewService;
     }
 
     public async Task<Comment?> GetComment(Guid id)
     {
         var comment = await _commentRepository.GetComment(id);
-        await AddUserNameToCommentAsync(comment);
+        if (comment == null) { return null; }
+        await AddUserNameToComment(comment);
         return comment;
+    }
+
+    public async Task<CommentDto?> GetCommentDto(Guid id)
+    {
+        var comment = await GetComment(id);
+        return comment?.ToDtoOrNull();
     }
 
     public async Task<List<Comment>> GetComments()
     {
         var comments = await _commentRepository.GetComments();
-        await AddUserNameToCommentsAsync(comments);
+        await AddUserNameToComments(comments);
         return comments;
     }
 
-    public async Task<List<Comment>> GetCommentsForTag(Guid tagId)
+
+    public async Task<List<CommentDto>> GetCommentDtos()
     {
-        var comments = await _commentRepository.GetCommentsForTag(tagId);
-        await AddUserNameToCommentsAsync(comments);
-        return comments;
+        var comments = await GetComments();
+        return comments.ToDto();
     }
 
-    public async Task<List<Comment>> GetCommentsForTags(List<Guid> tagIds)
+    public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
     {
-        var comments = await _commentRepository.GetCommentsForTags(tagIds);
-        await AddUserNameToCommentsAsync(comments);
+        var comments = await _commentRepository.GetCommentsForTagReview(tagId);
+        await AddUserNameToComments(comments);
         return comments;
     }
 
-    private async Task AddUserNameToCommentsAsync(List<Comment> comments)
+    public async Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId)
+    {
+        var comments = await GetCommentsForTagReview(tagId);
+        return comments.ToDto();
+    }
+
+    public async Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds)
+    {
+        var comments = await _commentRepository.GetCommentsForTagReviews(tagIds);
+        await AddUserNameToComments(comments);
+        return comments;
+    }
+
+    private async Task AddUserNameToComments(List<Comment> comments)
     {
         foreach (var comment in comments)
         {
-            await AddUserNameToCommentAsync(comment);
+            await AddUserNameToComment(comment);
         }
     }
 
-    private async Task AddUserNameToCommentAsync(Comment? comment)
+    private async Task AddUserNameToComment(Comment comment)
     {
-        if (comment == null) { return; }
         var azureUser = _azureUserCacheService.GetAzureUserAsync(comment.UserId);
         if (azureUser == null)
         {
@@ -73,9 +104,28 @@ public class CommentService
         }
     }
 
-    public async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
+    public async Task<Comment> CreateTagDataReviewComment(Comment comment, Guid azureUniqueId)
     {
-        var tagData = await _tagDataService.GetTagDataById(comment.TagDataId) ?? throw new Exception("Invalid tag");
+        if (comment.TagDataReviewId == null || comment.TagDataReviewId == Guid.Empty) { throw new Exception("Invalid tag data review id"); }
+        var tagDataReview = await _tagDataReviewService.GetTagDataReview((Guid)comment.TagDataReviewId) ?? throw new Exception("Invalid tag data review");
+
+        comment.SetTagDataReview(tagDataReview);
+
+        return await CreateComment(comment, azureUniqueId);
+    }
+
+    public async Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId)
+    {
+        if (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty) { throw new Exception("Invalid revision container review id"); }
+        var revisionContainerReview = await _revisionContainerReviewService.GetTagDataReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
+
+        comment.SetRevisionContainerReview(revisionContainerReview);
+
+        return await CreateComment(comment, azureUniqueId);
+    }
+
+    private async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
+    {
         Comment? savedComment = null;
         comment.UserId = azureUniqueId;
 
@@ -113,5 +163,19 @@ public class CommentService
         var propertyInfo = obj.GetType().GetProperty(propertyName);
 
         return propertyInfo != null;
+    }
+
+    public async Task<CommentDto> CreateTagDataReviewComment(CommentDto comment, Guid azureUniqueId)
+    {
+        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
+        var savedComment = await CreateTagDataReviewComment(commentModel, azureUniqueId);
+        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
+    }
+
+    public async Task<CommentDto> CreateRevisionContainerReviewComment(CommentDto comment, Guid azureUniqueId)
+    {
+        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
+        var savedComment = await CreateRevisionContainerReviewComment(commentModel, azureUniqueId);
+        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
     }
 }
