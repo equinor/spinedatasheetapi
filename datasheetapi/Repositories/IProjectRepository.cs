@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Repositories;
+namespace datasheetapi.Repositories;
 public interface IProjectRepository
 {
     Task<Project?> GetProject(Guid id);

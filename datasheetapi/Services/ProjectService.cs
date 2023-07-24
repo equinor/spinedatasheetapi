@@ -1,4 +1,4 @@
-﻿using datasheetapi.Repositories;
+using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 public class ProjectService : IProjectService

@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos;
 public record RevisionContainerReviewDto : BaseEntityDto
 {
     public ReviewStatusEnum Status { get; set; }

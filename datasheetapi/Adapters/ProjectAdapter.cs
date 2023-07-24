@@ -1,4 +1,4 @@
-﻿namespace datasheetapi;
+namespace datasheetapi;
 public static class ProjectAdapter
 {
     public static ProjectDto? ToDtoOrNull(this Project project)

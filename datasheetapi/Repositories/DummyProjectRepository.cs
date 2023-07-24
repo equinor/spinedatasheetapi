@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Repositories;
+namespace datasheetapi.Repositories;
 public class DummyProjectRepository : IProjectRepository
 {
     private readonly List<Project> _projects = new();

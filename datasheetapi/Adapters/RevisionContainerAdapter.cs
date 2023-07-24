@@ -1,4 +1,4 @@
-﻿using datasheetapi.Adapters;
+using datasheetapi.Adapters;
 
 namespace datasheetapi;
 public static class RevisionContainerAdapter

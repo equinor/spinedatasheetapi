@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Adapters;
+namespace datasheetapi.Adapters;
 public static class TagDataAdapter
 {
     public static ITagDataDto? ToDtoOrNull(this ITagData? tagData)

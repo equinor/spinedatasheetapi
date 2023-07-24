@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos;
 public record class ContractDto : BaseEntityDto
 {
     public string ContractName { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos;
 public record CommentDto : BaseEntityDto
 {
     public Guid UserId { get; set; }

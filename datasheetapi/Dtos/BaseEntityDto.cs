@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos;
 public record BaseEntityDto : IBaseEntityDto
 {
     public Guid Id { get; set; }

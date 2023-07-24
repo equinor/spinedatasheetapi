@@ -1,5 +1,5 @@
-using datasheetapi.Repositories;
 using datasheetapi.Adapters;
+using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 

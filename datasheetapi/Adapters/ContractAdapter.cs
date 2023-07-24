@@ -1,4 +1,4 @@
-﻿namespace datasheetapi;
+namespace datasheetapi;
 public static class ContractAdapter
 {
     public static ContractDto? ToDtoOrNull(this Contract? contract)

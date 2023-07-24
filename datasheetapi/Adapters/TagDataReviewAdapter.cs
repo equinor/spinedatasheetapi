@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Adapters;
+namespace datasheetapi.Adapters;
 public static class TagDataReviewAdapter
 {
     public static TagDataReviewDto? ToDtoOrNull(this TagDataReview? tagDataReview)

@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Adapters;
+namespace datasheetapi.Adapters;
 public static class CommentAdapter
 {
     public static CommentDto? ToDtoOrNull(this Comment? comment)

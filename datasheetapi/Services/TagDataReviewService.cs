@@ -50,7 +50,7 @@ public class TagDataReviewService
     {
         var tagData = await _tagDataService.GetTagDataById(review.TagDataId) ?? throw new Exception($"Invalid tag data id: {review.TagDataId}");
         review.ApproverId = azureUniqueId;
-        
+
         TagDataReview? savedReview = await _reviewRepository.AddTagDataReview(review) ?? throw new Exception($"Invalid review: {review}");
         tagData.TagDataReview = savedReview;
         return savedReview;
