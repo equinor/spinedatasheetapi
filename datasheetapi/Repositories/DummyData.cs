@@ -1,4 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace datasheetapi.Repositories;
+
+[ExcludeFromCodeCoverage]
 public static class DummyData
 {
     public static void InitializeDummyData()
