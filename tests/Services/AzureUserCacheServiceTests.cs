@@ -1,7 +1,7 @@
 using datasheetapi.Models;
 using datasheetapi.Services;
 
-namespace tests;
+namespace tests.Services;
 public class AzureUserCacheServiceTests
 {
     private readonly AzureUserCacheService _azureUserCacheService;

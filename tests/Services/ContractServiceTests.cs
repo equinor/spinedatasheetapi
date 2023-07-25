@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace tests;
+namespace tests.Services;
 public class ContractServiceTests
 {
     private readonly Mock<IContractRepository> _contractRepositoryMock;

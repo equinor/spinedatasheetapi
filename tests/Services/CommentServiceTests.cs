@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace tests;
+namespace tests.Services;
 public class CommentServiceTests
 {
     private readonly Mock<ILoggerFactory> _loggerFactoryMock = new Mock<ILoggerFactory>();

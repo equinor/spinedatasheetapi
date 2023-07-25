@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
-namespace tests;
+namespace tests.Services;
 public class RevisionContainerReviewServiceTests
 {
     private readonly Mock<ILoggerFactory> _loggerFactoryMock;
