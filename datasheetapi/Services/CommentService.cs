@@ -117,7 +117,7 @@ public class CommentService : ICommentService
     public async Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId)
     {
         if (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty) { throw new Exception("Invalid revision container review id"); }
-        var revisionContainerReview = await _revisionContainerReviewService.GetTagDataReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
+        var revisionContainerReview = await _revisionContainerReviewService.GetRevisionContainerReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
 
         comment.SetRevisionContainerReview(revisionContainerReview);
 

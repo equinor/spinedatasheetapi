@@ -33,7 +33,7 @@ public class RevisionContainerReviewsController : ControllerBase
 
         try
         {
-            var review = await _reviewService.GetTagDataReview(id);
+            var review = await _reviewService.GetRevisionContainerReview(id);
             if (review == null)
             {
                 return NotFound();
@@ -52,7 +52,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetTagDataReviewDtos();
+            return await _reviewService.GetRevisionContainerReviewDtos();
         }
         catch (Exception ex)
         {
@@ -66,7 +66,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetReviewDtosForTag(id);
+            return await _reviewService.GetRevisionContainerReviewDtosForTag(id);
         }
         catch (Exception ex)
         {
@@ -80,7 +80,7 @@ public class RevisionContainerReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetTagDataReviewDtosForProject(id);
+            return await _reviewService.GetRevisionContainerReviewDtosForProject(id);
         }
         catch (Exception ex)
         {
@@ -101,7 +101,7 @@ public class RevisionContainerReviewsController : ControllerBase
 
         try
         {
-            return await _reviewService.CreateTagDataReview(review, azureUniqueId);
+            return await _reviewService.CreateRevisionContainerReview(review, azureUniqueId);
         }
         catch (Exception ex)
         {
