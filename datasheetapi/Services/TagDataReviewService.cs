@@ -2,7 +2,7 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class TagDataReviewService
+public class TagDataReviewService : ITagDataReviewService
 {
     private readonly ILogger<TagDataReviewService> _logger;
     private readonly ITagDataService _tagDataService;

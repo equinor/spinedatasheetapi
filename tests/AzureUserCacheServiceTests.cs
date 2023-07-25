@@ -12,20 +12,20 @@ public class AzureUserCacheServiceTests
     }
 
     [Fact]
-    public void GetAzureUserAsync_ReturnsNull_WhenCacheIsEmpty()
+    public async Task GetAzureUserAsync_ReturnsNull_WhenCacheIsEmptyAsync()
     {
         // Arrange
         var id = Guid.NewGuid();
 
         // Act
-        var result = _azureUserCacheService.GetAzureUserAsync(id);
+        var result = await _azureUserCacheService.GetAzureUserAsync(id);
 
         // Assert
         Assert.Null(result);
     }
 
     [Fact]
-    public void GetAzureUserAsync_ReturnsNull_WhenAzureUserNotFound()
+    public async void GetAzureUserAsync_ReturnsNull_WhenAzureUserNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -33,14 +33,14 @@ public class AzureUserCacheServiceTests
         _azureUserCacheService.AddAzureUser(azureUser);
 
         // Act
-        var result = _azureUserCacheService.GetAzureUserAsync(id);
+        var result = await _azureUserCacheService.GetAzureUserAsync(id);
 
         // Assert
         Assert.Null(result);
     }
 
     [Fact]
-    public void GetAzureUserAsync_ReturnsAzureUser_WhenAzureUserFound()
+    public async Task GetAzureUserAsync_ReturnsAzureUser_WhenAzureUserFoundAsync()
     {
         // Arrange
         var id = Guid.NewGuid();
@@ -48,7 +48,7 @@ public class AzureUserCacheServiceTests
         _azureUserCacheService.AddAzureUser(azureUser);
 
         // Act
-        var result = _azureUserCacheService.GetAzureUserAsync(id);
+        var result = await _azureUserCacheService.GetAzureUserAsync(id);
 
         // Assert
         Assert.NotNull(result);
@@ -56,14 +56,14 @@ public class AzureUserCacheServiceTests
     }
 
     [Fact]
-    public void AddAzureUser_AddsAzureUserToCache()
+    public async Task AddAzureUser_AddsAzureUserToCacheAsync()
     {
         // Arrange
         var azureUser = new AzureUser { AzureUniqueId = Guid.NewGuid(), Name = "Test User" };
 
         // Act
         _azureUserCacheService.AddAzureUser(azureUser);
-        var result = _azureUserCacheService.GetAzureUserAsync(azureUser.AzureUniqueId);
+        var result = await _azureUserCacheService.GetAzureUserAsync(azureUser.AzureUniqueId);
 
         // Assert
         Assert.NotNull(result);

@@ -3,9 +3,9 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class RevisionContainerReviewService
+public class RevisionContainerReviewService : IRevisionContainerReviewService
 {
-    private readonly ILogger<TagDataReviewService> _logger;
+    private readonly ILogger<RevisionContainerReviewService> _logger;
     private readonly ITagDataService _tagDataService;
 
     private readonly IRevisionContainerReviewRepository _reviewRepository;
@@ -15,7 +15,7 @@ public class RevisionContainerReviewService
     {
         _reviewRepository = reviewRepository;
         _tagDataService = tagDataService;
-        _logger = loggerFactory.CreateLogger<TagDataReviewService>();
+        _logger = loggerFactory.CreateLogger<RevisionContainerReviewService>();
     }
 
     public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)

@@ -15,9 +15,9 @@ namespace datasheetapi.Controllers;
 public class TagDataReviewsController : ControllerBase
 {
     private readonly ILogger<TagDataReviewsController> _logger;
-    private readonly TagDataReviewService _reviewService;
+    private readonly ITagDataReviewService _reviewService;
 
-    public TagDataReviewsController(ILoggerFactory loggerFactory, TagDataReviewService reviewService)
+    public TagDataReviewsController(ILoggerFactory loggerFactory, ITagDataReviewService reviewService)
     {
         _logger = loggerFactory.CreateLogger<TagDataReviewsController>();
         _reviewService = reviewService;
