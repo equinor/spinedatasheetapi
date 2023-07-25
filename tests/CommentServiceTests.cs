@@ -1,7 +1,7 @@
-﻿using datasheetapi.Models;
+using datasheetapi.Adapters;
+using datasheetapi.Models;
 using datasheetapi.Repositories;
 using datasheetapi.Services;
-using datasheetapi.Adapters;
 
 using Microsoft.Extensions.Logging;
 
