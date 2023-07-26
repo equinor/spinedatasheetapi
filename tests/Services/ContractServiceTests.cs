@@ -39,7 +39,7 @@ public class ContractServiceTests
     {
         // Arrange
         var contractId = Guid.NewGuid();
-        _contractRepositoryMock.Setup(x => x.GetContract(contractId)).ReturnsAsync((Contract)null);
+        _contractRepositoryMock.Setup(x => x.GetContract(contractId)).ReturnsAsync((Contract?)null);
 
         // Act
         var result = await _contractService.GetContract(contractId);

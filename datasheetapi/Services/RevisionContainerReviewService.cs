@@ -74,7 +74,7 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         var reviewModel = review.ToModelOrNull() ?? throw new Exception("Invalid review");
         revisionContainer.RevisionContainerReview = reviewModel;
 
-        RevisionContainerReview? savedReview = await _reviewRepository.AddTagDataReview(reviewModel) ?? throw new Exception("Invalid comment");
-        return savedReview?.ToDtoOrNull() ?? throw new Exception("Saving revision container review failed");
+        RevisionContainerReview savedReview = await _reviewRepository.AddTagDataReview(reviewModel);
+        return savedReview.ToDtoOrNull() ?? throw new Exception("Saving revision container review failed");
     }
 }

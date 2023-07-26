@@ -125,19 +125,6 @@ public class TagDataReviewServiceTests
     }
 
     [Fact]
-    public async Task CreateTagDataReview_ThrowsException_WhenReviewNotSaved()
-    {
-        // Arrange
-        var review = new TagDataReview { TagDataId = Guid.NewGuid() };
-        var tagData = new TagData { Id = review.TagDataId };
-        _tagDataServiceMock.Setup(x => x.GetTagDataById(review.TagDataId)).ReturnsAsync(tagData);
-        _reviewRepositoryMock.Setup(x => x.AddTagDataReview(review)).ReturnsAsync((TagDataReview?)null);
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _tagDataReviewService.CreateTagDataReview(review, Guid.NewGuid()));
-    }
-
-    [Fact]
     public async Task CreateTagDataReview_SavesReviewAndReturnsIt()
     {
         // Arrange

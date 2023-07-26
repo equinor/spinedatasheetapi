@@ -40,7 +40,7 @@ public class ProjectServiceTests
     {
         // Arrange
         var projectId = Guid.NewGuid();
-        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project)null);
+        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project?)null);
 
         // Act
         var result = await _projectService.GetProject(projectId);
@@ -63,7 +63,7 @@ public class ProjectServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(project.ToDtoOrNull().Id, result.Id);
+        Assert.Equal(project.ToDtoOrNull()?.Id, result.Id);
         _projectRepositoryMock.Verify(x => x.GetProject(projectId), Times.Once);
     }
 
@@ -72,7 +72,7 @@ public class ProjectServiceTests
     {
         // Arrange
         var projectId = Guid.NewGuid();
-        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project)null);
+        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project?)null);
 
         // Act
         var result = await _projectService.GetProjectDto(projectId);

@@ -10,13 +10,13 @@ using Moq;
 namespace tests.Services;
 public class CommentServiceTests
 {
-    private readonly Mock<ILoggerFactory> _loggerFactoryMock = new Mock<ILoggerFactory>();
-    private readonly Mock<ITagDataService> _tagDataServiceMock = new Mock<ITagDataService>();
-    private readonly Mock<ICommentRepository> _commentRepositoryMock = new Mock<ICommentRepository>();
-    private readonly Mock<IAzureUserCacheService> _azureUserCacheServiceMock = new Mock<IAzureUserCacheService>();
-    private readonly Mock<IFusionService> _fusionServiceMock = new Mock<IFusionService>();
-    private readonly Mock<ITagDataReviewService> _tagDataReviewServiceMock = new Mock<ITagDataReviewService>();
-    private readonly Mock<IRevisionContainerReviewService> _revisionContainerReviewServiceMock = new Mock<IRevisionContainerReviewService>();
+    private readonly Mock<ILoggerFactory> _loggerFactoryMock = new();
+    private readonly Mock<ITagDataService> _tagDataServiceMock = new();
+    private readonly Mock<ICommentRepository> _commentRepositoryMock = new();
+    private readonly Mock<IAzureUserCacheService> _azureUserCacheServiceMock = new();
+    private readonly Mock<IFusionService> _fusionServiceMock = new();
+    private readonly Mock<ITagDataReviewService> _tagDataReviewServiceMock = new();
+    private readonly Mock<IRevisionContainerReviewService> _revisionContainerReviewServiceMock = new();
 
     private readonly CommentService _commentService;
 
@@ -55,7 +55,7 @@ public class CommentServiceTests
     {
         // Arrange
         var commentId = Guid.NewGuid();
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync((Comment)null);
+        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync((Comment?)null);
 
         // Act
         var result = await _commentService.GetComment(commentId);
@@ -85,7 +85,7 @@ public class CommentServiceTests
     {
         // Arrange
         var commentId = Guid.NewGuid();
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync((Comment)null);
+        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync((Comment?)null);
 
         // Act
         var result = await _commentService.GetCommentDto(commentId);
@@ -232,7 +232,7 @@ public class CommentServiceTests
         // Arrange
         var comment = new Comment { TagDataReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(comment.TagDataReviewId.Value)).ReturnsAsync((TagDataReview)null);
+        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(comment.TagDataReviewId.Value)).ReturnsAsync((TagDataReview?)null);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _commentService.CreateTagDataReviewComment(comment, azureUniqueId));
@@ -274,7 +274,7 @@ public class CommentServiceTests
         // Arrange
         var comment = new Comment { RevisionContainerReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(comment.RevisionContainerReviewId.Value)).ReturnsAsync((RevisionContainerReview)null);
+        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(comment.RevisionContainerReviewId.Value)).ReturnsAsync((RevisionContainerReview?)null);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId));

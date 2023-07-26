@@ -81,7 +81,7 @@ public class RevisionContainerReviewServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(review.ToDtoOrNull().Id, result.Id);
+        Assert.Equal(review.ToDtoOrNull()?.Id, result.Id);
     }
 
     [Fact]
@@ -175,20 +175,6 @@ public class RevisionContainerReviewServiceTests
     }
 
     [Fact]
-    public async Task CreateRevisionContainerReview_ThrowsException_WhenSavingReviewFails()
-    {
-        // Arrange
-        var review = new RevisionContainerReviewDto { RevisionContainerId = Guid.NewGuid() };
-        var azureUniqueId = Guid.NewGuid();
-        var tagData = new List<ITagData> { new TagData { RevisionContainer = new RevisionContainer { Id = review.RevisionContainerId } } };
-        _tagDataServiceMock.Setup(x => x.GetAllTagData()).ReturnsAsync(tagData);
-        _reviewRepositoryMock.Setup(x => x.AddTagDataReview(It.IsAny<RevisionContainerReview>())).ReturnsAsync((RevisionContainerReview?)null);
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _reviewService.CreateRevisionContainerReview(review, azureUniqueId));
-    }
-
-    [Fact]
     public async Task CreateRevisionContainerReview_ReturnsReviewDto_WhenValidInput()
     {
         // Arrange
@@ -205,22 +191,7 @@ public class RevisionContainerReviewServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(savedReview.ToDtoOrNull().Id, result.Id);
-    }
-
-    [Fact]
-    public async Task CreateRevisionContainerReview_ThrowsException_WhenAddTagDataReviewReturnsNull()
-    {
-        // Arrange
-        var review = new RevisionContainerReviewDto { RevisionContainerId = Guid.NewGuid() };
-        var azureUniqueId = Guid.NewGuid();
-        var tagData = new List<ITagData> { new TagData { RevisionContainer = new RevisionContainer { Id = review.RevisionContainerId } } };
-        var reviewModel = new RevisionContainerReview();
-        _tagDataServiceMock.Setup(x => x.GetAllTagData()).ReturnsAsync(tagData);
-        _reviewRepositoryMock.Setup(x => x.AddTagDataReview(reviewModel)).ReturnsAsync((RevisionContainerReview?)null);
-
-        // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _reviewService.CreateRevisionContainerReview(review, azureUniqueId));
+        Assert.Equal(savedReview.ToDtoOrNull()?.Id, result.Id);
     }
 
     [Fact]
