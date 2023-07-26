@@ -175,14 +175,14 @@ public class TagDataReviewAdapterTests
             Assert.Equal(tagDataReviews[i].Approved, result[i].Approved);
             Assert.Equal(tagDataReviews[i].TagDataVersion, result[i].TagDataVersion);
             Assert.NotNull(result[i].Comments);
-            Assert.Equal(tagDataReviews[i].Comments.Count, result[i].Comments.Count);
+            Assert.Equal(tagDataReviews[i].Comments.Count, result[i].Comments?.Count);
             for (int j = 0; j < tagDataReviews[i].Comments.Count; j++)
             {
-                Assert.Equal(tagDataReviews[i].Comments[j].Id, result[i].Comments[j].Id);
-                Assert.Equal(tagDataReviews[i].Comments[j].CreatedDate, result[i].Comments[j].CreatedDate);
-                Assert.Equal(tagDataReviews[i].Comments[j].ModifiedDate, result[i].Comments[j].ModifiedDate);
-                Assert.Equal(tagDataReviews[i].Comments[j].Text, result[i].Comments[j].Text);
-                Assert.Equal(tagDataReviews[i].Comments[j].UserId, result[i].Comments[j].UserId);
+                Assert.Equal(tagDataReviews[i].Comments[j].Id, result[i].Comments?[j].Id);
+                Assert.Equal(tagDataReviews[i].Comments[j].CreatedDate, result[i].Comments?[j].CreatedDate);
+                Assert.Equal(tagDataReviews[i].Comments[j].ModifiedDate, result[i].Comments?[j].ModifiedDate);
+                Assert.Equal(tagDataReviews[i].Comments[j].Text, result[i].Comments?[j].Text);
+                Assert.Equal(tagDataReviews[i].Comments[j].UserId, result[i].Comments?[j].UserId);
             }
         }
     }

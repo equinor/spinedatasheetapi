@@ -1,7 +1,7 @@
 namespace datasheetapi.Adapters;
 public static class ProjectAdapter
 {
-    public static ProjectDto? ToDtoOrNull(this Project project)
+    public static ProjectDto? ToDtoOrNull(this Project? project)
     {
         if (project is null) { return null; }
         return project.ToDto();

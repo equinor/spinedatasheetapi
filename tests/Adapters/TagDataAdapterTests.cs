@@ -86,8 +86,8 @@ public class TagDataAdapterTests
                 Description = "Instrument Tag",
                 Discipline = "Instrumentation",
                 Version = 1,
-            InstrumentPurchaserRequirement = new InstrumentPurchaserRequirement(),
-            InstrumentSupplierOfferedProduct = new InstrumentSupplierOfferedProduct(),
+                InstrumentPurchaserRequirement = new InstrumentPurchaserRequirement(),
+                InstrumentSupplierOfferedProduct = new InstrumentSupplierOfferedProduct(),
                 TagDataReview = new TagDataReview(),
             },
             new ElectricalTagData

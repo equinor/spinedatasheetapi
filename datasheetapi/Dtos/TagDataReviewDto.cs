@@ -8,5 +8,5 @@ public record TagDataReviewDto : BaseEntityDto
     public Guid CommentResponsible { get; set; }
     public bool Approved { get; set; }
     public int TagDataVersion { get; init; }
-    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
+    public List<CommentDto>? Comments { get; set; } = new List<CommentDto>();
 }
