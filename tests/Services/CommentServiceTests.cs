@@ -138,6 +138,7 @@ public class CommentServiceTests
         foreach (var comment in result)
         {
             Assert.NotNull(comment);
+            Assert.NotEqual(Guid.Empty, comment.Id);
         }
     }
 
@@ -187,6 +188,7 @@ public class CommentServiceTests
         foreach (var comment in result)
         {
             Assert.NotNull(comment);
+            Assert.NotEqual(Guid.Empty, comment.Id);
         }
     }
 
