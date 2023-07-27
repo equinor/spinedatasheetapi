@@ -110,8 +110,8 @@ builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddScoped<TagDataReviewService>();
-builder.Services.AddScoped<RevisionContainerReviewService>();
+builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
+builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 

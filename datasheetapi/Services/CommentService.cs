@@ -7,8 +7,8 @@ public class CommentService : ICommentService
 {
     private readonly ILogger<ContractService> _logger;
     private readonly ITagDataService _tagDataService;
-    private readonly TagDataReviewService _tagDataReviewService;
-    private readonly RevisionContainerReviewService _revisionContainerReviewService;
+    private readonly ITagDataReviewService _tagDataReviewService;
+    private readonly IRevisionContainerReviewService _revisionContainerReviewService;
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
@@ -18,8 +18,8 @@ public class CommentService : ICommentService
         ICommentRepository commentRepository,
         IAzureUserCacheService azureUserCacheService,
         IFusionService fusionService,
-        TagDataReviewService tagDataReviewService,
-        RevisionContainerReviewService revisionContainerReviewService)
+        ITagDataReviewService tagDataReviewService,
+        IRevisionContainerReviewService revisionContainerReviewService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _tagDataService = tagDataService;
@@ -88,7 +88,7 @@ public class CommentService : ICommentService
 
     private async Task AddUserNameToComment(Comment comment)
     {
-        var azureUser = _azureUserCacheService.GetAzureUserAsync(comment.UserId);
+        var azureUser = await _azureUserCacheService.GetAzureUserAsync(comment.UserId);
         if (azureUser == null)
         {
             var user = await _fusionService.ResolveUserFromPersonId(comment.UserId);
@@ -117,7 +117,7 @@ public class CommentService : ICommentService
     public async Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId)
     {
         if (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty) { throw new Exception("Invalid revision container review id"); }
-        var revisionContainerReview = await _revisionContainerReviewService.GetTagDataReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
+        var revisionContainerReview = await _revisionContainerReviewService.GetRevisionContainerReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
 
         comment.SetRevisionContainerReview(revisionContainerReview);
 

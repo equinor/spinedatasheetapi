@@ -2,7 +2,7 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class RevisionContainerService
+public class RevisionContainerService : IRevisionContainerService
 {
     private readonly ILogger<RevisionContainerService> _logger;
     private readonly IRevisionContainerRepository _revisionContainerRepository;

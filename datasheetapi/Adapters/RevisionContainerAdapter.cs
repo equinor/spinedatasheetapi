@@ -1,6 +1,4 @@
-using datasheetapi.Adapters;
-
-namespace datasheetapi;
+namespace datasheetapi.Adapters;
 public static class RevisionContainerAdapter
 {
     public static RevisionContainerDto? ToDtoOrNull(this RevisionContainer? revisionContainer)
