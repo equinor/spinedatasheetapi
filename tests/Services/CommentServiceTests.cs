@@ -33,6 +33,53 @@ public class CommentServiceTests
     }
 
     [Fact]
+    public async Task DeleteComment_ReturnsOk()
+    {
+        // Arrange
+        var commentId = Guid.NewGuid();
+        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
+        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+
+        // Act
+        var deleteComment = await _commentService.DeleteComment(comment.Id, comment.UserId);
+        var result = await _commentService.GetComment(commentId);
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task DeleteComment_ThrowsWhenDeletingOthersComments()
+    {
+        // Arrange
+        var commentId = Guid.NewGuid();
+        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
+        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(comment.Id, Guid.NewGuid()));
+        var result = await _commentService.GetComment(commentId);
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public async Task DeleteComment_ThrowsWhenCommentNotFound()
+    {
+        // Arrange
+        var commentId = Guid.NewGuid();
+        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
+        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(Guid.NewGuid(), comment.UserId));
+        var result = await _commentService.GetComment(commentId);
+        Assert.NotNull(result);
+    }
+
+    [Fact]
     public async Task GetComment_ReturnsCommentWithCommenterName()
     {
         // Arrange

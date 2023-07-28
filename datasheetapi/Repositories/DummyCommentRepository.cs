@@ -20,6 +20,11 @@ public class DummyCommentRepository : ICommentRepository
         return await Task.Run(() => _comments);
     }
 
+    public async Task<bool> DeleteComment(Comment comment)
+    {
+        return await Task.Run(() => _comments.Remove(comment));
+    }
+
     public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
     {
         return await Task.Run(() => _comments.Where(c => c.TagDataReviewId == tagId).ToList());

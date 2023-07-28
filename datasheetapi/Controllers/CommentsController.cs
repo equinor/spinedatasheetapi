@@ -25,6 +25,31 @@ public class CommentsController : ControllerBase
         _commentService = commentService;
     }
 
+    [HttpDelete("{id}", Name = "DeleteComment")]
+    public async Task<ActionResult<bool>> DeleteComment(Guid id)
+    {
+        var httpContext = HttpContext;
+        var user = httpContext.User;
+        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
+        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+
+        if (id == Guid.Empty)
+        {
+            return BadRequest();
+        }
+
+        try
+        {
+            return await _commentService.DeleteComment(id, azureUniqueId);
+        }
+
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting comment", id);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
     [HttpGet("{id}", Name = "GetComment")]
     public async Task<ActionResult<CommentDto>> GetComment([FromQuery] Guid id)
     {
