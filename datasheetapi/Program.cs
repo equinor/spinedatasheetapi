@@ -1,11 +1,14 @@
 using System.Text.Json.Serialization;
 
-using datasheetapi;
+using api.Models;
+
 using datasheetapi.Repositories;
 
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 
 using Serilog;
@@ -71,6 +74,23 @@ builder.Services.AddCors(options =>
             ).SetIsOriginAllowedToAllowWildcardSubdomains();
         });
 });
+
+// Setup in memory DB SQL lite for test purposes
+DbContextOptionsBuilder<DatabaseContext> dBbuilder = new();
+var _sqlConnectionString = new SqliteConnectionStringBuilder
+{ DataSource = "file::memory:", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
+    .ToString();
+
+SqliteConnection _connectionToInMemorySqlite = new(_sqlConnectionString);
+_connectionToInMemorySqlite.Open();
+dBbuilder.UseSqlite(_connectionToInMemorySqlite);
+
+using DatabaseContext context = new(dBbuilder.Options);
+context.Database.EnsureCreated();
+
+
+builder.Services.AddDbContext<DatabaseContext>(options =>
+    options.UseSqlite(_sqlConnectionString, o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));
 
 
 builder.Services.AddFusionIntegration(options =>

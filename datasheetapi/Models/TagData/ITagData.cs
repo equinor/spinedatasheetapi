@@ -9,7 +9,5 @@ namespace datasheetapi.Models
         string? Area { get; set; }
         string? Discipline { get; set; }
         int Version { get; set; }
-        TagDataReview? TagDataReview { get; set; }
-        RevisionContainer? RevisionContainer { get; set; }
     }
 }

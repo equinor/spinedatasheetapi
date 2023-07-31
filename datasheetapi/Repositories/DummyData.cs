@@ -123,7 +123,6 @@ public static class DummyData
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
         Version = 3,
-        RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -388,7 +387,6 @@ public static class DummyData
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
         Version = 1,
-        RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -652,7 +650,6 @@ public static class DummyData
         Category = "Category 2",
         Description = "Level Transmitter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerB,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -916,7 +913,6 @@ public static class DummyData
         Category = "Category 2",
         Description = "Pressure Transmitter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerB,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -1180,7 +1176,6 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1444,7 +1439,6 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1707,7 +1701,6 @@ public static class DummyData
         Category = "",
         Description = "Mass flowmeter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
         InstrumentPurchaserRequirement = new()
         {
             Manufacturer = "KROHNE",
@@ -2032,7 +2025,6 @@ public static class DummyData
         Category = "",
         Description = "LV motor - motor-converter fed",
         Discipline = "Electrical",
-        RevisionContainer = revisionContainerC,
         ElectricalSupplierOfferedProduct = new()
         {
             OrderStatus = "for enquiry",
@@ -2359,7 +2351,6 @@ public static class DummyData
         Category = "",
         Description = "WELL CLEAN-UP PUMP",
         Discipline = "Mechanical",
-        RevisionContainer = revisionContainerC,
         MechanicalPurchaserRequirement = new()
         {
             ConformityAssesmentSystemLevel = "D",
@@ -3070,15 +3061,15 @@ public static class DummyData
 
     public static List<ITagData> GetTagDatas()
     {
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData1, instrumentTagData1.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData2, instrumentTagData2.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData3, instrumentTagData3.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData4, instrumentTagData4.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData5, instrumentTagData5.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData6, instrumentTagData6.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData7, instrumentTagData7.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(electricalTagData1, electricalTagData1.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1, mechanicalTagData1.RevisionContainer);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData1, revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData2, revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData3, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData4, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData5, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData6, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData7, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(electricalTagData1, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1, revisionContainerC);
 
         return new List<ITagData> {
             instrumentTagData1,

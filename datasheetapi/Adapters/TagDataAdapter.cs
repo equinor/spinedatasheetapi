@@ -72,7 +72,7 @@ public static class TagDataAdapter
             Description = tagData.Description,
             Discipline = tagData.Discipline,
             Version = tagData.Version,
-            Review = tagData.TagDataReview.ToDtoOrNull(),
+            // Review = GetTagDataReviewDtosForTagData() //tagData.TagDataReview.ToDtoOrNull(),
             RevisionContainer = null,
         };
     }
