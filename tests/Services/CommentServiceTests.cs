@@ -34,6 +34,7 @@ public class CommentServiceTests
 
     public Comment SetUpComment()
     {
+        // Set up comment and author
         var commentId = Guid.NewGuid();
         var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
         _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
