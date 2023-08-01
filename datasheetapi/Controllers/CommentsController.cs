@@ -25,13 +25,19 @@ public class CommentsController : ControllerBase
         _commentService = commentService;
     }
 
-    [HttpDelete("{id}", Name = "DeleteComment")]
-    public async Task<ActionResult> DeleteComment(Guid id)
+    public Guid GetAzureUniqueId()
     {
         var httpContext = HttpContext;
         var user = httpContext.User;
         var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
         var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+        return azureUniqueId;
+    }
+
+    [HttpDelete("{id}", Name = "DeleteComment")]
+    public async Task<ActionResult> DeleteComment(Guid id)
+    {
+        var azureUniqueId = GetAzureUniqueId();
 
         if (id == Guid.Empty)
         {
@@ -106,10 +112,7 @@ public class CommentsController : ControllerBase
     [HttpPost(Name = "CreateComment")]
     public async Task<ActionResult<CommentDto>> CreateComment([FromBody] CommentDto comment)
     {
-        var httpContext = HttpContext;
-        var user = httpContext.User;
-        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+        var azureUniqueId = GetAzureUniqueId();
 
         if (comment == null) { return BadRequest("Comment cannot be null"); }
         if (comment.Text == null) { return BadRequest("Comment text cannot be null"); }

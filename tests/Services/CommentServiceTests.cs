@@ -32,16 +32,23 @@ public class CommentServiceTests
             _revisionContainerReviewServiceMock.Object);
     }
 
-    [Fact]
-    public async Task DeleteComment_RunsOk()
+    public Comment SetUpComment()
     {
-        // Arrange & Act
         var commentId = Guid.NewGuid();
         var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
         _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
-        
-        // Make sure delete doesnt throw
+
+        return comment;
+    }
+
+    [Fact]
+    public async Task DeleteComment_RunsOk()
+    {
+        // Arrange
+        var comment = SetUpComment();
+
+        // Make sure delete does not throw
         await _commentService.DeleteComment(comment.Id, comment.UserId);
         _commentRepositoryMock.Setup(x => x.DeleteComment(comment));
     }
@@ -50,14 +57,11 @@ public class CommentServiceTests
     public async Task DeleteComment_ThrowsWhenDeletingOthersComments()
     {
         // Arrange
-        var commentId = Guid.NewGuid();
-        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+        var comment = SetUpComment();
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(comment.Id, Guid.NewGuid()));
-        var result = await _commentService.GetComment(commentId);
+        var result = await _commentService.GetComment(comment.Id);
         Assert.NotNull(result);
     }
 
@@ -65,14 +69,11 @@ public class CommentServiceTests
     public async Task DeleteComment_ThrowsWhenCommentNotFound()
     {
         // Arrange
-        var commentId = Guid.NewGuid();
-        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+        var comment = SetUpComment();
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(Guid.NewGuid(), comment.UserId));
-        var result = await _commentService.GetComment(commentId);
+        var result = await _commentService.GetComment(comment.Id);
         Assert.NotNull(result);
     }
 
@@ -80,17 +81,14 @@ public class CommentServiceTests
     public async Task GetComment_ReturnsCommentWithCommenterName()
     {
         // Arrange
-        var commentId = Guid.NewGuid();
-        var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
+        var comment = SetUpComment();
 
         // Act
-        var result = await _commentService.GetComment(commentId);
+        var result = await _commentService.GetComment(comment.Id);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(commentId, result.Id);
+        Assert.Equal(comment.Id, result.Id);
         Assert.Equal("Test User", result.CommenterName);
     }
 
