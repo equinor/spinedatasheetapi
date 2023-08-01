@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace datasheetapi.Models;
 
 public class RevisionContainer : BaseEntity
@@ -6,8 +8,8 @@ public class RevisionContainer : BaseEntity
     public int RevisionNumber { get; set; }
     public DateTimeOffset RevisionContainerDate { get; set; } = DateTimeOffset.Now;
 
-    // Relationships
-    public List<ITagData> TagData { get; set; } = new List<ITagData>();
+    [NotMapped]
+    public List<Guid> TagDataIds { get; set; } = new List<Guid>();
     public RevisionContainerReview? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }
     public Contract? Contract { get; set; }

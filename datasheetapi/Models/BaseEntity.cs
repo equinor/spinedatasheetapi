@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace datasheetapi.Models;
 
 public class BaseEntity : IBaseEntity
 {
+    [Key]
     public Guid Id { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime ModifiedDate { get; set; }

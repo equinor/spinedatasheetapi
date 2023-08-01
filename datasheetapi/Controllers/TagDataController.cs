@@ -39,7 +39,7 @@ public class TagDataController : ControllerBase
     {
         try
         {
-            var tagData = await _tagDataService.GetAllTagDataDtos();
+            var tagData = await _tagDataService.GetAllTagDataDtos(true, true);
 
             return Ok(tagData);
         }

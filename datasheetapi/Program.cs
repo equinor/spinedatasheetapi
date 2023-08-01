@@ -132,6 +132,7 @@ builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
 builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
+builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 

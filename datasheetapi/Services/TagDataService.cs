@@ -5,9 +5,14 @@ namespace datasheetapi.Services;
 public class TagDataService : ITagDataService
 {
     private readonly IFAMService _FAMService;
-    public TagDataService(IFAMService FAMService)
+    private readonly IRevisionContainerService _revisionContainerService;
+    private readonly ITagDataReviewService _tagDataReviewService;
+
+    public TagDataService(IFAMService FAMService, IRevisionContainerService revisionContainerService, ITagDataReviewService tagDataReviewService)
     {
         _FAMService = FAMService;
+        _revisionContainerService = revisionContainerService;
+        _tagDataReviewService = tagDataReviewService;
     }
 
     public async Task<ITagDataDto?> GetTagDataDtoById(Guid id)
@@ -29,16 +34,50 @@ public class TagDataService : ITagDataService
         return tagData;
     }
 
-    public async Task<List<ITagDataDto>> GetAllTagDataDtos()
+    public async Task<List<ITagDataDto>> GetAllTagDataDtos(bool includeRevisionContainer = false, bool includeReview = false)
     {
-        var tagDataDtos = new List<ITagDataDto>();
         var allTagData = await _FAMService.GetTagData();
-        foreach (var tagData in allTagData)
+        var allTagDataDtos = allTagData.ToDto();
+
+        if (includeRevisionContainer)
         {
-            tagDataDtos.Add(tagData.ToDto());
+            allTagDataDtos = await AddRevisionContainer(allTagDataDtos);
         }
 
-        return tagDataDtos;
+        if (includeReview)
+        {
+            allTagDataDtos = await AddReview(allTagDataDtos);
+        }
+
+        return allTagDataDtos;
+    }
+
+    private async Task<List<ITagDataDto>> AddRevisionContainer(List<ITagDataDto> tagDataDto)
+    {
+        foreach (var tag in tagDataDto)
+        {
+            var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tag.Id);
+            tag.RevisionContainer = revisionContainer.ToDtoOrNull();
+        }
+
+        return tagDataDto;
+    }
+
+    private async Task<List<ITagDataDto>> AddReview(List<ITagDataDto> tagDataDto)
+    {
+        var tagDataIds = tagDataDto.Select(t => t.Id).ToList();
+        var reviews = await _tagDataReviewService.GetTagDataReviewsForTags(tagDataIds);
+
+        foreach (var review in reviews)
+        {
+            var tag = tagDataDto.FirstOrDefault(t => t.Id == review.TagDataId);
+            if (tag != null)
+            {
+                tag.Review = review.ToDtoOrNull();
+            }
+        }
+
+        return tagDataDto;
     }
 
     public async Task<List<ITagData>> GetAllTagData()
