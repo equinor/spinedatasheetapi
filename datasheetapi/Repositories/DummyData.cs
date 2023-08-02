@@ -122,6 +122,11 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        TagStatus = "",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 3,
         RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
@@ -387,6 +392,10 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 1,
         RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
@@ -652,6 +661,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Level Transmitter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerB,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -916,6 +929,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Pressure Transmitter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerB,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -1180,6 +1197,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerC,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -1444,6 +1465,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerC,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -1707,6 +1732,10 @@ public static class DummyData
         Category = "",
         Description = "Mass flowmeter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerC,
         InstrumentPurchaserRequirement = new()
         {
@@ -2032,6 +2061,10 @@ public static class DummyData
         Category = "",
         Description = "LV motor - motor-converter fed",
         Discipline = "Electrical",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerC,
         ElectricalSupplierOfferedProduct = new()
         {
@@ -2359,6 +2392,10 @@ public static class DummyData
         Category = "",
         Description = "WELL CLEAN-UP PUMP",
         Discipline = "Mechanical",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         RevisionContainer = revisionContainerC,
         MechanicalPurchaserRequirement = new()
         {
