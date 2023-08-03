@@ -15,9 +15,9 @@ namespace datasheetapi.Controllers;
 public class RevisionContainerReviewsController : ControllerBase
 {
     private readonly ILogger<RevisionContainerReviewsController> _logger;
-    private readonly RevisionContainerReviewService _reviewService;
+    private readonly IRevisionContainerReviewService _reviewService;
 
-    public RevisionContainerReviewsController(ILoggerFactory loggerFactory, RevisionContainerReviewService reviewService)
+    public RevisionContainerReviewsController(ILoggerFactory loggerFactory, IRevisionContainerReviewService reviewService)
     {
         _logger = loggerFactory.CreateLogger<RevisionContainerReviewsController>();
         _reviewService = reviewService;
