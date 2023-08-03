@@ -25,15 +25,6 @@ public class CommentsController : ControllerBase
         _commentService = commentService;
     }
 
-    private Guid GetAzureUniqueId()
-    {
-        var httpContext = HttpContext;
-        var user = httpContext.User;
-        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-        return azureUniqueId;
-    }
-
     [HttpDelete("{id}", Name = "DeleteComment")]
     public async Task<ActionResult> DeleteComment(Guid id)
     {
@@ -133,6 +124,15 @@ public class CommentsController : ControllerBase
             _logger.LogError(ex, "Error creating comment", comment);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
+    }
+
+    private Guid GetAzureUniqueId()
+    {
+        var httpContext = HttpContext;
+        var user = httpContext.User;
+        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
+        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
+        return azureUniqueId;
     }
 
     private static CommentType IsTagReviewComment(CommentDto comment)

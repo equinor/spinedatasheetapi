@@ -6,9 +6,9 @@ public class TagDataController : ControllerBase
 {
     private readonly ILogger<TagDataController> _logger;
     private readonly ITagDataService _tagDataService;
-    private readonly IEnrichTagDataService _enrichTagDataService;
+    private readonly ITagDataEnrichmentService _enrichTagDataService;
 
-    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService, IEnrichTagDataService enrichTagDataService)
+    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService, ITagDataEnrichmentService enrichTagDataService)
     {
         _logger = loggerFactory.CreateLogger<TagDataController>();
         _tagDataService = tagDataService;

@@ -2,12 +2,12 @@ using datasheetapi.Adapters;
 
 namespace datasheetapi.Services;
 
-public class EnrichTagDataService : IEnrichTagDataService
+public class TagDataEnrichmentService : ITagDataEnrichmentService
 {
     private readonly IRevisionContainerService _revisionContainerService;
     private readonly ITagDataReviewService _tagDataReviewService;
 
-    public EnrichTagDataService(IRevisionContainerService revisionContainerService, ITagDataReviewService tagDataReviewService)
+    public TagDataEnrichmentService(IRevisionContainerService revisionContainerService, ITagDataReviewService tagDataReviewService)
     {
         _revisionContainerService = revisionContainerService;
         _tagDataReviewService = tagDataReviewService;

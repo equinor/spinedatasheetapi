@@ -128,7 +128,7 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
-builder.Services.AddScoped<IEnrichTagDataService, EnrichTagDataService>();
+builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
