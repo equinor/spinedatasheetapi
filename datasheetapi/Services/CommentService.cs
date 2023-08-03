@@ -166,6 +166,15 @@ public class CommentService : ICommentService
         await _commentRepository.DeleteComment(comment);
     }
 
+    public async Task<Comment> UpdateComment(Guid id, Guid azureUniqueId, string newComment)
+    {
+        var oldComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
+
+        if (oldComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment");  }
+
+        return await _commentRepository.UpdateComment(oldComment, newComment);
+    }
+
     private static bool ValidateProperty<T>(string propertyName)
     where T : class, new()
     {

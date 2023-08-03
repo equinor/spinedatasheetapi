@@ -6,6 +6,7 @@ public interface ICommentRepository
     Task<Comment?> GetComment(Guid id);
     Task<List<Comment>> GetComments();
     Task DeleteComment(Comment comment);
+    Task<Comment> UpdateComment(Comment oldComment, string newComment);
     Task<List<Comment>> GetCommentsForTagReview(Guid tagId);
     Task<List<Comment>> GetCommentsForRevisionContainerReview(Guid tagId);
     Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds);

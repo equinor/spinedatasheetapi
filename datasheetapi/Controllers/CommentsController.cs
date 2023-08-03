@@ -34,6 +34,28 @@ public class CommentsController : ControllerBase
         return azureUniqueId;
     }
 
+    [HttpPut("{id}", Name = "UpdateComment")]
+    public async Task<ActionResult<CommentDto>> UpdateComment(Guid id, CommentDto newComment)
+    {
+        var azureUniqueId = GetAzureUniqueId();
+
+        if (id == Guid.Empty)
+        {
+            return BadRequest();
+        }
+
+        try
+        {
+            var comment = await _commentService.UpdateComment(id, azureUniqueId, newComment.Text);
+            return Ok(comment);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error editing comment", id);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
     [HttpDelete("{id}", Name = "DeleteComment")]
     public async Task<ActionResult> DeleteComment(Guid id)
     {
