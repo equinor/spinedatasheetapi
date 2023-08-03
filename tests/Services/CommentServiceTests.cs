@@ -32,21 +32,64 @@ public class CommentServiceTests
             _revisionContainerReviewServiceMock.Object);
     }
 
-    [Fact]
-    public async Task GetComment_ReturnsCommentWithCommenterName()
+    public Comment SetUpComment()
     {
-        // Arrange
+        // Set up comment and author
         var commentId = Guid.NewGuid();
         var comment = new Comment { Id = commentId, UserId = Guid.NewGuid() };
         _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
 
+        return comment;
+    }
+
+    [Fact]
+    public async Task DeleteComment_RunsOk()
+    {
+        // Arrange
+        var comment = SetUpComment();
+
+        // Make sure delete does not throw
+        await _commentService.DeleteComment(comment.Id, comment.UserId);
+        _commentRepositoryMock.Setup(x => x.DeleteComment(comment));
+    }
+
+    [Fact]
+    public async Task DeleteComment_ThrowsWhenDeletingOthersComments()
+    {
+        // Arrange
+        var comment = SetUpComment();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(comment.Id, Guid.NewGuid()));
+        var result = await _commentService.GetComment(comment.Id);
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public async Task DeleteComment_ThrowsWhenCommentNotFound()
+    {
+        // Arrange
+        var comment = SetUpComment();
+
+        // Act & Assert
+        await Assert.ThrowsAsync<Exception>(() => _commentService.DeleteComment(Guid.NewGuid(), comment.UserId));
+        var result = await _commentService.GetComment(comment.Id);
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public async Task GetComment_ReturnsCommentWithCommenterName()
+    {
+        // Arrange
+        var comment = SetUpComment();
+
         // Act
-        var result = await _commentService.GetComment(commentId);
+        var result = await _commentService.GetComment(comment.Id);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(commentId, result.Id);
+        Assert.Equal(comment.Id, result.Id);
         Assert.Equal("Test User", result.CommenterName);
     }
 
@@ -98,12 +141,12 @@ public class CommentServiceTests
     public async Task GetComments_ReturnsCommentsWithCommenterNames()
     {
         // Arrange
-        var comments = new List<Comment>
+        var comment1 = new List<Comment>
         {
             new Comment { Id = Guid.NewGuid(), UserId = Guid.NewGuid() },
             new Comment { Id = Guid.NewGuid(), UserId = Guid.NewGuid() }
         };
-        _commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(comments);
+        _commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(comment1);
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(It.IsAny<Guid>())).ReturnsAsync(new AzureUser { Name = "Test User" });
 
         // Act
@@ -111,7 +154,7 @@ public class CommentServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comments.Count, result.Count);
+        Assert.Equal(comment1.Count, result.Count);
         foreach (var comment in result)
         {
             Assert.NotNull(comment.CommenterName);
@@ -122,19 +165,19 @@ public class CommentServiceTests
     public async Task GetCommentDtos_ReturnsCommentDtos_WhenCommentsFound()
     {
         // Arrange
-        var comments = new List<Comment>
+        var comments2 = new List<Comment>
         {
             new Comment { Id = Guid.NewGuid() },
             new Comment { Id = Guid.NewGuid() }
         };
-        _commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(comments);
+        _commentRepositoryMock.Setup(x => x.GetComments()).ReturnsAsync(comments2);
 
         // Act
         var result = await _commentService.GetCommentDtos();
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comments.Count, result.Count);
+        Assert.Equal(comments2.Count, result.Count);
         foreach (var comment in result)
         {
             Assert.NotNull(comment);
@@ -172,19 +215,19 @@ public class CommentServiceTests
     {
         // Arrange
         var tagId = Guid.NewGuid();
-        var comments = new List<Comment>
+        var comments3 = new List<Comment>
         {
             new Comment { Id = Guid.NewGuid(), TagDataReviewId = tagId },
             new Comment { Id = Guid.NewGuid(), TagDataReviewId = tagId }
         };
-        _commentRepositoryMock.Setup(x => x.GetCommentsForTagReview(tagId)).ReturnsAsync(comments);
+        _commentRepositoryMock.Setup(x => x.GetCommentsForTagReview(tagId)).ReturnsAsync(comments3);
 
         // Act
         var result = await _commentService.GetCommentDtosForTagReview(tagId);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comments.Count, result.Count);
+        Assert.Equal(comments3.Count, result.Count);
         foreach (var comment in result)
         {
             Assert.NotNull(comment);
@@ -197,12 +240,12 @@ public class CommentServiceTests
     {
         // Arrange
         var tagIds = new List<Guid?> { Guid.NewGuid(), Guid.NewGuid() };
-        var comments = new List<Comment>
+        var comments4 = new List<Comment>
         {
             new Comment { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), TagDataReviewId = tagIds[0] },
             new Comment { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), TagDataReviewId = tagIds[1] }
         };
-        _commentRepositoryMock.Setup(x => x.GetCommentsForTagReviews(tagIds)).ReturnsAsync(comments);
+        _commentRepositoryMock.Setup(x => x.GetCommentsForTagReviews(tagIds)).ReturnsAsync(comments4);
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(It.IsAny<Guid>())).ReturnsAsync(new AzureUser { Name = "Test User" });
 
         // Act
@@ -210,7 +253,7 @@ public class CommentServiceTests
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comments.Count, result.Count);
+        Assert.Equal(comments4.Count, result.Count);
         foreach (var comment in result)
         {
             Assert.NotNull(comment.CommenterName);
@@ -232,72 +275,72 @@ public class CommentServiceTests
     public async Task CreateTagDataReviewComment_ThrowsException_WhenInvalidTagDataReview()
     {
         // Arrange
-        var comment = new Comment { TagDataReviewId = Guid.NewGuid() };
+        var newComment1 = new Comment { TagDataReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(comment.TagDataReviewId.Value)).ReturnsAsync((TagDataReview?)null);
+        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(newComment1.TagDataReviewId.Value)).ReturnsAsync((TagDataReview?)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateTagDataReviewComment(comment, azureUniqueId));
+        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateTagDataReviewComment(newComment1, azureUniqueId));
     }
 
     [Fact]
     public async Task CreateTagDataReviewComment_CallsCreateComment_WithCorrectParameters()
     {
         // Arrange
-        var comment = new Comment { TagDataReviewId = Guid.NewGuid() };
+        var newComment2 = new Comment { TagDataReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        var tagDataReview = new TagDataReview { Id = comment.TagDataReviewId.Value };
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(comment.TagDataReviewId.Value)).ReturnsAsync(tagDataReview);
-        _commentRepositoryMock.Setup(x => x.AddComment(It.IsAny<Comment>())).ReturnsAsync(comment);
+        var tagDataReview = new TagDataReview { Id = newComment2.TagDataReviewId.Value };
+        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(newComment2.TagDataReviewId.Value)).ReturnsAsync(tagDataReview);
+        _commentRepositoryMock.Setup(x => x.AddComment(It.IsAny<Comment>())).ReturnsAsync(newComment2);
 
         // Act
-        var result = await _commentService.CreateTagDataReviewComment(comment, azureUniqueId);
+        var result = await _commentService.CreateTagDataReviewComment(newComment2, azureUniqueId);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comment.Id, result.Id);
-        _commentRepositoryMock.Verify(x => x.AddComment(comment), Times.Once);
+        Assert.Equal(newComment2.Id, result.Id);
+        _commentRepositoryMock.Verify(x => x.AddComment(newComment2), Times.Once);
     }
 
     [Fact]
     public async Task CreateRevisionContainerReviewComment_ThrowsException_WhenInvalidRevisionContainerReviewId()
     {
         // Arrange
-        var comment = new Comment { RevisionContainerReviewId = null };
+        var newComment3 = new Comment { RevisionContainerReviewId = null };
         var azureUniqueId = Guid.NewGuid();
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId));
+        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateRevisionContainerReviewComment(newComment3, azureUniqueId));
     }
 
     [Fact]
     public async Task CreateRevisionContainerReviewComment_ThrowsException_WhenInvalidRevisionContainerReview()
     {
         // Arrange
-        var comment = new Comment { RevisionContainerReviewId = Guid.NewGuid() };
+        var newComment4 = new Comment { RevisionContainerReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(comment.RevisionContainerReviewId.Value)).ReturnsAsync((RevisionContainerReview?)null);
+        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(newComment4.RevisionContainerReviewId.Value)).ReturnsAsync((RevisionContainerReview?)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId));
+        await Assert.ThrowsAsync<Exception>(() => _commentService.CreateRevisionContainerReviewComment(newComment4, azureUniqueId));
     }
 
     [Fact]
     public async Task CreateRevisionContainerReviewComment_CallsCreateComment_WithCorrectParameters()
     {
         // Arrange
-        var comment = new Comment { RevisionContainerReviewId = Guid.NewGuid() };
+        var newComment5 = new Comment { RevisionContainerReviewId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        var revisionContainerReview = new RevisionContainerReview { Id = comment.RevisionContainerReviewId.Value };
-        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(comment.RevisionContainerReviewId.Value)).ReturnsAsync(revisionContainerReview);
-        _commentRepositoryMock.Setup(x => x.AddComment(It.IsAny<Comment>())).ReturnsAsync(comment);
+        var revisionContainerReview = new RevisionContainerReview { Id = newComment5.RevisionContainerReviewId.Value };
+        _revisionContainerReviewServiceMock.Setup(x => x.GetRevisionContainerReview(newComment5.RevisionContainerReviewId.Value)).ReturnsAsync(revisionContainerReview);
+        _commentRepositoryMock.Setup(x => x.AddComment(It.IsAny<Comment>())).ReturnsAsync(newComment5);
 
         // Act
-        var result = await _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId);
+        var result = await _commentService.CreateRevisionContainerReviewComment(newComment5, azureUniqueId);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(comment.Id, result.Id);
-        _commentRepositoryMock.Verify(x => x.AddComment(comment), Times.Once);
+        Assert.Equal(newComment5.Id, result.Id);
+        _commentRepositoryMock.Verify(x => x.AddComment(newComment5), Times.Once);
     }
 }
