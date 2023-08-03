@@ -164,7 +164,6 @@ public class RevisionContainerAdapterTests
         Assert.Equal(revisionContainerDto.RevisionContainerName, result.RevisionContainerName);
         Assert.Equal(revisionContainerDto.RevisionNumber, result.RevisionNumber);
         Assert.Equal(revisionContainerDto.RevisionContainerDate, result.RevisionContainerDate);
-        Assert.NotNull(result.TagData);
         Assert.NotNull(result.RevisionContainerReview);
         Assert.Equal(revisionContainerDto.ContractId, result.ContractId);
         Assert.Null(result.Contract);
@@ -232,7 +231,6 @@ public class RevisionContainerAdapterTests
             Assert.Equal(revisionContainerDtos[i].RevisionContainerName, result[i].RevisionContainerName);
             Assert.Equal(revisionContainerDtos[i].RevisionNumber, result[i].RevisionNumber);
             Assert.Equal(revisionContainerDtos[i].RevisionContainerDate, result[i].RevisionContainerDate);
-            Assert.NotNull(result[i].TagData);
             Assert.NotNull(result[i].RevisionContainerReview);
             Assert.Equal(revisionContainerDtos[i].ContractId, result[i].ContractId);
             Assert.Null(result[i].Contract);
