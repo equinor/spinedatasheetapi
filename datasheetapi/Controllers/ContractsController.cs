@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+using datasheetapi.Adapters;
 
 namespace datasheetapi.Controllers;
 
@@ -24,7 +25,7 @@ public class ContractsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetContract")]
-    public async Task<ActionResult<Contract>> GetContract([FromQuery] Guid id)
+    public async Task<ActionResult<ContractDto?>> GetContract([FromQuery] Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -38,7 +39,7 @@ public class ContractsController : ControllerBase
             {
                 return NotFound();
             }
-            return Ok(contract);
+            return contract.ToDtoOrNull();
         }
 
         catch (Exception ex)
@@ -49,11 +50,12 @@ public class ContractsController : ControllerBase
     }
 
     [HttpGet(Name = "GetContracts")]
-    public async Task<ActionResult<List<Contract>>> GetContracts()
+    public async Task<ActionResult<List<ContractDto>>> GetContracts()
     {
         try
         {
-            return await _contractService.GetContracts();
+            var contracts = await _contractService.GetContracts();
+            return contracts.ToDto();
         }
         catch (Exception ex)
         {
@@ -63,11 +65,12 @@ public class ContractsController : ControllerBase
     }
 
     [HttpGet("contractor/{id}", Name = "GetContractsForContractor")]
-    public async Task<ActionResult<List<Contract>>> GetContractsForContractor([FromQuery] Guid id)
+    public async Task<ActionResult<List<ContractDto>>> GetContractsForContractor([FromQuery] Guid id)
     {
         try
         {
-            return await _contractService.GetContractsForContractor(id);
+            var contracts = await _contractService.GetContractsForContractor(id);
+            return contracts.ToDto();
         }
         catch (Exception ex)
         {

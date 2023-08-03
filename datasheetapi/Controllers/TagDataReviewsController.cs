@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+using datasheetapi.Adapters;
 
 namespace datasheetapi.Controllers;
 
@@ -24,7 +25,7 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetReview")]
-    public async Task<ActionResult<TagDataReview?>> GetReview([FromQuery] Guid id)
+    public async Task<ActionResult<TagDataReviewDto?>> GetReview([FromQuery] Guid id)
     {
         if (id == Guid.Empty)
         {
@@ -38,7 +39,7 @@ public class TagDataReviewsController : ControllerBase
             {
                 return NotFound();
             }
-            return Ok(review);
+            return review.ToDtoOrNull();
         }
         catch (Exception ex)
         {
@@ -48,11 +49,12 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet(Name = "GetReviews")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviews()
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews()
     {
         try
         {
-            return await _reviewService.GetTagDataReviews();
+            var reviews = await _reviewService.GetTagDataReviews();
+            return reviews.ToDto();
         }
         catch (Exception ex)
         {
@@ -62,11 +64,12 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet("tag/{id}", Name = "GetReviewsForTag")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviewsForTag(Guid id)
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviewsForTag(Guid id)
     {
         try
         {
-            return await _reviewService.GetTagDataReviewsForTag(id);
+            var reviews = await _reviewService.GetTagDataReviewsForTag(id);
+            return reviews.ToDto();
         }
         catch (Exception ex)
         {
@@ -76,11 +79,12 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet("project/{id}", Name = "GetReviewsForProject")]
-    public async Task<ActionResult<List<TagDataReview>>> GetReviewsForProject([FromQuery] Guid id)
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviewsForProject([FromQuery] Guid id)
     {
         try
         {
-            return await _reviewService.GetTagDataReviewsForProject(id);
+            var reviews = await _reviewService.GetTagDataReviewsForProject(id);
+            return reviews.ToDto();
         }
         catch (Exception ex)
         {
@@ -90,18 +94,22 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpPost(Name = "CreateReview")]
-    public async Task<ActionResult<TagDataReview>> CreateReview([FromBody] TagDataReview review)
+    public async Task<ActionResult<TagDataReviewDto?>> CreateReview([FromBody] TagDataReviewDto reviewDto)
     {
         var httpContext = HttpContext;
         var user = httpContext.User;
         var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
         var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
 
+        if (reviewDto == null) { return BadRequest(); }
+
+        var review = reviewDto.ToModelOrNull();
         if (review == null) { return BadRequest(); }
 
         try
         {
-            return await _reviewService.CreateTagDataReview(review, azureUniqueId);
+            var result = await _reviewService.CreateTagDataReview(review, azureUniqueId);
+            return result.ToDtoOrNull();
         }
         catch (Exception ex)
         {
