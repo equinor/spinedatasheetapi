@@ -13,6 +13,14 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
         _tagDataReviewService = tagDataReviewService;
     }
 
+    public async Task<ITagDataDto> AddRevisionContainer(ITagDataDto tagDataDto)
+    {
+        var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tagDataDto.Id);
+        tagDataDto.RevisionContainer = revisionContainer.ToDtoOrNull();
+
+        return tagDataDto;
+    }
+
     public async Task<List<ITagDataDto>> AddRevisionContainer(List<ITagDataDto> tagDataDto)
     {
         foreach (var tag in tagDataDto)
@@ -20,6 +28,15 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
             var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tag.Id);
             tag.RevisionContainer = revisionContainer.ToDtoOrNull();
         }
+
+        return tagDataDto;
+    }
+
+    public async Task<ITagDataDto> AddReview(ITagDataDto tagDataDto)
+    {
+        var review = await _tagDataReviewService.GetTagDataReviewsForTag(tagDataDto.Id);
+        var newestReview = review.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
+        tagDataDto.Review = newestReview.ToDtoOrNull();
 
         return tagDataDto;
     }

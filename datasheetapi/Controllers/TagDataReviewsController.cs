@@ -66,7 +66,7 @@ public class TagDataReviewsController : ControllerBase
     {
         try
         {
-            return await _reviewService.GetReviewsForTag(id);
+            return await _reviewService.GetTagDataReviewsForTag(id);
         }
         catch (Exception ex)
         {

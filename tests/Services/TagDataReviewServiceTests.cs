@@ -90,7 +90,7 @@ public class TagDataReviewServiceTests
         _reviewRepositoryMock.Setup(x => x.GetTagDataReviewsForTag(tagId)).ReturnsAsync(reviews);
 
         // Act
-        var result = await _tagDataReviewService.GetReviewsForTag(tagId);
+        var result = await _tagDataReviewService.GetTagDataReviewsForTag(tagId);
 
         // Assert
         Assert.NotNull(result);

@@ -27,6 +27,9 @@ public class TagDataController : ControllerBase
                 return NotFound();
             }
 
+            tagData = await _enrichTagDataService.AddReview(tagData);
+            tagData = await _enrichTagDataService.AddRevisionContainer(tagData);
+
             return Ok(tagData);
         }
         catch (Exception ex)

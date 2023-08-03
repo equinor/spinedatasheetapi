@@ -34,7 +34,7 @@ public class TagDataReviewService : ITagDataReviewService
         return await Task.Run(() => new List<TagDataReview>());
     }
 
-    public async Task<List<TagDataReview>> GetReviewsForTag(Guid tagId)
+    public async Task<List<TagDataReview>> GetTagDataReviewsForTag(Guid tagId)
     {
         var comments = await _reviewRepository.GetTagDataReviewsForTag(tagId);
         return comments;
