@@ -38,7 +38,7 @@ public class CommentsController : ControllerBase
         try
         {
             var comment = await _commentService.UpdateComment(id, azureUniqueId, newComment.Text);
-            return Ok(comment.ToDtoOrNull());
+            return Ok(comment);
         }
         catch (Exception ex)
         {
