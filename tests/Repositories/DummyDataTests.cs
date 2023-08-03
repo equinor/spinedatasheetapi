@@ -100,7 +100,6 @@ public class DummyDataTests
             Id = Guid.NewGuid(),
             RevisionNumber = 3,
             RevisionContainerName = "New Container",
-            TagData = new List<ITagData>(),
             RevisionContainerDate = DateTimeOffset.Now.AddDays(-5),
             Contract = DummyData.contract1
         };
@@ -110,23 +109,5 @@ public class DummyDataTests
 
         // Assert
         Assert.Contains(revisionContainer, DummyData.contract1.RevisionContainers);
-    }
-
-    [Fact]
-    public void TestAddTagDataToRevisionContainerIfMissing()
-    {
-        // Arrange
-        var tagData = new TagData
-        {
-            Id = Guid.NewGuid(),
-            TagNo = "New TagNo",
-            Description = "New Description",
-        };
-
-        // Act
-        DummyData.AddTagDataToRevisionContainerIfMissing(tagData, DummyData.revisionContainerA);
-
-        // Assert
-        Assert.Contains(tagData, DummyData.revisionContainerA.TagData);
     }
 }

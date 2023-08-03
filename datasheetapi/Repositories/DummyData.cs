@@ -69,7 +69,7 @@ public static class DummyData
         Id = new Guid("699544e7-e2a5-4a40-945d-be31f8f02a66"),
         RevisionNumber = 2,
         RevisionContainerName = "Container A",
-        TagData = new List<ITagData>(),
+        TagDataIds = new List<Guid>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-2),
         Contract = contract1
     };
@@ -79,7 +79,7 @@ public static class DummyData
         Id = new Guid("9e8dd591-3cbd-4511-8d4a-54e31ea085bf"),
         RevisionNumber = 5,
         RevisionContainerName = "Container B",
-        TagData = new List<ITagData>(),
+        TagDataIds = new List<Guid>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-11),
         Contract = contract1
     };
@@ -89,7 +89,7 @@ public static class DummyData
         Id = new Guid("d82f23f4-1612-421a-980e-4315ec642496"),
         RevisionNumber = 1,
         RevisionContainerName = "Container C",
-        TagData = new List<ITagData>(),
+        TagDataIds = new List<Guid>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-7),
         Contract = contract1
     };
@@ -107,11 +107,11 @@ public static class DummyData
         };
     }
 
-    public static void AddTagDataToRevisionContainerIfMissing(TagData tagData, RevisionContainer? revisionContainer)
+    public static void AddTagDataToRevisionContainerIfMissing(Guid tagDataId, RevisionContainer? revisionContainer)
     {
         if (revisionContainer == null) { return; }
-        if (revisionContainer.TagData.Contains(tagData)) { return; }
-        revisionContainer.TagData.Add(tagData);
+        if (revisionContainer.TagDataIds.Contains(tagDataId)) { return; }
+        revisionContainer.TagDataIds.Add(tagDataId);
     }
 
     public static readonly InstrumentTagData instrumentTagData1 = new()
@@ -122,8 +122,12 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        TagStatus = "",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 3,
-        RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -387,8 +391,11 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 1,
-        RevisionContainer = revisionContainerA,
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -652,7 +659,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Level Transmitter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerB,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -916,7 +926,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Pressure Transmitter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerB,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -1180,7 +1193,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1444,7 +1460,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1707,7 +1726,10 @@ public static class DummyData
         Category = "",
         Description = "Mass flowmeter",
         Discipline = "Instrument",
-        RevisionContainer = revisionContainerC,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentPurchaserRequirement = new()
         {
             Manufacturer = "KROHNE",
@@ -2032,7 +2054,10 @@ public static class DummyData
         Category = "",
         Description = "LV motor - motor-converter fed",
         Discipline = "Electrical",
-        RevisionContainer = revisionContainerC,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         ElectricalSupplierOfferedProduct = new()
         {
             OrderStatus = "for enquiry",
@@ -2359,7 +2384,10 @@ public static class DummyData
         Category = "",
         Description = "WELL CLEAN-UP PUMP",
         Discipline = "Mechanical",
-        RevisionContainer = revisionContainerC,
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         MechanicalPurchaserRequirement = new()
         {
             ConformityAssesmentSystemLevel = "D",
@@ -3070,15 +3098,15 @@ public static class DummyData
 
     public static List<ITagData> GetTagDatas()
     {
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData1, instrumentTagData1.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData2, instrumentTagData2.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData3, instrumentTagData3.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData4, instrumentTagData4.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData5, instrumentTagData5.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData6, instrumentTagData6.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData7, instrumentTagData7.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(electricalTagData1, electricalTagData1.RevisionContainer);
-        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1, mechanicalTagData1.RevisionContainer);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData1.Id, revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData2.Id, revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData3.Id, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData4.Id, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData5.Id, revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData6.Id, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData7.Id, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(electricalTagData1.Id, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1.Id, revisionContainerC);
 
         return new List<ITagData> {
             instrumentTagData1,

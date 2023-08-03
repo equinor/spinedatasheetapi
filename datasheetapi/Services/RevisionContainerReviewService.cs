@@ -6,39 +6,39 @@ namespace datasheetapi.Services;
 public class RevisionContainerReviewService : IRevisionContainerReviewService
 {
     private readonly ILogger<RevisionContainerReviewService> _logger;
-    private readonly ITagDataService _tagDataService;
+    private readonly IRevisionContainerService _revisionContainerService;
 
     private readonly IRevisionContainerReviewRepository _reviewRepository;
 
     public RevisionContainerReviewService(ILoggerFactory loggerFactory, IRevisionContainerReviewRepository reviewRepository,
-        ITagDataService tagDataService)
+        IRevisionContainerService revisionContainerService)
     {
         _reviewRepository = reviewRepository;
-        _tagDataService = tagDataService;
+        _revisionContainerService = revisionContainerService;
         _logger = loggerFactory.CreateLogger<RevisionContainerReviewService>();
     }
 
     public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)
     {
-        var review = await _reviewRepository.GetTagDataReview(id);
+        var review = await _reviewRepository.GetRevisionContainerReview(id);
         return review;
     }
 
     public async Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDto(Guid id)
     {
-        var review = await _reviewRepository.GetTagDataReview(id);
+        var review = await _reviewRepository.GetRevisionContainerReview(id);
         return review.ToDtoOrNull();
     }
 
     public async Task<List<RevisionContainerReview>> GetRevisionContainerReviews()
     {
-        var reviews = await _reviewRepository.GetTagDataReviews();
+        var reviews = await _reviewRepository.GetRevisionContainerReviews();
         return reviews;
     }
 
     public async Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtos()
     {
-        var reviews = await _reviewRepository.GetTagDataReviews();
+        var reviews = await _reviewRepository.GetRevisionContainerReviews();
         return reviews.ToDto();
     }
 
@@ -68,13 +68,12 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
     {
         review.ApproverId = azureUniqueId;
 
-        var tagData = await _tagDataService.GetAllTagData();
-        var revisionContainer = tagData.FirstOrDefault(td => td.RevisionContainer?.Id == review.RevisionContainerId)?.RevisionContainer ?? throw new Exception("Invalid revision");
+        var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.RevisionContainerId) ?? throw new Exception("Invalid revision container id");
 
         var reviewModel = review.ToModelOrNull() ?? throw new Exception("Invalid review");
         revisionContainer.RevisionContainerReview = reviewModel;
 
-        RevisionContainerReview savedReview = await _reviewRepository.AddTagDataReview(reviewModel);
+        RevisionContainerReview savedReview = await _reviewRepository.AddRevisionContainerReview(reviewModel);
         return savedReview.ToDtoOrNull() ?? throw new Exception("Saving revision container review failed");
     }
 }

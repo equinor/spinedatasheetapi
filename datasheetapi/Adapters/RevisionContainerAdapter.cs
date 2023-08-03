@@ -18,7 +18,7 @@ public static class RevisionContainerAdapter
             RevisionContainerName = revisionContainer.RevisionContainerName,
             RevisionNumber = revisionContainer.RevisionNumber,
             RevisionContainerDate = revisionContainer.RevisionContainerDate,
-            TagData = revisionContainer.TagData.ToDto(),
+            // TagData = AddTagDataDtos(), // revisionContainer.TagData.ToDto(),
             RevisionContainerReview = revisionContainer.RevisionContainerReview.ToDtoOrNull(),
             ContractId = revisionContainer.ContractId,
             Contract = null,

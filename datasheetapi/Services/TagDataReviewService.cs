@@ -34,7 +34,7 @@ public class TagDataReviewService : ITagDataReviewService
         return await Task.Run(() => new List<TagDataReview>());
     }
 
-    public async Task<List<TagDataReview>> GetReviewsForTag(Guid tagId)
+    public async Task<List<TagDataReview>> GetTagDataReviewsForTag(Guid tagId)
     {
         var comments = await _reviewRepository.GetTagDataReviewsForTag(tagId);
         return comments;
@@ -48,11 +48,10 @@ public class TagDataReviewService : ITagDataReviewService
 
     public async Task<TagDataReview> CreateTagDataReview(TagDataReview review, Guid azureUniqueId)
     {
-        var tagData = await _tagDataService.GetTagDataById(review.TagDataId) ?? throw new Exception($"Invalid tag data id: {review.TagDataId}");
+        var _ = await _tagDataService.GetTagDataById(review.TagDataId) ?? throw new Exception($"Invalid tag data id: {review.TagDataId}");
         review.ApproverId = azureUniqueId;
 
         TagDataReview savedReview = await _reviewRepository.AddTagDataReview(review);
-        tagData.TagDataReview = savedReview;
         return savedReview;
     }
 }

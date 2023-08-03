@@ -10,12 +10,12 @@ public class DummyRevisionContainerReviewRepository : IRevisionContainerReviewRe
         _logger = loggerFactory.CreateLogger<DummyTagDataReviewRepository>();
     }
 
-    public async Task<RevisionContainerReview?> GetTagDataReview(Guid id)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)
     {
         return await Task.Run(() => _reviews.Find(c => c.Id == id));
     }
 
-    public async Task<List<RevisionContainerReview>> GetTagDataReviews()
+    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviews()
     {
         return await Task.Run(() => _reviews);
     }
@@ -31,7 +31,7 @@ public class DummyRevisionContainerReviewRepository : IRevisionContainerReviewRe
     }
 
 
-    public async Task<RevisionContainerReview> AddTagDataReview(RevisionContainerReview review)
+    public async Task<RevisionContainerReview> AddRevisionContainerReview(RevisionContainerReview review)
     {
         review.Id = Guid.NewGuid();
         review.CreatedDate = DateTime.UtcNow;

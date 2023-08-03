@@ -71,8 +71,13 @@ public static class TagDataAdapter
             Category = tagData.Category,
             Description = tagData.Description,
             Discipline = tagData.Discipline,
+            Contract = tagData.Contract,
+            ContractName = tagData.ContractName,
+            TagStatus = tagData.TagStatus,
+            EngineeringCode = tagData.EngineeringCode,
+            PurchaseOrder = tagData.PurchaseOrder,
             Version = tagData.Version,
-            Review = tagData.TagDataReview.ToDtoOrNull(),
+            // Review = GetTagDataReviewDtosForTagData() //tagData.TagDataReview.ToDtoOrNull(),
             RevisionContainer = null,
         };
     }
