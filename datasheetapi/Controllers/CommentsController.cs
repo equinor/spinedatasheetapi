@@ -25,7 +25,7 @@ public class CommentsController : ControllerBase
         _commentService = commentService;
     }
 
-    public Guid GetAzureUniqueId()
+    private Guid GetAzureUniqueId()
     {
         var httpContext = HttpContext;
         var user = httpContext.User;

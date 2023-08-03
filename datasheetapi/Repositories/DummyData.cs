@@ -122,6 +122,11 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        TagStatus = "",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 3,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -386,6 +391,10 @@ public static class DummyData
         Category = "",
         Description = "Flow Transmitter Coriolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         Version = 1,
         InstrumentSupplierOfferedProduct = new()
         {
@@ -650,6 +659,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Level Transmitter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -913,6 +926,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Pressure Transmitter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -1176,6 +1193,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1439,6 +1460,10 @@ public static class DummyData
         Category = "Category 2",
         Description = "Flow Transmitter Corolis",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1701,6 +1726,10 @@ public static class DummyData
         Category = "",
         Description = "Mass flowmeter",
         Discipline = "Instrument",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         InstrumentPurchaserRequirement = new()
         {
             Manufacturer = "KROHNE",
@@ -2025,6 +2054,10 @@ public static class DummyData
         Category = "",
         Description = "LV motor - motor-converter fed",
         Discipline = "Electrical",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         ElectricalSupplierOfferedProduct = new()
         {
             OrderStatus = "for enquiry",
@@ -2351,6 +2384,10 @@ public static class DummyData
         Category = "",
         Description = "WELL CLEAN-UP PUMP",
         Discipline = "Mechanical",
+        Contract = "",
+        ContractName = "Contract 1",
+        EngineeringCode = "",
+        PurchaseOrder = "",
         MechanicalPurchaserRequirement = new()
         {
             ConformityAssesmentSystemLevel = "D",
