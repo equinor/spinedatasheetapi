@@ -68,8 +68,6 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
     {
         review.ApproverId = azureUniqueId;
 
-
-
         var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.RevisionContainerId) ?? throw new Exception("Invalid revision container id");
 
         var reviewModel = review.ToModelOrNull() ?? throw new Exception("Invalid review");

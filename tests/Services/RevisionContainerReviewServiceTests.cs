@@ -146,22 +146,6 @@ public class RevisionContainerReviewServiceTests
         Assert.Equal(reviews.ToDto().Count, result.Count);
     }
 
-    // [Fact]
-    // public async Task CreateRevisionContainerReview_ThrowsException_WhenInvalidReview()
-    // {
-    //     // Arrange
-    //     var review = new RevisionContainerReviewDto { RevisionContainerId = Guid.NewGuid() };
-    //     var azureUniqueId = Guid.NewGuid();
-    //     var tagData = new List<ITagData> { new TagData { RevisionContainer = new RevisionContainer { Id = Guid.NewGuid() } } };
-    //     var reviewModel = new RevisionContainerReview();
-    //     var savedReview = new RevisionContainerReview();
-    //     _tagDataServiceMock.Setup(x => x.GetAllTagData()).ReturnsAsync(tagData);
-    //     _reviewRepositoryMock.Setup(x => x.AddRevisionContainerReview(reviewModel)).ReturnsAsync(savedReview);
-
-    //     // Act & Assert
-    //     await Assert.ThrowsAsync<Exception>(() => _reviewService.CreateRevisionContainerReview(review, azureUniqueId));
-    // }
-
     [Fact]
     public async Task CreateRevisionContainerReview_ThrowsException_WhenInvalidRevision()
     {
@@ -174,39 +158,42 @@ public class RevisionContainerReviewServiceTests
         await Assert.ThrowsAsync<Exception>(() => _reviewService.CreateRevisionContainerReview(review, azureUniqueId));
     }
 
-    // [Fact]
-    // public async Task CreateRevisionContainerReview_ReturnsReviewDto_WhenValidInput()
-    // {
-    //     // Arrange
-    //     var review = new RevisionContainerReviewDto { RevisionContainerId = Guid.NewGuid() };
-    //     var azureUniqueId = Guid.NewGuid();
-    //     review.ApproverId = azureUniqueId;
-    //     var tagData = new List<ITagData> { new TagData { RevisionContainer = new RevisionContainer { Id = review.RevisionContainerId } } };
-    //     var savedReview = new RevisionContainerReview { Id = Guid.NewGuid(), RevisionContainerId = review.RevisionContainerId };
-    //     _tagDataServiceMock.Setup(x => x.GetAllTagData()).ReturnsAsync(tagData);
-    //     _reviewRepositoryMock.Setup(x => x.AddRevisionContainerReview(It.IsAny<RevisionContainerReview>())).ReturnsAsync(savedReview);
+    [Fact]
+    public async Task CreateRevisionContainerReview_ReturnsReviewDto_WhenValidInput()
+    {
+        // Arrange
+        var azureUniqueId = Guid.NewGuid();
+        var reviewDto = new RevisionContainerReviewDto
+        {
+            ApproverId = azureUniqueId,
+            RevisionContainerId = Guid.NewGuid(),
+        };
+        var revisionContainer = new RevisionContainer
+        {
+            Id = reviewDto.RevisionContainerId
+        };
+        var reviewModel = new RevisionContainerReview
+        {
+            ApproverId = azureUniqueId,
+            RevisionContainerId = Guid.NewGuid(),
+        };
+        var savedReview = new RevisionContainerReview
+        {
+            Id = Guid.NewGuid(),
+            ApproverId = azureUniqueId,
+            RevisionContainerId = Guid.NewGuid(),
+        };
 
-    //     // Act
-    //     var result = await _reviewService.CreateRevisionContainerReview(review, azureUniqueId);
+        _revisionContainerServiceMock.Setup(s => s.GetRevisionContainer(reviewDto.RevisionContainerId)).ReturnsAsync(revisionContainer);
+        _reviewRepositoryMock.Setup(s => s.AddRevisionContainerReview(It.IsAny<RevisionContainerReview>())).ReturnsAsync(savedReview);
 
-    //     // Assert
-    //     Assert.NotNull(result);
-    //     Assert.Equal(savedReview.ToDtoOrNull()?.Id, result.Id);
-    // }
+        // Act
+        var result = await _reviewService.CreateRevisionContainerReview(reviewDto, azureUniqueId);
 
-    //     [Fact]
-    //     public async Task CreateRevisionContainerReview_ThrowsException_WhenToDtoOrNullReturnsNull()
-    //     {
-    //         // Arrange
-    //         var review = new RevisionContainerReviewDto { RevisionContainerId = Guid.NewGuid() };
-    //         var azureUniqueId = Guid.NewGuid();
-    //         var tagData = new List<ITagData> { new TagData { RevisionContainer = new RevisionContainer { Id = review.RevisionContainerId } } };
-    //         var reviewModel = new RevisionContainerReview();
-    //         var savedReview = new RevisionContainerReview();
-    //         _tagDataServiceMock.Setup(x => x.GetAllTagData()).ReturnsAsync(tagData);
-    //         _reviewRepositoryMock.Setup(x => x.AddRevisionContainerReview(reviewModel)).ReturnsAsync(savedReview);
-
-    //         // Act & Assert
-    //         await Assert.ThrowsAsync<Exception>(() => _reviewService.CreateRevisionContainerReview(review, azureUniqueId));
-    //     }
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(savedReview.Id, result.Id);
+        Assert.Equal(azureUniqueId, result.ApproverId);
+        _revisionContainerServiceMock.Verify(s => s.GetRevisionContainer(reviewDto.RevisionContainerId), Times.Once);
+    }
 }
