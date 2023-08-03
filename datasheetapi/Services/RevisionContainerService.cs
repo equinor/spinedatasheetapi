@@ -19,6 +19,12 @@ public class RevisionContainerService : IRevisionContainerService
         return revisionContainer;
     }
 
+    public async Task<RevisionContainer?> GetRevisionContainerForTagDataId(Guid id)
+    {
+        var revisionContainer = await _revisionContainerRepository.GetRevisionContainerForTagDataId(id);
+        return revisionContainer;
+    }
+
     public async Task<List<RevisionContainer>> GetRevisionContainers()
     {
         var revisionContainer = await _revisionContainerRepository.GetRevisionContainers();

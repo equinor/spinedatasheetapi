@@ -6,11 +6,13 @@ public class TagDataController : ControllerBase
 {
     private readonly ILogger<TagDataController> _logger;
     private readonly ITagDataService _tagDataService;
+    private readonly ITagDataEnrichmentService _enrichTagDataService;
 
-    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService)
+    public TagDataController(ILoggerFactory loggerFactory, ITagDataService tagDataService, ITagDataEnrichmentService enrichTagDataService)
     {
         _logger = loggerFactory.CreateLogger<TagDataController>();
         _tagDataService = tagDataService;
+        _enrichTagDataService = enrichTagDataService;
     }
 
     [HttpGet("{id:guid}", Name = "GetTagDataById")]
@@ -24,6 +26,9 @@ public class TagDataController : ControllerBase
             {
                 return NotFound();
             }
+
+            tagData = await _enrichTagDataService.AddReview(tagData);
+            tagData = await _enrichTagDataService.AddRevisionContainer(tagData);
 
             return Ok(tagData);
         }
@@ -40,6 +45,9 @@ public class TagDataController : ControllerBase
         try
         {
             var tagData = await _tagDataService.GetAllTagDataDtos();
+
+            tagData = await _enrichTagDataService.AddReview(tagData);
+            tagData = await _enrichTagDataService.AddRevisionContainer(tagData);
 
             return Ok(tagData);
         }

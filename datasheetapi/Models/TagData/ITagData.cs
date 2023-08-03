@@ -14,7 +14,5 @@ namespace datasheetapi.Models
         string? EngineeringCode { get; set; }
         string? PurchaseOrder { get; set; }
         int Version { get; set; }
-        TagDataReview? TagDataReview { get; set; }
-        RevisionContainer? RevisionContainer { get; set; }
     }
 }

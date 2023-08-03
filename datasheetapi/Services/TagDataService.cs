@@ -5,6 +5,7 @@ namespace datasheetapi.Services;
 public class TagDataService : ITagDataService
 {
     private readonly IFAMService _FAMService;
+
     public TagDataService(IFAMService FAMService)
     {
         _FAMService = FAMService;
@@ -31,14 +32,10 @@ public class TagDataService : ITagDataService
 
     public async Task<List<ITagDataDto>> GetAllTagDataDtos()
     {
-        var tagDataDtos = new List<ITagDataDto>();
         var allTagData = await _FAMService.GetTagData();
-        foreach (var tagData in allTagData)
-        {
-            tagDataDtos.Add(tagData.ToDto());
-        }
+        var allTagDataDtos = allTagData.ToDto();
 
-        return tagDataDtos;
+        return allTagDataDtos;
     }
 
     public async Task<List<ITagData>> GetAllTagData()

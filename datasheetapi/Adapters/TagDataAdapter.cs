@@ -77,7 +77,7 @@ public static class TagDataAdapter
             EngineeringCode = tagData.EngineeringCode,
             PurchaseOrder = tagData.PurchaseOrder,
             Version = tagData.Version,
-            Review = tagData.TagDataReview.ToDtoOrNull(),
+            // Review = GetTagDataReviewDtosForTagData() //tagData.TagDataReview.ToDtoOrNull(),
             RevisionContainer = null,
         };
     }
