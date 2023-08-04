@@ -25,6 +25,16 @@ public class DummyCommentRepository : ICommentRepository
         await Task.Run(() => _comments.Remove(comment));
     }
 
+    // changing comment-text should be moved to commentservice once entityframework is added
+    public async Task<Comment> UpdateComment(Comment oldComment, string newComment)
+    {
+        var existingComment = await GetComment(oldComment.Id) ?? throw new Exception($"Comment with id {oldComment.Id} not found");
+        existingComment = oldComment;
+        existingComment.Text = newComment;
+
+        return await Task.Run(() => existingComment);
+    }
+
     public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
     {
         return await Task.Run(() => _comments.Where(c => c.TagDataReviewId == tagId).ToList());
