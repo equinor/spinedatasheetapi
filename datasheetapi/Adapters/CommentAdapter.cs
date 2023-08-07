@@ -22,7 +22,6 @@ public static class CommentAdapter
             CreatedDate = comment.CreatedDate,
             ModifiedDate = comment.ModifiedDate,
             IsEdited = comment.IsEdited,
-            LastEdited = comment.LastEdited,
         };
     }
 
@@ -53,7 +52,6 @@ public static class CommentAdapter
             CreatedDate = commentDto.CreatedDate,
             ModifiedDate = commentDto.ModifiedDate,
             IsEdited = commentDto.IsEdited,
-            LastEdited = commentDto.LastEdited,
         };
     }
 

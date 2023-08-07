@@ -9,5 +9,4 @@ public record CommentDto : BaseEntityDto
     public Guid? TagDataReviewId { get; set; }
     public Guid? RevisionContainerReviewId { get; set; }
     public bool IsEdited { get; set; }
-    public DateTime? LastEdited { get; set; }
 }

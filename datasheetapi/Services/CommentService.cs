@@ -174,7 +174,7 @@ public class CommentService : ICommentService
 
         var comment = await _commentRepository.UpdateComment(oldComment, newComment);
         comment.IsEdited = true;
-        comment.LastEdited = DateTime.Now;
+        comment.ModifiedDate = DateTime.Now;
         return comment?.ToDtoOrNull();
     }
 
