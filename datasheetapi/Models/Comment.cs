@@ -15,7 +15,7 @@ public class Comment : BaseEntity
 
     public bool IsTagDataReviewComment => TagDataReviewId.HasValue;
     public bool IsRevisionContainerReviewComment => RevisionContainerReviewId.HasValue;
-    public bool IsEdited { get; set; } = false;
+    public bool IsEdited { get; set; }
     public DateTime? LastEdited { get; set; } = null;
 
     public void SetTagDataReview(TagDataReview review)
