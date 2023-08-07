@@ -20,7 +20,9 @@ public static class CommentAdapter
             TagDataReviewId = comment.TagDataReviewId,
             RevisionContainerReviewId = comment.RevisionContainerReviewId,
             CreatedDate = comment.CreatedDate,
-            ModifiedDate = comment.ModifiedDate
+            ModifiedDate = comment.ModifiedDate,
+            IsEdited = comment.IsEdited,
+            LastEdited = comment.LastEdited,
         };
     }
 
@@ -49,7 +51,9 @@ public static class CommentAdapter
             TagDataReviewId = commentDto.TagDataReviewId,
             RevisionContainerReviewId = commentDto.RevisionContainerReviewId,
             CreatedDate = commentDto.CreatedDate,
-            ModifiedDate = commentDto.ModifiedDate
+            ModifiedDate = commentDto.ModifiedDate,
+            IsEdited = commentDto.IsEdited,
+            LastEdited = commentDto.LastEdited,
         };
     }
 
