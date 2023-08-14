@@ -17,28 +17,27 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
 
     public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)
     {
-        var revisionContainerReview = await _context.RevisionContainerReviews!.FindAsync(id);
+        var revisionContainerReview = await _context.RevisionContainerReviews.FindAsync(id);
         return revisionContainerReview;
     }
 
     public async Task<List<RevisionContainerReview>> GetRevisionContainerReviews()
     {
-        var revisionContainerReviews = await _context.RevisionContainerReviews!.ToListAsync();
+        var revisionContainerReviews = await _context.RevisionContainerReviews.ToListAsync();
         return revisionContainerReviews;
     }
 
     public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewForRevision(Guid id)
     {
-        var revisionContainerReviews = await _context.RevisionContainerReviews!.Where(c => c.RevisionContainerId == id).ToListAsync();
+        var revisionContainerReviews = await _context.RevisionContainerReviews.Where(c => c.RevisionContainerId == id).ToListAsync();
         return revisionContainerReviews;
     }
 
     public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForRevisions(List<Guid> tagIds)
     {
-        var revisionContainerReviews = await _context.RevisionContainerReviews!.Where(c => tagIds.Contains(c.RevisionContainerId)).ToListAsync();
+        var revisionContainerReviews = await _context.RevisionContainerReviews.Where(c => tagIds.Contains(c.RevisionContainerId)).ToListAsync();
         return revisionContainerReviews;
     }
-
 
     public async Task<RevisionContainerReview> AddRevisionContainerReview(RevisionContainerReview review)
     {
@@ -46,7 +45,7 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
         review.CreatedDate = DateTime.UtcNow;
         review.ModifiedDate = DateTime.UtcNow;
 
-        var savedReview = await _context.RevisionContainerReviews!.AddAsync(review);
+        var savedReview = await _context.RevisionContainerReviews.AddAsync(review);
         await _context.SaveChangesAsync();
 
         return savedReview.Entity;

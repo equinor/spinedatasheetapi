@@ -17,25 +17,25 @@ public class ContractRepository : IContractRepository
 
     public async Task<Contract?> GetContract(Guid id)
     {
-        var contract = await _context.Contracts!.FindAsync(id);
+        var contract = await _context.Contracts.FindAsync(id);
         return contract;
     }
 
     public async Task<List<Contract>> GetContracts()
     {
-        var contracts = await _context.Contracts!.ToListAsync();
+        var contracts = await _context.Contracts.ToListAsync();
         return contracts;
     }
 
     public async Task<List<Contract>> GetContractForContractor(Guid contractorId)
     {
-        var contracts = await _context.Contracts!.Where(c => c.ContractorId == contractorId).ToListAsync();
+        var contracts = await _context.Contracts.Where(c => c.ContractorId == contractorId).ToListAsync();
         return contracts;
     }
 
     public async Task<List<Contract>> GetContractForProject(Guid projectId)
     {
-        var contracts = await _context.Contracts!.Where(c => c.ProjectId == projectId).ToListAsync();
+        var contracts = await _context.Contracts.Where(c => c.ProjectId == projectId).ToListAsync();
         return contracts;
     }
 }

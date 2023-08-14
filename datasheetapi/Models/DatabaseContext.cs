@@ -9,10 +9,11 @@ public class DatabaseContext : DbContext
     {
 
     }
-    public DbSet<Comment>? Comments { get; set; }
-    public DbSet<Contract>? Contracts { get; set; }
-    public DbSet<RevisionContainer>? RevisionContainers { get; set; }
-    public DbSet<RevisionContainerReview>? RevisionContainerReviews { get; set; }
-    public DbSet<TagDataReview>? TagDataReviews { get; set; }
-    public DbSet<Project>? Projects { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<Contract> Contracts { get; set; }
+    public DbSet<RevisionContainer> RevisionContainers { get; set; }
+    public DbSet<RevisionContainerTagNo> RevisionContainerTagNos { get; set; }
+    public DbSet<RevisionContainerReview> RevisionContainerReviews { get; set; }
+    public DbSet<TagDataReview> TagDataReviews { get; set; }
+    public DbSet<Project> Projects { get; set; }
 }

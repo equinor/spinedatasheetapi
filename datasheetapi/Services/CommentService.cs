@@ -172,7 +172,7 @@ public class CommentService : ICommentService
 
         if (oldComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
-        var comment = await _commentRepository.UpdateComment(oldComment, newComment);
+        var comment = await _commentRepository.UpdateComment(oldComment);
         return comment?.ToDtoOrNull();
     }
 

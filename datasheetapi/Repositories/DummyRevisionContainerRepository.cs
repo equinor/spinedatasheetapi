@@ -16,9 +16,10 @@ public class DummyRevisionContainerRepository : IRevisionContainerRepository
         return await Task.Run(() => _revisionContainer.Find(c => c.Id == id));
     }
 
-    public async Task<RevisionContainer?> GetRevisionContainerForTagDataId(Guid id)
+    public async Task<RevisionContainer?> GetRevisionContainerForTagNo(string tagNo)
     {
-        return await Task.Run(() => _revisionContainer.Find(c => c.TagDataIds.Contains(id)));
+        return await Task.Run(() => _revisionContainer.First());
+        // return await Task.Run(() => _revisionContainer.Find(c => c.TagNo.Contains(tagNo)));
     }
 
     public async Task<List<RevisionContainer>> GetRevisionContainers()

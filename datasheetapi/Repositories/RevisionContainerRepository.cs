@@ -17,25 +17,27 @@ public class RevisionContainerRepository : IRevisionContainerRepository
 
     public async Task<RevisionContainer?> GetRevisionContainer(Guid id)
     {
-        var revisionContainer = await _context.RevisionContainers!.FindAsync(id);
+        var revisionContainer = await _context.RevisionContainers.FindAsync(id);
         return revisionContainer;
     }
 
-    public async Task<RevisionContainer?> GetRevisionContainerForTagDataId(Guid id)
+    public async Task<RevisionContainer?> GetRevisionContainerForTagNo(string tagNo)
     {
-        var revisionContainer = await _context.RevisionContainers!.FirstOrDefaultAsync(c => c.TagDataIds.Contains(id));
+        var revisionContainerTagNo = await _context.RevisionContainerTagNos.FirstOrDefaultAsync(x => x.TagNo == tagNo);
+        if (revisionContainerTagNo == null) return null;
+        var revisionContainer = revisionContainerTagNo.RevisionContainer;
         return revisionContainer;
     }
 
     public async Task<List<RevisionContainer>> GetRevisionContainers()
     {
-        var revisionContainers = await _context.RevisionContainers!.ToListAsync();
+        var revisionContainers = await _context.RevisionContainers.ToListAsync();
         return revisionContainers;
     }
 
     public async Task<List<RevisionContainer>> GetRevisionContainersForContract(Guid contractId)
     {
-        var revisionContainers = await _context.RevisionContainers!.Where(c => c.ContractId == contractId).ToListAsync();
+        var revisionContainers = await _context.RevisionContainers.Where(c => c.ContractId == contractId).ToListAsync();
         return revisionContainers;
     }
 }

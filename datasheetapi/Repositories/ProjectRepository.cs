@@ -16,13 +16,13 @@ public class ProjectRepository : IProjectRepository
 
     public async Task<Project?> GetProject(Guid id)
     {
-        var project = await _context.Projects!.FindAsync(id);
+        var project = await _context.Projects.FindAsync(id);
         return project;
     }
 
     public async Task<List<Project>> GetProjects()
     {
-        var projects = await _context.Projects!.ToListAsync();
+        var projects = await _context.Projects.ToListAsync();
         return projects;
     }
 }

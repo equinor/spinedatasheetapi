@@ -15,7 +15,8 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
 
     public async Task<ITagDataDto> AddRevisionContainer(ITagDataDto tagDataDto)
     {
-        var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tagDataDto.Id);
+        if (tagDataDto.TagNo == null) { return tagDataDto; }
+        var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagNo(tagDataDto.TagNo);
         tagDataDto.RevisionContainer = revisionContainer.ToDtoOrNull();
 
         return tagDataDto;
@@ -25,7 +26,8 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
     {
         foreach (var tag in tagDataDto)
         {
-            var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tag.Id);
+            if (tag.TagNo == null) { continue; }
+            var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagNo(tag.TagNo);
             tag.RevisionContainer = revisionContainer.ToDtoOrNull();
         }
 
