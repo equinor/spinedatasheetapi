@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-using api.Models;
+using api.Database;
 
 using datasheetapi.Repositories;
 
@@ -78,7 +78,7 @@ builder.Services.AddCors(options =>
 // Setup in memory DB SQL lite for test purposes
 DbContextOptionsBuilder<DatabaseContext> dBbuilder = new();
 var _sqlConnectionString = new SqliteConnectionStringBuilder
-{ DataSource = "file::memory:", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
+{ DataSource = "Data Source=C:\\Workspace\\database.db", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
     .ToString();
 
 SqliteConnection _connectionToInMemorySqlite = new(_sqlConnectionString);
@@ -88,6 +88,7 @@ dBbuilder.UseSqlite(_connectionToInMemorySqlite);
 using DatabaseContext context = new(dBbuilder.Options);
 context.Database.EnsureCreated();
 
+SaveSampleDataToDB.PopulateDb(context);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(_sqlConnectionString, o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));

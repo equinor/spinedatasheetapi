@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 
-namespace api.Models;
+namespace api.Database;
 
 public class DatabaseContext : DbContext
 {
@@ -16,4 +16,9 @@ public class DatabaseContext : DbContext
     public DbSet<RevisionContainerReview> RevisionContainerReviews { get; set; }
     public DbSet<TagDataReview> TagDataReviews { get; set; }
     public DbSet<Project> Projects { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlite("Data Source=C:\\Workspace\\database.db");
+    }
 }
