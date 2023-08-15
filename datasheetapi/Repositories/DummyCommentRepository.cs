@@ -30,7 +30,6 @@ public class DummyCommentRepository : ICommentRepository
     {
         var existingComment = await GetComment(oldComment.Id) ?? throw new Exception($"Comment with id {oldComment.Id} not found");
         existingComment = oldComment;
-        existingComment.Text = newComment;
 
         return await Task.Run(() => existingComment);
     }

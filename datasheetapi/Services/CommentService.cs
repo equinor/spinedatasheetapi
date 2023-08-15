@@ -171,8 +171,11 @@ public class CommentService : ICommentService
         var oldComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
 
         if (oldComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
-
+        oldComment.Text = newComment;
+        oldComment.IsEdited = true;
+        oldComment.ModifiedDate = DateTime.UtcNow;
         var comment = await _commentRepository.UpdateComment(oldComment, newComment);
+
         return comment?.ToDtoOrNull();
     }
 
