@@ -20,14 +20,16 @@ public class DummyTagDataReviewRepository : ITagDataReviewRepository
         return await Task.Run(() => _reviews);
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviewsForTag(Guid tagId)
+    public Task<List<TagDataReview>> GetTagDataReviewsForTag(string tagId)
     {
-        return await Task.Run(() => _reviews.Where(c => c.TagDataId == tagId).ToList());
+        throw new NotImplementedException();
+        // return await Task.Run(() => _reviews.Where(c => c.TagDataId == tagId).ToList());
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
+    public Task<List<TagDataReview>> GetTagDataReviewsForTags(List<string> tagIds)
     {
-        return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.TagDataId)).ToList());
+        throw new NotImplementedException();
+        // return await Task.Run(() => _reviews.Where(c => tagIds.Contains(c.TagDataId)).ToList());
     }
 
 

@@ -15,12 +15,12 @@ public class TagDataController : ControllerBase
         _enrichTagDataService = enrichTagDataService;
     }
 
-    [HttpGet("{id:guid}", Name = "GetTagDataById")]
-    public async Task<ActionResult<ITagDataDto>> GetTagDataById(Guid id)
+    [HttpGet("{id}", Name = "GetTagDataById")]
+    public async Task<ActionResult<ITagDataDto>> GetTagDataById(string id)
     {
         try
         {
-            var tagData = await _tagDataService.GetTagDataDtoById(id);
+            var tagData = await _tagDataService.GetTagDataDtoByTagNo(id);
 
             if (tagData == null)
             {

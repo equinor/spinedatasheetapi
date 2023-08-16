@@ -38,7 +38,8 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
 
     public async Task<ITagDataDto> AddReview(ITagDataDto tagDataDto)
     {
-        var review = await _tagDataReviewService.GetTagDataReviewsForTag(tagDataDto.Id);
+        if (tagDataDto.TagNo == null) { return tagDataDto; }
+        var review = await _tagDataReviewService.GetTagDataReviewsForTag(tagDataDto.TagNo);
         var newestReview = review.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
         tagDataDto.Review = newestReview.ToDtoOrNull();
 
@@ -47,12 +48,12 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
 
     public async Task<List<ITagDataDto>> AddReview(List<ITagDataDto> tagDataDto)
     {
-        var tagDataIds = tagDataDto.Select(t => t.Id).ToList();
+        var tagDataIds = tagDataDto.Select(t => t.TagNo ?? "").ToList();
         var reviews = await _tagDataReviewService.GetTagDataReviewsForTags(tagDataIds);
 
         foreach (var review in reviews)
         {
-            var tag = tagDataDto.FirstOrDefault(t => t.Id == review.TagDataId);
+            var tag = tagDataDto.FirstOrDefault(t => t.TagNo == review.TagNo);
             if (tag != null)
             {
                 tag.Review = review.ToDtoOrNull();

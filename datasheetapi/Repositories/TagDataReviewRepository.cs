@@ -27,15 +27,15 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         return reviews;
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviewsForTag(Guid tagId)
+    public async Task<List<TagDataReview>> GetTagDataReviewsForTag(string tagNo)
     {
-        var reviews = await _context.TagDataReviews.Where(c => c.TagDataId == tagId).ToListAsync();
+        var reviews = await _context.TagDataReviews.Where(c => c.TagNo == tagNo).ToListAsync();
         return reviews;
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviewsForTags(List<Guid> tagIds)
+    public async Task<List<TagDataReview>> GetTagDataReviewsForTags(List<string> tagNos)
     {
-        var reviews = await _context.TagDataReviews.Where(c => tagIds.Contains(c.TagDataId)).ToListAsync();
+        var reviews = await _context.TagDataReviews.Where(c => c.TagNo != null && tagNos.Contains(c.TagNo)).ToListAsync();
         return reviews;
     }
 

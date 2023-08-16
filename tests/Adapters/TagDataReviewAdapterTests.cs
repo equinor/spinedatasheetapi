@@ -63,7 +63,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReview.Id, result.Id);
         Assert.Equal(tagDataReview.CreatedDate, result.CreatedDate);
         Assert.Equal(tagDataReview.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReview.TagDataId, result.TagDataId);
+        Assert.Equal(tagDataReview.TagDataId, result.TagNo);
         Assert.Equal(tagDataReview.Status, result.Status);
         Assert.Equal(tagDataReview.ApproverId, result.ApproverId);
         Assert.Equal(tagDataReview.CommentResponsible, result.CommentResponsible);
@@ -168,7 +168,7 @@ public class TagDataReviewAdapterTests
             Assert.Equal(tagDataReviews[i].Id, result[i].Id);
             Assert.Equal(tagDataReviews[i].CreatedDate, result[i].CreatedDate);
             Assert.Equal(tagDataReviews[i].ModifiedDate, result[i].ModifiedDate);
-            Assert.Equal(tagDataReviews[i].TagDataId, result[i].TagDataId);
+            Assert.Equal(tagDataReviews[i].TagDataId, result[i].TagNo);
             Assert.Equal(tagDataReviews[i].Status, result[i].Status);
             Assert.Equal(tagDataReviews[i].ApproverId, result[i].ApproverId);
             Assert.Equal(tagDataReviews[i].CommentResponsible, result[i].CommentResponsible);
@@ -209,7 +209,7 @@ public class TagDataReviewAdapterTests
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            TagDataId = Guid.NewGuid(),
+            TagNo = Guid.NewGuid(),
             Status = ReviewStatusEnum.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = Guid.NewGuid(),
@@ -244,7 +244,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.Id, result.Id);
         Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
         Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReviewDto.TagDataId, result.TagDataId);
+        Assert.Equal(tagDataReviewDto.TagNo, result.TagDataId);
         Assert.Equal(tagDataReviewDto.Status, result.Status);
         Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
@@ -271,7 +271,7 @@ public class TagDataReviewAdapterTests
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            TagDataId = Guid.NewGuid(),
+            TagNo = Guid.NewGuid(),
             Status = ReviewStatusEnum.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = Guid.NewGuid(),
@@ -288,7 +288,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.Id, result.Id);
         Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
         Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReviewDto.TagDataId, result.TagDataId);
+        Assert.Equal(tagDataReviewDto.TagNo, result.TagDataId);
         Assert.Equal(tagDataReviewDto.Status, result.Status);
         Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
@@ -307,7 +307,7 @@ public class TagDataReviewAdapterTests
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            TagDataId = Guid.NewGuid(),
+            TagNo = Guid.NewGuid(),
             Status = ReviewStatusEnum.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = Guid.NewGuid(),
@@ -342,7 +342,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.Id, result.Id);
         Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
         Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReviewDto.TagDataId, result.TagDataId);
+        Assert.Equal(tagDataReviewDto.TagNo, result.TagDataId);
         Assert.Equal(tagDataReviewDto.Status, result.Status);
         Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
