@@ -28,8 +28,6 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
         {
             if (tag.TagNo == null) { continue; }
             var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagNo(tag.TagNo);
-            Console.WriteLine("Revision container: " + revisionContainer?.Id);
-            Console.WriteLine("Tag: " + tag.TagNo);
             tag.RevisionContainer = revisionContainer.ToDtoOrNull();
         }
 
