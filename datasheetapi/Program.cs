@@ -78,7 +78,7 @@ builder.Services.AddCors(options =>
 // Setup in memory DB SQL lite for test purposes
 DbContextOptionsBuilder<DatabaseContext> dBbuilder = new();
 var _sqlConnectionString = new SqliteConnectionStringBuilder
-{ DataSource = "Data Source=C:\\Workspace\\database.db", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
+{ DataSource = "C:\\Workspace\\database.db", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
     .ToString();
 
 SqliteConnection _connectionToInMemorySqlite = new(_sqlConnectionString);

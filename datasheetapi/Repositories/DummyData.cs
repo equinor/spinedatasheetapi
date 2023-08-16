@@ -43,7 +43,7 @@ public static class DummyData
     public static readonly Contract contract2 = new()
     {
         Id = new Guid("4bf24571-c88d-4a3b-a1df-1905e392b7a7"),
-        ContractName = "Contract 1",
+        ContractName = "Contract 2",
         Project = project1,
     };
 

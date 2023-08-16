@@ -1,3 +1,4 @@
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -17,8 +18,20 @@ public class DatabaseContext : DbContext
     public DbSet<TagDataReview> TagDataReviews { get; set; }
     public DbSet<Project> Projects { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlite("Data Source=C:\\Workspace\\database.db");
-    }
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    // {
+    //     var connectionStringBuilder = new SqliteConnectionStringBuilder
+    //     {
+    //         DataSource = "C:\\Workspace\\database.db"
+    //     };
+
+    //     var connectionString = connectionStringBuilder.ToString();
+
+    //     var connection = new SqliteConnection(connectionString);
+
+    //     optionsBuilder.UseSqlite(connection);
+
+
+    //     // optionsBuilder.UseSqlite("Data Source=C:\\Workspace\\database.db");
+    // }
 }
