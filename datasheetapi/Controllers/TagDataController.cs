@@ -28,7 +28,7 @@ public class TagDataController : ControllerBase
             }
 
             tagData = await _enrichTagDataService.AddReview(tagData);
-            // tagData = await _enrichTagDataService.AddRevisionContainer(tagData);
+            tagData = await _enrichTagDataService.AddRevisionContainer(tagData);
 
             return Ok(tagData);
         }
