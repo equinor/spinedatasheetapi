@@ -92,7 +92,7 @@ public class TagDataServiceTests
         _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataDtoByTagNo("TAG-001");
+        var result = await _tagDataService.GetTagDataDtoByTagNo("TAG-013");
 
         // Assert
         Assert.Null(result);
@@ -102,7 +102,7 @@ public class TagDataServiceTests
     public async Task GetTagDataDtoById_ReturnsDto_WhenFAMServiceReturnsData()
     {
         // Arrange
-        var tagData = new TagData { TagNo = "TAG-001", Description = "Test Tag" };
+        var tagData = new TagData { TagNo = "TAG-014", Description = "Test Tag" };
         _mockFAMService.Setup(x => x.GetTagData(tagData.TagNo)).ReturnsAsync(tagData);
 
         // Act
@@ -121,7 +121,7 @@ public class TagDataServiceTests
         _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataByTagNo("TAG-001");
+        var result = await _tagDataService.GetTagDataByTagNo("TAG-015");
 
         // Assert
         Assert.Null(result);
@@ -131,7 +131,7 @@ public class TagDataServiceTests
     public async Task GetTagDataById_ReturnsData_WhenFAMServiceReturnsData()
     {
         // Arrange
-        var tagData = new TagData { TagNo = "TAG-001", Description = "Test Tag" };
+        var tagData = new TagData { TagNo = "TAG-016", Description = "Test Tag" };
         _mockFAMService.Setup(x => x.GetTagData(tagData.TagNo)).ReturnsAsync(tagData);
 
         // Act

@@ -85,7 +85,7 @@ public class TagDataReviewServiceTests
     public async Task GetReviewsForTag_ReturnsReviews()
     {
         // Arrange
-        var tagId = "TAG-001";
+        var tagId = "TAG-008";
         var reviews = new List<TagDataReview> { new TagDataReview(), new TagDataReview() };
         _reviewRepositoryMock.Setup(x => x.GetTagDataReviewsForTag(tagId)).ReturnsAsync(reviews);
 
@@ -101,7 +101,7 @@ public class TagDataReviewServiceTests
     public async Task GetTagDataReviewsForTags_ReturnsReviews()
     {
         // Arrange
-        var tagIds = new List<string> { "TAG-001", "TAG-002" };
+        var tagIds = new List<string> { "TAG-009", "TAG-010" };
         var reviews = new List<TagDataReview> { new TagDataReview(), new TagDataReview() };
         _reviewRepositoryMock.Setup(x => x.GetTagDataReviewsForTags(tagIds)).ReturnsAsync(reviews);
 
@@ -117,7 +117,7 @@ public class TagDataReviewServiceTests
     public async Task CreateTagDataReview_ThrowsException_WhenTagDataNotFound()
     {
         // Arrange
-        var review = new TagDataReview { TagNo = "TAG-001" };
+        var review = new TagDataReview { TagNo = "TAG-011" };
         _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ReturnsAsync((TagData?)null);
 
         // Act & Assert
@@ -128,7 +128,7 @@ public class TagDataReviewServiceTests
     public async Task CreateTagDataReview_SavesReviewAndReturnsIt()
     {
         // Arrange
-        var review = new TagDataReview { TagNo = "TAG-001" };
+        var review = new TagDataReview { TagNo = "TAG-012" };
         var tagData = new TagData { TagNo = review.TagNo };
         var savedReview = new TagDataReview { Id = Guid.NewGuid() };
         _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ReturnsAsync(tagData);
