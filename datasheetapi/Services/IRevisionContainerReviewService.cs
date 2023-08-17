@@ -6,9 +6,10 @@ public interface IRevisionContainerReviewService
     Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDto(Guid id);
     Task<List<RevisionContainerReview>> GetRevisionContainerReviews();
     Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtos();
+    Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid id);
     Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForProject(Guid projectId);
     Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtosForProject(Guid projectId);
-    Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtosForTag(Guid tagId);
-    Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForTag(Guid tagId);
+    Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDtoForTag(Guid tagId);
+    Task<RevisionContainerReview?> GetRevisionContainerReviewForTag(Guid tagId);
     Task<RevisionContainerReviewDto> CreateRevisionContainerReview(RevisionContainerReviewDto review, Guid azureUniqueId);
 }

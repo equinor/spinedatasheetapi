@@ -19,9 +19,9 @@ public class RevisionContainerService : IRevisionContainerService
         return revisionContainer;
     }
 
-    public async Task<RevisionContainer?> GetRevisionContainerForTagNo(string tagNo)
+    public async Task<RevisionContainer?> GetRevisionContainerWithReviewForTagNo(string tagNo)
     {
-        var revisionContainer = await _revisionContainerRepository.GetRevisionContainerForTagNo(tagNo);
+        var revisionContainer = await _revisionContainerRepository.GetRevisionContainerWithReviewForTagNo(tagNo);
         return revisionContainer;
     }
 

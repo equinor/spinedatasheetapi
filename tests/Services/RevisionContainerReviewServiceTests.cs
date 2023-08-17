@@ -123,7 +123,7 @@ public class RevisionContainerReviewServiceTests
         _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(tagId)).ReturnsAsync(reviews);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReviewsForTag(tagId);
+        var result = await _reviewService.GetRevisionContainerReviewForTag(tagId);
 
         // Assert
         Assert.NotNull(result);
@@ -139,7 +139,7 @@ public class RevisionContainerReviewServiceTests
         _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(tagId)).ReturnsAsync(reviews);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReviewDtosForTag(tagId);
+        var result = await _reviewService.GetRevisionContainerReviewDtoForTag(tagId);
 
         // Assert
         Assert.NotNull(result);

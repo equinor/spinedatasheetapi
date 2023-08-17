@@ -27,9 +27,9 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
         return revisionContainerReviews;
     }
 
-    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewForRevision(Guid id)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid id)
     {
-        var revisionContainerReviews = await _context.RevisionContainerReviews.Where(c => c.RevisionContainerId == id).ToListAsync();
+        var revisionContainerReviews = await _context.RevisionContainerReviews.FirstOrDefaultAsync(c => c.RevisionContainerId == id);
         return revisionContainerReviews;
     }
 

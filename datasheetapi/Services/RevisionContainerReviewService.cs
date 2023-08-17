@@ -36,6 +36,12 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         return reviews;
     }
 
+    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid id)
+    {
+        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(id);
+        return reviews;
+    }
+
     public async Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtos()
     {
         var reviews = await _reviewRepository.GetRevisionContainerReviews();
@@ -52,13 +58,13 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         return await Task.Run(() => new List<RevisionContainerReviewDto>());
     }
 
-    public async Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtosForTag(Guid tagId)
+    public async Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDtoForTag(Guid tagId)
     {
         var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
-        return comments.ToDto();
+        return comments.ToDtoOrNull();
     }
 
-    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForTag(Guid tagId)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForTag(Guid tagId)
     {
         var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
         return comments;
