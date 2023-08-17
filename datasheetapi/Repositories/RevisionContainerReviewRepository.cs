@@ -45,7 +45,7 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
         review.CreatedDate = DateTime.UtcNow;
         review.ModifiedDate = DateTime.UtcNow;
 
-        var savedReview = await _context.RevisionContainerReviews.AddAsync(review);
+        var savedReview = _context.RevisionContainerReviews.Add(review);
         await _context.SaveChangesAsync();
 
         return savedReview.Entity;

@@ -33,15 +33,14 @@ public class CommentRepository : ICommentRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Comment> UpdateComment(Comment comment)
+    public async Task<Comment> UpdateComment(Comment entity)
     {
-        var existingComment = await _context.Comments.FindAsync(comment.Id) ?? throw new ArgumentException("Comment not found");
-        existingComment.Text = comment.Text;
-        existingComment.ModifiedDate = DateTime.UtcNow;
+        entity.ModifiedDate = DateTime.UtcNow;
 
+        var updatedComment = _context.Comments.Update(entity);
         await _context.SaveChangesAsync();
 
-        return existingComment;
+        return updatedComment.Entity;
     }
 
     public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
@@ -75,7 +74,7 @@ public class CommentRepository : ICommentRepository
         comment.CreatedDate = DateTime.UtcNow;
         comment.ModifiedDate = DateTime.UtcNow;
 
-        var savedComment = await _context.Comments.AddAsync(comment);
+        var savedComment = _context.Comments.Add(comment);
         await _context.SaveChangesAsync();
         return savedComment.Entity;
     }
