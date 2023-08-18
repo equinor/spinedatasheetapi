@@ -24,7 +24,7 @@ public class RevisionContainerRepository : IRevisionContainerRepository
     public async Task<RevisionContainer?> GetRevisionContainerWithReviewForTagNo(string tagNo)
     {
         var revisionContainerTagNo = await _context.RevisionContainerTagNos.Include(x => x.RevisionContainer).ThenInclude(x => x.RevisionContainerReview).FirstOrDefaultAsync(x => x.TagNo == tagNo);
-        if (revisionContainerTagNo == null) return null;
+        if (revisionContainerTagNo == null) { return null; }
         var revisionContainer = revisionContainerTagNo.RevisionContainer;
         return revisionContainer;
     }

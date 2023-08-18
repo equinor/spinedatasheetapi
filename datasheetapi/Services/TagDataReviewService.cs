@@ -48,7 +48,7 @@ public class TagDataReviewService : ITagDataReviewService
 
     public async Task<TagDataReview> CreateTagDataReview(TagDataReview review, Guid azureUniqueId)
     {
-        if (string.IsNullOrEmpty(review.TagNo)) throw new Exception("TagNo is required");
+        if (string.IsNullOrEmpty(review.TagNo)) { throw new Exception("TagNo is required"); }
         var _ = await _tagDataService.GetTagDataByTagNo(review.TagNo) ?? throw new Exception($"Invalid tag data id: {review.TagNo}");
         review.ApproverId = azureUniqueId;
 
