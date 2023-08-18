@@ -13,19 +13,21 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
         _tagDataReviewService = tagDataReviewService;
     }
 
-    public async Task<ITagDataDto> AddRevisionContainer(ITagDataDto tagDataDto)
+    public async Task<ITagDataDto> AddRevisionContainerWithReview(ITagDataDto tagDataDto)
     {
-        var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tagDataDto.Id);
+        if (tagDataDto.TagNo == null) { return tagDataDto; }
+        var revisionContainer = await _revisionContainerService.GetRevisionContainerWithReviewForTagNo(tagDataDto.TagNo);
         tagDataDto.RevisionContainer = revisionContainer.ToDtoOrNull();
 
         return tagDataDto;
     }
 
-    public async Task<List<ITagDataDto>> AddRevisionContainer(List<ITagDataDto> tagDataDto)
+    public async Task<List<ITagDataDto>> AddRevisionContainerWithReview(List<ITagDataDto> tagDataDto)
     {
         foreach (var tag in tagDataDto)
         {
-            var revisionContainer = await _revisionContainerService.GetRevisionContainerForTagDataId(tag.Id);
+            if (tag.TagNo == null) { continue; }
+            var revisionContainer = await _revisionContainerService.GetRevisionContainerWithReviewForTagNo(tag.TagNo);
             tag.RevisionContainer = revisionContainer.ToDtoOrNull();
         }
 
@@ -34,7 +36,8 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
 
     public async Task<ITagDataDto> AddReview(ITagDataDto tagDataDto)
     {
-        var review = await _tagDataReviewService.GetTagDataReviewsForTag(tagDataDto.Id);
+        if (tagDataDto.TagNo == null) { return tagDataDto; }
+        var review = await _tagDataReviewService.GetTagDataReviewsForTag(tagDataDto.TagNo);
         var newestReview = review.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
         tagDataDto.Review = newestReview.ToDtoOrNull();
 
@@ -43,12 +46,12 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
 
     public async Task<List<ITagDataDto>> AddReview(List<ITagDataDto> tagDataDto)
     {
-        var tagDataIds = tagDataDto.Select(t => t.Id).ToList();
+        var tagDataIds = tagDataDto.Select(t => t.TagNo ?? "").ToList();
         var reviews = await _tagDataReviewService.GetTagDataReviewsForTags(tagDataIds);
 
         foreach (var review in reviews)
         {
-            var tag = tagDataDto.FirstOrDefault(t => t.Id == review.TagDataId);
+            var tag = tagDataDto.FirstOrDefault(t => t.TagNo == review.TagNo);
             if (tag != null)
             {
                 tag.Review = review.ToDtoOrNull();

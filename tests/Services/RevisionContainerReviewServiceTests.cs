@@ -115,15 +115,15 @@ public class RevisionContainerReviewServiceTests
     }
 
     [Fact]
-    public async Task GetRevisionContainerReviewsForTag_ReturnsReviews()
+    public async Task GetRevisionContainerReviewForTag_ReturnsReview()
     {
         // Arrange
-        var tagId = Guid.NewGuid();
-        var reviews = new List<RevisionContainerReview> { new RevisionContainerReview(), new RevisionContainerReview() };
-        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(tagId)).ReturnsAsync(reviews);
+        var revisionId = Guid.NewGuid();
+        var reviews = new RevisionContainerReview();
+        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(revisionId)).ReturnsAsync(reviews);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReviewsForTag(tagId);
+        var result = await _reviewService.GetRevisionContainerReviewForTag(revisionId);
 
         // Assert
         Assert.NotNull(result);
@@ -131,19 +131,20 @@ public class RevisionContainerReviewServiceTests
     }
 
     [Fact]
-    public async Task GetRevisionContainerReviewDtosForTag_ReturnsDtos()
+    public async Task GetRevisionContainerReviewDtoForTag_ReturnsDto()
     {
         // Arrange
-        var tagId = Guid.NewGuid();
-        var reviews = new List<RevisionContainerReview> { new RevisionContainerReview(), new RevisionContainerReview() };
-        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(tagId)).ReturnsAsync(reviews);
+        var revisionId = Guid.NewGuid();
+        var reviewId = Guid.NewGuid();
+        var review = new RevisionContainerReview { Id = reviewId };
+        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviewForRevision(revisionId)).ReturnsAsync(review);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReviewDtosForTag(tagId);
+        var result = await _reviewService.GetRevisionContainerReviewDtoForTag(revisionId);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(reviews.ToDto().Count, result.Count);
+        Assert.Equal(review.Id, result.Id);
     }
 
     [Fact]

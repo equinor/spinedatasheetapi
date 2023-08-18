@@ -1,4 +1,5 @@
 using datasheetapi.Models;
+using datasheetapi.Adapters;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -26,18 +27,23 @@ public class CommentsController : ControllerBase
     }
 
     [HttpPut("{id}", Name = "UpdateComment")]
-    public async Task<ActionResult<CommentDto>> UpdateComment(Guid id, CommentDto newComment)
+    public async Task<ActionResult<CommentDto>> UpdateComment(Guid id, CommentDto newCommentDto)
     {
-        var azureUniqueId = GetAzureUniqueId();
-
-        if (id == Guid.Empty)
+        if (id == Guid.Empty || newCommentDto == null)
         {
             return BadRequest();
         }
+        if (id != newCommentDto.Id)
+        {
+            return BadRequest("Id in path does not match id in body");
+        }
+
+        var azureUniqueId = GetAzureUniqueId();
 
         try
         {
-            var comment = await _commentService.UpdateComment(id, azureUniqueId, newComment.Text);
+            var newComment = newCommentDto.ToModelOrNull() ?? throw new Exception("Could not convert comment to model");
+            var comment = await _commentService.UpdateComment(azureUniqueId, newComment);
             return Ok(comment);
         }
         catch (Exception ex)

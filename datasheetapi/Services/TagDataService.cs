@@ -11,7 +11,7 @@ public class TagDataService : ITagDataService
         _FAMService = FAMService;
     }
 
-    public async Task<ITagDataDto?> GetTagDataDtoById(Guid id)
+    public async Task<ITagDataDto?> GetTagDataDtoByTagNo(string id)
     {
         var tagData = await _FAMService.GetTagData(id);
 
@@ -23,7 +23,7 @@ public class TagDataService : ITagDataService
         return tagData.ToDtoOrNull();
     }
 
-    public async Task<ITagData?> GetTagDataById(Guid id)
+    public async Task<ITagData?> GetTagDataByTagNo(string id)
     {
         var tagData = await _FAMService.GetTagData(id);
 

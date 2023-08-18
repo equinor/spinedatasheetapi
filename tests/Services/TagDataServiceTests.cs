@@ -89,10 +89,10 @@ public class TagDataServiceTests
     public async Task GetTagDataDtoById_ReturnsNull_WhenFAMServiceReturnsNull()
     {
         // Arrange
-        _mockFAMService.Setup(x => x.GetTagData(It.IsAny<Guid>())).ReturnsAsync(null as ITagData);
+        _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataDtoById(Guid.NewGuid());
+        var result = await _tagDataService.GetTagDataDtoByTagNo("TAG-013");
 
         // Assert
         Assert.Null(result);
@@ -102,15 +102,15 @@ public class TagDataServiceTests
     public async Task GetTagDataDtoById_ReturnsDto_WhenFAMServiceReturnsData()
     {
         // Arrange
-        var tagData = new TagData { Id = Guid.NewGuid(), Description = "Test Tag" };
-        _mockFAMService.Setup(x => x.GetTagData(tagData.Id)).ReturnsAsync(tagData);
+        var tagData = new TagData { TagNo = "TAG-014", Description = "Test Tag" };
+        _mockFAMService.Setup(x => x.GetTagData(tagData.TagNo)).ReturnsAsync(tagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataDtoById(tagData.Id);
+        var result = await _tagDataService.GetTagDataDtoByTagNo(tagData.TagNo);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(tagData.Id, result?.Id);
+        Assert.Equal(tagData.TagNo, result?.TagNo);
         Assert.Equal(tagData.Description, result?.Description);
     }
 
@@ -118,10 +118,10 @@ public class TagDataServiceTests
     public async Task GetTagDataById_ReturnsNull_WhenFAMServiceReturnsNull()
     {
         // Arrange
-        _mockFAMService.Setup(x => x.GetTagData(It.IsAny<Guid>())).ReturnsAsync(null as ITagData);
+        _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataById(Guid.NewGuid());
+        var result = await _tagDataService.GetTagDataByTagNo("TAG-015");
 
         // Assert
         Assert.Null(result);
@@ -131,15 +131,15 @@ public class TagDataServiceTests
     public async Task GetTagDataById_ReturnsData_WhenFAMServiceReturnsData()
     {
         // Arrange
-        var tagData = new TagData { Id = Guid.NewGuid(), Description = "Test Tag" };
-        _mockFAMService.Setup(x => x.GetTagData(tagData.Id)).ReturnsAsync(tagData);
+        var tagData = new TagData { TagNo = "TAG-016", Description = "Test Tag" };
+        _mockFAMService.Setup(x => x.GetTagData(tagData.TagNo)).ReturnsAsync(tagData);
 
         // Act
-        var result = await _tagDataService.GetTagDataById(tagData.Id);
+        var result = await _tagDataService.GetTagDataByTagNo(tagData.TagNo);
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(tagData.Id, result?.Id);
+        Assert.Equal(tagData.TagNo, result?.TagNo);
         Assert.Equal(tagData.Description, result?.Description);
     }
 

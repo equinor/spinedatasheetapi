@@ -14,9 +14,9 @@ public class DummyFAMService : IFAMService
         _tagData = DummyData.GetTagDatas();
     }
 
-    public async Task<ITagData?> GetTagData(Guid id)
+    public async Task<ITagData?> GetTagData(string tagNo)
     {
-        return await Task.Run(() => _tagData.Find(d => d.Id == id));
+        return await Task.Run(() => _tagData.Find(d => d.TagNo == tagNo));
     }
 
     public async Task<List<ITagData>> GetTagData()

@@ -65,16 +65,16 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet("tag/{id}", Name = "GetReviewsForTag")]
-    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviewsForTag(Guid id)
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviewsForTag(string tagNo)
     {
         try
         {
-            var reviews = await _reviewService.GetTagDataReviewsForTag(id);
+            var reviews = await _reviewService.GetTagDataReviewsForTag(tagNo);
             return reviews.ToDto();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting tag data reviews for tag id {id}", id);
+            _logger.LogError(ex, "Error getting tag data reviews for tag id {id}", tagNo);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

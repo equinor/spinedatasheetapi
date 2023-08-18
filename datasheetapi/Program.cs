@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-using api.Models;
+using api.Database;
 
 using datasheetapi.Repositories;
 
@@ -88,6 +88,7 @@ dBbuilder.UseSqlite(_connectionToInMemorySqlite);
 using DatabaseContext context = new(dBbuilder.Options);
 context.Database.EnsureCreated();
 
+SaveSampleDataToDB.PopulateDb(context);
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseSqlite(_sqlConnectionString, o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery)));
@@ -138,12 +139,14 @@ builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
-builder.Services.AddSingleton<IProjectRepository, DummyProjectRepository>();
-builder.Services.AddSingleton<IContractRepository, DummyContractRepository>();
-builder.Services.AddSingleton<ICommentRepository, DummyCommentRepository>();
-builder.Services.AddSingleton<ITagDataReviewRepository, DummyTagDataReviewRepository>();
-builder.Services.AddSingleton<IRevisionContainerRepository, DummyRevisionContainerRepository>();
-builder.Services.AddSingleton<IRevisionContainerReviewRepository, DummyRevisionContainerReviewRepository>();
+
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IContractRepository, ContractRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITagDataReviewRepository, TagDataReviewRepository>();
+builder.Services.AddScoped<IRevisionContainerRepository, RevisionContainerRepository>();
+builder.Services.AddScoped<IRevisionContainerReviewRepository, RevisionContainerReviewRepository>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace datasheetapi.Models;
 
-public class BaseEntity : IBaseEntity
+public abstract class BaseEntity : IBaseEntity
 {
     [Key]
     public Guid Id { get; set; }

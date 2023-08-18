@@ -85,7 +85,7 @@ public class TagDataReviewServiceTests
     public async Task GetReviewsForTag_ReturnsReviews()
     {
         // Arrange
-        var tagId = Guid.NewGuid();
+        var tagId = "TAG-008";
         var reviews = new List<TagDataReview> { new TagDataReview(), new TagDataReview() };
         _reviewRepositoryMock.Setup(x => x.GetTagDataReviewsForTag(tagId)).ReturnsAsync(reviews);
 
@@ -101,7 +101,7 @@ public class TagDataReviewServiceTests
     public async Task GetTagDataReviewsForTags_ReturnsReviews()
     {
         // Arrange
-        var tagIds = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
+        var tagIds = new List<string> { "TAG-009", "TAG-010" };
         var reviews = new List<TagDataReview> { new TagDataReview(), new TagDataReview() };
         _reviewRepositoryMock.Setup(x => x.GetTagDataReviewsForTags(tagIds)).ReturnsAsync(reviews);
 
@@ -117,8 +117,8 @@ public class TagDataReviewServiceTests
     public async Task CreateTagDataReview_ThrowsException_WhenTagDataNotFound()
     {
         // Arrange
-        var review = new TagDataReview { TagDataId = Guid.NewGuid() };
-        _tagDataServiceMock.Setup(x => x.GetTagDataById(review.TagDataId)).ReturnsAsync((TagData?)null);
+        var review = new TagDataReview { TagNo = "TAG-011" };
+        _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ReturnsAsync((TagData?)null);
 
         // Act & Assert
         await Assert.ThrowsAsync<Exception>(() => _tagDataReviewService.CreateTagDataReview(review, Guid.NewGuid()));
@@ -128,10 +128,10 @@ public class TagDataReviewServiceTests
     public async Task CreateTagDataReview_SavesReviewAndReturnsIt()
     {
         // Arrange
-        var review = new TagDataReview { TagDataId = Guid.NewGuid() };
-        var tagData = new TagData { Id = review.TagDataId };
+        var review = new TagDataReview { TagNo = "TAG-012" };
+        var tagData = new TagData { TagNo = review.TagNo };
         var savedReview = new TagDataReview { Id = Guid.NewGuid() };
-        _tagDataServiceMock.Setup(x => x.GetTagDataById(review.TagDataId)).ReturnsAsync(tagData);
+        _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ReturnsAsync(tagData);
         _reviewRepositoryMock.Setup(x => x.AddTagDataReview(review)).ReturnsAsync(savedReview);
 
         // Act

@@ -43,7 +43,7 @@ public static class DummyData
     public static readonly Contract contract2 = new()
     {
         Id = new Guid("4bf24571-c88d-4a3b-a1df-1905e392b7a7"),
-        ContractName = "Contract 1",
+        ContractName = "Contract 2",
         Project = project1,
     };
 
@@ -69,7 +69,7 @@ public static class DummyData
         Id = new Guid("699544e7-e2a5-4a40-945d-be31f8f02a66"),
         RevisionNumber = 2,
         RevisionContainerName = "Container A",
-        TagDataIds = new List<Guid>(),
+        TagNo = new List<RevisionContainerTagNo>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-2),
         Contract = contract1
     };
@@ -79,7 +79,7 @@ public static class DummyData
         Id = new Guid("9e8dd591-3cbd-4511-8d4a-54e31ea085bf"),
         RevisionNumber = 5,
         RevisionContainerName = "Container B",
-        TagDataIds = new List<Guid>(),
+        TagNo = new List<RevisionContainerTagNo>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-11),
         Contract = contract1
     };
@@ -89,7 +89,7 @@ public static class DummyData
         Id = new Guid("d82f23f4-1612-421a-980e-4315ec642496"),
         RevisionNumber = 1,
         RevisionContainerName = "Container C",
-        TagDataIds = new List<Guid>(),
+        TagNo = new List<RevisionContainerTagNo>(),
         RevisionContainerDate = DateTimeOffset.Now.AddDays(-7),
         Contract = contract1
     };
@@ -107,12 +107,19 @@ public static class DummyData
         };
     }
 
-    public static void AddTagDataToRevisionContainerIfMissing(Guid tagDataId, RevisionContainer? revisionContainer)
+    public static void AddTagDataToRevisionContainerIfMissing(string tagNo, RevisionContainer? revisionContainer)
     {
         if (revisionContainer == null) { return; }
-        if (revisionContainer.TagDataIds.Contains(tagDataId)) { return; }
-        revisionContainer.TagDataIds.Add(tagDataId);
+        if (revisionContainer.TagNo.Find(x => x.TagNo == tagNo) != null) { return; }
+        var revisionContainerTagNo = new RevisionContainerTagNo
+        {
+            TagNo = tagNo,
+            RevisionContainer = revisionContainer
+        };
+        revisionContainer.TagNo.Add(revisionContainerTagNo);
     }
+
+    #region TagDatas
 
     public static readonly InstrumentTagData instrumentTagData1 = new()
     {
@@ -3096,17 +3103,19 @@ public static class DummyData
         },
     };
 
+    #endregion
+
     public static List<ITagData> GetTagDatas()
     {
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData1.Id, revisionContainerA);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData2.Id, revisionContainerA);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData3.Id, revisionContainerB);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData4.Id, revisionContainerB);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData5.Id, revisionContainerB);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData6.Id, revisionContainerC);
-        AddTagDataToRevisionContainerIfMissing(instrumentTagData7.Id, revisionContainerC);
-        AddTagDataToRevisionContainerIfMissing(electricalTagData1.Id, revisionContainerC);
-        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1.Id, revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData1.TagNo ?? "", revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData2.TagNo ?? "", revisionContainerA);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData3.TagNo ?? "", revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData4.TagNo ?? "", revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData5.TagNo ?? "", revisionContainerB);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData6.TagNo ?? "", revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(instrumentTagData7.TagNo ?? "", revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(electricalTagData1.TagNo ?? "", revisionContainerC);
+        AddTagDataToRevisionContainerIfMissing(mechanicalTagData1.TagNo ?? "", revisionContainerC);
 
         return new List<ITagData> {
             instrumentTagData1,

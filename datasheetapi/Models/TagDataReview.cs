@@ -11,8 +11,7 @@ public class TagDataReview : BaseEntity
     public int TagDataVersion { get; init; }
 
     // Relationships
-    public Guid TagDataId { get; set; }
-    public TagData? TagData { get; set; }
+    public string? TagNo { get; set; }
     public List<Comment> Comments { get; set; } = new List<Comment>();
 }
 

@@ -166,17 +166,17 @@ public class CommentService : ICommentService
         await _commentRepository.DeleteComment(comment);
     }
 
-    public async Task<CommentDto?> UpdateComment(Guid id, Guid azureUniqueId, string newComment)
+    public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment)
     {
-        var oldComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
+        var existingComment = await GetComment(updatedComment.Id) ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
 
-        if (oldComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
-        oldComment.Text = newComment;
-        oldComment.IsEdited = true;
-        oldComment.ModifiedDate = DateTime.UtcNow;
-        var comment = await _commentRepository.UpdateComment(oldComment, newComment);
+        if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
-        return comment?.ToDtoOrNull();
+        existingComment.Text = updatedComment.Text;
+        existingComment.IsEdited = true;
+
+        var comment = await _commentRepository.UpdateComment(existingComment);
+        return comment.ToDtoOrNull();
     }
 
     private static bool ValidateProperty<T>(string propertyName)

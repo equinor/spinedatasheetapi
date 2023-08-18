@@ -62,11 +62,11 @@ public class RevisionContainerReviewsController : ControllerBase
     }
 
     [HttpGet("tag/{id}", Name = "GetRevisionReviewsForTag")]
-    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviewsForTag(Guid id)
+    public async Task<ActionResult<RevisionContainerReviewDto?>> GetRevisionReviewForTag(Guid id)
     {
         try
         {
-            return await _reviewService.GetRevisionContainerReviewDtosForTag(id);
+            return await _reviewService.GetRevisionContainerReviewDtoForTag(id);
         }
         catch (Exception ex)
         {
@@ -101,6 +101,11 @@ public class RevisionContainerReviewsController : ControllerBase
 
         try
         {
+            var existingReview = await _reviewService.GetRevisionContainerReviewForRevision(review.RevisionContainerId);
+            if (existingReview != null)
+            {
+                return Conflict("A review already exists for this revision");
+            }
             return await _reviewService.CreateRevisionContainerReview(review, azureUniqueId);
         }
         catch (Exception ex)
