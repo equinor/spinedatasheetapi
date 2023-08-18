@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.7.0](https://github.com/equinor/spinedatasheetapi/compare/v1.6.0...v1.7.0) (2023-08-18)
+
+
+### Features
+
+* Add cache for azure id ([#75](https://github.com/equinor/spinedatasheetapi/issues/75)) ([7709b12](https://github.com/equinor/spinedatasheetapi/commit/7709b128417a5bf2e8460e9db9fbafc942255e94))
+* Add comment model and endpoint ([#69](https://github.com/equinor/spinedatasheetapi/issues/69)) ([bc572ae](https://github.com/equinor/spinedatasheetapi/commit/bc572ae1ccda896cacb7a732b69478cd4a3d53f2))
+* Add EF ([#82](https://github.com/equinor/spinedatasheetapi/issues/82)) ([44247ce](https://github.com/equinor/spinedatasheetapi/commit/44247cebf6bc4d83d28c8634a9e1a0cf339b4dfa))
+* Add EF repositories ([#85](https://github.com/equinor/spinedatasheetapi/issues/85)) ([047f505](https://github.com/equinor/spinedatasheetapi/commit/047f505f47508bdbc025b9e8f759a35fc583329b))
+* Add review model ([#77](https://github.com/equinor/spinedatasheetapi/issues/77)) ([d35f8b1](https://github.com/equinor/spinedatasheetapi/commit/d35f8b1cf0d0c838728d4b00ae52dfd443cb3f2b))
+* Added NORSOK instrument properties and new NORSOK dummy data ([#79](https://github.com/equinor/spinedatasheetapi/issues/79)) ([453f22f](https://github.com/equinor/spinedatasheetapi/commit/453f22f9f8322be2b56b876e7a6ee18e1d6f6583))
+* Added TR3111 properties to Tag Comparison ([5529b47](https://github.com/equinor/spinedatasheetapi/commit/5529b47dc6f81c3f397260e5a5540ffee6ad90b2))
+* deleting comments ([#81](https://github.com/equinor/spinedatasheetapi/issues/81)) ([a6f0e0c](https://github.com/equinor/spinedatasheetapi/commit/a6f0e0cc0e5d43f53570c37ae1a35399a1e48d97))
+* implemented edit for comments ([#84](https://github.com/equinor/spinedatasheetapi/issues/84)) ([77b6b92](https://github.com/equinor/spinedatasheetapi/commit/77b6b92dea70d29c881bf7943ba81c7c983f7fd6))
+* Renamed purchaserReq and supplierOff to Instrument ([25aa44e](https://github.com/equinor/spinedatasheetapi/commit/25aa44ed13caf3d8e1c3a4fa2ba5dc904001b898))
+* set "last edited" on edited comments ([#86](https://github.com/equinor/spinedatasheetapi/issues/86)) ([672dbff](https://github.com/equinor/spinedatasheetapi/commit/672dbff32079a836821cd4c346469bcf672dee1d))
+
+
+### Bug Fixes
+
+* **pipeline:** update pipeline to use reusable components ([9f1f0d6](https://github.com/equinor/spinedatasheetapi/commit/9f1f0d608cf35eebc143d646ae5bd895883774fb))
+* remove other dockermethod ([b4e784c](https://github.com/equinor/spinedatasheetapi/commit/b4e784c57206c8f69e926e3372e7cf3d1d7b35b9))
+
+
+### For developers
+
+* Change tagdata model structure ([#76](https://github.com/equinor/spinedatasheetapi/issues/76)) ([9f09eeb](https://github.com/equinor/spinedatasheetapi/commit/9f09eeb0d377f0a99c2610a390065a71b9c42eed))
+
 ## [1.6.0](https://github.com/equinor/spinedatasheetapi/compare/v1.5.0...v1.6.0) (2023-06-01)
 
 
