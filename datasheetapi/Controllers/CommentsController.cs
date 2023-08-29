@@ -133,9 +133,6 @@ public class CommentsController : ControllerBase
     {
         var azureUniqueId = GetAzureUniqueId();
 
-        if (comment == null) { return BadRequest("Comment cannot be null"); }
-        if (comment.Text == null) { return BadRequest("Comment text cannot be null"); }
-
         var commentType = IsTagReviewComment(comment);
         if (commentType == CommentType.Invalid) { return BadRequest("Comment needs to be either for tag data review or revision container review"); }
 
