@@ -14,7 +14,7 @@ public static class CommentAdapter
             Id = comment.Id,
             UserId = comment.UserId,
             CommenterName = comment.CommenterName,
-            Text = comment.SoftDeleted ? "Message deleted" : comment.Text,
+            Text = comment.SoftDeleted ? "Message deleted by user" : comment.Text,
             Property = comment.Property,
             CommentLevel = comment.CommentLevel,
             TagDataReviewId = comment.TagDataReviewId,
