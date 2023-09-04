@@ -188,4 +188,15 @@ public class InstrumentSupplierOfferedProduct
     public string? TransmitterOutputSignal { get; set; }
     public string? LineEquipmentNumber { get; set; }
     public string? PAndID { get; set; }
+    public string? MinimumOperatingMassFlow { get; set; }
+    public string? MinimumOperatingLiquidSpecificGravity { get; set; }
+    public string? MinimumOperatingLiquidViscosity { get; set; }
+    public string? MinimumOperatingVapourActualDensity { get; set; }
+    public string? MinimumOperatingVapourViscosity { get; set; }
+    public string? NormalOperatingMassFlow { get; set; }
+    public string? NormalOperatingVapourCompressibilityFactor { get; set; }
+    public string? NormalOperatingVapourActualDensity { get; set; }
+    public string? NormalOperatingVapourViscosity { get; set; }
+    public string? MaximumOperatingMassFlow { get; set; }
+    public string? NormalOperatingVapourMolecularWeight { get; set; }
 }
