@@ -54,7 +54,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpDelete("{id}", Name = "DeleteComment")]
-    public async Task<ActionResult> DeleteComment(Guid id)
+    public async Task<ActionResult<CommentDto>> DeleteComment(Guid id)
     {
         var azureUniqueId = GetAzureUniqueId();
 
@@ -65,8 +65,8 @@ public class CommentsController : ControllerBase
 
         try
         {
-            await _commentService.DeleteComment(id, azureUniqueId);
-            return Ok();
+            var comment = await _commentService.DeleteComment(id, azureUniqueId);
+            return Ok(comment);
         }
 
         catch (Exception ex)
