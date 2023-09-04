@@ -1,5 +1,5 @@
-using datasheetapi.Models;
 using datasheetapi.Adapters;
+using datasheetapi.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
