@@ -169,12 +169,11 @@ public class CommentService : ICommentService
     public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment)
     {
         var existingComment = await GetComment(updatedComment.Id) ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
-
+        if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
         if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
         existingComment.Text = updatedComment.Text;
         existingComment.IsEdited = true;
-        if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
         existingComment.SoftDeleted = updatedComment.SoftDeleted;
 
         var comment = await _commentRepository.UpdateComment(existingComment);
