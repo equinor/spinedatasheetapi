@@ -174,6 +174,7 @@ public class CommentService : ICommentService
 
         existingComment.Text = updatedComment.Text;
         existingComment.IsEdited = true;
+        if (existingComment.SoftDeleted) { throw new Exception("Cannot edit deleted comment"); }
         existingComment.SoftDeleted = updatedComment.SoftDeleted;
 
         var comment = await _commentRepository.UpdateComment(existingComment);
