@@ -1,4 +1,4 @@
-using datasheetapi.Adapters;
+using AutoMapper;
 using datasheetapi.Models;
 
 using Microsoft.AspNetCore.Authorization;
