@@ -158,8 +158,8 @@ public class CommentService : ICommentService
 
     public async Task DeleteComment(Guid id, Guid azureUniqueId)
     {
-        var existingComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
         if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
+        var existingComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
         if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
         if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
 
