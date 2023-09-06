@@ -156,7 +156,7 @@ public class CommentService : ICommentService
         return savedComment;
     }
 
-    public async Task<CommentDto?> DeleteComment(Guid id, Guid azureUniqueId)
+    public async Task DeleteComment(Guid id, Guid azureUniqueId)
     {
         var existingComment = await GetComment(id) ?? throw new Exception("Invalid comment id");
         if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
@@ -164,8 +164,7 @@ public class CommentService : ICommentService
         if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
 
         existingComment.SoftDeleted = true;
-        var deletedComment = await _commentRepository.UpdateComment(existingComment);
-        return deletedComment.ToDtoOrNull();
+        await _commentRepository.UpdateComment(existingComment);
     }
 
     public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment)

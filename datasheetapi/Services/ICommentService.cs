@@ -6,7 +6,7 @@ namespace datasheetapi.Services
         Task<CommentDto?> GetCommentDto(Guid id);
         Task<List<Comment>> GetComments();
         Task<List<CommentDto>> GetCommentDtos();
-        Task<CommentDto?> DeleteComment(Guid id, Guid azureUniqueId);
+        Task DeleteComment(Guid id, Guid azureUniqueId);
         Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment);
         Task<List<Comment>> GetCommentsForTagReview(Guid tagId);
         Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId);
