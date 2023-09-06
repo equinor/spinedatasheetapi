@@ -158,23 +158,22 @@ public class CommentService : ICommentService
     public async Task DeleteComment(Guid id, Guid azureUniqueId)
     {
         if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
-        var comment = await _commentRepository.GetComment(id) ?? throw new Exception("Invalid comment id");
+        var existingComment = await _commentRepository.GetComment(id) ?? throw new Exception("Invalid comment id");
+        if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
+        if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
 
-        if (comment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
-
-        await _commentRepository.DeleteComment(comment);
+        existingComment.SoftDeleted = true;
+        await _commentRepository.UpdateComment(existingComment);
     }
 
     public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Message updatedComment)
     {
         var existingComment = await _commentRepository.GetComment(updatedComment.Id)
                 ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
-
         if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
         existingComment.Text = updatedComment.Text;
         existingComment.IsEdited = true;
-
         var comment = await _commentRepository.UpdateComment(existingComment);
         //TODO: Fix the commenter name
         return comment.ToDtoOrNull("");
