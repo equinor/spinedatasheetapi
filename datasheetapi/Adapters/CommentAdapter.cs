@@ -14,7 +14,7 @@ public static class CommentAdapter
             Id = comment.Id,
             UserId = comment.UserId,
             CommenterName = comment.CommenterName,
-            Text = comment.Text,
+            Text = comment.SoftDeleted ? "" : comment.Text,
             Property = comment.Property,
             CommentLevel = comment.CommentLevel,
             TagDataReviewId = comment.TagDataReviewId,
@@ -22,6 +22,7 @@ public static class CommentAdapter
             CreatedDate = comment.CreatedDate,
             ModifiedDate = comment.ModifiedDate,
             IsEdited = comment.IsEdited,
+            SoftDeleted = comment.SoftDeleted,
         };
     }
 
@@ -52,6 +53,7 @@ public static class CommentAdapter
             CreatedDate = commentDto.CreatedDate,
             ModifiedDate = commentDto.ModifiedDate,
             IsEdited = commentDto.IsEdited,
+            SoftDeleted = commentDto.SoftDeleted,
         };
     }
 

@@ -1,4 +1,5 @@
 using datasheetapi.Adapters;
+using datasheetapi.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -65,7 +66,7 @@ public class CommentsController : ControllerBase
         try
         {
             await _commentService.DeleteComment(id, azureUniqueId);
-            return Ok();
+            return NoContent();
         }
 
         catch (Exception ex)
