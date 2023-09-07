@@ -33,7 +33,7 @@ public class RevisionContainerReviewAdapterTests
             Approved = false,
             RevisionContainerVersion = 1,
             RevisionContainerId = Guid.NewGuid(),
-            Comments = new List<Comment>(),
+            Comments = new List<Conversation>(),
         };
 
         // Act
@@ -85,7 +85,7 @@ public class RevisionContainerReviewAdapterTests
                 Approved = false,
                 RevisionContainerVersion = 1,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Comment>(),
+                Comments = new List<Conversation>(),
             },
             new RevisionContainerReview
             {
@@ -98,7 +98,7 @@ public class RevisionContainerReviewAdapterTests
                 Approved = true,
                 RevisionContainerVersion = 2,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Comment>(),
+                Comments = new List<Conversation>(),
             },
         };
 

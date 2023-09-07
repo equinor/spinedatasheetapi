@@ -2,13 +2,13 @@ namespace datasheetapi.Repositories;
 
 public interface ICommentRepository
 {
-    Task<Comment> AddComment(Comment comment);
-    Task<Comment?> GetComment(Guid id);
-    Task<List<Comment>> GetComments();
-    Task DeleteComment(Comment comment);
-    Task<Comment> UpdateComment(Comment oldComment);
-    Task<List<Comment>> GetCommentsForTagReview(Guid tagId);
-    Task<List<Comment>> GetCommentsForRevisionContainerReview(Guid tagId);
-    Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds);
-    Task<List<Comment>> GetCommentsForRevisionContainerReviews(List<Guid?> tagIds);
+    Task<Conversation> CreateConversation(Conversation comment);
+    Task<Conversation?> GetConversation(Guid conversationId);
+    Task<List<Conversation>> GetConversations(Guid reviewId);
+
+    Task<Message> AddComment(Message comment);
+    Task<Message?> GetComment(Guid commentId);
+    Task<List<Message>> GetComments(Guid conversationId);
+    Task DeleteComment(Message comment);
+    Task<Message> UpdateComment(Message oldComment);
 }

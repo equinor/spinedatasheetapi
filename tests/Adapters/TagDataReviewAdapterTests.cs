@@ -34,9 +34,9 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = new List<Comment>
+            Comments = new List<Conversation>
             {
-                new Comment
+                new Conversation
                 {
                     Id = Guid.NewGuid(),
                     CreatedDate = DateTime.UtcNow,
@@ -44,7 +44,7 @@ public class TagDataReviewAdapterTests
                     Text = "Comment 1",
                     UserId = Guid.NewGuid(),
                 },
-                new Comment
+                new Conversation
                 {
                     Id = Guid.NewGuid(),
                     CreatedDate = DateTime.UtcNow,
@@ -112,9 +112,9 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = true,
                 TagDataVersion = 1,
-                Comments = new List<Comment>
+                Comments = new List<Conversation>
                 {
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,
@@ -122,7 +122,7 @@ public class TagDataReviewAdapterTests
                         Text = "Comment 1",
                         UserId = Guid.NewGuid(),
                     },
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,
@@ -143,9 +143,9 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = false,
                 TagDataVersion = 2,
-                Comments = new List<Comment>
+                Comments = new List<Conversation>
                 {
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,

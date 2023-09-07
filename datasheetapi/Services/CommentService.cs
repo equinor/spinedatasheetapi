@@ -1,3 +1,5 @@
+using AutoMapper;
+
 using datasheetapi.Adapters;
 using datasheetapi.Repositories;
 
@@ -12,6 +14,7 @@ public class CommentService : ICommentService
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
+    private readonly IMapper _mapper;
 
     public CommentService(ILoggerFactory loggerFactory,
         ITagDataService tagDataService,
@@ -19,7 +22,8 @@ public class CommentService : ICommentService
         IAzureUserCacheService azureUserCacheService,
         IFusionService fusionService,
         ITagDataReviewService tagDataReviewService,
-        IRevisionContainerReviewService revisionContainerReviewService)
+        IRevisionContainerReviewService revisionContainerReviewService,
+        IMapper mapper)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _tagDataService = tagDataService;
@@ -28,83 +32,85 @@ public class CommentService : ICommentService
         _fusionService = fusionService;
         _tagDataReviewService = tagDataReviewService;
         _revisionContainerReviewService = revisionContainerReviewService;
+        _mapper = mapper;
     }
 
-    public async Task<Comment?> GetComment(Guid id)
+    public async Task<GetMessageDto?> GetComment(Guid id)
     {
         var comment = await _commentRepository.GetComment(id);
-        if (comment == null) { return null; }
-        await AddUserNameToComment(comment);
+
+        if (comment != null)
+        {
+            var commentResponse = _mapper.Map<GetMessageDto>(comment);
+            commentResponse.CommenterName = await GetUserName(comment.UserId);
+            return commentResponse;
+        }
+        return null;
+    }
+
+    public async Task<Conversation?> GetConversation(Guid conversationId)
+    {
+        var comment = await _commentRepository.GetConversation(conversationId);
         return comment;
+        // if (comment == null) { return null; }
+        // var username = GetUserName(comment);
+        //  if (username == null) { return null; }
+        //TODO: Need to fix this
+        // return comment?.ToDtoOrNull();
     }
 
-    public async Task<CommentDto?> GetCommentDto(Guid id)
+    public async Task<List<GetMessageDto>?> GetComments(Guid converstionId)
     {
-        var comment = await GetComment(id);
-        return comment?.ToDtoOrNull();
-    }
-
-    public async Task<List<Comment>> GetComments()
-    {
-        var comments = await _commentRepository.GetComments();
-        await AddUserNameToComments(comments);
-        return comments;
-    }
-
-
-    public async Task<List<CommentDto>> GetCommentDtos()
-    {
-        var comments = await GetComments();
-        return comments.ToDto();
-    }
-
-    public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
-    {
-        var comments = await _commentRepository.GetCommentsForTagReview(tagId);
-        await AddUserNameToComments(comments);
-        return comments;
-    }
-
-    public async Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId)
-    {
-        var comments = await GetCommentsForTagReview(tagId);
-        return comments.ToDto();
-    }
-
-    public async Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds)
-    {
-        var comments = await _commentRepository.GetCommentsForTagReviews(tagIds);
-        await AddUserNameToComments(comments);
-        return comments;
-    }
-
-    private async Task AddUserNameToComments(List<Comment> comments)
-    {
+        var comments = await _commentRepository.GetComments(converstionId);
+        // Todo: fix add the username in the adapter
+        //await AddUserNameToComments(comments);
+        //return comments;
+        if (comments == null) return null;
+        var commentReponses = new List<GetMessageDto>();
         foreach (var comment in comments)
         {
-            await AddUserNameToComment(comment);
+            commentReponses.Add(await GetMessageDto(comment));
         }
+        return commentReponses;
     }
 
-    private async Task AddUserNameToComment(Comment comment)
+    private async Task<GetMessageDto> GetMessageDto(Message comment)
     {
-        var azureUser = await _azureUserCacheService.GetAzureUserAsync(comment.UserId);
+        var commentResponse = _mapper.Map<GetMessageDto>(comment);
+        commentResponse.CommenterName = await GetUserName(comment.UserId);
+        return commentResponse;
+    }
+
+
+    public async Task<List<Conversation>> GetConversations(Guid reviewId)
+    {
+        var comments = await _commentRepository.GetConversations(reviewId);
+        return comments;
+    }
+
+    private async Task<string> GetUserName(Guid userId)
+    {
+        var azureUser = await _azureUserCacheService.GetAzureUserAsync(userId);
         if (azureUser == null)
         {
-            var user = await _fusionService.ResolveUserFromPersonId(comment.UserId);
+            var user = await _fusionService.ResolveUserFromPersonId(userId);
             if (user != null)
             {
-                azureUser = new AzureUser { AzureUniqueId = comment.UserId, Name = user?.Name };
+                azureUser = new AzureUser { AzureUniqueId = userId, Name = user?.Name };
                 _azureUserCacheService.AddAzureUser(azureUser);
             }
         }
         if (azureUser != null)
         {
-            comment.CommenterName = azureUser.Name ?? "Unknown user";
+            return azureUser.Name ?? "Unknown user";
+        }
+        else
+        {
+            throw new Exception("Unable to find the username for the userId: " + userId);
         }
     }
 
-    public async Task<Comment> CreateTagDataReviewComment(Comment comment, Guid azureUniqueId)
+    public async Task<Conversation> CreateTagDataReviewComment(Conversation comment, Guid azureUniqueId)
     {
         if (comment.TagDataReviewId == null || comment.TagDataReviewId == Guid.Empty) { throw new Exception("Invalid tag data review id"); }
         var tagDataReview = await _tagDataReviewService.GetTagDataReview((Guid)comment.TagDataReviewId) ?? throw new Exception("Invalid tag data review");
@@ -114,37 +120,30 @@ public class CommentService : ICommentService
         return await CreateComment(comment, azureUniqueId);
     }
 
-    public async Task<Comment> CreateRevisionContainerReviewComment(Comment comment, Guid azureUniqueId)
+    //TODO: fix how to create conversation
+    private async Task<Conversation> CreateComment(Conversation comment, Guid azureUniqueId)
     {
-        if (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty) { throw new Exception("Invalid revision container review id"); }
-        var revisionContainerReview = await _revisionContainerReviewService.GetRevisionContainerReview((Guid)comment.RevisionContainerReviewId) ?? throw new Exception("Invalid revision container review");
+        Conversation? savedComment = null;
+        // TODO: why do we need to set here 
+        //comment.Messages.UserId = azureUniqueId;
 
-        comment.SetRevisionContainerReview(revisionContainerReview);
-
-        return await CreateComment(comment, azureUniqueId);
-    }
-
-    private async Task<Comment> CreateComment(Comment comment, Guid azureUniqueId)
-    {
-        Comment? savedComment = null;
-        comment.UserId = azureUniqueId;
-
-        if (comment.CommentLevel == CommentLevel.Tag)
+        if (comment.ConversationLevel == ConversationLevel.Tag)
         {
-            savedComment = await _commentRepository.AddComment(comment);
+            savedComment = await _commentRepository.CreateConversation(comment);
+            // savedComment = await _commentRepository.AddComment(comment.Messages[0]);
         }
-        else if (comment.CommentLevel == CommentLevel.PurchaserRequirement && comment.Property != null)
+        else if (comment.ConversationLevel == ConversationLevel.PurchaserRequirement && comment.Property != null)
         {
             if (ValidateProperty<InstrumentPurchaserRequirement>(comment.Property))
             {
-                savedComment = await _commentRepository.AddComment(comment);
+                savedComment = await _commentRepository.CreateConversation(comment);
             }
         }
-        else if (comment.CommentLevel == CommentLevel.SupplierOfferedValue && comment.Property != null)
+        else if (comment.ConversationLevel == ConversationLevel.SupplierOfferedValue && comment.Property != null)
         {
             if (ValidateProperty<InstrumentSupplierOfferedProduct>(comment.Property))
             {
-                savedComment = await _commentRepository.AddComment(comment);
+                savedComment = await _commentRepository.CreateConversation(comment);
             }
         }
 
@@ -159,16 +158,17 @@ public class CommentService : ICommentService
     public async Task DeleteComment(Guid id, Guid azureUniqueId)
     {
         if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
-        var comment = await GetComment(id) ?? throw new Exception("Invalid comment id");
+        var comment = await _commentRepository.GetComment(id) ?? throw new Exception("Invalid comment id");
 
         if (comment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
         await _commentRepository.DeleteComment(comment);
     }
 
-    public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment)
+    public async Task<CommentDto?> UpdateComment(Guid azureUniqueId, Message updatedComment)
     {
-        var existingComment = await GetComment(updatedComment.Id) ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
+        var existingComment = await _commentRepository.GetComment(updatedComment.Id)
+                ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
 
         if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
@@ -176,7 +176,8 @@ public class CommentService : ICommentService
         existingComment.IsEdited = true;
 
         var comment = await _commentRepository.UpdateComment(existingComment);
-        return comment.ToDtoOrNull();
+        //TODO: Fix the commenter name
+        return comment.ToDtoOrNull("");
     }
 
     private static bool ValidateProperty<T>(string propertyName)
@@ -188,17 +189,27 @@ public class CommentService : ICommentService
         return propertyInfo != null;
     }
 
-    public async Task<CommentDto> CreateTagDataReviewComment(CommentDto comment, Guid azureUniqueId)
+    public async Task<Message> AddComment(Message message)
     {
-        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
-        var savedComment = await CreateTagDataReviewComment(commentModel, azureUniqueId);
-        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
+        var conversation = await _commentRepository.GetConversation((Guid)message.ConversationId) ?? throw new Exception("Invalid conversation");
+
+        message.SetConversation(conversation);
+
+        return await _commentRepository.AddComment(message);
     }
 
-    public async Task<CommentDto> CreateRevisionContainerReviewComment(CommentDto comment, Guid azureUniqueId)
+    public async Task<Conversation> CreateConversation(Conversation conversation)
     {
-        var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
-        var savedComment = await CreateRevisionContainerReviewComment(commentModel, azureUniqueId);
-        return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
+        //  var commentModel = comment.ToModelOrNull() ?? throw new Exception("Invalid comment");
+        //var savedComment = await CreateTagDataReviewComment(commentModel, Guid.Empty);
+
+        if (conversation.TagDataReviewId == null || conversation.TagDataReviewId == Guid.Empty) { throw new Exception("Invalid tag data review id"); }
+        var tagDataReview = await _tagDataReviewService.GetTagDataReview((Guid)conversation.TagDataReviewId) ?? throw new Exception("Invalid tag data review");
+
+        conversation.SetTagDataReview(tagDataReview);
+
+        return await CreateComment(conversation, Guid.Empty);
+
+        //return savedComment.ToDtoOrNull() ?? throw new Exception("Invalid comment");
     }
 }

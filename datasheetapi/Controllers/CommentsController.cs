@@ -1,4 +1,4 @@
-using datasheetapi.Adapters;
+using AutoMapper;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -6,7 +6,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("comments")]
+[Route("/tag/reviews/{reviewId}/conversations")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -18,134 +18,181 @@ public class CommentsController : ControllerBase
 {
     private readonly ICommentService _commentService;
     private readonly ILogger<CommentsController> _logger;
+    private readonly IMapper _mapper;
 
-    public CommentsController(ILoggerFactory loggerFactory, ICommentService commentService)
+    public CommentsController(ILoggerFactory loggerFactory, ICommentService commentService, IMapper mapper)
     {
         _logger = loggerFactory.CreateLogger<CommentsController>();
         _commentService = commentService;
+        _mapper = mapper;
     }
 
-    [HttpPut("{id}", Name = "UpdateComment")]
-    public async Task<ActionResult<CommentDto>> UpdateComment(Guid id, CommentDto newCommentDto)
+    [HttpPut("{conversationId}/comments/{commentId}", Name = "UpdateComment")]
+    public async Task<ActionResult<CommentDto>> UpdateComment([FromRoute] Guid conversationId, [FromRoute] Guid commentId, MessageDto newCommentDto)
     {
-        if (id == Guid.Empty || newCommentDto == null)
+        if (commentId == Guid.Empty || newCommentDto == null)
         {
             return BadRequest();
         }
-        if (id != newCommentDto.Id)
-        {
-            return BadRequest("Id in path does not match id in body");
-        }
-
         var azureUniqueId = GetAzureUniqueId();
-
         try
         {
-            var newComment = newCommentDto.ToModelOrNull() ?? throw new Exception("Could not convert comment to model");
+            var newComment = _mapper.Map<Message>(newCommentDto);
+            newComment.Id = commentId;
             var comment = await _commentService.UpdateComment(azureUniqueId, newComment);
             return Ok(comment);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error editing comment", id);
+            _logger.LogError(ex, "Error editing comment", commentId);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
-    [HttpDelete("{id}", Name = "DeleteComment")]
-    public async Task<ActionResult> DeleteComment(Guid id)
+    [HttpDelete("{conversationId}/comments/{commentId}", Name = "DeleteComment")]
+    public async Task<ActionResult> DeleteComment([FromRoute] Guid conversationId, [FromRoute] Guid commentId)
     {
         var azureUniqueId = GetAzureUniqueId();
 
-        if (id == Guid.Empty)
+        if (commentId == Guid.Empty)
         {
             return BadRequest();
         }
 
         try
         {
-            await _commentService.DeleteComment(id, azureUniqueId);
+            await _commentService.DeleteComment(commentId, azureUniqueId);
             return Ok();
         }
 
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting comment", id);
+            _logger.LogError(ex, "Error deleting comment", commentId);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
-    [HttpGet("{id}", Name = "GetComment")]
-    public async Task<ActionResult<CommentDto>> GetComment([FromQuery] Guid id)
+    // TODO; we need to verify reviewid?
+    [HttpPost("{conversationId}/comments", Name = "AddComment")]
+    public async Task<ActionResult<GetMessageDto>> AddComment([FromRoute] Guid reviewId, [FromRoute] Guid conversationId, MessageDto comment)
     {
-        if (id == Guid.Empty)
+
+        var message = _mapper.Map<Message>(comment);
+
+        message.ConversationId = conversationId;
+        message.UserId = GetAzureUniqueId();
+
+        var response = await _commentService.AddComment(message);
+        return _mapper.Map<GetMessageDto>(response);
+    }
+
+    [HttpGet("{conversationId}/comments/{commentId}", Name = "GetComment")]
+    public async Task<ActionResult<GetMessageDto>> GetComment(Guid commentId)
+    {
+        if (commentId == Guid.Empty)
         {
             return BadRequest();
         }
-
         try
         {
-            var comment = await _commentService.GetCommentDto(id);
+            var comment = await _commentService.GetComment(commentId);
             if (comment == null)
             {
                 return NotFound();
             }
-            return Ok(comment);
+            return _mapper.Map<GetMessageDto>(comment);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting comment with id {id}", id);
+            _logger.LogError(ex, "Error getting comment with id {id}", commentId);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
-    [HttpGet(Name = "GetComments")]
-    public async Task<ActionResult<List<CommentDto>>> GetComments()
+    [HttpGet("{conversationId}/comments", Name = "GetComments")]
+    public async Task<ActionResult<List<GetMessageDto>>> GetComments(Guid conversationId)
+    {
+        if (conversationId == Guid.Empty)
+        {
+            return BadRequest();
+        }
+        try
+        {
+            var comment = await _commentService.GetComments(conversationId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            // TODO: fix the commenter name
+            return _mapper.Map<List<GetMessageDto>>(comment);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting comment with id {id}", conversationId);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    // TODO: Fix the body object 
+    [HttpPost(Name = "CreateConversation")]
+    public async Task<ActionResult<GetConversationDto>> CreateConversation([FromRoute] Guid reviewId, [FromBody] CreateCommentDto comment)
+    {
+        var azureUniqueId = GetAzureUniqueId();
+
+        var conversation = _mapper.Map<CreateCommentDto, Conversation>(comment);
+        conversation.TagDataReviewId = reviewId;
+
+        //TODO: Move to common place
+        Message message = _mapper.Map<Message>(comment);
+        message.UserId = azureUniqueId;
+        conversation.Messages = new List<Message> { message };
+
+        var participant = _mapper.Map<Participant>(conversation);
+        participant.UserId = azureUniqueId;
+
+        conversation.Participants = new List<Participant> { participant };
+
+        var savedConversation = await _commentService.CreateConversation(conversation);
+
+        return _mapper.Map<Conversation, GetConversationDto>(savedConversation);
+    }
+
+    [HttpGet("{conversationId}", Name = "GetConversation")]
+    public async Task<ActionResult<GetConversationDto>> GetConversation(Guid conversationId)
+    {
+        // TODO; do we need to avalid the reviewId also ?
+        if (conversationId == Guid.Empty)
+        {
+            return BadRequest();
+        }
+        try
+        {
+            var comment = await _commentService.GetConversation(conversationId);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+            var response = _mapper.Map<Conversation, GetConversationDto>(comment);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting comment with id {id}", conversationId);
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    [HttpGet(Name = "GetConversations")]
+    public async Task<ActionResult<List<GetConversationDto>>> GetConversations(Guid reviewId)
     {
         try
         {
-            return await _commentService.GetCommentDtos();
+            var response = await _commentService.GetConversations(reviewId);
+            return _mapper.Map<List<Conversation>, List<GetConversationDto>>(response);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting all comments");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet("tagreview/{id}", Name = "GetCommentsForTagReview")]
-    public async Task<ActionResult<List<CommentDto>>> GetCommentsForTagReview(Guid id)
-    {
-        try
-        {
-            return await _commentService.GetCommentDtosForTagReview(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting comments for tag review with id {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpPost(Name = "CreateComment")]
-    public async Task<ActionResult<CommentDto>> CreateComment([FromBody] CommentDto comment)
-    {
-        var azureUniqueId = GetAzureUniqueId();
-
-        var commentType = IsTagReviewComment(comment);
-        if (commentType == CommentType.Invalid) { return BadRequest("Comment needs to be either for tag data review or revision container review"); }
-
-        try
-        {
-            if (commentType == CommentType.TagDataReview)
-            {
-                return await _commentService.CreateTagDataReviewComment(comment, azureUniqueId);
-            }
-            return await _commentService.CreateRevisionContainerReviewComment(comment, azureUniqueId);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error creating comment", comment);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -157,27 +204,5 @@ public class CommentsController : ControllerBase
         var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
         var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
         return azureUniqueId;
-    }
-
-    private static CommentType IsTagReviewComment(CommentDto comment)
-    {
-        if (comment.TagDataReviewId != null && comment.TagDataReviewId != Guid.Empty
-        && (comment.RevisionContainerReviewId == null || comment.RevisionContainerReviewId == Guid.Empty))
-        {
-            return CommentType.TagDataReview;
-        }
-        else if (comment.RevisionContainerReviewId != null && comment.RevisionContainerReviewId != Guid.Empty
-        && (comment.TagDataReviewId == null || comment.TagDataReviewId == Guid.Empty))
-        {
-            return CommentType.RevisionContainerReview;
-        }
-        return CommentType.Invalid;
-    }
-
-    private enum CommentType
-    {
-        TagDataReview,
-        RevisionContainerReview,
-        Invalid
     }
 }

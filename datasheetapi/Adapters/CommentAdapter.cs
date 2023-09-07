@@ -1,63 +1,121 @@
 namespace datasheetapi.Adapters;
 public static class CommentAdapter
 {
-    public static CommentDto? ToDtoOrNull(this Comment? comment)
+    public static CommentDto? ToDtoOrNull(this Conversation? comment)
     {
         if (comment is null) { return null; }
         return comment.ToDto();
     }
 
-    private static CommentDto ToDto(this Comment comment)
+    public static CommentDto? ToDtoOrNull(this Message? comment, string commenterName)
+    {
+        if (comment is null) { return null; }
+        return comment.ToDto(commenterName);
+    }
+
+    private static CommentDto ToDto(this Message comment, string commenterName)
     {
         return new CommentDto
         {
             Id = comment.Id,
             UserId = comment.UserId,
-            CommenterName = comment.CommenterName,
+            CommenterName = commenterName,
             Text = comment.Text,
+            // TODO: Does it require all these values?
+            //Property = comment.Property,
+            //CommentLevel = comment.ConversationLevel,
+            //TagDataReviewId = comment.TagDataReviewId,
+            //RevisionContainerReviewId = comment.RevisionContainerReviewId,
+            CreatedDate = comment.CreatedDate,
+            ModifiedDate = comment.ModifiedDate
+        };
+    }
+
+    private static CommentDto ToDto(this Conversation comment)
+    {
+        return new CommentDto
+        {
+            Id = comment.Id,
+            //TODO: fix this create part
+            //UserId = comment.UserId,
+            //CommenterName = comment.CommenterName,
+            //Text = comment.Text,
             Property = comment.Property,
-            CommentLevel = comment.CommentLevel,
+            CommentLevel = comment.ConversationLevel,
             TagDataReviewId = comment.TagDataReviewId,
-            RevisionContainerReviewId = comment.RevisionContainerReviewId,
             CreatedDate = comment.CreatedDate,
             ModifiedDate = comment.ModifiedDate,
             IsEdited = comment.IsEdited,
         };
     }
 
-    public static List<CommentDto> ToDto(this List<Comment>? comments)
+    public static List<CommentDto> ToDto(this List<Conversation>? comments)
     {
         if (comments is null) { return new List<CommentDto>(); }
         return comments.Select(ToDto).ToList();
     }
 
-    public static Comment? ToModelOrNull(this CommentDto? commentDto)
+    public static List<CommentDto> ToDto(this List<Message>? comments)
+    {
+        if (comments is null) { return new List<CommentDto>(); }
+        //TODO: Add the username
+        return comments.Select(comment => comment.ToDto("df")).ToList();
+    }
+
+    public static Conversation? ToModelOrNull(this CommentDto? commentDto)
     {
         if (commentDto is null) { return null; }
         return commentDto.ToModel();
     }
 
-    private static Comment ToModel(this CommentDto commentDto)
+    public static Message? ToMessageModelOrNull(this CommentDto? commentDto)
     {
-        return new Comment
+        if (commentDto is null) { return null; }
+        return commentDto.ToMessageModel();
+    }
+
+    private static Conversation ToModel(this CommentDto commentDto)
+    {
+        return new Conversation
         {
+            //TODO: why are are asking frontend to set the commentId, shouldnt be auto generated ?
             Id = commentDto.Id,
-            UserId = commentDto.UserId,
-            CommenterName = commentDto.CommenterName,
-            Text = commentDto.Text,
             Property = commentDto.Property,
-            CommentLevel = commentDto.CommentLevel,
+            ConversationLevel = commentDto.CommentLevel,
             TagDataReviewId = commentDto.TagDataReviewId,
-            RevisionContainerReviewId = commentDto.RevisionContainerReviewId,
+           // RevisionContainerReviewId = commentDto.RevisionContainerReviewId,
+            CreatedDate = commentDto.CreatedDate,
+            ModifiedDate = commentDto.ModifiedDate,
+            Messages = new List<Message> { ToMessageModel(commentDto) },
+            Participants = new List<Participant> { ToParticipantModel(commentDto) }
+        };
+    }
+
+    private static Message ToMessageModel(this CommentDto commentDto)
+    {
+        return new Message
+        {
+            UserId = commentDto.UserId,
+            Text = commentDto.Text,
             CreatedDate = commentDto.CreatedDate,
             ModifiedDate = commentDto.ModifiedDate,
             IsEdited = commentDto.IsEdited,
         };
     }
 
-    public static List<Comment> ToModel(this List<CommentDto>? commentDtos)
+    private static Participant ToParticipantModel(this CommentDto commentDto)
     {
-        if (commentDtos is null) { return new List<Comment>(); }
+        return new Participant
+        {
+            UserId = commentDto.UserId,
+            CreatedDate = commentDto.CreatedDate,
+            ModifiedDate = commentDto.ModifiedDate
+        };
+    }
+
+    public static List<Conversation> ToModel(this List<CommentDto>? commentDtos)
+    {
+        if (commentDtos is null) { return new List<Conversation>(); }
         return commentDtos.Select(ToModel).ToList();
     }
 }

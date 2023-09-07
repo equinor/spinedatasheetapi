@@ -127,6 +127,8 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .CreateBootstrapLogger();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();

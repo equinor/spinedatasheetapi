@@ -11,7 +11,7 @@ public class CommentAdapterTests
     public void ToDtoOrNull_ReturnsNull_WhenCommentIsNull()
     {
         // Arrange
-        Comment? comment = null;
+        Conversation? comment = null;
 
         // Act
         var result = comment.ToDtoOrNull();
@@ -24,14 +24,14 @@ public class CommentAdapterTests
     public void ToDtoOrNull_ReturnsCommentDto_WhenCommentIsNotNull()
     {
         // Arrange
-        var comment = new Comment
+        var comment = new Conversation
         {
             Id = Guid.NewGuid(),
             UserId = Guid.NewGuid(),
             CommenterName = "John Doe",
             Text = "This is a comment",
             Property = "Some property",
-            CommentLevel = CommentLevel.PurchaserRequirement,
+            ConversationLevel = ConversationLevel.PurchaserRequirement,
             TagDataReviewId = Guid.NewGuid(),
             RevisionContainerReviewId = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
@@ -48,7 +48,7 @@ public class CommentAdapterTests
         Assert.Equal(comment.CommenterName, result.CommenterName);
         Assert.Equal(comment.Text, result.Text);
         Assert.Equal(comment.Property, result.Property);
-        Assert.Equal(comment.CommentLevel, result.CommentLevel);
+        Assert.Equal(comment.ConversationLevel, result.CommentLevel);
         Assert.Equal(comment.TagDataReviewId, result.TagDataReviewId);
         Assert.Equal(comment.RevisionContainerReviewId, result.RevisionContainerReviewId);
         Assert.Equal(comment.CreatedDate, result.CreatedDate);
@@ -59,7 +59,7 @@ public class CommentAdapterTests
     public void ToDto_ReturnsEmptyList_WhenCommentsIsNull()
     {
         // Arrange
-        List<Comment>? comments = null;
+        List<Conversation>? comments = null;
 
         // Act
         var result = comments.ToDto();
@@ -73,29 +73,29 @@ public class CommentAdapterTests
     public void ToDto_ReturnsCommentDtos_WhenCommentsIsNotNull()
     {
         // Arrange
-        var comments = new List<Comment>
+        var comments = new List<Conversation>
         {
-            new Comment
+            new Conversation
             {
                 Id = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
                 CommenterName = "John Doe",
                 Text = "This is a comment",
                 Property = "Some property",
-                CommentLevel = CommentLevel.PurchaserRequirement,
+                ConversationLevel = ConversationLevel.PurchaserRequirement,
                 TagDataReviewId = Guid.NewGuid(),
                 RevisionContainerReviewId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow
             },
-            new Comment
+            new Conversation
             {
                 Id = Guid.NewGuid(),
                 UserId = Guid.NewGuid(),
                 CommenterName = "Jane Smith",
                 Text = "This is another comment",
                 Property = "Some other property",
-                CommentLevel = CommentLevel.PurchaserRequirement,
+                ConversationLevel = ConversationLevel.PurchaserRequirement,
                 TagDataReviewId = Guid.NewGuid(),
                 RevisionContainerReviewId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -116,7 +116,7 @@ public class CommentAdapterTests
             Assert.Equal(comments[i].CommenterName, result[i].CommenterName);
             Assert.Equal(comments[i].Text, result[i].Text);
             Assert.Equal(comments[i].Property, result[i].Property);
-            Assert.Equal(comments[i].CommentLevel, result[i].CommentLevel);
+            Assert.Equal(comments[i].ConversationLevel, result[i].CommentLevel);
             Assert.Equal(comments[i].TagDataReviewId, result[i].TagDataReviewId);
             Assert.Equal(comments[i].RevisionContainerReviewId, result[i].RevisionContainerReviewId);
             Assert.Equal(comments[i].CreatedDate, result[i].CreatedDate);
@@ -148,7 +148,7 @@ public class CommentAdapterTests
             CommenterName = "John Doe",
             Text = "This is a comment",
             Property = "Some property",
-            CommentLevel = CommentLevel.PurchaserRequirement,
+            CommentLevel = ConversationLevel.PurchaserRequirement,
             TagDataReviewId = Guid.NewGuid(),
             RevisionContainerReviewId = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
@@ -165,7 +165,7 @@ public class CommentAdapterTests
         Assert.Equal(commentDto.CommenterName, result.CommenterName);
         Assert.Equal(commentDto.Text, result.Text);
         Assert.Equal(commentDto.Property, result.Property);
-        Assert.Equal(commentDto.CommentLevel, result.CommentLevel);
+        Assert.Equal(commentDto.CommentLevel, result.ConversationLevel);
         Assert.Equal(commentDto.TagDataReviewId, result.TagDataReviewId);
         Assert.Equal(commentDto.RevisionContainerReviewId, result.RevisionContainerReviewId);
         Assert.Equal(commentDto.CreatedDate, result.CreatedDate);
@@ -199,7 +199,7 @@ public class CommentAdapterTests
                 CommenterName = "John Doe",
                 Text = "This is a comment",
                 Property = "Some property",
-                CommentLevel = CommentLevel.PurchaserRequirement,
+                CommentLevel = ConversationLevel.PurchaserRequirement,
                 TagDataReviewId = Guid.NewGuid(),
                 RevisionContainerReviewId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -212,7 +212,7 @@ public class CommentAdapterTests
                 CommenterName = "Jane Smith",
                 Text = "This is another comment",
                 Property = "Some other property",
-                CommentLevel = CommentLevel.PurchaserRequirement,
+                CommentLevel = ConversationLevel.PurchaserRequirement,
                 TagDataReviewId = Guid.NewGuid(),
                 RevisionContainerReviewId = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -233,7 +233,7 @@ public class CommentAdapterTests
             Assert.Equal(commentDtos[i].CommenterName, result[i].CommenterName);
             Assert.Equal(commentDtos[i].Text, result[i].Text);
             Assert.Equal(commentDtos[i].Property, result[i].Property);
-            Assert.Equal(commentDtos[i].CommentLevel, result[i].CommentLevel);
+            Assert.Equal(commentDtos[i].CommentLevel, result[i].ConversationLevel);
             Assert.Equal(commentDtos[i].TagDataReviewId, result[i].TagDataReviewId);
             Assert.Equal(commentDtos[i].RevisionContainerReviewId, result[i].RevisionContainerReviewId);
             Assert.Equal(commentDtos[i].CreatedDate, result[i].CreatedDate);

@@ -15,67 +15,81 @@ public class CommentRepository : ICommentRepository
         _context = context;
     }
 
-    public async Task<Comment?> GetComment(Guid id)
+    public async Task<Message?> GetComment(Guid id)
     {
-        var comment = await _context.Comments.FindAsync(id);
+        var comment = await _context.Messages.FindAsync(id);
         return comment;
     }
 
-    public async Task<List<Comment>> GetComments()
+    public async Task<List<Message>> GetComments(Guid conversationId)
     {
-        var comments = await _context.Comments.ToListAsync();
+        var comments = await _context.Messages.Where(c => c.ConversationId == conversationId).ToListAsync();
         return comments;
     }
 
-    public async Task DeleteComment(Comment comment)
+    public async Task DeleteComment(Message comment)
     {
-        _context.Comments.Remove(comment);
+        _context.Messages.Remove(comment);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Comment> UpdateComment(Comment entity)
+
+    public async Task<Message> UpdateComment(Message entity)
     {
         entity.ModifiedDate = DateTime.UtcNow;
 
-        var updatedComment = _context.Comments.Update(entity);
+        var updatedComment = _context.Messages.Update(entity);
         await _context.SaveChangesAsync();
 
         return updatedComment.Entity;
     }
 
-    public async Task<List<Comment>> GetCommentsForTagReview(Guid tagId)
-    {
-        var comments = await _context.Comments.Where(c => c.TagDataReviewId == tagId).ToListAsync();
-        return comments;
-    }
 
-    public async Task<List<Comment>> GetCommentsForRevisionContainerReview(Guid tagId)
-    {
-        var comments = await _context.Comments.Where(c => c.RevisionContainerReviewId == tagId).ToListAsync();
-        return comments;
-    }
-
-    public async Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds)
-    {
-        var comments = await _context.Comments.Where(c => tagIds.Contains(c.TagDataReviewId)).ToListAsync();
-        return comments;
-    }
-
-    public async Task<List<Comment>> GetCommentsForRevisionContainerReviews(List<Guid?> tagIds)
-    {
-        var comments = await _context.Comments.Where(c => tagIds.Contains(c.RevisionContainerReviewId)).ToListAsync();
-        return comments;
-    }
-
-
-    public async Task<Comment> AddComment(Comment comment)
+    public async Task<Message> AddComment(Message comment)
     {
         comment.Id = Guid.NewGuid();
         comment.CreatedDate = DateTime.UtcNow;
         comment.ModifiedDate = DateTime.UtcNow;
-
-        var savedComment = _context.Comments.Add(comment);
+        if (GetParticipant(comment.UserId, comment.ConversationId) == null)
+        {
+            _context.Participants
+                .Add(new Participant(comment.UserId, comment.ConversationId));
+        }
+        var savedComment = _context.Messages.Add(comment);
         await _context.SaveChangesAsync();
         return savedComment.Entity;
+    }
+
+    private Participant? GetParticipant(Guid userId, Guid conversationId)
+    {
+        return _context.Participants
+            .Where(p => p.ConversationId == conversationId && p.UserId == userId)
+            .FirstOrDefault();
+    }
+
+    public async Task<Conversation> CreateConversation(Conversation conversation)
+    {
+        conversation.Id = Guid.NewGuid();
+        conversation.CreatedDate = DateTime.UtcNow;
+        conversation.ModifiedDate = DateTime.UtcNow;
+
+        var savedComment = _context.Conversations.Add(conversation);
+        await _context.SaveChangesAsync();
+        return savedComment.Entity;
+    }
+
+    public async Task<Conversation?> GetConversation(Guid conversationId)
+    {
+        return await _context.Conversations
+                .Include(p => p.Participants)
+                .Include(p => p.Messages)
+                .Where(p => p.Id == conversationId).FirstOrDefaultAsync();
+    }
+
+    public async Task<List<Conversation>> GetConversations(Guid reviewId)
+    {
+        return await _context.Conversations
+                .Include(p => p.Participants)
+                .Where(c => c.TagDataReviewId == reviewId).ToListAsync();
     }
 }
