@@ -8,4 +8,5 @@ public record GetMessageDto : BaseEntityDto
     public string Text { get; set; } = string.Empty;
     public string CommenterName { get; set; } = string.Empty;
     public bool IsEdited { get; set; }
+    public bool SoftDeleted { get; set; }
 }

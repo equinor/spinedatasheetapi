@@ -7,6 +7,7 @@ public class Message : BaseEntity
     public Guid ConversationId { get; set; }
     public Conversation? Conversation { get; set; }
     public bool IsEdited { get; set; }
+    public bool SoftDeleted { get; set; }
 
     public void SetConversation(Conversation conversation)
     {

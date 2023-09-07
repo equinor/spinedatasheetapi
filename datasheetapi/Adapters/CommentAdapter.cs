@@ -46,7 +46,7 @@ public static class CommentAdapter
             CreatedDate = comment.CreatedDate,
             ModifiedDate = comment.ModifiedDate,
             IsEdited = comment.IsEdited,
-            SoftDeleted = comment.SoftDeleted,
+            //SoftDeleted = comment.SoftDeleted,
         };
     }
 
