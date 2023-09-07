@@ -170,6 +170,10 @@ public class CommentService : ICommentService
     {
         var existingComment = await _commentRepository.GetComment(updatedComment.Id)
                 ?? throw new Exception($"Comment with id {updatedComment.Id} not found");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4992699 (feat: adding the conversation model)
         if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
 
         existingComment.Text = updatedComment.Text;
