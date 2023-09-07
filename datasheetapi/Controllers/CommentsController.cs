@@ -19,12 +19,14 @@ public class CommentsController : ControllerBase
 {
     private readonly ICommentService _commentService;
     private readonly ILogger<CommentsController> _logger;
+    private readonly IMapper _mapper;
 
     public CommentsController(ILoggerFactory loggerFactory,
                             ICommentService commentService)
     {
         _logger = loggerFactory.CreateLogger<CommentsController>();
         _commentService = commentService;
+        _mapper = mapper;
     }
 
     [HttpPost(Name = "CreateConversation")]
