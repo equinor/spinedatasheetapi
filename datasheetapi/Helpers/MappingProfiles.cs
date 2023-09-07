@@ -12,7 +12,8 @@ public class MappingProfiles : Profile
         CreateMap<MessageDto, Message>()
          .ForMember(des => des.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
          .ForMember(des => des.ModifiedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
-        CreateMap<Message, GetMessageDto>();
+        CreateMap<Message, GetMessageDto>()
+         .ForMember(des => des.Text, opt => opt.MapFrom(src => src.SoftDeleted ? "" : src.Text));
 
         CreateMap<CreateCommentDto, Message>()
          .ForMember(des => des.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
@@ -22,14 +23,11 @@ public class MappingProfiles : Profile
          .ForMember(des => des.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
          .ForMember(des => des.ModifiedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
 
-        CreateMap<Message, GetMessageDto>();
         CreateMap<Participant, UserDto>()
          .ForMember(des => des.UserId, opt => opt.MapFrom(src => src.UserId));
 
         CreateMap<Conversation, GetConversationDto>()
          .ForMember(dest => dest.UserDtos, opt => opt.MapFrom(src => src.Participants))
          .ForMember(dest => dest.MessageDtos, opt => opt.MapFrom(src => src.Messages));
-
-
     }
 }
