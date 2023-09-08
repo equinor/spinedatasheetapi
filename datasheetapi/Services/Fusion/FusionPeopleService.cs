@@ -21,17 +21,21 @@ public class FusionPeopleService
         _logger = logger;
     }
 
-    public async Task<List<FusionPersonResultV1>> GetAllPersonsOnProject(string fusionContextId, string search, int top, int skip)
+    public async Task<List<FusionPersonResultV1>> GetAllPersonsOnProject(string orgChartId, string search, int top, int skip)
     {
+        Console.WriteLine("FusearchContextId: " + orgChartId);
+        Console.WriteLine("Search: " + search);
         var fusionSearchObject = new FusionSearchObject
         {
-            // Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '{fusionContextId}' and p/contract eq null)",
+            // Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '${orgChartId}' and p/contract eq null)",
+            // Filter = $"positions/any(p: p/isActive eq true and p/contract eq null)",
             Top = top,
             Skip = skip
         };
 
         if (!string.IsNullOrEmpty(search))
         {
+            // fusionSearchObject.Filter += $" and {AddSearch(search)}";
             fusionSearchObject.Filter += $"{AddSearch(search)}";
         }
 
@@ -46,34 +50,6 @@ public class FusionPeopleService
 
         return response?.Results ?? new List<FusionPersonResultV1>();
     }
-
-
-    private async Task<FusionPerson?> GetPersonAsync(string azureId)
-    {
-        if (_cache.TryGetValue<FusionPerson>($"FusionPerson_{azureId}", out var cachedPerson))
-            return cachedPerson;
-
-        var result = await _downstreamApi.CallApiForUserAsync(
-            "FusionPeople", options =>
-            {
-                options.HttpMethod = HttpMethod.Get;
-                options.RelativePath = $"persons/{azureId}?api-version=3.0&$expand=contracts,positions";
-            });
-
-        if (!result.IsSuccessStatusCode)
-        {
-            var error = await result.Content.ReadAsStringAsync();
-            _logger.LogWarning("Failed to retrieve person from Fusion. AzureId: {AzureId}, Error: {Error}", azureId,
-                error);
-            return null;
-        }
-
-        var person = await result.Content.ReadFromJsonAsync<FusionPerson>();
-        ArgumentNullException.ThrowIfNull(person);
-        _cache.Set($"FusionPerson_{azureId}", person, TimeSpan.FromMinutes(15));
-        return person;
-    }
-
 
     private static string AddSearch(string search)
     {

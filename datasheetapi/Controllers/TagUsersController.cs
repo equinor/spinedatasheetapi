@@ -25,10 +25,14 @@ public class TagUsersController : ControllerBase
         _fusionPeopleService = fusionPeopleService;
     }
 
-    [HttpGet("{projectId}", Name = "GetUsersForProject")]
-    public async Task<IActionResult> GetUsersForProject(string projectId, [FromQuery] string? search, [FromQuery] int top = 20, [FromQuery] int skip = 0)
+    [HttpGet("{orgChartId}", Name = "GetUsersForProject")]
+    public async Task<IActionResult> GetUsersForProject(string orgChartId, [FromQuery] string? search, [FromQuery] int top = 20, [FromQuery] int skip = 0)
     {
-        var fusionRepsonse = await _fusionPeopleService.GetAllPersonsOnProject(projectId, search ?? "", top, skip);
+        var claims = HttpContext.User.Claims;
+        var orgChart = claims.Where(x => x.Type == "http://schemas.fusion.equinor.com/identity/claims/orgprojectid");
+        Console.WriteLine("OrgChart: " + orgChart?.Count());
+
+        var fusionRepsonse = await _fusionPeopleService.GetAllPersonsOnProject(orgChartId, search ?? "", top, skip);
         Console.WriteLine(fusionRepsonse);
         return Ok(fusionRepsonse);
     }
