@@ -11,29 +11,29 @@ public class TagUserService
         _FAMService = FAMService;
     }
 
-    public async Task GetFusionUserResponsibilitesOnProject(string contractId, string search, int top, int skip)
-    {
-        var response = await _fusionPeopleService.GetAllPersonsOnContract(contractId, project.FusionId, search, top, skip);
+    // public async Task GetFusionUserResponsibilitesOnProject(string contractId, string search, int top, int skip)
+    // {
+    //     var response = await _fusionPeopleService.GetAllPersonsOnContract(contractId, project.FusionId, search, top, skip);
 
-        var commentResponsibleMails =
-            (await _commentResponsibilityRepository.GetCommentResponsiblesByContract(contractId))
-            .Select(usr => usr.User!.Upn).ToList();
+    //     var commentResponsibleMails =
+    //         (await _commentResponsibilityRepository.GetCommentResponsiblesByContract(contractId))
+    //         .Select(usr => usr.User!.Upn).ToList();
 
-        var responsibleUsers = response
-            .Persons
-            .Select(person => new ResponsibleUser
-            {
-                Id = person.AzureUniqueId,
-                DisplayName = person.Name,
-                Mail = person.Mail,
-                Responsibilities = GetRoleFromPerson(person, project, contractId, commentResponsibleMails)
-            })
-            .ToList();
+    //     var responsibleUsers = response
+    //         .Persons
+    //         .Select(person => new ResponsibleUser
+    //         {
+    //             Id = person.AzureUniqueId,
+    //             DisplayName = person.Name,
+    //             Mail = person.Mail,
+    //             Responsibilities = GetRoleFromPerson(person, project, contractId, commentResponsibleMails)
+    //         })
+    //         .ToList();
 
-        return new ResponsibleUserResult
-        {
-            ResponsibleUsers = responsibleUsers,
-            Count = response.Count
-        };
-    }
+    //     return new ResponsibleUserResult
+    //     {
+    //         ResponsibleUsers = responsibleUsers,
+    //         Count = response.Count
+    //     };
+    // }
 }

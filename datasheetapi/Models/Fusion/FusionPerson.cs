@@ -1,6 +1,4 @@
-using JetBrains.Annotations;
-
-namespace SpineReviewApi.Services.Fusion.Models.FusionPersons;
+namespace datasheetapi.Models.Fusion;
 
 public record FusionPersonResponse(List<FusionPerson> Persons, int Count);
 
@@ -19,5 +17,3 @@ public record Contract(string ContractNumber, Project Project);
 public record Position(Project Project, Contract? Contract);
 
 public record Project(Guid Id, string Name);
-
-

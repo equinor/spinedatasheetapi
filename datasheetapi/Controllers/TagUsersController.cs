@@ -17,14 +17,19 @@ namespace datasheetapi.Controllers;
 public class TagUsersController : ControllerBase
 {
     private readonly ILogger<TagUsersController> _logger;
+    private readonly FusionPeopleService _fusionPeopleService;
 
-    public TagUsersController(ILoggerFactory loggerFactory)
+    public TagUsersController(ILoggerFactory loggerFactory, FusionPeopleService fusionPeopleService)
     {
         _logger = loggerFactory.CreateLogger<TagUsersController>();
+        _fusionPeopleService = fusionPeopleService;
     }
 
-    public async Task<IActionResult> GetUsersForProject(string? search, int top, int skip)
+    [HttpGet("{projectId}", Name = "GetUsersForProject")]
+    public async Task<IActionResult> GetUsersForProject(string projectId, [FromQuery] string? search, [FromQuery] int top = 20, [FromQuery] int skip = 0)
     {
-        return Ok(await _userResponsibilityService.GetFusionUserResponsibilitesOnProject(contract, search ?? "", top, skip));
+        var fusionRepsonse = await _fusionPeopleService.GetAllPersonsOnProject(projectId, search ?? "", top, skip);
+        Console.WriteLine(fusionRepsonse);
+        return Ok(fusionRepsonse);
     }
 }
