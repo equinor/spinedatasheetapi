@@ -9,7 +9,7 @@ public record CommentDto : BaseEntityDto
     public string Text { get; set; } = string.Empty;
     public string? Property { get; set; }
     public ConversationLevel CommentLevel { get; set; }
-    public Guid? TagDataReviewId { get; set; }
+    public Guid TagDataReviewId { get; set; }
     public Guid? RevisionContainerReviewId { get; set; }
     public bool IsEdited { get; set; }
     public bool SoftDeleted { get; set; }
