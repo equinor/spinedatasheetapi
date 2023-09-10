@@ -9,7 +9,6 @@ public class CommentService : ICommentService
     private readonly ICommentRepository _commentRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
-    private readonly IMapper _mapper;
 
     public CommentService(ILoggerFactory loggerFactory,
         ICommentRepository commentRepository,
