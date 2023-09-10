@@ -20,7 +20,6 @@ public static class TagDataReviewAdapter
             CommentResponsible = tagDataReview.CommentResponsible,
             Approved = tagDataReview.Approved,
             TagDataVersion = tagDataReview.TagDataVersion,
-            Comments = tagDataReview.Comments.ToDto(),
         };
     }
 
@@ -49,7 +48,6 @@ public static class TagDataReviewAdapter
             CommentResponsible = tagDataReviewDto.CommentResponsible,
             Approved = tagDataReviewDto.Approved,
             TagDataVersion = tagDataReviewDto.TagDataVersion,
-            Comments = tagDataReviewDto.Comments.ToModel(),
         };
     }
 
