@@ -56,7 +56,9 @@ public class CommentRepository : ICommentRepository
                 .Add(new Participant()
                     {
                         UserId = comment.UserId,
-                        ConversationId = comment.ConversationId
+                        ConversationId = comment.ConversationId,
+                        CreatedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow
                     });
         }
         var savedComment = _context.Messages.Add(comment);
