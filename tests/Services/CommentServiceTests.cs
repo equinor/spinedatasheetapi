@@ -217,12 +217,13 @@ public class CommentServiceTests
     [Fact]
     public async Task GetComments_ThrowsWhenFetchingCommentsThrowsException()
     {
-        var comment = SetUpComment();
         var conversationId = Guid.NewGuid();
 
-        _commentRepositoryMock.Setup(x => x.GetComments(conversationId)).ThrowsAsync(new ArgumentNullException());
+        _commentRepositoryMock.Setup(x => x.GetComments(conversationId))
+            .ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _commentService.GetComments(conversationId));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => 
+            _commentService.GetComments(conversationId));
     }
 
     [Fact]
