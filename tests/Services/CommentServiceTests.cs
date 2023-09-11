@@ -30,27 +30,17 @@ public class CommentServiceTests
             _tagDataReviewServiceMock.Object);
     }
 
-    public Message SetUpComment()
+    public static Message SetUpComment()
     {
-        // Set up comment and author
         var commentId = Guid.NewGuid();
         var comment = new Message { Id = commentId, UserId = Guid.NewGuid() };
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
-
         return comment;
     }
 
-    public Conversation SetUpConversation()
+    public static Conversation SetUpConversation()
     {
-        // Set up comment and author
-        var commentId = Guid.NewGuid();
         var conversationId = Guid.NewGuid();
         var conversation = new Conversation { Id = conversationId, TagDataReviewId = Guid.NewGuid() };
-        var comment = new Message { Id = commentId, UserId = Guid.NewGuid() };
-        _commentRepositoryMock.Setup(x => x.GetComment(commentId)).ReturnsAsync(comment);
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(comment.UserId)).ReturnsAsync(new AzureUser { AzureUniqueId = comment.UserId, Name = "Test User" });
-
         return conversation;
     }
 

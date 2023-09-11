@@ -178,7 +178,6 @@ public class CommentsController : ControllerBase
         {
             return BadRequest();
         }
-        var azureUniqueId = GetAzureUniqueId();
         try
         {
             var newComment = newCommentDto.ToMessageModel(GetAzureUniqueId());

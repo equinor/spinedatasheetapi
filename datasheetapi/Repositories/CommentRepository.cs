@@ -53,13 +53,13 @@ public class CommentRepository : ICommentRepository
         if (GetParticipant(comment.UserId, comment.ConversationId) == null)
         {
             _context.Participants
-                .Add(new Participant()
-                    {
-                        UserId = comment.UserId,
-                        ConversationId = comment.ConversationId,
-                        CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow
-                    });
+                .Add(new()
+                {
+                    UserId = comment.UserId,
+                    ConversationId = comment.ConversationId,
+                    CreatedDate = DateTime.UtcNow,
+                    ModifiedDate = DateTime.UtcNow
+                });
         }
         var savedComment = _context.Messages.Add(comment);
         await _context.SaveChangesAsync();

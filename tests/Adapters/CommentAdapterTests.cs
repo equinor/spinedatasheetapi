@@ -39,7 +39,7 @@ public class CommentAdapterTests
         var userName = "Some username";
         var property = "Some property";
         var message = "message";
-        Conversation conversation = 
+        Conversation conversation =
                 GetConversation(userId, conversationId, property, message);
 
         Dictionary<Guid, string> userIdName = new()
@@ -66,7 +66,7 @@ public class CommentAdapterTests
     {
         var userId = Guid.NewGuid();
         var conversationId = Guid.NewGuid();
-        var message = GetMessage(userId, conversationId, 
+        var message = GetMessage(userId, conversationId,
                 "message", true);
         var commenterName = "someName";
         var result = message.ToMessageDto(commenterName);
@@ -83,7 +83,7 @@ public class CommentAdapterTests
     {
         var userId = Guid.NewGuid();
         var inputText = "somemessage";
-        var messageDto = new MessageDto()
+        MessageDto messageDto = new()
         {
             Text = inputText,
         };
@@ -93,7 +93,7 @@ public class CommentAdapterTests
         Assert.Equal(userId, result.UserId);
         Assert.Equal(inputText, result.Text);
     }
-    
+
 
     private static Conversation GetConversation(Guid userId,
          Guid conversationId, string property, string message)
