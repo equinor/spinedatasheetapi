@@ -53,7 +53,11 @@ public class CommentRepository : ICommentRepository
         if (GetParticipant(comment.UserId, comment.ConversationId) == null)
         {
             _context.Participants
-                .Add(new Participant(comment.UserId, comment.ConversationId));
+                .Add(new Participant()
+                    {
+                        UserId = comment.UserId,
+                        ConversationId = comment.ConversationId
+                    });
         }
         var savedComment = _context.Messages.Add(comment);
         await _context.SaveChangesAsync();

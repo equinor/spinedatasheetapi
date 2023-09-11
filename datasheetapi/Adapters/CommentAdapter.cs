@@ -7,8 +7,10 @@ public static class CommentAdapter
                             Guid reviewId,
                             Guid azureUniqueId)
     {
-        MessageDto messageDto = new MessageDto();
-        messageDto.Text = commentDto.Text;
+        MessageDto messageDto = new()
+        {
+            Text = commentDto.Text
+        };
         return new Conversation
         {
             Property = commentDto.Property,
@@ -52,7 +54,6 @@ public static class CommentAdapter
     public static List<GetMessageDto> ToMessageDtos(this List<Message> messages,
                                                     Dictionary<Guid, string> userIdNameMap)
     {
-        //TODO: Handle the null userid in dict
         return messages.Select(message =>
             ToMessageDto(message, userIdNameMap[message.UserId])).ToList();
     }
@@ -74,7 +75,7 @@ public static class CommentAdapter
         };
     }
 
-    public static Participant ToParticipantModel(Guid azureUniqueId)
+    private static Participant ToParticipantModel(Guid azureUniqueId)
     {
         return new Participant
         {
@@ -84,14 +85,14 @@ public static class CommentAdapter
         };
     }
 
-    public static List<UserDto> ToParticipantDtos(this List<Participant> participants,
+    private static List<UserDto> ToParticipantDtos(this List<Participant> participants,
                                                     Dictionary<Guid, string> userIdNameMap)
     {
         return participants.Select(user =>
             ToParticipantDto(user, userIdNameMap[user.UserId])).ToList();
     }
 
-    public static UserDto ToParticipantDto(
+    private static UserDto ToParticipantDto(
                     Participant participant,
                     string commenterName)
     {

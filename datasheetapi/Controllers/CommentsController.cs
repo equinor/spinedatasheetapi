@@ -1,5 +1,3 @@
-using AutoMapper;
-
 using datasheetapi.Adapters;
 using datasheetapi.Models;
 

@@ -50,8 +50,6 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReview.Approved, result.Approved);
         Assert.Equal(revisionContainerReview.RevisionContainerVersion, result.RevisionContainerVersion);
         Assert.Equal(revisionContainerReview.RevisionContainerId, result.RevisionContainerId);
-        Assert.NotNull(result.Comments);
-        Assert.Empty(result.Comments);
     }
 
     [Fact]
@@ -119,8 +117,6 @@ public class RevisionContainerReviewAdapterTests
             Assert.Equal(revisionContainerReviews[i].Approved, result[i].Approved);
             Assert.Equal(revisionContainerReviews[i].RevisionContainerVersion, result[i].RevisionContainerVersion);
             Assert.Equal(revisionContainerReviews[i].RevisionContainerId, result[i].RevisionContainerId);
-            Assert.NotNull(result[i].Comments);
-            Assert.Empty(result[i].Comments);
         }
     }
 
@@ -152,7 +148,6 @@ public class RevisionContainerReviewAdapterTests
             Approved = false,
             RevisionContainerVersion = 1,
             RevisionContainerId = Guid.NewGuid(),
-            Comments = new List<CommentDto>(),
         };
 
         // Act
@@ -204,7 +199,6 @@ public class RevisionContainerReviewAdapterTests
                 Approved = false,
                 RevisionContainerVersion = 1,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<CommentDto>(),
             },
             new RevisionContainerReviewDto
             {
@@ -217,7 +211,6 @@ public class RevisionContainerReviewAdapterTests
                 Approved = true,
                 RevisionContainerVersion = 2,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<CommentDto>(),
             },
         };
 

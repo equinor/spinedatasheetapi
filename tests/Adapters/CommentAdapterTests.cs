@@ -4,240 +4,133 @@ using datasheetapi.Models;
 
 namespace tests.Adapters;
 
-
 public class CommentAdapterTests
 {
     [Fact]
-    public void ToDtoOrNull_ReturnsNull_WhenCommentIsNull()
+    public void ToConversationModel()
     {
-        // Arrange
-        Conversation? comment = null;
+        CreateCommentDto comment = new()
+        {
+            Property = "TagNumber",
+            Text = "Text to add",
+            ConversationLevel = ConversationLevel.Tag,
+            ConversationStatus = ConversationStatus.Open,
+        };
+        var reviewId = Guid.NewGuid();
+        var userId = Guid.NewGuid();
 
-        // Act
-        var result = comment.ToDtoOrNull();
+        var result = comment.ToModel(reviewId, userId);
 
-        // Assert
-        Assert.Null(result);
+        Assert.NotNull(result);
+        Assert.Single(result.Participants);
+        Assert.Single(result.Messages);
+        Assert.Equal(result.TagDataReviewId, reviewId);
+        Assert.Equal(result.Property, comment.Property);
+        Assert.Equal(result.Messages[0].Text, comment.Text);
+        Assert.Equal(result.Messages[0].UserId, userId);
+        Assert.Equal(result.Participants[0].UserId, userId);
     }
 
     [Fact]
-    public void ToDtoOrNull_ReturnsCommentDto_WhenCommentIsNotNull()
+    public void ToConversationDto()
     {
-        // Arrange
-        var comment = new Conversation
+        var userId = Guid.NewGuid();
+        var conversationId = Guid.NewGuid();
+        var userName = "Some username";
+        var property = "Some property";
+        var message = "message";
+        Conversation conversation = 
+                GetConversation(userId, conversationId, property, message);
+
+        Dictionary<Guid, string> userIdName = new()
         {
-            Id = Guid.NewGuid(),
-            UserId = Guid.NewGuid(),
-            CommenterName = "John Doe",
-            Text = "This is a comment",
-            Property = "Some property",
-            ConversationLevel = ConversationLevel.PurchaserRequirement,
-            TagDataReviewId = Guid.NewGuid(),
-            RevisionContainerReviewId = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow
+            { userId, userName }
         };
 
-        // Act
-        var result = comment.ToDtoOrNull();
+        var result = conversation.ToDto(userIdName);
 
-        // Assert
         Assert.NotNull(result);
-        Assert.Equal(comment.Id, result.Id);
-        Assert.Equal(comment.UserId, result.UserId);
-        Assert.Equal(comment.CommenterName, result.CommenterName);
-        Assert.Equal(comment.Text, result.Text);
-        Assert.Equal(comment.Property, result.Property);
-        Assert.Equal(comment.ConversationLevel, result.CommentLevel);
-        Assert.Equal(comment.TagDataReviewId, result.TagDataReviewId);
-        Assert.Equal(comment.RevisionContainerReviewId, result.RevisionContainerReviewId);
-        Assert.Equal(comment.CreatedDate, result.CreatedDate);
-        Assert.Equal(comment.ModifiedDate, result.ModifiedDate);
+        Assert.Single(result.Participants);
+        Assert.NotNull(result.Messages);
+        Assert.Single(result.Messages);
+        Assert.Equal(result.Id, conversationId);
+        Assert.Equal(result.Property, property);
+        Assert.Equal(result.Messages[0].Text, message);
+        Assert.Equal(result.Messages[0].UserId, userId);
+        Assert.Equal(result.Participants[0].UserId, userId);
+        Assert.Equal(result.Participants[0].UserName, userName);
     }
 
     [Fact]
-    public void ToDto_ReturnsEmptyList_WhenCommentsIsNull()
+    public void ToMessageDto_emptyMessage_whenSoftDeleted()
     {
-        // Arrange
-        List<Conversation>? comments = null;
+        var userId = Guid.NewGuid();
+        var conversationId = Guid.NewGuid();
+        var message = GetMessage(userId, conversationId, 
+                "message", true);
+        var commenterName = "someName";
+        var result = message.ToMessageDto(commenterName);
 
-        // Act
-        var result = comments.ToDto();
-
-        // Assert
         Assert.NotNull(result);
-        Assert.Empty(result);
+        Assert.Equal(userId, result.UserId);
+        Assert.True(result.SoftDeleted);
+        Assert.Equal("", result.Text);
+        Assert.Equal(commenterName, result.CommenterName);
     }
 
     [Fact]
-    public void ToDto_ReturnsCommentDtos_WhenCommentsIsNotNull()
+    public void ToMessageModel()
     {
-        // Arrange
-        var comments = new List<Conversation>
+        var userId = Guid.NewGuid();
+        var inputText = "somemessage";
+        var messageDto = new MessageDto()
         {
-            new Conversation
-            {
-                Id = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                CommenterName = "John Doe",
-                Text = "This is a comment",
-                Property = "Some property",
-                ConversationLevel = ConversationLevel.PurchaserRequirement,
-                TagDataReviewId = Guid.NewGuid(),
-                RevisionContainerReviewId = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
+            Text = inputText,
+        };
+        var result = messageDto.ToMessageModel(userId);
+
+        Assert.NotNull(result);
+        Assert.Equal(userId, result.UserId);
+        Assert.Equal(inputText, result.Text);
+    }
+    
+
+    private static Conversation GetConversation(Guid userId,
+         Guid conversationId, string property, string message)
+    {
+        return new()
+        {
+            Property = property,
+            ConversationLevel = ConversationLevel.Tag,
+            ConversationStatus = ConversationStatus.Open,
+            Id = conversationId,
+            Participants = new List<Participant> { GetParticipant(userId, conversationId)
             },
-            new Conversation
-            {
-                Id = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                CommenterName = "Jane Smith",
-                Text = "This is another comment",
-                Property = "Some other property",
-                ConversationLevel = ConversationLevel.PurchaserRequirement,
-                TagDataReviewId = Guid.NewGuid(),
-                RevisionContainerReviewId = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
-            }
-        };
-
-        // Act
-        var result = comments.ToDto();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(comments.Count, result.Count);
-        for (int i = 0; i < comments.Count; i++)
-        {
-            Assert.Equal(comments[i].Id, result[i].Id);
-            Assert.Equal(comments[i].UserId, result[i].UserId);
-            Assert.Equal(comments[i].CommenterName, result[i].CommenterName);
-            Assert.Equal(comments[i].Text, result[i].Text);
-            Assert.Equal(comments[i].Property, result[i].Property);
-            Assert.Equal(comments[i].ConversationLevel, result[i].CommentLevel);
-            Assert.Equal(comments[i].TagDataReviewId, result[i].TagDataReviewId);
-            Assert.Equal(comments[i].RevisionContainerReviewId, result[i].RevisionContainerReviewId);
-            Assert.Equal(comments[i].CreatedDate, result[i].CreatedDate);
-            Assert.Equal(comments[i].ModifiedDate, result[i].ModifiedDate);
-        }
-    }
-
-    [Fact]
-    public void ToModelOrNull_ReturnsNull_WhenCommentDtoIsNull()
-    {
-        // Arrange
-        CommentDto? commentDto = null;
-
-        // Act
-        var result = commentDto.ToModelOrNull();
-
-        // Assert
-        Assert.Null(result);
-    }
-
-    [Fact]
-    public void ToModelOrNull_ReturnsComment_WhenCommentDtoIsNotNull()
-    {
-        // Arrange
-        var commentDto = new CommentDto
-        {
-            Id = Guid.NewGuid(),
-            UserId = Guid.NewGuid(),
-            CommenterName = "John Doe",
-            Text = "This is a comment",
-            Property = "Some property",
-            CommentLevel = ConversationLevel.PurchaserRequirement,
-            TagDataReviewId = Guid.NewGuid(),
-            RevisionContainerReviewId = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow
-        };
-
-        // Act
-        var result = commentDto.ToModelOrNull();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(commentDto.Id, result.Id);
-        Assert.Equal(commentDto.UserId, result.UserId);
-        Assert.Equal(commentDto.CommenterName, result.CommenterName);
-        Assert.Equal(commentDto.Text, result.Text);
-        Assert.Equal(commentDto.Property, result.Property);
-        Assert.Equal(commentDto.CommentLevel, result.ConversationLevel);
-        Assert.Equal(commentDto.TagDataReviewId, result.TagDataReviewId);
-        Assert.Equal(commentDto.RevisionContainerReviewId, result.RevisionContainerReviewId);
-        Assert.Equal(commentDto.CreatedDate, result.CreatedDate);
-        Assert.Equal(commentDto.ModifiedDate, result.ModifiedDate);
-    }
-
-    [Fact]
-    public void ToModel_ReturnsEmptyList_WhenCommentDtosIsNull()
-    {
-        // Arrange
-        List<CommentDto>? commentDtos = null;
-
-        // Act
-        var result = commentDtos.ToModel();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Empty(result);
-    }
-
-    [Fact]
-    public void ToModel_ReturnsComments_WhenCommentDtosIsNotNull()
-    {
-        // Arrange
-        var commentDtos = new List<CommentDto>
-        {
-            new CommentDto
-            {
-                Id = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                CommenterName = "John Doe",
-                Text = "This is a comment",
-                Property = "Some property",
-                CommentLevel = ConversationLevel.PurchaserRequirement,
-                TagDataReviewId = Guid.NewGuid(),
-                RevisionContainerReviewId = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
+            Messages = new List<Message> { GetMessage(userId, conversationId, message, false)
             },
-            new CommentDto
-            {
-                Id = Guid.NewGuid(),
-                UserId = Guid.NewGuid(),
-                CommenterName = "Jane Smith",
-                Text = "This is another comment",
-                Property = "Some other property",
-                CommentLevel = ConversationLevel.PurchaserRequirement,
-                TagDataReviewId = Guid.NewGuid(),
-                RevisionContainerReviewId = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
-            }
         };
+    }
 
-        // Act
-        var result = commentDtos.ToModel();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(commentDtos.Count, result.Count);
-        for (int i = 0; i < commentDtos.Count; i++)
+    private static Participant GetParticipant(Guid userId,
+             Guid conversationId)
+    {
+        return new()
         {
-            Assert.Equal(commentDtos[i].Id, result[i].Id);
-            Assert.Equal(commentDtos[i].UserId, result[i].UserId);
-            Assert.Equal(commentDtos[i].CommenterName, result[i].CommenterName);
-            Assert.Equal(commentDtos[i].Text, result[i].Text);
-            Assert.Equal(commentDtos[i].Property, result[i].Property);
-            Assert.Equal(commentDtos[i].CommentLevel, result[i].ConversationLevel);
-            Assert.Equal(commentDtos[i].TagDataReviewId, result[i].TagDataReviewId);
-            Assert.Equal(commentDtos[i].RevisionContainerReviewId, result[i].RevisionContainerReviewId);
-            Assert.Equal(commentDtos[i].CreatedDate, result[i].CreatedDate);
-            Assert.Equal(commentDtos[i].ModifiedDate, result[i].ModifiedDate);
-        }
+            UserId = userId,
+            ConversationId = conversationId,
+        };
+    }
+
+    private static Message GetMessage(Guid userId,
+         Guid conversationId, string message, bool softDeleted)
+    {
+        return new()
+        {
+            UserId = userId,
+            Text = message,
+            ConversationId = conversationId,
+            IsEdited = true,
+            SoftDeleted = softDeleted,
+        };
     }
 }
