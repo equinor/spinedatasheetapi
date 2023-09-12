@@ -1,63 +1,105 @@
+using AutoMapper;
+
 namespace datasheetapi.Adapters;
 public static class CommentAdapter
 {
-    public static CommentDto? ToDtoOrNull(this Comment? comment)
+    public static Conversation ToModel(this CreateCommentDto commentDto,
+                            Guid reviewId,
+                            Guid azureUniqueId)
     {
-        if (comment is null) { return null; }
-        return comment.ToDto();
-    }
-
-    private static CommentDto ToDto(this Comment comment)
-    {
-        return new CommentDto
+        MessageDto messageDto = new()
         {
-            Id = comment.Id,
-            UserId = comment.UserId,
-            CommenterName = comment.CommenterName,
-            Text = comment.Text,
-            Property = comment.Property,
-            CommentLevel = comment.CommentLevel,
-            TagDataReviewId = comment.TagDataReviewId,
-            RevisionContainerReviewId = comment.RevisionContainerReviewId,
-            CreatedDate = comment.CreatedDate,
-            ModifiedDate = comment.ModifiedDate,
-            IsEdited = comment.IsEdited,
+            Text = commentDto.Text
         };
-    }
-
-    public static List<CommentDto> ToDto(this List<Comment>? comments)
-    {
-        if (comments is null) { return new List<CommentDto>(); }
-        return comments.Select(ToDto).ToList();
-    }
-
-    public static Comment? ToModelOrNull(this CommentDto? commentDto)
-    {
-        if (commentDto is null) { return null; }
-        return commentDto.ToModel();
-    }
-
-    private static Comment ToModel(this CommentDto commentDto)
-    {
-        return new Comment
+        return new Conversation
         {
-            Id = commentDto.Id,
-            UserId = commentDto.UserId,
-            CommenterName = commentDto.CommenterName,
-            Text = commentDto.Text,
             Property = commentDto.Property,
-            CommentLevel = commentDto.CommentLevel,
-            TagDataReviewId = commentDto.TagDataReviewId,
-            RevisionContainerReviewId = commentDto.RevisionContainerReviewId,
-            CreatedDate = commentDto.CreatedDate,
-            ModifiedDate = commentDto.ModifiedDate,
-            IsEdited = commentDto.IsEdited,
+            ConversationLevel = commentDto.ConversationLevel,
+            ConversationStatus = commentDto.ConversationStatus,
+            TagDataReviewId = reviewId,
+            Messages = new List<Message> { messageDto.ToMessageModel(azureUniqueId) },
+            Participants = new List<Participant> { ToParticipantModel(azureUniqueId) }
         };
     }
 
-    public static List<Comment> ToModel(this List<CommentDto>? commentDtos)
+    public static ConversationDto ToDto(this Conversation conversation,
+                            Dictionary<Guid, string> userIdNameMap)
     {
-        if (commentDtos is null) { return new List<Comment>(); }
-        return commentDtos.Select(ToModel).ToList();
+        return new ConversationDto
+        {
+            Id = conversation.Id,
+            CreatedDate = conversation.CreatedDate,
+            ModifiedDate = conversation.ModifiedDate,
+            Property = conversation.Property,
+            ConversationLevel = conversation.ConversationLevel,
+            ConversationStatus = conversation.ConversationStatus,
+            Messages = ToMessageDtos(conversation.Messages, userIdNameMap),
+            Participants = ToParticipantDtos(conversation.Participants, userIdNameMap),
+        };
+    }
+
+    public static Message ToMessageModel(
+                    this MessageDto messageDto,
+                    Guid azureUniqueId)
+    {
+        return new Message
+        {
+            Text = messageDto.Text,
+            UserId = azureUniqueId,
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow
+        };
+    }
+
+    public static List<GetMessageDto> ToMessageDtos(this List<Message> messages,
+                                                    Dictionary<Guid, string> userIdNameMap)
+    {
+        return messages.Select(message =>
+            ToMessageDto(message, userIdNameMap[message.UserId])).ToList();
+    }
+
+    public static GetMessageDto ToMessageDto(
+                    this Message message,
+                    string commenterName)
+    {
+        return new GetMessageDto
+        {
+            Id = message.Id,
+            Text = message.SoftDeleted ? "" : message.Text,
+            UserId = message.UserId,
+            CommenterName = commenterName,
+            IsEdited = message.IsEdited,
+            SoftDeleted = message.SoftDeleted,
+            CreatedDate = message.CreatedDate,
+            ModifiedDate = message.ModifiedDate
+        };
+    }
+
+    private static Participant ToParticipantModel(Guid azureUniqueId)
+    {
+        return new Participant
+        {
+            UserId = azureUniqueId,
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow
+        };
+    }
+
+    private static List<UserDto> ToParticipantDtos(this List<Participant> participants,
+                                                    Dictionary<Guid, string> userIdNameMap)
+    {
+        return participants.Select(user =>
+            ToParticipantDto(user, userIdNameMap[user.UserId])).ToList();
+    }
+
+    private static UserDto ToParticipantDto(
+                    Participant participant,
+                    string commenterName)
+    {
+        return new UserDto
+        {
+            UserId = participant.UserId,
+            UserName = commenterName
+        };
     }
 }

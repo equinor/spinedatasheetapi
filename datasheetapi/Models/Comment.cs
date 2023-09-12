@@ -20,6 +20,7 @@ public class Comment : BaseEntity
     public bool IsTagDataReviewComment => TagDataReviewId.HasValue;
     public bool IsRevisionContainerReviewComment => RevisionContainerReviewId.HasValue;
     public bool IsEdited { get; set; }
+    public bool SoftDeleted { get; set; }
 
     public void SetTagDataReview(TagDataReview review)
     {

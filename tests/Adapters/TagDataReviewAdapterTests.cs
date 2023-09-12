@@ -34,23 +34,19 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = new List<Comment>
+            Comments = new List<Conversation>
             {
-                new Comment
+                new Conversation
                 {
                     Id = Guid.NewGuid(),
                     CreatedDate = DateTime.UtcNow,
                     ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 1",
-                    UserId = Guid.NewGuid(),
                 },
-                new Comment
+                new Conversation
                 {
                     Id = Guid.NewGuid(),
                     CreatedDate = DateTime.UtcNow,
                     ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 2",
-                    UserId = Guid.NewGuid(),
                 },
             },
         };
@@ -69,16 +65,6 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReview.CommentResponsible, result.CommentResponsible);
         Assert.Equal(tagDataReview.Approved, result.Approved);
         Assert.Equal(tagDataReview.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Comments);
-        Assert.Equal(tagDataReview.Comments.Count, result.Comments.Count);
-        for (int i = 0; i < tagDataReview.Comments.Count; i++)
-        {
-            Assert.Equal(tagDataReview.Comments[i].Id, result.Comments[i].Id);
-            Assert.Equal(tagDataReview.Comments[i].CreatedDate, result.Comments[i].CreatedDate);
-            Assert.Equal(tagDataReview.Comments[i].ModifiedDate, result.Comments[i].ModifiedDate);
-            Assert.Equal(tagDataReview.Comments[i].Text, result.Comments[i].Text);
-            Assert.Equal(tagDataReview.Comments[i].UserId, result.Comments[i].UserId);
-        }
     }
 
     [Fact]
@@ -112,23 +98,19 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = true,
                 TagDataVersion = 1,
-                Comments = new List<Comment>
+                Comments = new List<Conversation>
                 {
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow,
-                        Text = "Comment 1",
-                        UserId = Guid.NewGuid(),
+                        ModifiedDate = DateTime.UtcNow
                     },
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow,
-                        Text = "Comment 2",
-                        UserId = Guid.NewGuid(),
+                        ModifiedDate = DateTime.UtcNow
                     },
                 },
             },
@@ -143,15 +125,13 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = false,
                 TagDataVersion = 2,
-                Comments = new List<Comment>
+                Comments = new List<Conversation>
                 {
-                    new Comment
+                    new Conversation
                     {
                         Id = Guid.NewGuid(),
                         CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow,
-                        Text = "Comment 3",
-                        UserId = Guid.NewGuid(),
+                        ModifiedDate = DateTime.UtcNow
                     },
                 },
             },
@@ -174,16 +154,6 @@ public class TagDataReviewAdapterTests
             Assert.Equal(tagDataReviews[i].CommentResponsible, result[i].CommentResponsible);
             Assert.Equal(tagDataReviews[i].Approved, result[i].Approved);
             Assert.Equal(tagDataReviews[i].TagDataVersion, result[i].TagDataVersion);
-            Assert.NotNull(result[i].Comments);
-            Assert.Equal(tagDataReviews[i].Comments.Count, result[i].Comments?.Count);
-            for (int j = 0; j < tagDataReviews[i].Comments.Count; j++)
-            {
-                Assert.Equal(tagDataReviews[i].Comments[j].Id, result[i].Comments?[j].Id);
-                Assert.Equal(tagDataReviews[i].Comments[j].CreatedDate, result[i].Comments?[j].CreatedDate);
-                Assert.Equal(tagDataReviews[i].Comments[j].ModifiedDate, result[i].Comments?[j].ModifiedDate);
-                Assert.Equal(tagDataReviews[i].Comments[j].Text, result[i].Comments?[j].Text);
-                Assert.Equal(tagDataReviews[i].Comments[j].UserId, result[i].Comments?[j].UserId);
-            }
         }
     }
 
@@ -215,25 +185,6 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = new List<CommentDto>
-            {
-                new CommentDto
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 1",
-                    UserId = Guid.NewGuid(),
-                },
-                new CommentDto
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 2",
-                    UserId = Guid.NewGuid(),
-                },
-            },
         };
 
         // Act
@@ -251,15 +202,6 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.Approved, result.Approved);
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
         Assert.NotNull(result.Comments);
-        Assert.Equal(tagDataReviewDto.Comments.Count, result.Comments.Count);
-        for (int i = 0; i < tagDataReviewDto.Comments.Count; i++)
-        {
-            Assert.Equal(tagDataReviewDto.Comments[i].Id, result.Comments[i].Id);
-            Assert.Equal(tagDataReviewDto.Comments[i].CreatedDate, result.Comments[i].CreatedDate);
-            Assert.Equal(tagDataReviewDto.Comments[i].ModifiedDate, result.Comments[i].ModifiedDate);
-            Assert.Equal(tagDataReviewDto.Comments[i].Text, result.Comments[i].Text);
-            Assert.Equal(tagDataReviewDto.Comments[i].UserId, result.Comments[i].UserId);
-        }
     }
 
     [Fact]
@@ -277,7 +219,6 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = null,
         };
 
         // Act
@@ -313,25 +254,6 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = new List<CommentDto>
-            {
-                new CommentDto
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 1",
-                    UserId = Guid.NewGuid(),
-                },
-                new CommentDto
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                    Text = "Comment 2",
-                    UserId = Guid.NewGuid(),
-                },
-            },
         };
 
         // Act
@@ -349,14 +271,6 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.Approved, result.Approved);
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
         Assert.NotNull(result.Comments);
-        Assert.Equal(tagDataReviewDto.Comments.Count, result.Comments.Count);
-        for (int i = 0; i < tagDataReviewDto.Comments.Count; i++)
-        {
-            Assert.Equal(tagDataReviewDto.Comments[i].Id, result.Comments[i].Id);
-            Assert.Equal(tagDataReviewDto.Comments[i].CreatedDate, result.Comments[i].CreatedDate);
-            Assert.Equal(tagDataReviewDto.Comments[i].ModifiedDate, result.Comments[i].ModifiedDate);
-            Assert.Equal(tagDataReviewDto.Comments[i].Text, result.Comments[i].Text);
-            Assert.Equal(tagDataReviewDto.Comments[i].UserId, result.Comments[i].UserId);
-        }
+
     }
 }

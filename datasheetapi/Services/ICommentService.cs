@@ -2,16 +2,17 @@ namespace datasheetapi.Services
 {
     public interface ICommentService
     {
-        Task<Comment?> GetComment(Guid id);
-        Task<CommentDto?> GetCommentDto(Guid id);
-        Task<List<Comment>> GetComments();
-        Task<List<CommentDto>> GetCommentDtos();
-        Task DeleteComment(Guid id, Guid azureUniqueId);
-        Task<CommentDto?> UpdateComment(Guid azureUniqueId, Comment updatedComment);
-        Task<List<Comment>> GetCommentsForTagReview(Guid tagId);
-        Task<List<CommentDto>> GetCommentDtosForTagReview(Guid tagId);
-        Task<List<Comment>> GetCommentsForTagReviews(List<Guid?> tagIds);
-        Task<CommentDto> CreateTagDataReviewComment(CommentDto comment, Guid azureUniqueId);
-        Task<CommentDto> CreateRevisionContainerReviewComment(CommentDto comment, Guid azureUniqueId);
+        Task<Conversation> CreateConversation(Conversation conversation);
+        Task<Conversation?> GetConversation(Guid conversationId);
+        Task<List<Conversation>> GetConversations(Guid reviewId);
+
+        Task<Message> AddComment(Guid conversationId, Message comment);
+        Task<Message?> GetComment(Guid commentId);
+        Task<List<Message>?> GetComments(Guid conversationId);
+        Task DeleteComment(Guid commentId, Guid azureUniqueId);
+        Task<Message> UpdateComment(Guid commentId, Message updatedComment);
+        Task<Dictionary<Guid, string>> GetUserIdUserName(List<Guid> userIds);
+        Task<string> GetUserName(Guid userId);
+
     }
 }
