@@ -95,10 +95,10 @@ public class CommentsController : ControllerBase
         {
             var conversations = await _commentService.GetConversations(reviewId);
 
-            var userIds = conversations.SelectMany(conversation => 
+            var userIds = conversations.SelectMany(conversation =>
                             conversation.Participants.Select(p => p.UserId)).ToList();
             var userIdNameMap = await _commentService.GetUserIdUserName(userIds);
-            
+
             return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
         }
         catch (Exception ex)
@@ -162,7 +162,7 @@ public class CommentsController : ControllerBase
 
             var userIdNameMap = await _commentService.GetUserIdUserName(
                     comments.Select(c => c.UserId).ToList());
-            
+
             return comments.ToMessageDtos(userIdNameMap);
         }
         catch (Exception ex)

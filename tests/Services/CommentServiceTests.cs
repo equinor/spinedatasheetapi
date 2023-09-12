@@ -7,6 +7,7 @@ using Fusion.Integration.Profile;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Moq;
 
 namespace tests.Services;
@@ -131,7 +132,7 @@ public class CommentServiceTests
     {
         var conversation = SetUpConversation();
 
-        _commentRepositoryMock.Setup(x => x.GetConversations(conversation.TagDataReviewId)).ReturnsAsync(new List<Conversation> {conversation});
+        _commentRepositoryMock.Setup(x => x.GetConversations(conversation.TagDataReviewId)).ReturnsAsync(new List<Conversation> { conversation });
 
         var result = await _commentService.GetConversations(conversation.TagDataReviewId);
 
@@ -168,7 +169,7 @@ public class CommentServiceTests
         var comment = SetUpComment();
         var conversationId = Guid.NewGuid();
 
-         _commentRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
+        _commentRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
         _commentRepositoryMock.Setup(x => x.AddComment(comment)).ThrowsAsync(new DbUpdateException());
 
         await Assert.ThrowsAsync<DbUpdateException>(() => _commentService.AddComment(conversationId, comment));
@@ -180,7 +181,7 @@ public class CommentServiceTests
         var comment = SetUpComment();
         var conversationId = Guid.NewGuid();
 
-         _commentRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
+        _commentRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
         _commentRepositoryMock.Setup(x => x.AddComment(comment)).ReturnsAsync(comment);
 
         var result = await _commentService.AddComment(conversationId, comment);
@@ -222,7 +223,7 @@ public class CommentServiceTests
         _commentRepositoryMock.Setup(x => x.GetComments(conversationId))
             .ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => 
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
             _commentService.GetComments(conversationId));
     }
 
@@ -233,7 +234,7 @@ public class CommentServiceTests
         var conversationId = Guid.NewGuid();
         comment.ConversationId = conversationId;
 
-        _commentRepositoryMock.Setup(x => x.GetComments(conversationId)).ReturnsAsync(new List<Message> {comment});
+        _commentRepositoryMock.Setup(x => x.GetComments(conversationId)).ReturnsAsync(new List<Message> { comment });
 
         var result = await _commentService.GetComments(conversationId);
 
@@ -250,7 +251,7 @@ public class CommentServiceTests
         // Arrange
         var comment = SetUpComment();
 
-        await Assert.ThrowsAsync<Exception>(() => 
+        await Assert.ThrowsAsync<Exception>(() =>
                 _commentService.DeleteComment(comment.Id, Guid.Empty));
     }
 
@@ -262,7 +263,7 @@ public class CommentServiceTests
 
         _commentRepositoryMock.Setup(x => x.GetComment(comment.Id))
                     .ReturnsAsync((Message?)null);
-        await Assert.ThrowsAsync<Exception>(() => 
+        await Assert.ThrowsAsync<Exception>(() =>
                 _commentService.DeleteComment(comment.Id, Guid.Empty));
     }
 
@@ -274,7 +275,7 @@ public class CommentServiceTests
 
         _commentRepositoryMock.Setup(x => x.GetComment(comment.Id))
                     .ReturnsAsync(comment);
-        await Assert.ThrowsAsync<Exception>(() => 
+        await Assert.ThrowsAsync<Exception>(() =>
                 _commentService.DeleteComment(comment.Id, Guid.NewGuid()));
     }
 
@@ -320,65 +321,65 @@ public class CommentServiceTests
 
         _commentRepositoryMock.Setup(x => x.GetComment(comment.Id))
                     .ReturnsAsync(comment);
-        await Assert.ThrowsAsync<Exception>(() => 
+        await Assert.ThrowsAsync<Exception>(() =>
                 _commentService.UpdateComment(comment.Id, updatedComment));
     }
 
     [Fact]
     public async Task GetUserName_FetchUserNameFromCacheWhenCacheIsLoaded()
     {
-        
+
         var userId = Guid.NewGuid();
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
                     .ReturnsAsync(new AzureUser { AzureUniqueId = userId, Name = "Test User" });
-       
-       await _commentService.GetUserName(userId);
 
-       _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Never);
-       _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
+        await _commentService.GetUserName(userId);
+
+        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Never);
+        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
     }
 
     [Fact]
     public async Task GetUserName_FetchUserNameFromFusion()
     {
-        
+
         var userId = Guid.NewGuid();
         var userName = "Name";
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
                     .ReturnsAsync((AzureUser?)null);
-       _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
-                    .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
-       var result = await _commentService.GetUserName(userId);
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
+                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
+        var result = await _commentService.GetUserName(userId);
 
         Assert.NotNull(result);
         Assert.Equal(userName, result);
-       _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Once);
-       _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
+        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Once);
+        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
     }
 
     [Fact]
     public async Task GetUserName_ThrowsException_whenUnableToFindUser()
     {
-        
+
         var userId = Guid.NewGuid();
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
                     .ReturnsAsync((AzureUser?)null);
-       _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
-                    .ReturnsAsync((FusionPersonProfile?)null);
-       await Assert.ThrowsAsync<Exception>(() => _commentService.GetUserName(userId));
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
+                     .ReturnsAsync((FusionPersonProfile?)null);
+        await Assert.ThrowsAsync<Exception>(() => _commentService.GetUserName(userId));
     }
 
     [Fact]
     public async Task GetUserIdUserName_RunsOkay()
     {
-        
+
         var userId = Guid.NewGuid();
         var userName = "Name";
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
                     .ReturnsAsync((AzureUser?)null);
-       _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
-                    .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
-       var result = await _commentService.GetUserIdUserName(new List<Guid> { userId });
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
+                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
+        var result = await _commentService.GetUserIdUserName(new List<Guid> { userId });
 
         Assert.NotNull(result);
         Assert.Equal(userName, result[userId]);
