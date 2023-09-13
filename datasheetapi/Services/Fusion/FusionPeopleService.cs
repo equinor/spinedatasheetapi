@@ -1,5 +1,7 @@
 using datasheetapi.Models.Fusion;
 
+using Fusion.Integration;
+
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Identity.Abstractions;
 
@@ -10,33 +12,55 @@ public class FusionPeopleService
     private readonly IDownstreamApi _downstreamApi;
     private readonly IMemoryCache _cache;
     private readonly ILogger<FusionPeopleService> _logger;
+    private readonly IFusionContextResolver _fusionContextResolver;
+
 
     public FusionPeopleService(
         IDownstreamApi downstreamApi,
         IMemoryCache cache,
+        IFusionContextResolver fusionContextResolver,
         ILogger<FusionPeopleService> logger)
     {
         _downstreamApi = downstreamApi;
         _cache = cache;
+        _fusionContextResolver = fusionContextResolver;
         _logger = logger;
     }
 
-    public async Task<List<FusionPersonResultV1>> GetAllPersonsOnProject(string orgChartId, string search, int top, int skip)
+    public async Task<List<FusionPersonResultV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip)
     {
-        Console.WriteLine("FusearchContextId: " + orgChartId);
+        var context = await _fusionContextResolver.ResolveContextAsync(projectMasterId);
+        var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(context!.Id);
+
+        string orgChartId = string.Empty;
+
+        foreach (var contextRelation in contextRelations)
+        {
+            Console.WriteLine("ContextRelation: " + contextRelation);
+            if (contextRelation.Type == FusionContextType.OrgChart)
+            {
+                orgChartId = contextRelation.Id.ToString();
+                Console.WriteLine("OrgChartId: " + orgChartId);
+            }
+        }
+
+        Console.WriteLine("Context: " + context);
+
+        Console.WriteLine("FusearchContextId: " + projectMasterId);
         Console.WriteLine("Search: " + search);
         var fusionSearchObject = new FusionSearchObject
         {
-            // Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '${orgChartId}' and p/contract eq null)",
+            Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '500c0275-8d71-4db0-abca-4fbe6613e448' and p/contract eq null)",
+            // Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '${projectMasterId}' and p/contract eq null)",
             // Filter = $"positions/any(p: p/isActive eq true and p/contract eq null)",
-            Top = top,
+            Top = 1000,
             Skip = skip
         };
 
         if (!string.IsNullOrEmpty(search))
         {
-            // fusionSearchObject.Filter += $" and {AddSearch(search)}";
-            fusionSearchObject.Filter += $"{AddSearch(search)}";
+            fusionSearchObject.Filter += $" and {AddSearch(search)}";
+            // fusionSearchObject.Filter += $"{AddSearch(search)}";
         }
 
         return await QueryFusionPeopleService(fusionSearchObject);
