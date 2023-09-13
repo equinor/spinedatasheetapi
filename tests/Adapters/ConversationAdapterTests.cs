@@ -4,12 +4,12 @@ using datasheetapi.Models;
 
 namespace tests.Adapters;
 
-public class CommentAdapterTests
+public class ConversationAdapterTests
 {
     [Fact]
     public void ToConversationModel()
     {
-        CreateCommentDto comment = new()
+        ConversationDto conversation = new()
         {
             Property = "TagNumber",
             Text = "Text to add",
@@ -19,14 +19,14 @@ public class CommentAdapterTests
         var reviewId = Guid.NewGuid();
         var userId = Guid.NewGuid();
 
-        var result = comment.ToModel(reviewId, userId);
+        var result = conversation.ToModel(reviewId, userId);
 
         Assert.NotNull(result);
         Assert.Single(result.Participants);
         Assert.Single(result.Messages);
         Assert.Equal(result.TagDataReviewId, reviewId);
-        Assert.Equal(result.Property, comment.Property);
-        Assert.Equal(result.Messages[0].Text, comment.Text);
+        Assert.Equal(result.Property, conversation.Property);
+        Assert.Equal(result.Messages[0].Text, conversation.Text);
         Assert.Equal(result.Messages[0].UserId, userId);
         Assert.Equal(result.Participants[0].UserId, userId);
     }
@@ -58,7 +58,7 @@ public class CommentAdapterTests
         Assert.Equal(result.Messages[0].Text, message);
         Assert.Equal(result.Messages[0].UserId, userId);
         Assert.Equal(result.Participants[0].UserId, userId);
-        Assert.Equal(result.Participants[0].UserName, userName);
+        Assert.Equal(result.Participants[0].DisplayName, userName);
     }
 
     [Fact]

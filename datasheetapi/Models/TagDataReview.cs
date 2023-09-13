@@ -12,7 +12,7 @@ public class TagDataReview : BaseEntity
 
     // Relationships
     public string? TagNo { get; set; }
-    public List<Conversation> Comments { get; set; } = new List<Conversation>();
+    public List<Conversation> Conversations { get; set; } = new List<Conversation>();
 }
 
 public enum ReviewStatusEnum

@@ -1,8 +1,5 @@
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace datasheetapi.Dtos;
-public record ConversationDto : BaseEntityDto
+public record GetConversationDto : BaseEntityDto
 {
     public string? Property { get; set; }
     public ConversationStatus ConversationStatus { get; set; }

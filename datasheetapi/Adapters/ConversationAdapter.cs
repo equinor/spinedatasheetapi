@@ -1,31 +1,29 @@
-using AutoMapper;
-
 namespace datasheetapi.Adapters;
-public static class CommentAdapter
+public static class ConversationAdapter
 {
-    public static Conversation ToModel(this CreateCommentDto commentDto,
+    public static Conversation ToModel(this ConversationDto conversationDto,
                             Guid reviewId,
                             Guid azureUniqueId)
     {
         MessageDto messageDto = new()
         {
-            Text = commentDto.Text
+            Text = conversationDto.Text
         };
         return new Conversation
         {
-            Property = commentDto.Property,
-            ConversationLevel = commentDto.ConversationLevel,
-            ConversationStatus = commentDto.ConversationStatus,
+            Property = conversationDto.Property,
+            ConversationLevel = conversationDto.ConversationLevel,
+            ConversationStatus = conversationDto.ConversationStatus,
             TagDataReviewId = reviewId,
             Messages = new List<Message> { messageDto.ToMessageModel(azureUniqueId) },
             Participants = new List<Participant> { ToParticipantModel(azureUniqueId) }
         };
     }
 
-    public static ConversationDto ToDto(this Conversation conversation,
+    public static GetConversationDto ToDto(this Conversation conversation,
                             Dictionary<Guid, string> userIdNameMap)
     {
-        return new ConversationDto
+        return new GetConversationDto
         {
             Id = conversation.Id,
             CreatedDate = conversation.CreatedDate,
@@ -99,7 +97,7 @@ public static class CommentAdapter
         return new UserDto
         {
             UserId = participant.UserId,
-            UserName = commenterName
+            DisplayName = commenterName
         };
     }
 }

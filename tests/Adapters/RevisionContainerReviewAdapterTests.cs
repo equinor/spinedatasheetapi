@@ -33,7 +33,7 @@ public class RevisionContainerReviewAdapterTests
             Approved = false,
             RevisionContainerVersion = 1,
             RevisionContainerId = Guid.NewGuid(),
-            Comments = new List<Conversation>(),
+            Conversations = new List<Conversation>(),
         };
 
         // Act
@@ -83,7 +83,7 @@ public class RevisionContainerReviewAdapterTests
                 Approved = false,
                 RevisionContainerVersion = 1,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Conversation>(),
+                Conversations = new List<Conversation>(),
             },
             new RevisionContainerReview
             {
@@ -96,7 +96,7 @@ public class RevisionContainerReviewAdapterTests
                 Approved = true,
                 RevisionContainerVersion = 2,
                 RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Conversation>(),
+                Conversations = new List<Conversation>(),
             },
         };
 
@@ -164,8 +164,8 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReviewDto.Approved, result.Approved);
         Assert.Equal(revisionContainerReviewDto.RevisionContainerVersion, result.RevisionContainerVersion);
         Assert.Equal(revisionContainerReviewDto.RevisionContainerId, result.RevisionContainerId);
-        Assert.NotNull(result.Comments);
-        Assert.Empty(result.Comments);
+        Assert.NotNull(result.Conversations);
+        Assert.Empty(result.Conversations);
     }
 
     [Fact]
@@ -231,8 +231,8 @@ public class RevisionContainerReviewAdapterTests
             Assert.Equal(revisionContainerReviewDtos[i].Approved, result[i].Approved);
             Assert.Equal(revisionContainerReviewDtos[i].RevisionContainerVersion, result[i].RevisionContainerVersion);
             Assert.Equal(revisionContainerReviewDtos[i].RevisionContainerId, result[i].RevisionContainerId);
-            Assert.NotNull(result[i].Comments);
-            Assert.Empty(result[i].Comments);
+            Assert.NotNull(result[i].Conversations);
+            Assert.Empty(result[i].Conversations);
         }
     }
 }

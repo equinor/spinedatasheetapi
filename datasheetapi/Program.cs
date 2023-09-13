@@ -133,7 +133,7 @@ builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
 builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
 builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
@@ -144,7 +144,7 @@ builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ITagDataReviewRepository, TagDataReviewRepository>();
 builder.Services.AddScoped<IRevisionContainerRepository, RevisionContainerRepository>();
 builder.Services.AddScoped<IRevisionContainerReviewRepository, RevisionContainerReviewRepository>();

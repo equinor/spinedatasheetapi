@@ -34,7 +34,7 @@ public class TagDataReviewAdapterTests
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
             TagDataVersion = 1,
-            Comments = new List<Conversation>
+            Conversations = new List<Conversation>
             {
                 new Conversation
                 {
@@ -98,7 +98,7 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = true,
                 TagDataVersion = 1,
-                Comments = new List<Conversation>
+                Conversations = new List<Conversation>
                 {
                     new Conversation
                     {
@@ -125,7 +125,7 @@ public class TagDataReviewAdapterTests
                 CommentResponsible = Guid.NewGuid(),
                 Approved = false,
                 TagDataVersion = 2,
-                Comments = new List<Conversation>
+                Conversations = new List<Conversation>
                 {
                     new Conversation
                     {
@@ -201,7 +201,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
         Assert.Equal(tagDataReviewDto.Approved, result.Approved);
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Comments);
+        Assert.NotNull(result.Conversations);
     }
 
     [Fact]
@@ -235,8 +235,8 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
         Assert.Equal(tagDataReviewDto.Approved, result.Approved);
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Comments);
-        Assert.Empty(result.Comments);
+        Assert.NotNull(result.Conversations);
+        Assert.Empty(result.Conversations);
     }
 
     [Fact]
@@ -270,7 +270,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
         Assert.Equal(tagDataReviewDto.Approved, result.Approved);
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Comments);
+        Assert.NotNull(result.Conversations);
 
     }
 }

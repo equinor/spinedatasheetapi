@@ -4,66 +4,67 @@ using Microsoft.EntityFrameworkCore;
 
 namespace datasheetapi.Repositories;
 
-public class CommentRepository : ICommentRepository
+public class ConversationRepository : IConversationRepository
 {
     private readonly DatabaseContext _context;
-    private readonly ILogger<CommentRepository> _logger;
+    private readonly ILogger<ConversationRepository> _logger;
 
-    public CommentRepository(ILoggerFactory loggerFactory, DatabaseContext context)
+    public ConversationRepository(ILoggerFactory loggerFactory, DatabaseContext context)
     {
-        _logger = loggerFactory.CreateLogger<CommentRepository>();
+        _logger = loggerFactory.CreateLogger<ConversationRepository>();
         _context = context;
     }
 
-    public async Task<Message?> GetComment(Guid id)
+    public async Task<Message?> GetMessage(Guid messageId)
     {
-        var comment = await _context.Messages.FindAsync(id);
-        return comment;
+        var message = await _context.Messages.FindAsync(messageId);
+        return message;
     }
 
-    public async Task<List<Message>> GetComments(Guid conversationId)
+    public async Task<List<Message>> GetMessages(Guid conversationId)
     {
-        var comments = await _context.Messages.Where(c => c.ConversationId == conversationId).ToListAsync();
-        return comments;
+        var messages = await _context.Messages
+                .Where(c => c.ConversationId == conversationId).ToListAsync();
+        return messages;
     }
 
-    public async Task DeleteComment(Message comment)
+    public async Task DeleteMessage(Message message)
     {
-        _context.Messages.Remove(comment);
+        _context.Messages.Remove(message);
         await _context.SaveChangesAsync();
     }
 
 
-    public async Task<Message> UpdateComment(Message entity)
+    public async Task<Message> UpdateMessage(Message entity)
     {
         entity.ModifiedDate = DateTime.UtcNow;
 
-        var updatedComment = _context.Messages.Update(entity);
+        var updatedMessage = _context.Messages.Update(entity);
         await _context.SaveChangesAsync();
 
-        return updatedComment.Entity;
+        return updatedMessage.Entity;
     }
 
 
-    public async Task<Message> AddComment(Message comment)
+    public async Task<Message> AddMessage(Message message)
     {
-        comment.Id = Guid.NewGuid();
-        comment.CreatedDate = DateTime.UtcNow;
-        comment.ModifiedDate = DateTime.UtcNow;
-        if (GetParticipant(comment.UserId, comment.ConversationId) == null)
+        message.Id = Guid.NewGuid();
+        message.CreatedDate = DateTime.UtcNow;
+        message.ModifiedDate = DateTime.UtcNow;
+        if (GetParticipant(message.UserId, message.ConversationId) == null)
         {
             _context.Participants
                 .Add(new()
                 {
-                    UserId = comment.UserId,
-                    ConversationId = comment.ConversationId,
+                    UserId = message.UserId,
+                    ConversationId = message.ConversationId,
                     CreatedDate = DateTime.UtcNow,
                     ModifiedDate = DateTime.UtcNow
                 });
         }
-        var savedComment = _context.Messages.Add(comment);
+        var savedMessage = _context.Messages.Add(message);
         await _context.SaveChangesAsync();
-        return savedComment.Entity;
+        return savedMessage.Entity;
     }
 
     private Participant? GetParticipant(Guid userId, Guid conversationId)
@@ -79,9 +80,9 @@ public class CommentRepository : ICommentRepository
         conversation.CreatedDate = DateTime.UtcNow;
         conversation.ModifiedDate = DateTime.UtcNow;
 
-        var savedComment = _context.Conversations.Add(conversation);
+        var savedConversation = _context.Conversations.Add(conversation);
         await _context.SaveChangesAsync();
-        return savedComment.Entity;
+        return savedConversation.Entity;
     }
 
     public async Task<Conversation?> GetConversation(Guid conversationId)

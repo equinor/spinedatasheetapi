@@ -2,22 +2,22 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class CommentService : ICommentService
+public class ConversationService : IConversationService
 {
     private readonly ILogger<ContractService> _logger;
     private readonly ITagDataReviewService _tagDataReviewService;
-    private readonly ICommentRepository _commentRepository;
+    private readonly IConversationRepository _conversationRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
 
-    public CommentService(ILoggerFactory loggerFactory,
-        ICommentRepository commentRepository,
+    public ConversationService(ILoggerFactory loggerFactory,
+        IConversationRepository conversationRepository,
         IAzureUserCacheService azureUserCacheService,
         IFusionService fusionService,
         ITagDataReviewService tagDataReviewService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
-        _commentRepository = commentRepository;
+        _conversationRepository = conversationRepository;
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
         _tagDataReviewService = tagDataReviewService;
@@ -25,73 +25,78 @@ public class CommentService : ICommentService
 
     public async Task<Conversation> CreateConversation(Conversation conversation)
     {
-        var tagDataReview = await _tagDataReviewService.GetTagDataReview((Guid)conversation.TagDataReviewId)
+        var tagDataReview = await _tagDataReviewService.GetTagDataReview(
+                (Guid)conversation.TagDataReviewId)
         ?? throw new Exception("Invalid tag data review");
 
         conversation.SetTagDataReview(tagDataReview);
 
-        return await _commentRepository.CreateConversation(conversation);
+        return await _conversationRepository.CreateConversation(conversation);
     }
 
     public async Task<Conversation?> GetConversation(Guid conversationId)
     {
-        var comment = await _commentRepository.GetConversation(conversationId);
-        return comment;
+        var conversation = await _conversationRepository.GetConversation(conversationId);
+        return conversation;
     }
 
     public async Task<List<Conversation>> GetConversations(Guid reviewId)
     {
-        var comments = await _commentRepository.GetConversations(reviewId);
-        return comments;
+        var conversations = await _conversationRepository.GetConversations(reviewId);
+        return conversations;
     }
 
-    public async Task<Message> AddComment(Guid conversationId, Message message)
+    public async Task<Message> AddMessage(Guid conversationId, Message message)
     {
-        var conversation = await _commentRepository.GetConversation(conversationId)
+        var conversation = await _conversationRepository.GetConversation(conversationId)
                 ?? throw new Exception("Invalid conversation");
 
         message.SetConversation(conversation);
 
-        return await _commentRepository.AddComment(message);
+        return await _conversationRepository.AddMessage(message);
     }
 
 
-    public async Task<List<Message>?> GetComments(Guid converstionId)
+    public async Task<List<Message>> GetMessages(Guid converstionId)
     {
-        var comments = await _commentRepository.GetComments(converstionId);
-        return comments;
+        var messages = await _conversationRepository.GetMessages(converstionId);
+        return messages;
     }
 
-    public async Task<Message?> GetComment(Guid id)
+    public async Task<Message?> GetMessage(Guid messageId)
     {
-        var comment = await _commentRepository.GetComment(id);
-        return comment;
+        var message = await _conversationRepository.GetMessage(messageId);
+        return message;
     }
 
-    public async Task DeleteComment(Guid id, Guid azureUniqueId)
+    public async Task DeleteMessage(Guid oldMessageId, Guid azureUniqueId)
     {
         if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
-        var existingComment = await _commentRepository.GetComment(id) ?? throw new Exception("Invalid comment id");
-        if (existingComment.UserId != azureUniqueId) { throw new Exception("User not author of this comment"); }
-        if (existingComment.SoftDeleted) { throw new Exception("Cannot update deleted comment"); }
+        var existingMessage = await _conversationRepository.GetMessage(oldMessageId)
+                    ?? throw new Exception("Invalid message id");
+        if (existingMessage.UserId != azureUniqueId)
+        {
+            throw new Exception("User not author of this message");
+        }
+        if (existingMessage.SoftDeleted) { throw new Exception("Cannot update deleted message"); }
 
-        existingComment.SoftDeleted = true;
-        await _commentRepository.UpdateComment(existingComment);
+        existingMessage.SoftDeleted = true;
+        await _conversationRepository.UpdateMessage(existingMessage);
     }
 
-    public async Task<Message> UpdateComment(Guid commentId, Message updatedComment)
+    public async Task<Message> UpdateMessage(Guid messageId, Message updatedMessage)
     {
-        var existingComment = await _commentRepository.GetComment(commentId)
-                ?? throw new Exception($"Comment with id {commentId} not found");
+        var existingMessage = await _conversationRepository.GetMessage(messageId)
+                ?? throw new Exception($"Message with id {messageId} not found");
 
-        if (existingComment.UserId != updatedComment.UserId)
+        if (existingMessage.UserId != updatedMessage.UserId)
         {
-            throw new Exception("User not author of this comment");
+            throw new Exception("User not author of this Message");
         }
 
-        existingComment.Text = updatedComment.Text;
-        existingComment.IsEdited = true;
-        return await _commentRepository.UpdateComment(existingComment);
+        existingMessage.Text = updatedMessage.Text;
+        existingMessage.IsEdited = true;
+        return await _conversationRepository.UpdateMessage(existingMessage);
     }
 
     public async Task<string> GetUserName(Guid userId)
