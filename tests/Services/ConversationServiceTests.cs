@@ -7,6 +7,7 @@ using Fusion.Integration.Profile;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestPlatform.Common;
 
 using Moq;
 
@@ -34,8 +35,7 @@ public class ConversationServiceTests
     public static Message SetUpMessage()
     {
         var messageId = Guid.NewGuid();
-        var message = new Message { Id = messageId, UserId = Guid.NewGuid() };
-        return message;
+        return new Message { Id = messageId, UserId = Guid.NewGuid(), ConversationId = Guid.NewGuid() };
     }
 
     public static Conversation SetUpConversation()
@@ -43,6 +43,11 @@ public class ConversationServiceTests
         var conversationId = Guid.NewGuid();
         var conversation = new Conversation { Id = conversationId, TagDataReviewId = Guid.NewGuid() };
         return conversation;
+    }
+
+    public static AzureUser SetUpAzureUser()
+    {
+        return new AzureUser { AzureUniqueId = Guid.NewGuid(), Name = "some name" };
     }
 
     [Fact]
@@ -70,8 +75,9 @@ public class ConversationServiceTests
     {
         var conversation = SetUpConversation();
 
-        var tagDataReview = new TagDataReview { Id = conversation.TagDataReviewId };
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(conversation.TagDataReviewId)).ReturnsAsync(tagDataReview);
+        _tagDataReviewServiceMock.Setup(x =>
+            x.GetTagDataReview(conversation.TagDataReviewId))
+                .ReturnsAsync(new TagDataReview { Id = conversation.TagDataReviewId });
         _conversationRepositoryMock.Setup(x => x.CreateConversation(conversation)).ThrowsAsync(new DbUpdateException());
 
         await Assert.ThrowsAsync<DbUpdateException>(() => _conversatiosnService.CreateConversation(conversation));
@@ -82,8 +88,9 @@ public class ConversationServiceTests
     {
         var conversation = SetUpConversation();
 
-        var tagDataReview = new TagDataReview { Id = conversation.TagDataReviewId };
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(conversation.TagDataReviewId)).ReturnsAsync(tagDataReview);
+        _tagDataReviewServiceMock.Setup(x =>
+                x.GetTagDataReview(conversation.TagDataReviewId))
+                    .ReturnsAsync(new TagDataReview { Id = conversation.TagDataReviewId });
         _conversationRepositoryMock.Setup(x => x.CreateConversation(conversation)).ReturnsAsync(conversation);
 
         var result = await _conversatiosnService.CreateConversation(conversation);
@@ -146,45 +153,48 @@ public class ConversationServiceTests
     public async Task AddMessage_ThrowsWhenUnableToFetchConversation()
     {
         var message = SetUpMessage();
-        var conversationId = Guid.NewGuid();
-        _conversationRepositoryMock.Setup(x => x.GetConversation(conversationId)).ThrowsAsync(new Exception());
+        _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
+                .ThrowsAsync(new Exception());
 
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.AddMessage(conversationId, message));
+        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService
+                .AddMessage(message.ConversationId, message));
     }
 
     [Fact]
     public async Task AddMessage_ThrowsWhenConversationIdNotfound()
     {
         var message = SetUpMessage();
-        var conversationId = Guid.NewGuid();
 
-        _conversationRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync((Conversation?)null);
+        _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
+                    .ReturnsAsync((Conversation?)null);
 
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.AddMessage(conversationId, message));
+        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService
+                    .AddMessage(message.ConversationId, message));
     }
 
     [Fact]
     public async Task AddMessage_ThrowsWhenSavingMessageThrowsException()
     {
         var message = SetUpMessage();
-        var conversationId = Guid.NewGuid();
 
-        _conversationRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
+        _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
+                .ReturnsAsync(SetUpConversation());
         _conversationRepositoryMock.Setup(x => x.AddMessage(message)).ThrowsAsync(new DbUpdateException());
 
-        await Assert.ThrowsAsync<DbUpdateException>(() => _conversatiosnService.AddMessage(conversationId, message));
+        await Assert.ThrowsAsync<DbUpdateException>(() => _conversatiosnService
+            .AddMessage(message.ConversationId, message));
     }
 
     [Fact]
     public async Task AddMessage_RunsOkayWithCorrectInput()
     {
         var message = SetUpMessage();
-        var conversationId = Guid.NewGuid();
 
-        _conversationRepositoryMock.Setup(x => x.GetConversation(conversationId)).ReturnsAsync(SetUpConversation());
+        _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
+                    .ReturnsAsync(SetUpConversation());
         _conversationRepositoryMock.Setup(x => x.AddMessage(message)).ReturnsAsync(message);
 
-        var result = await _conversatiosnService.AddMessage(conversationId, message);
+        var result = await _conversatiosnService.AddMessage(message.ConversationId, message);
 
         Assert.NotNull(result);
         Assert.Equal(message.Id, result.Id);
@@ -231,18 +241,17 @@ public class ConversationServiceTests
     public async Task GetMesages_RunsOkayWithCorrectInput()
     {
         var message = SetUpMessage();
-        var conversationId = Guid.NewGuid();
-        message.ConversationId = conversationId;
 
-        _conversationRepositoryMock.Setup(x => x.GetMessages(conversationId)).ReturnsAsync(new List<Message> { message });
+        _conversationRepositoryMock.Setup(x => x.GetMessages(message.ConversationId))
+                    .ReturnsAsync(new List<Message> { message });
 
-        var result = await _conversatiosnService.GetMessages(conversationId);
+        var result = await _conversatiosnService.GetMessages(message.ConversationId);
 
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.Equal(message.Id, result[0].Id);
-        Assert.Equal(conversationId, result[0].ConversationId);
-        _conversationRepositoryMock.Verify(x => x.GetMessages(conversationId), Times.Once);
+        Assert.Equal(message.ConversationId, result[0].ConversationId);
+        _conversationRepositoryMock.Verify(x => x.GetMessages(message.ConversationId), Times.Once);
     }
 
     [Fact]
@@ -343,45 +352,46 @@ public class ConversationServiceTests
     public async Task GetUserName_FetchUserNameFromFusion()
     {
 
-        var userId = Guid.NewGuid();
-        var userName = "Name";
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
+        var user = SetUpAzureUser();
+
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
                     .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
-        var result = await _conversatiosnService.GetUserName(userId);
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
+                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
+                            "upn", Guid.NewGuid(), user.Name ?? ""));
+        var result = await _conversatiosnService.GetUserName(user.AzureUniqueId);
 
         Assert.NotNull(result);
-        Assert.Equal(userName, result);
-        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Once);
-        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
+        Assert.Equal(user.Name, result);
+        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(user.AzureUniqueId), Times.Once);
+        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(user.AzureUniqueId), Times.Once);
     }
 
     [Fact]
     public async Task GetUserName_ThrowsException_whenUnableToFindUser()
     {
 
-        var userId = Guid.NewGuid();
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
+        var user = SetUpAzureUser();
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
                     .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
                      .ReturnsAsync((FusionPersonProfile?)null);
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.GetUserName(userId));
+        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.GetUserName(user.AzureUniqueId));
     }
 
     [Fact]
     public async Task GetUserIdUserName_RunsOkay()
     {
+        var user = SetUpAzureUser();
 
-        var userId = Guid.NewGuid();
-        var userName = "Name";
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
+        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
                     .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(userId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee, "upn", Guid.NewGuid(), userName));
-        var result = await _conversatiosnService.GetUserIdUserName(new List<Guid> { userId });
+        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
+                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
+                            "upn", Guid.NewGuid(), user.Name ?? ""));
+        var result = await _conversatiosnService.GetUserIdUserName(new List<Guid> { user.AzureUniqueId });
 
         Assert.NotNull(result);
-        Assert.Equal(userName, result[userId]);
+        Assert.Equal(user.Name, result[user.AzureUniqueId]);
     }
 }

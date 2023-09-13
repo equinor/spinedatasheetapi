@@ -22,19 +22,7 @@ public class RevisionContainerReviewAdapterTests
     public void ToDtoOrNull_WithNonNullRevisionContainerReview_ReturnsRevisionContainerReviewDto()
     {
         // Arrange
-        var revisionContainerReview = new RevisionContainerReview
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = new Guid(),
-            Approved = false,
-            RevisionContainerVersion = 1,
-            RevisionContainerId = Guid.NewGuid(),
-            Conversations = new List<Conversation>(),
-        };
+        var revisionContainerReview = GetRevisionContainerReview(1);
 
         // Act
         var result = revisionContainerReview.ToDtoOrNull();
@@ -71,34 +59,7 @@ public class RevisionContainerReviewAdapterTests
     {
         // Arrange
         var revisionContainerReviews = new List<RevisionContainerReview>
-        {
-            new RevisionContainerReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = false,
-                RevisionContainerVersion = 1,
-                RevisionContainerId = Guid.NewGuid(),
-                Conversations = new List<Conversation>(),
-            },
-            new RevisionContainerReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = true,
-                RevisionContainerVersion = 2,
-                RevisionContainerId = Guid.NewGuid(),
-                Conversations = new List<Conversation>(),
-            },
-        };
+                    { GetRevisionContainerReview(1), GetRevisionContainerReview(2),};
 
         // Act
         var result = revisionContainerReviews.ToDto();
@@ -136,19 +97,7 @@ public class RevisionContainerReviewAdapterTests
     [Fact]
     public void ToModelOrNull_WithNonNullRevisionContainerReviewDto_ReturnsRevisionContainerReview()
     {
-        // Arrange
-        var revisionContainerReviewDto = new RevisionContainerReviewDto
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = new Guid(),
-            Approved = false,
-            RevisionContainerVersion = 1,
-            RevisionContainerId = Guid.NewGuid(),
-        };
+        RevisionContainerReviewDto revisionContainerReviewDto = GetContainerReviewDto(1);
 
         // Act
         var result = revisionContainerReviewDto.ToModelOrNull();
@@ -187,32 +136,7 @@ public class RevisionContainerReviewAdapterTests
     {
         // Arrange
         var revisionContainerReviewDtos = new List<RevisionContainerReviewDto>
-        {
-            new RevisionContainerReviewDto
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = false,
-                RevisionContainerVersion = 1,
-                RevisionContainerId = Guid.NewGuid(),
-            },
-            new RevisionContainerReviewDto
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = true,
-                RevisionContainerVersion = 2,
-                RevisionContainerId = Guid.NewGuid(),
-            },
-        };
+                    { GetContainerReviewDto(1), GetContainerReviewDto(2) };
 
         // Act
         var result = revisionContainerReviewDtos.ToModel();
@@ -234,5 +158,39 @@ public class RevisionContainerReviewAdapterTests
             Assert.NotNull(result[i].Conversations);
             Assert.Empty(result[i].Conversations);
         }
+    }
+
+    private static RevisionContainerReview GetRevisionContainerReview(int version)
+    {
+        return new RevisionContainerReview
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = new Guid(),
+            Approved = false,
+            RevisionContainerVersion = version,
+            RevisionContainerId = Guid.NewGuid(),
+            Conversations = new List<Conversation>(),
+        };
+    }
+
+    private static RevisionContainerReviewDto GetContainerReviewDto(int version)
+    {
+        // Arrange
+        return new RevisionContainerReviewDto
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = new Guid(),
+            Approved = false,
+            RevisionContainerVersion = version,
+            RevisionContainerId = Guid.NewGuid(),
+        };
     }
 }

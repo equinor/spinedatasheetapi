@@ -22,34 +22,7 @@ public class TagDataReviewAdapterTests
     [Fact]
     public void ToDtoOrNull_WithNonNullTagDataReview_ReturnsTagDataReviewDto()
     {
-        // Arrange
-        var tagDataReview = new TagDataReview
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            TagNo = "Tag-002",
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = Guid.NewGuid(),
-            Approved = true,
-            TagDataVersion = 1,
-            Conversations = new List<Conversation>
-            {
-                new Conversation
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                },
-                new Conversation
-                {
-                    Id = Guid.NewGuid(),
-                    CreatedDate = DateTime.UtcNow,
-                    ModifiedDate = DateTime.UtcNow,
-                },
-            },
-        };
+        TagDataReview tagDataReview = GetTagDataReview("Tag-002", 1);
 
         // Act
         var result = tagDataReview.ToDtoOrNull();
@@ -86,56 +59,7 @@ public class TagDataReviewAdapterTests
     {
         // Arrange
         var tagDataReviews = new List<TagDataReview>
-        {
-            new TagDataReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                TagNo = "Tag-003",
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = Guid.NewGuid(),
-                Approved = true,
-                TagDataVersion = 1,
-                Conversations = new List<Conversation>
-                {
-                    new Conversation
-                    {
-                        Id = Guid.NewGuid(),
-                        CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow
-                    },
-                    new Conversation
-                    {
-                        Id = Guid.NewGuid(),
-                        CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow
-                    },
-                },
-            },
-            new TagDataReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                TagNo = "Tag-004",
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = Guid.NewGuid(),
-                Approved = false,
-                TagDataVersion = 2,
-                Conversations = new List<Conversation>
-                {
-                    new Conversation
-                    {
-                        Id = Guid.NewGuid(),
-                        CreatedDate = DateTime.UtcNow,
-                        ModifiedDate = DateTime.UtcNow
-                    },
-                },
-            },
-        };
+                { GetTagDataReview("Tag-003", 1), GetTagDataReview("Tag-004", 2) };
 
         // Act
         var result = tagDataReviews.ToDto();
@@ -174,18 +98,7 @@ public class TagDataReviewAdapterTests
     public void ToModelOrNull_WithNonNullTagDataReviewDto_ReturnsTagDataReview()
     {
         // Arrange
-        var tagDataReviewDto = new TagDataReviewDto
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            TagNo = "Tag-005",
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = Guid.NewGuid(),
-            Approved = true,
-            TagDataVersion = 1,
-        };
+        var tagDataReviewDto = GetTagDataReviewDto("Tag-005");
 
         // Act
         var result = tagDataReviewDto.ToModelOrNull();
@@ -208,18 +121,7 @@ public class TagDataReviewAdapterTests
     public void ToModelOrNull_WithNullTagDataCommentDtos_ReturnsTagDataReviewWithEmptyComments()
     {
         // Arrange
-        var tagDataReviewDto = new TagDataReviewDto
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            TagNo = "Tag-006",
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = Guid.NewGuid(),
-            Approved = true,
-            TagDataVersion = 1,
-        };
+        var tagDataReviewDto = GetTagDataReviewDto("Tag-006");
 
         // Act
         var result = tagDataReviewDto.ToModelOrNull();
@@ -243,19 +145,7 @@ public class TagDataReviewAdapterTests
     public void ToModelOrNull_WithNonNullTagDataCommentDtos_ReturnsTagDataReviewWithComments()
     {
         // Arrange
-        var tagDataReviewDto = new TagDataReviewDto
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            TagNo = "Tag-007",
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = Guid.NewGuid(),
-            Approved = true,
-            TagDataVersion = 1,
-        };
-
+        var tagDataReviewDto = GetTagDataReviewDto("Tag-007");
         // Act
         var result = tagDataReviewDto.ToModelOrNull();
 
@@ -272,5 +162,49 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
         Assert.NotNull(result.Conversations);
 
+    }
+
+    private static Conversation GetConversation()
+    {
+        return new Conversation
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+        };
+    }
+
+    private static TagDataReview GetTagDataReview(string tagNo, int version)
+    {
+        return new TagDataReview
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            TagNo = tagNo,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = Guid.NewGuid(),
+            Approved = true,
+            TagDataVersion = version,
+            Conversations = new List<Conversation>
+                    { GetConversation(), GetConversation()},
+        };
+    }
+
+    private static TagDataReviewDto GetTagDataReviewDto(string tagNo)
+    {
+        return new TagDataReviewDto
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            TagNo = tagNo,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = Guid.NewGuid(),
+            Approved = true,
+            TagDataVersion = 1,
+        };
     }
 }
