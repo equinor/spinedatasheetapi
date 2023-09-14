@@ -224,7 +224,12 @@ public class ConversationsController : ControllerBase
     where T : class, new()
     {
         var obj = new T();
-        var propertyInfo = obj.GetType().GetProperty(propertyName);
+        var propertyInfo = obj.GetType().GetProperty(
+            propertyName,
+            System.Reflection.BindingFlags.IgnoreCase |
+            System.Reflection.BindingFlags.Public |
+            System.Reflection.BindingFlags.Instance
+            );
 
         return propertyInfo != null;
     }
