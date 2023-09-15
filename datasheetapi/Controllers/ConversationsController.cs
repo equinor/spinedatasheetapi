@@ -33,7 +33,8 @@ public class ConversationsController : ControllerBase
         if (conversation.Property != null)
         {
             if (!ValidateProperty<InstrumentPurchaserRequirement>(conversation.Property) &&
-               !ValidateProperty<InstrumentSupplierOfferedProduct>(conversation.Property))
+                !ValidateProperty<InstrumentSupplierOfferedProduct>(conversation.Property) &&
+                !ValidateProperty<TagDataDto>(conversation.Property))
             {
                 return BadRequest($"Not supported property: {conversation.Property}");
             }
