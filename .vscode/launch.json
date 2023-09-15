@@ -1,0 +1,41 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (WSL)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            //"program": "${workspaceFolder}/bin/Debug/netcoreapp3.1/datasheetapi.dll",
+            "program": "${workspaceFolder}/datasheetapi/bin/Debug/net6.0/datasheetapi.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/datasheetapi",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            },
+            // "pipeTransport": {
+            //     "pipeProgram": "bash",
+            //     "pipeArgs": ["-c"],
+            //     "debuggerPath": "/usr/lib/dotnet/sdk/6.0.121"
+            // },
+            "logging": {
+                "engineLogging": true,
+                "exceptions": true,
+                "moduleLoad": true,
+                "programOutput": true
+            },
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            }
+        }
+    ]
+}

@@ -187,7 +187,7 @@ public class ConversationsController : ControllerBase
         }
     }
 
-    [HttpDelete("{conversationId}/message/{messageId}", Name = "DeleteMessage")]
+    [HttpDelete("{conversationId}/messages/{messageId}", Name = "DeleteMessage")]
     public async Task<ActionResult> DeleteMessage([FromRoute] Guid conversationId,
                                                 [FromRoute] Guid messageId)
     {
