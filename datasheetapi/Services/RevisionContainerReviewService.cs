@@ -60,14 +60,14 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
 
     public async Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDtoForTag(Guid tagId)
     {
-        var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
-        return comments.ToDtoOrNull();
+        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
+        return reviews.ToDtoOrNull();
     }
 
     public async Task<RevisionContainerReview?> GetRevisionContainerReviewForTag(Guid tagId)
     {
-        var comments = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
-        return comments;
+        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
+        return reviews;
     }
 
     public async Task<RevisionContainerReviewDto> CreateRevisionContainerReview(RevisionContainerReviewDto review, Guid azureUniqueId)

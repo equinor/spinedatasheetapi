@@ -22,19 +22,7 @@ public class RevisionContainerReviewAdapterTests
     public void ToDtoOrNull_WithNonNullRevisionContainerReview_ReturnsRevisionContainerReviewDto()
     {
         // Arrange
-        var revisionContainerReview = new RevisionContainerReview
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = new Guid(),
-            Approved = false,
-            RevisionContainerVersion = 1,
-            RevisionContainerId = Guid.NewGuid(),
-            Comments = new List<Comment>(),
-        };
+        var revisionContainerReview = GetRevisionContainerReview(1);
 
         // Act
         var result = revisionContainerReview.ToDtoOrNull();
@@ -50,8 +38,6 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReview.Approved, result.Approved);
         Assert.Equal(revisionContainerReview.RevisionContainerVersion, result.RevisionContainerVersion);
         Assert.Equal(revisionContainerReview.RevisionContainerId, result.RevisionContainerId);
-        Assert.NotNull(result.Comments);
-        Assert.Empty(result.Comments);
     }
 
     [Fact]
@@ -73,34 +59,7 @@ public class RevisionContainerReviewAdapterTests
     {
         // Arrange
         var revisionContainerReviews = new List<RevisionContainerReview>
-        {
-            new RevisionContainerReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = false,
-                RevisionContainerVersion = 1,
-                RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Comment>(),
-            },
-            new RevisionContainerReview
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = true,
-                RevisionContainerVersion = 2,
-                RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<Comment>(),
-            },
-        };
+                    { GetRevisionContainerReview(1), GetRevisionContainerReview(2),};
 
         // Act
         var result = revisionContainerReviews.ToDto();
@@ -119,8 +78,6 @@ public class RevisionContainerReviewAdapterTests
             Assert.Equal(revisionContainerReviews[i].Approved, result[i].Approved);
             Assert.Equal(revisionContainerReviews[i].RevisionContainerVersion, result[i].RevisionContainerVersion);
             Assert.Equal(revisionContainerReviews[i].RevisionContainerId, result[i].RevisionContainerId);
-            Assert.NotNull(result[i].Comments);
-            Assert.Empty(result[i].Comments);
         }
     }
 
@@ -140,20 +97,7 @@ public class RevisionContainerReviewAdapterTests
     [Fact]
     public void ToModelOrNull_WithNonNullRevisionContainerReviewDto_ReturnsRevisionContainerReview()
     {
-        // Arrange
-        var revisionContainerReviewDto = new RevisionContainerReviewDto
-        {
-            Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
-            Status = ReviewStatusEnum.New,
-            ApproverId = Guid.NewGuid(),
-            CommentResponsible = new Guid(),
-            Approved = false,
-            RevisionContainerVersion = 1,
-            RevisionContainerId = Guid.NewGuid(),
-            Comments = new List<CommentDto>(),
-        };
+        RevisionContainerReviewDto revisionContainerReviewDto = GetContainerReviewDto(1);
 
         // Act
         var result = revisionContainerReviewDto.ToModelOrNull();
@@ -169,8 +113,8 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReviewDto.Approved, result.Approved);
         Assert.Equal(revisionContainerReviewDto.RevisionContainerVersion, result.RevisionContainerVersion);
         Assert.Equal(revisionContainerReviewDto.RevisionContainerId, result.RevisionContainerId);
-        Assert.NotNull(result.Comments);
-        Assert.Empty(result.Comments);
+        Assert.NotNull(result.Conversations);
+        Assert.Empty(result.Conversations);
     }
 
     [Fact]
@@ -192,34 +136,7 @@ public class RevisionContainerReviewAdapterTests
     {
         // Arrange
         var revisionContainerReviewDtos = new List<RevisionContainerReviewDto>
-        {
-            new RevisionContainerReviewDto
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = false,
-                RevisionContainerVersion = 1,
-                RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<CommentDto>(),
-            },
-            new RevisionContainerReviewDto
-            {
-                Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
-                Status = ReviewStatusEnum.New,
-                ApproverId = Guid.NewGuid(),
-                CommentResponsible = new Guid(),
-                Approved = true,
-                RevisionContainerVersion = 2,
-                RevisionContainerId = Guid.NewGuid(),
-                Comments = new List<CommentDto>(),
-            },
-        };
+                    { GetContainerReviewDto(1), GetContainerReviewDto(2) };
 
         // Act
         var result = revisionContainerReviewDtos.ToModel();
@@ -238,8 +155,42 @@ public class RevisionContainerReviewAdapterTests
             Assert.Equal(revisionContainerReviewDtos[i].Approved, result[i].Approved);
             Assert.Equal(revisionContainerReviewDtos[i].RevisionContainerVersion, result[i].RevisionContainerVersion);
             Assert.Equal(revisionContainerReviewDtos[i].RevisionContainerId, result[i].RevisionContainerId);
-            Assert.NotNull(result[i].Comments);
-            Assert.Empty(result[i].Comments);
+            Assert.NotNull(result[i].Conversations);
+            Assert.Empty(result[i].Conversations);
         }
+    }
+
+    private static RevisionContainerReview GetRevisionContainerReview(int version)
+    {
+        return new RevisionContainerReview
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = new Guid(),
+            Approved = false,
+            RevisionContainerVersion = version,
+            RevisionContainerId = Guid.NewGuid(),
+            Conversations = new List<Conversation>(),
+        };
+    }
+
+    private static RevisionContainerReviewDto GetContainerReviewDto(int version)
+    {
+        // Arrange
+        return new RevisionContainerReviewDto
+        {
+            Id = Guid.NewGuid(),
+            CreatedDate = DateTime.UtcNow,
+            ModifiedDate = DateTime.UtcNow,
+            Status = ReviewStatusEnum.New,
+            ApproverId = Guid.NewGuid(),
+            CommentResponsible = new Guid(),
+            Approved = false,
+            RevisionContainerVersion = version,
+            RevisionContainerId = Guid.NewGuid(),
+        };
     }
 }

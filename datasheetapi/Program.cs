@@ -37,9 +37,7 @@ var configurationBuilder = new ConfigurationBuilder()
     });
 
 var config = configurationBuilder.Build();
-
 builder.Configuration.AddConfiguration(config);
-
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
@@ -133,11 +131,13 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .CreateBootstrapLogger();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
 builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
 builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
@@ -149,7 +149,7 @@ builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<ITagDataReviewRepository, TagDataReviewRepository>();
 builder.Services.AddScoped<IRevisionContainerRepository, RevisionContainerRepository>();
 builder.Services.AddScoped<IRevisionContainerReviewRepository, RevisionContainerReviewRepository>();
