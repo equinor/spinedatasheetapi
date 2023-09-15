@@ -13,6 +13,8 @@ public record TagDataDto : ITagDataDto, IBaseEntityDto
     public string? TagStatus { get; set; }
     public string? EngineeringCode { get; set; }
     public string? PurchaseOrder { get; set; }
+    public string? Sequence { get; set; }
+    public string? System { get; set; }
     public int Version { get; set; }
     public TagDataReviewDto? Review { get; set; }
     public RevisionContainerDto? RevisionContainer { get; set; }
