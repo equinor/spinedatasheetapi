@@ -79,7 +79,7 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Setup in memory DB SQL lite for test purposes
+// Setup in memory DB SQL lite
 DbContextOptionsBuilder<DatabaseContext> dBbuilder = new();
 var _sqlConnectionString = new SqliteConnectionStringBuilder
 { DataSource = "file::memory:", Mode = SqliteOpenMode.ReadWriteCreate, Cache = SqliteCacheMode.Shared }
