@@ -20,7 +20,6 @@ public static class RevisionContainerReviewAdapter
             Approved = revisionContainerReview.Approved,
             RevisionContainerVersion = revisionContainerReview.RevisionContainerVersion,
             RevisionContainerId = revisionContainerReview.RevisionContainerId,
-            Comments = revisionContainerReview.Comments.ToDto(),
         };
     }
 
@@ -48,7 +47,6 @@ public static class RevisionContainerReviewAdapter
             CommentResponsible = revisionContainerReviewDto.CommentResponsible,
             Approved = revisionContainerReviewDto.Approved,
             RevisionContainerVersion = revisionContainerReviewDto.RevisionContainerVersion,
-            Comments = revisionContainerReviewDto.Comments.ToModel(),
             RevisionContainerId = revisionContainerReviewDto.RevisionContainerId,
         };
     }

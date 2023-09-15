@@ -36,14 +36,14 @@ public class TagDataReviewService : ITagDataReviewService
 
     public async Task<List<TagDataReview>> GetTagDataReviewsForTag(string tagNo)
     {
-        var comments = await _reviewRepository.GetTagDataReviewsForTag(tagNo);
-        return comments;
+        var reviews = await _reviewRepository.GetTagDataReviewsForTag(tagNo);
+        return reviews;
     }
 
     public async Task<List<TagDataReview>> GetTagDataReviewsForTags(List<string> tagNos)
     {
-        var comments = await _reviewRepository.GetTagDataReviewsForTags(tagNos);
-        return comments;
+        var reviews = await _reviewRepository.GetTagDataReviewsForTags(tagNos);
+        return reviews;
     }
 
     public async Task<TagDataReview> CreateTagDataReview(TagDataReview review, Guid azureUniqueId)

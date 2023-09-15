@@ -8,5 +8,4 @@ public record RevisionContainerReviewDto : BaseEntityDto
     public int RevisionContainerVersion { get; init; }
     public Guid RevisionContainerId { get; set; }
     public RevisionContainerDto? RevisionContainer { get; set; }
-    public List<CommentDto> Comments { get; set; } = new List<CommentDto>();
 }

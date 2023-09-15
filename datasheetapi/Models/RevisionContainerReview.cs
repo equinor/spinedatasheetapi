@@ -9,5 +9,5 @@ public class RevisionContainerReview : BaseEntity
     public int RevisionContainerVersion { get; init; }
     public Guid RevisionContainerId { get; set; }
     public RevisionContainer? RevisionContainer { get; set; }
-    public List<Comment> Comments { get; set; } = new List<Comment>();
+    public List<Conversation> Conversations { get; set; } = new List<Conversation>();
 }
