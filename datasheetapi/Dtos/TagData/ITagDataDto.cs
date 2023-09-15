@@ -16,6 +16,8 @@ namespace datasheetapi.Dtos
         string? TagStatus { get; set; }
         string? EngineeringCode { get; set; }
         string? PurchaseOrder { get; set; }
+        string? Sequence { get; set; }
+        string? System { get; set; }
         int Version { get; set; }
         TagDataReviewDto? Review { get; set; }
         RevisionContainerDto? RevisionContainer { get; set; }
