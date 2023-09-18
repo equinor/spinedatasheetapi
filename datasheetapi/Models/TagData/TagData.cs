@@ -13,5 +13,7 @@ public class TagData : ITagData
     public string? TagStatus { get; set; }
     public string? EngineeringCode { get; set; }
     public string? PurchaseOrder { get; set; }
+    public string? Sequence { get; set; }
+    public string? System { get; set; }
     public int Version { get; set; }
 }

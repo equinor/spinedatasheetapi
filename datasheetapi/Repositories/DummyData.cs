@@ -134,6 +134,8 @@ public static class DummyData
         TagStatus = "",
         EngineeringCode = "",
         PurchaseOrder = "",
+        Sequence = "Sequence1",
+        System = "System1",
         Version = 3,
         InstrumentSupplierOfferedProduct = new()
         {
