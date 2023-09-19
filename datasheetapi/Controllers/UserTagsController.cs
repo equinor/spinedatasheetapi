@@ -6,7 +6,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("usertag")]
+[Route("usertags")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -14,14 +14,14 @@ namespace datasheetapi.Controllers;
     ApplicationRole.ReadOnlyUser,
     ApplicationRole.User
 )]
-public class UserTagController : ControllerBase
+public class UserTagsController : ControllerBase
 {
-    private readonly ILogger<UserTagController> _logger;
+    private readonly ILogger<UserTagsController> _logger;
     private readonly IUserTagService _userTagService;
 
-    public UserTagController(ILoggerFactory loggerFactory, IUserTagService userTagService)
+    public UserTagsController(ILoggerFactory loggerFactory, IUserTagService userTagService)
     {
-        _logger = loggerFactory.CreateLogger<UserTagController>();
+        _logger = loggerFactory.CreateLogger<UserTagsController>();
         _userTagService = userTagService;
     }
 
