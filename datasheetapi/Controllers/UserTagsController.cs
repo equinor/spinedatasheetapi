@@ -26,9 +26,9 @@ public class UserTagsController : ControllerBase
     }
 
     [HttpGet("{fusionContextId}", Name = "GetUsersForProject")]
-    public async Task<ActionResult<List<UserTagDto>?>> GetUsersForProject(string fusionContextId, [FromQuery] string? search, [FromQuery] int top = 20, [FromQuery] int skip = 0)
+    public async Task<ActionResult<List<UserTagDto>?>> GetUsersForProject(string fusionContextId, [FromQuery] string search = "", [FromQuery] int top = 20, [FromQuery] int skip = 0)
     {
-        var fusionRepsonse = await _userTagService.GetUsersFromOrgChart(fusionContextId, search ?? "", top, skip);
+        var fusionRepsonse = await _userTagService.GetUsersFromOrgChart(fusionContextId, search, top, skip);
         return Ok(fusionRepsonse);
     }
 }
