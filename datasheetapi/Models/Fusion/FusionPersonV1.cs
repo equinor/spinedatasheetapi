@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Models.Fusion;
+namespace datasheetapi.Models.Fusion;
 
 public record FusionPersonResponseV1(List<FusionPersonResultV1> Results, int Count);
 
