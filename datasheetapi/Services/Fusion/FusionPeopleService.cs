@@ -7,7 +7,12 @@ using Microsoft.Identity.Abstractions;
 
 namespace datasheetapi.Services;
 
-public class FusionPeopleService
+public interface IFusionPeopleService
+{
+    Task<List<FusionPersonV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip);
+}
+
+public class FusionPeopleService : IFusionPeopleService
 {
     private readonly IDownstreamApi _downstreamApi;
     private readonly IMemoryCache _cache;
@@ -27,7 +32,7 @@ public class FusionPeopleService
         _logger = logger;
     }
 
-    public async Task<List<FusionPersonResultV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip)
+    public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip)
     {
         var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(Guid.Parse(projectMasterId));
 
@@ -43,13 +48,13 @@ public class FusionPeopleService
 
         if (string.IsNullOrEmpty(orgChartId))
         {
-            return new List<FusionPersonResultV1>();
+            return new List<FusionPersonV1>();
         }
 
         var fusionSearchObject = new FusionSearchObject
         {
             Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '{orgChartId}' and p/contract eq null)",
-            Top = 100,
+            Top = top,
             Skip = skip
         };
 
@@ -58,7 +63,8 @@ public class FusionPeopleService
             fusionSearchObject.Filter += $" and {AddSearch(search)}";
         }
 
-        return await QueryFusionPeopleService(fusionSearchObject);
+        var result = await QueryFusionPeopleService(fusionSearchObject);
+        return result.Select(x => x.Document).ToList();
     }
 
     public async Task<List<FusionPersonResultV1>> QueryFusionPeopleService(FusionSearchObject fusionSearchObject)
