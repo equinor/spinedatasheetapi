@@ -40,7 +40,11 @@ var config = configurationBuilder.Build();
 builder.Configuration.AddConfiguration(config);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"))
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddMicrosoftGraph()
+    .AddDownstreamApi("FusionPeople", builder.Configuration.GetSection("FusionPeople"))
+    .AddInMemoryTokenCaches();
 
 
 // Add services to the container.
@@ -139,6 +143,7 @@ builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerRev
 builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
+builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
