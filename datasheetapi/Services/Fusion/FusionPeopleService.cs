@@ -15,26 +15,23 @@ public interface IFusionPeopleService
 public class FusionPeopleService : IFusionPeopleService
 {
     private readonly IDownstreamApi _downstreamApi;
-    private readonly IMemoryCache _cache;
     private readonly ILogger<FusionPeopleService> _logger;
     private readonly IFusionContextResolver _fusionContextResolver;
 
 
     public FusionPeopleService(
         IDownstreamApi downstreamApi,
-        IMemoryCache cache,
         IFusionContextResolver fusionContextResolver,
         ILogger<FusionPeopleService> logger)
     {
         _downstreamApi = downstreamApi;
-        _cache = cache;
         _fusionContextResolver = fusionContextResolver;
         _logger = logger;
     }
 
-    public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip)
+    public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(string fusionContextId, string search, int top, int skip)
     {
-        var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(Guid.Parse(projectMasterId));
+        var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(Guid.Parse(fusionContextId));
 
         string? orgChartId = string.Empty;
 
@@ -60,7 +57,7 @@ public class FusionPeopleService : IFusionPeopleService
 
         if (!string.IsNullOrEmpty(search))
         {
-            fusionSearchObject.Filter += $" and {AddSearch(search)}";
+            fusionSearchObject.Filter += $" and search.ismatch('{search}*', 'name,mail')";
         }
 
         var result = await QueryFusionPeopleService(fusionSearchObject);
@@ -74,11 +71,6 @@ public class FusionPeopleService : IFusionPeopleService
             opt => opt.RelativePath = "search/persons/query?api-version=1.0");
 
         return response?.Results ?? new List<FusionPersonResultV1>();
-    }
-
-    private static string AddSearch(string search)
-    {
-        return $"search.ismatch('{search}*', 'name,mail')";
     }
 }
 
