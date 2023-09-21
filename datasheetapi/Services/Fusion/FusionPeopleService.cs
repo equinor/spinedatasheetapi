@@ -15,33 +15,22 @@ public interface IFusionPeopleService
 public class FusionPeopleService : IFusionPeopleService
 {
     private readonly IDownstreamApi _downstreamApi;
-    private readonly ILogger<FusionPeopleService> _logger;
     private readonly IFusionContextResolver _fusionContextResolver;
 
 
     public FusionPeopleService(
         IDownstreamApi downstreamApi,
-        IFusionContextResolver fusionContextResolver,
-        ILogger<FusionPeopleService> logger)
+        IFusionContextResolver fusionContextResolver)
     {
         _downstreamApi = downstreamApi;
         _fusionContextResolver = fusionContextResolver;
-        _logger = logger;
     }
 
     public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(string fusionContextId, string search, int top, int skip)
     {
         var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(Guid.Parse(fusionContextId));
 
-        string? orgChartId = string.Empty;
-
-        foreach (var contextRelation in contextRelations)
-        {
-            if (contextRelation.Type == FusionContextType.OrgChart)
-            {
-                orgChartId = contextRelation.ExternalId?.ToString();
-            }
-        }
+        string? orgChartId = contextRelations.FirstOrDefault(x => x.Type == FusionContextType.OrgChart)?.ExternalId?.ToString();
 
         if (string.IsNullOrEmpty(orgChartId))
         {
