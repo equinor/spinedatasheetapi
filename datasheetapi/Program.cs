@@ -144,8 +144,6 @@ builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>(
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
-builder.Services.AddScoped<IUserTagService, UserTagService>();
-
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
