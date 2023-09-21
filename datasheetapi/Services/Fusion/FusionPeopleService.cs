@@ -32,11 +32,19 @@ public class FusionPeopleService : IFusionPeopleService
 
         string? orgChartId = contextRelations.FirstOrDefault(x => x.Type == FusionContextType.OrgChart)?.ExternalId?.ToString();
 
-        if (string.IsNullOrEmpty(orgChartId))
+        if (!string.IsNullOrEmpty(orgChartId))
         {
-            return new List<FusionPersonV1>();
+            var fusionSearchObject = BuildFusionSearchObject(orgChartId, search, top, skip);
+
+            var result = await QueryFusionPeopleService(fusionSearchObject);
+            return result.Select(x => x.Document).ToList();
         }
 
+        return new List<FusionPersonV1>();
+    }
+
+    private static FusionSearchObject BuildFusionSearchObject(string orgChartId, string search, int top, int skip)
+    {
         var recordsToSkip = top * skip;
 
         var fusionSearchObject = new FusionSearchObject
@@ -51,8 +59,7 @@ public class FusionPeopleService : IFusionPeopleService
             fusionSearchObject.Filter += $" and search.ismatch('{search}*', 'name,mail')";
         }
 
-        var result = await QueryFusionPeopleService(fusionSearchObject);
-        return result.Select(x => x.Document).ToList();
+        return fusionSearchObject;
     }
 
     public async Task<List<FusionPersonResultV1>> QueryFusionPeopleService(FusionSearchObject fusionSearchObject)
