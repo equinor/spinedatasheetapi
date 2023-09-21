@@ -48,11 +48,13 @@ public class FusionPeopleService : IFusionPeopleService
             return new List<FusionPersonV1>();
         }
 
+        var recordsToSkip = top * skip;
+
         var fusionSearchObject = new FusionSearchObject
         {
             Filter = $"positions/any(p: p/isActive eq true and p/project/id eq '{orgChartId}' and p/contract eq null)",
             Top = top,
-            Skip = skip
+            Skip = recordsToSkip
         };
 
         if (!string.IsNullOrEmpty(search))
