@@ -12,8 +12,8 @@ public static class ConversationAdapter
         return new Conversation
         {
             Property = conversationDto.Property,
-            ConversationLevel = conversationDto.ConversationLevel,
-            ConversationStatus = conversationDto.ConversationStatus,
+            ConversationLevel = MapConversationLevelDTOToModel(conversationDto.ConversationLevel),
+            ConversationStatus = MapConversationStatusDTOToModel(conversationDto.ConversationStatus),
             TagDataReviewId = reviewId,
             Messages = new List<Message> { messageDto.ToMessageModel(azureUniqueId) },
             Participants = new List<Participant> { ToParticipantModel(azureUniqueId) }
@@ -29,8 +29,8 @@ public static class ConversationAdapter
             CreatedDate = conversation.CreatedDate,
             ModifiedDate = conversation.ModifiedDate,
             Property = conversation.Property,
-            ConversationLevel = conversation.ConversationLevel,
-            ConversationStatus = conversation.ConversationStatus,
+            ConversationLevel = MapConversationLevelModelToDto(conversation.ConversationLevel),
+            ConversationStatus = MapConversationStatusModelToDto(conversation.ConversationStatus),
             Messages = ToMessageDtos(conversation.Messages, userIdNameMap),
             Participants = ToParticipantDtos(conversation.Participants, userIdNameMap),
         };
@@ -70,6 +70,52 @@ public static class ConversationAdapter
             SoftDeleted = message.SoftDeleted,
             CreatedDate = message.CreatedDate,
             ModifiedDate = message.ModifiedDate
+        };
+    }
+
+    private static ConversationLevel MapConversationLevelDTOToModel(ConversationLevelDto dto)
+    {
+        return dto switch
+        {
+            ConversationLevelDto.Tag => ConversationLevel.Tag,
+            ConversationLevelDto.PurchaserRequirement => ConversationLevel.PurchaserRequirement,
+            ConversationLevelDto.SupplierOfferedValue => ConversationLevel.SupplierOfferedValue,
+            _ => throw new ArgumentOutOfRangeException(nameof(dto), $"Unknown status: {dto}"),
+        };
+    }
+
+    private static ConversationStatus MapConversationStatusDTOToModel(ConversationStatusDto dto)
+    {
+        return dto switch
+        {
+            ConversationStatusDto.Open => ConversationStatus.Open,
+            ConversationStatusDto.To_be_implemented => ConversationStatus.To_be_implemented,
+            ConversationStatusDto.Closed => ConversationStatus.Closed,
+            ConversationStatusDto.Implemented => ConversationStatus.Implemented,
+            _ => throw new ArgumentOutOfRangeException(nameof(dto), $"Unknown status: {dto}"),
+        };
+    }
+
+    private static ConversationLevelDto MapConversationLevelModelToDto(ConversationLevel model)
+    {
+        return model switch
+        {
+            ConversationLevel.Tag => ConversationLevelDto.Tag,
+            ConversationLevel.PurchaserRequirement => ConversationLevelDto.PurchaserRequirement,
+            ConversationLevel.SupplierOfferedValue => ConversationLevelDto.SupplierOfferedValue,
+            _ => throw new ArgumentOutOfRangeException(nameof(model), $"Unknown status: {model}"),
+        };
+    }
+
+    private static ConversationStatusDto MapConversationStatusModelToDto(ConversationStatus model)
+    {
+        return model switch
+        {
+            ConversationStatus.Open => ConversationStatusDto.Open,
+            ConversationStatus.To_be_implemented => ConversationStatusDto.To_be_implemented,
+            ConversationStatus.Closed => ConversationStatusDto.Closed,
+            ConversationStatus.Implemented => ConversationStatusDto.Implemented,
+            _ => throw new ArgumentOutOfRangeException(nameof(model), $"Unknown status: {model}"),
         };
     }
 

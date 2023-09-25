@@ -7,6 +7,6 @@ public record ConversationDto
     [Required]
     public string Text { get; set; } = string.Empty;
     public string? Property { get; set; }
-    public ConversationLevel ConversationLevel { get; set; }
-    public ConversationStatus ConversationStatus { get; set; }
+    public ConversationLevelDto ConversationLevel { get; set; }
+    public ConversationStatusDto ConversationStatus { get; set; }
 }

@@ -13,8 +13,8 @@ public class ConversationAdapterTests
         {
             Property = "TagNumber",
             Text = "Text to add",
-            ConversationLevel = ConversationLevel.Tag,
-            ConversationStatus = ConversationStatus.Open,
+            ConversationLevel = ConversationLevelDto.Tag,
+            ConversationStatus = ConversationStatusDto.Open,
         };
         var reviewId = Guid.NewGuid();
         var userId = Guid.NewGuid();
