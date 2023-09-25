@@ -1,3 +1,4 @@
+using datasheetapi.Exceptions;
 using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
@@ -34,10 +35,11 @@ public class ConversationService : IConversationService
         return await _conversationRepository.CreateConversation(conversation);
     }
 
-    public async Task<Conversation?> GetConversation(Guid conversationId)
+    public async Task<Conversation> GetConversation(Guid conversationId)
     {
         var conversation = await _conversationRepository.GetConversation(conversationId);
-        return conversation;
+        return conversation ??
+            throw new NotFoundException($"Unable to find conversation for the conversationId - {conversationId} not found");
     }
 
     public async Task<List<Conversation>> GetConversations(Guid reviewId)
@@ -63,22 +65,23 @@ public class ConversationService : IConversationService
         return messages;
     }
 
-    public async Task<Message?> GetMessage(Guid messageId)
+    public async Task<Message> GetMessage(Guid messageId)
     {
         var message = await _conversationRepository.GetMessage(messageId);
-        return message;
+        return message ??
+            throw new NotFoundException($"Unable to find message for the message Id - {messageId}.");
     }
 
     public async Task DeleteMessage(Guid oldMessageId, Guid azureUniqueId)
     {
-        if (azureUniqueId == Guid.Empty) { throw new Exception("Invalid azure unique id"); }
+        if (azureUniqueId == Guid.Empty) { throw new BadRequestException("Invalid azure unique id"); }
         var existingMessage = await _conversationRepository.GetMessage(oldMessageId)
-                    ?? throw new Exception("Invalid message id");
+                    ?? throw new NotFoundException("Invalid message id");
         if (existingMessage.UserId != azureUniqueId)
         {
-            throw new Exception("User not author of this message");
+            throw new BadRequestException("User not author of this message");
         }
-        if (existingMessage.SoftDeleted) { throw new Exception("Cannot update deleted message"); }
+        if (existingMessage.SoftDeleted) { throw new BadRequestException("Cannot update deleted message"); }
 
         existingMessage.SoftDeleted = true;
         await _conversationRepository.UpdateMessage(existingMessage);
@@ -87,11 +90,11 @@ public class ConversationService : IConversationService
     public async Task<Message> UpdateMessage(Guid messageId, Message updatedMessage)
     {
         var existingMessage = await _conversationRepository.GetMessage(messageId)
-                ?? throw new Exception($"Message with id {messageId} not found");
+                ?? throw new NotFoundException($"Message with id {messageId} not found");
 
         if (existingMessage.UserId != updatedMessage.UserId)
         {
-            throw new Exception("User not author of this Message");
+            throw new BadRequestException("User not author of this Message");
         }
 
         existingMessage.Text = updatedMessage.Text;
@@ -117,7 +120,7 @@ public class ConversationService : IConversationService
         }
         else
         {
-            throw new Exception("Unable to find the username for the userId: " + userId);
+            throw new NotFoundException("Unable to find the username for the userId: " + userId);
         }
     }
 

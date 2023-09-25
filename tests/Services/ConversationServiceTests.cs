@@ -1,4 +1,5 @@
 using datasheetapi.Adapters;
+using datasheetapi.Exceptions;
 using datasheetapi.Models;
 using datasheetapi.Repositories;
 using datasheetapi.Services;
@@ -260,20 +261,20 @@ public class ConversationServiceTests
         // Arrange
         var message = SetUpMessage();
 
-        await Assert.ThrowsAsync<Exception>(() =>
+        await Assert.ThrowsAsync<BadRequestException>(() =>
                 _conversatiosnService.DeleteMessage(message.Id, Guid.Empty));
     }
 
     [Fact]
-    public async Task DeleteMessage_ThrowsExceptionWhenMessageIsNotFound()
+    public async Task DeleteMessage_ThrowsNotFoundExceptionWhenMessageIsNotFound()
     {
         // Arrange
         var message = SetUpMessage();
 
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync((Message?)null);
-        await Assert.ThrowsAsync<Exception>(() =>
-                _conversatiosnService.DeleteMessage(message.Id, Guid.Empty));
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+                _conversatiosnService.DeleteMessage(message.Id, message.UserId));
     }
 
     [Fact]
@@ -284,7 +285,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync(message);
-        await Assert.ThrowsAsync<Exception>(() =>
+        await Assert.ThrowsAsync<BadRequestException>(() =>
                 _conversatiosnService.DeleteMessage(message.Id, Guid.NewGuid()));
     }
 
@@ -330,7 +331,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync(message);
-        await Assert.ThrowsAsync<Exception>(() =>
+        await Assert.ThrowsAsync<BadRequestException>(() =>
                 _conversatiosnService.UpdateMessage(message.Id, updatedMessage));
     }
 
@@ -376,7 +377,7 @@ public class ConversationServiceTests
                     .ReturnsAsync((AzureUser?)null);
         _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
                      .ReturnsAsync((FusionPersonProfile?)null);
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.GetUserName(user.AzureUniqueId));
+        await Assert.ThrowsAsync<NotFoundException>(() => _conversatiosnService.GetUserName(user.AzureUniqueId));
     }
 
     [Fact]
