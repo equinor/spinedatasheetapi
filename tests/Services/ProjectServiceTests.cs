@@ -1,4 +1,5 @@
 using datasheetapi.Adapters;
+using datasheetapi.Exceptions;
 using datasheetapi.Models;
 using datasheetapi.Repositories;
 using datasheetapi.Services;
@@ -36,49 +37,16 @@ public class ProjectServiceTests
     }
 
     [Fact]
-    public async Task GetProject_ReturnsNull_WhenInvalidId()
+    public async Task GetProject_ThrowsNotFoundException_WhenInvalidId()
     {
         // Arrange
         var projectId = Guid.NewGuid();
         _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project?)null);
 
         // Act
-        var result = await _projectService.GetProject(projectId);
+        await Assert.ThrowsAsync<NotFoundException>(() => _projectService.GetProject(projectId));
 
         // Assert
-        Assert.Null(result);
-        _projectRepositoryMock.Verify(x => x.GetProject(projectId), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetProjectDto_ReturnsProjectDto_WhenValidId()
-    {
-        // Arrange
-        var projectId = Guid.NewGuid();
-        var project = new Project { Id = projectId };
-        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync(project);
-
-        // Act
-        var result = await _projectService.GetProjectDto(projectId);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(project.ToDtoOrNull()?.Id, result.Id);
-        _projectRepositoryMock.Verify(x => x.GetProject(projectId), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetProjectDto_ReturnsNull_WhenInvalidId()
-    {
-        // Arrange
-        var projectId = Guid.NewGuid();
-        _projectRepositoryMock.Setup(x => x.GetProject(projectId)).ReturnsAsync((Project?)null);
-
-        // Act
-        var result = await _projectService.GetProjectDto(projectId);
-
-        // Assert
-        Assert.Null(result);
         _projectRepositoryMock.Verify(x => x.GetProject(projectId), Times.Once);
     }
 

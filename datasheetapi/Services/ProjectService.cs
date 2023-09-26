@@ -1,4 +1,5 @@
 using datasheetapi.Adapters;
+using datasheetapi.Exceptions;
 using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
@@ -14,15 +15,10 @@ public class ProjectService : IProjectService
         _projectRepository = projectRepository;
     }
 
-    public async Task<Project?> GetProject(Guid id)
+    public async Task<Project> GetProject(Guid projectId)
     {
-        return await _projectRepository.GetProject(id);
-    }
-
-    public async Task<ProjectDto?> GetProjectDto(Guid id)
-    {
-        var project = await GetProject(id);
-        return project?.ToDtoOrNull();
+        return await _projectRepository.GetProject(projectId) ?? 
+            throw new NotFoundException($"Unable to find project - {projectId}.");
     }
 
     public async Task<List<Project>> GetProjects()

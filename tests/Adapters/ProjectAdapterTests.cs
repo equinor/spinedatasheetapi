@@ -5,21 +5,9 @@ using datasheetapi.Models;
 namespace tests.Adapters;
 public class ProjectAdapterTests
 {
-    [Fact]
-    public void ToDtoOrNull_WithNullProject_ReturnsNull()
-    {
-        // Arrange
-        Project? project = null;
-
-        // Act
-        var result = project.ToDtoOrNull();
-
-        // Assert
-        Assert.Null(result);
-    }
 
     [Fact]
-    public void ToDtoOrNull_WithNonNullProject_ReturnsProjectDto()
+    public void ToDto_WithNonNullProject_ReturnsProjectDto()
     {
         // Arrange
         var project = new Project
@@ -31,7 +19,7 @@ public class ProjectAdapterTests
         };
 
         // Act
-        var result = project.ToDtoOrNull();
+        var result = project.ToDto();
 
         // Assert
         Assert.NotNull(result);

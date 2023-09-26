@@ -11,6 +11,9 @@ public static class ContractAdapter
     {
         return new ContractDto
         {
+            Id = contract.Id,
+            CreatedDate = contract.CreatedDate,
+            ModifiedDate = contract.ModifiedDate,
             ContractName = contract.ContractName,
             ContractorId = contract.ContractorId,
             ProjectId = contract.ProjectId,

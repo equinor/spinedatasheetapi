@@ -9,7 +9,7 @@ namespace datasheetapi.Services;
 
 public interface IFusionPeopleService
 {
-    Task<List<FusionPersonV1>> GetAllPersonsOnProject(string projectMasterId, string search, int top, int skip);
+    Task<List<FusionPersonV1>> GetAllPersonsOnProject(Guid projectMasterId, string search, int top, int skip);
 }
 
 public class FusionPeopleService : IFusionPeopleService
@@ -26,9 +26,9 @@ public class FusionPeopleService : IFusionPeopleService
         _fusionContextResolver = fusionContextResolver;
     }
 
-    public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(string fusionContextId, string search, int top, int skip)
+    public async Task<List<FusionPersonV1>> GetAllPersonsOnProject(Guid fusionContextId, string search, int top, int skip)
     {
-        var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(Guid.Parse(fusionContextId));
+        var contextRelations = await _fusionContextResolver.GetContextRelationsAsync(fusionContextId);
 
         string? orgChartId = contextRelations.FirstOrDefault(x => x.Type == FusionContextType.OrgChart)?.ExternalId?.ToString();
 

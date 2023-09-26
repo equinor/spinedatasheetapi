@@ -35,7 +35,7 @@ namespace datasheetapi.tests.Services
                 .ReturnsAsync(new List<FusionContext>());
 
             // Act
-            var result = await _fusionPeopleService.GetAllPersonsOnProject(fusionContextId.ToString(), search, top, skip);
+            var result = await _fusionPeopleService.GetAllPersonsOnProject(fusionContextId, search, top, skip);
 
             // Assert
             Assert.NotNull(result);
@@ -84,7 +84,7 @@ namespace datasheetapi.tests.Services
                 ));
 
             // Act
-            var result = await _fusionPeopleService.GetAllPersonsOnProject(fusionContextId.ToString(), search, top, skip);
+            var result = await _fusionPeopleService.GetAllPersonsOnProject(fusionContextId, search, top, skip);
 
             // Assert
             Assert.NotNull(result);

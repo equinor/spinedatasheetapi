@@ -2,7 +2,6 @@ namespace datasheetapi.Services;
 
 public interface IProjectService
 {
-    Task<Project?> GetProject(Guid id);
-    Task<ProjectDto?> GetProjectDto(Guid id);
+    Task<Project> GetProject(Guid projectId);
     Task<List<Project>> GetProjects();
 }
