@@ -1,4 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
 using datasheetapi.Adapters;
+using datasheetapi.Exceptions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -28,188 +31,131 @@ public class ConversationsController : ControllerBase
 
     [HttpPost(Name = "CreateConversation")]
     public async Task<ActionResult<GetConversationDto>> CreateConversation(
-        [FromRoute] Guid reviewId, [FromBody] ConversationDto conversation)
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromBody] [Required] ConversationDto conversation)
     {
+        _logger.LogDebug("Creating new conversation in the review {reviewId}.", reviewId);
         if (conversation.Property != null)
         {
             if (!ValidateProperty<InstrumentPurchaserRequirement>(conversation.Property) &&
                 !ValidateProperty<InstrumentSupplierOfferedProduct>(conversation.Property) &&
                 !ValidateProperty<TagDataDto>(conversation.Property))
             {
-                return BadRequest($"Not supported property: {conversation.Property}");
+                throw new BadRequestException($"Not supported property: {conversation.Property}");
             }
         }
 
-        var azureUniqueId = GetAzureUniqueId();
-        try
-        {
-            var savedConversation = await _conversationService.CreateConversation(
-                conversation.ToModel(reviewId, azureUniqueId));
+        var savedConversation = await _conversationService.CreateConversation(
+            conversation.ToModel(reviewId, GetAzureUniqueId()));
+        _logger.LogInformation("Created new conversation in the review {reviewId}.", reviewId);
 
-            var userIdNameMap = await _conversationService.GetUserIdUserName(
-                savedConversation.Participants.Select(p => p.UserId).ToList());
-
-            return savedConversation.ToDto(userIdNameMap);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error while creating the conversation");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var userIdNameMap = await _conversationService.GetUserIdUserName(
+            savedConversation.Participants.Select(p => p.UserId).ToList());
+        return savedConversation.ToDto(userIdNameMap);
     }
 
     [HttpGet("{conversationId}", Name = "GetConversation")]
-    public async Task<ActionResult<GetConversationDto>> GetConversation(Guid conversationId)
+    public async Task<ActionResult<GetConversationDto>> GetConversation(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId)
     {
-        if (conversationId == Guid.Empty)
-        {
-            return BadRequest();
-        }
-        try
-        {
-            var conversation = await _conversationService.GetConversation(conversationId);
-            if (conversation == null)
-            {
-                return NotFound();
-            }
-            var userIdNameMap = await _conversationService.GetUserIdUserName(
-                conversation.Participants.Select(p => p.UserId).ToList());
+        _logger.LogDebug("Fetching conversation on the reviewId {reviewId}", reviewId);
+        var conversation = await _conversationService.GetConversation(conversationId);
 
-            return conversation.ToDto(userIdNameMap);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting conversation with id {id}", conversationId);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var userIdNameMap = await _conversationService.GetUserIdUserName(
+            conversation.Participants.Select(p => p.UserId).ToList());
+
+        return conversation.ToDto(userIdNameMap);
+
     }
 
     [HttpGet(Name = "GetConversations")]
-    public async Task<ActionResult<List<GetConversationDto>>> GetConversations(Guid reviewId)
+    public async Task<ActionResult<List<GetConversationDto>>> GetConversations(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId)
     {
-        try
-        {
-            var conversations = await _conversationService.GetConversations(reviewId);
 
-            var userIds = conversations.SelectMany(conversation =>
-                            conversation.Participants.Select(p => p.UserId)).ToList();
-            var userIdNameMap = await _conversationService.GetUserIdUserName(userIds);
+        var conversations = await _conversationService.GetConversations(reviewId);
 
-            return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting all conversations");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var userIds = conversations.SelectMany(conversation =>
+                        conversation.Participants.Select(p => p.UserId)).ToList();
+        var userIdNameMap = await _conversationService.GetUserIdUserName(userIds);
+
+        return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
     }
 
     [HttpPost("{conversationId}/messages", Name = "AddMessage")]
-    public async Task<ActionResult<GetMessageDto>> AddMessage([FromRoute] Guid reviewId,
-         [FromRoute] Guid conversationId, MessageDto messageDto)
+    public async Task<ActionResult<GetMessageDto>> AddMessage(
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [Required] MessageDto messageDto)
     {
-
+        _logger.LogDebug("Adding new message in the {conversationId} of review {reviewId}.", conversationId, reviewId);
         var message = messageDto.ToMessageModel(GetAzureUniqueId());
 
         var savedMessage = await _conversationService.AddMessage(conversationId, message);
+        _logger.LogInformation("Added new message in the conversation {conversationId}.", conversationId);
 
         return savedMessage.ToMessageDto(await _conversationService.GetUserName(savedMessage.UserId));
     }
 
     [HttpGet("{conversationId}/messages/{messageId}", Name = "GetMessage")]
-    public async Task<ActionResult<GetMessageDto>> GetMessage(Guid messageId)
+    public async Task<ActionResult<GetMessageDto>> GetMessage(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId)
     {
-        if (messageId == Guid.Empty)
-        {
-            return BadRequest();
-        }
-        try
-        {
-            var message = await _conversationService.GetMessage(messageId);
-            if (message == null)
-            {
-                return NotFound();
-            }
-            var username = await _conversationService.GetUserName(message.UserId);
-            return message.ToMessageDto(username);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting message with id {id}", messageId);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        _logger.LogDebug("Fetching message on the conversation {conversationId} of review {reviewId}", conversationId, reviewId);
+        var message = await _conversationService.GetMessage(messageId);
+        var username = await _conversationService.GetUserName(message.UserId);
+
+        return message.ToMessageDto(username);
     }
 
     [HttpGet("{conversationId}/messages", Name = "GetMessages")]
-    public async Task<ActionResult<List<GetMessageDto>>> GetMessages(Guid conversationId)
+    public async Task<ActionResult<List<GetMessageDto>>> GetMessages(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId)
     {
-        if (conversationId == Guid.Empty)
-        {
-            return BadRequest();
-        }
-        try
-        {
-            var messges = await _conversationService.GetMessages(conversationId);
+        _logger.LogDebug("Fetching messages on the conversation {conversationId} of review {reviewId}", conversationId, reviewId);
+        var messges = await _conversationService.GetMessages(conversationId);
 
-            var userIdNameMap = await _conversationService.GetUserIdUserName(
-                    messges.Select(c => c.UserId).ToList());
+        var userIdNameMap = await _conversationService.GetUserIdUserName(
+                messges.Select(c => c.UserId).ToList());
 
-            return messges.ToMessageDtos(userIdNameMap);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting message with conversation id {id}", conversationId);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        return messges.ToMessageDtos(userIdNameMap);
     }
 
     [HttpPut("{conversationId}/messages/{messageId}", Name = "UpdateMessage")]
-    public async Task<ActionResult<GetMessageDto>> UpdateMessage([FromRoute] Guid conversationId,
-                                                            [FromRoute] Guid messageId,
-                                                            MessageDto newMessageDto)
+    public async Task<ActionResult<GetMessageDto>> UpdateMessage(
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId,
+        [Required] MessageDto newMessageDto)
     {
-        if (messageId == Guid.Empty || newMessageDto == null)
-        {
-            return BadRequest();
-        }
-        try
-        {
-            var newMessage = newMessageDto.ToMessageModel(GetAzureUniqueId());
+        _logger.LogDebug("Updating the message {messageId}.", messageId);
+        var newMessage = newMessageDto.ToMessageModel(GetAzureUniqueId());
 
-            var message = await _conversationService.UpdateMessage(messageId, newMessage);
+        var message = await _conversationService.UpdateMessage(messageId, newMessage);
+        _logger.LogInformation("Updated the message {messageId} on the conversation {conversationId} of review {reviewId}.", 
+            messageId, conversationId, reviewId);
 
-            var userName = await _conversationService.GetUserName(message.UserId);
-            return message.ToMessageDto(userName);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error editing message", messageId);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var userName = await _conversationService.GetUserName(message.UserId);
+        return message.ToMessageDto(userName);
+
     }
 
     [HttpDelete("{conversationId}/messages/{messageId}", Name = "DeleteMessage")]
-    public async Task<ActionResult> DeleteMessage([FromRoute] Guid conversationId,
-                                                [FromRoute] Guid messageId)
+    public async Task<ActionResult> DeleteMessage(
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId)
     {
-        var azureUniqueId = GetAzureUniqueId();
+        _logger.LogDebug("Deleting the message {messageId} on conversation {conversationId}.", messageId, conversationId);
+        await _conversationService.DeleteMessage(messageId, GetAzureUniqueId());
+        _logger.LogInformation("Deleted the message {messageId} on conversation {conversationId} of review {reviewId}.", 
+            messageId, conversationId, reviewId);
 
-        if (messageId == Guid.Empty)
-        {
-            return BadRequest();
-        }
-
-        try
-        {
-            await _conversationService.DeleteMessage(messageId, azureUniqueId);
-            return NoContent();
-        }
-
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error deleting message", messageId);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        return NoContent();
     }
 
     private Guid GetAzureUniqueId()
