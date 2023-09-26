@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
+using datasheetapi.Exceptions;
 
-namespace datasheetapi.Exceptions;
+namespace datasheetapi.Helpers;
 public class ExceptionFilter : IActionFilter, IOrderedFilter
 {
     public int Order => int.MaxValue - 10;
@@ -12,7 +13,10 @@ public class ExceptionFilter : IActionFilter, IOrderedFilter
         _logger = logger;
     }
 
-    public void OnActionExecuting(ActionExecutingContext context) { }
+    public void OnActionExecuting(ActionExecutingContext context) 
+    {
+        // Do nothing while executing.
+    }
 
     public void OnActionExecuted(ActionExecutedContext context)
     {

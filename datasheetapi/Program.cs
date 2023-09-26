@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 
 using api.Database;
 
-using datasheetapi.Exceptions;
 using datasheetapi.Repositories;
 
 using Microsoft.ApplicationInsights.AspNetCore.Extensions;

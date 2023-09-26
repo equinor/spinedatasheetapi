@@ -68,7 +68,7 @@ public class ConversationServiceTests
 
         _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(conversation.TagDataReviewId)).ReturnsAsync((TagDataReview?)null);
 
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService.CreateConversation(conversation));
+        await Assert.ThrowsAsync<NotFoundException>(() => _conversatiosnService.CreateConversation(conversation));
     }
 
     [Fact]

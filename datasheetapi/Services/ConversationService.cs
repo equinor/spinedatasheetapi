@@ -28,7 +28,7 @@ public class ConversationService : IConversationService
     {
         var tagDataReview = await _tagDataReviewService.GetTagDataReview(
                 (Guid)conversation.TagDataReviewId)
-        ?? throw new Exception("Invalid tag data review");
+        ?? throw new NotFoundException("Invalid tag data review");
 
         conversation.SetTagDataReview(tagDataReview);
 
