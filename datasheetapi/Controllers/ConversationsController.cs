@@ -56,8 +56,10 @@ public class ConversationsController : ControllerBase
 
     [HttpGet("{conversationId}", Name = "GetConversation")]
     public async Task<ActionResult<GetConversationDto>> GetConversation(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
         [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId)
     {
+        _logger.LogDebug("Fetching conversation on the reviewId {reviewId}", reviewId);
         var conversation = await _conversationService.GetConversation(conversationId);
 
         var userIdNameMap = await _conversationService.GetUserIdUserName(
@@ -83,10 +85,11 @@ public class ConversationsController : ControllerBase
 
     [HttpPost("{conversationId}/messages", Name = "AddMessage")]
     public async Task<ActionResult<GetMessageDto>> AddMessage(
-        [FromRoute][NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
         [Required] MessageDto messageDto)
     {
-        _logger.LogDebug("Adding new message in the conversation {conversationId}.", conversationId);
+        _logger.LogDebug("Adding new message in the {conversationId} of review {reviewId}.", conversationId, reviewId);
         var message = messageDto.ToMessageModel(GetAzureUniqueId());
 
         var savedMessage = await _conversationService.AddMessage(conversationId, message);
@@ -97,8 +100,11 @@ public class ConversationsController : ControllerBase
 
     [HttpGet("{conversationId}/messages/{messageId}", Name = "GetMessage")]
     public async Task<ActionResult<GetMessageDto>> GetMessage(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
         [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId)
     {
+        _logger.LogDebug("Fetching message on the conversation {conversationId} of review {reviewId}", conversationId, reviewId);
         var message = await _conversationService.GetMessage(messageId);
         var username = await _conversationService.GetUserName(message.UserId);
 
@@ -107,8 +113,10 @@ public class ConversationsController : ControllerBase
 
     [HttpGet("{conversationId}/messages", Name = "GetMessages")]
     public async Task<ActionResult<List<GetMessageDto>>> GetMessages(
+        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
         [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId)
     {
+        _logger.LogDebug("Fetching messages on the conversation {conversationId} of review {reviewId}", conversationId, reviewId);
         var messges = await _conversationService.GetMessages(conversationId);
 
         var userIdNameMap = await _conversationService.GetUserIdUserName(
@@ -119,15 +127,17 @@ public class ConversationsController : ControllerBase
 
     [HttpPut("{conversationId}/messages/{messageId}", Name = "UpdateMessage")]
     public async Task<ActionResult<GetMessageDto>> UpdateMessage(
-        [FromRoute][NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
-        [FromRoute][NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId,
         [Required] MessageDto newMessageDto)
     {
         _logger.LogDebug("Updating the message {messageId}.", messageId);
         var newMessage = newMessageDto.ToMessageModel(GetAzureUniqueId());
 
         var message = await _conversationService.UpdateMessage(messageId, newMessage);
-        _logger.LogInformation("Updated the message {messageId} on conversation {conversationId}.", messageId, conversationId);
+        _logger.LogInformation("Updated the message {messageId} on the conversation {conversationId} of review {reviewId}.", 
+            messageId, conversationId, reviewId);
 
         var userName = await _conversationService.GetUserName(message.UserId);
         return message.ToMessageDto(userName);
@@ -136,12 +146,14 @@ public class ConversationsController : ControllerBase
 
     [HttpDelete("{conversationId}/messages/{messageId}", Name = "DeleteMessage")]
     public async Task<ActionResult> DeleteMessage(
-        [FromRoute][NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
-        [FromRoute][NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId)
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid reviewId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid conversationId,
+        [FromRoute] [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid messageId)
     {
         _logger.LogDebug("Deleting the message {messageId} on conversation {conversationId}.", messageId, conversationId);
         await _conversationService.DeleteMessage(messageId, GetAzureUniqueId());
-        _logger.LogInformation("Deleted the message {messageId} on conversation {conversationId}.", messageId, conversationId);
+        _logger.LogInformation("Deleted the message {messageId} on conversation {conversationId} of review {reviewId}.", 
+            messageId, conversationId, reviewId);
 
         return NoContent();
     }
