@@ -27,12 +27,6 @@ public class ContractRepository : IContractRepository
         return contracts;
     }
 
-    public async Task<List<Contract>> GetContractForContractor(Guid contractorId)
-    {
-        var contracts = await _context.Contracts.Where(c => c.ContractorId == contractorId).ToListAsync();
-        return contracts;
-    }
-
     public async Task<List<Contract>> GetContractForProject(Guid projectId)
     {
         var contracts = await _context.Contracts.Where(c => c.ProjectId == projectId).ToListAsync();

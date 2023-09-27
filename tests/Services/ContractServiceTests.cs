@@ -1,3 +1,4 @@
+using datasheetapi.Exceptions;
 using datasheetapi.Models;
 using datasheetapi.Repositories;
 using datasheetapi.Services;
@@ -35,17 +36,16 @@ public class ContractServiceTests
     }
 
     [Fact]
-    public async Task GetContract_ReturnsNull_WhenInvalidId()
+    public async Task GetContract_ThrowsNotFoundException_WhenInvalidId()
     {
         // Arrange
         var contractId = Guid.NewGuid();
         _contractRepositoryMock.Setup(x => x.GetContract(contractId)).ReturnsAsync((Contract?)null);
 
         // Act
-        var result = await _contractService.GetContract(contractId);
+        await Assert.ThrowsAsync<NotFoundException>(() => _contractService.GetContract(contractId));
 
         // Assert
-        Assert.Null(result);
         _contractRepositoryMock.Verify(x => x.GetContract(contractId), Times.Once);
     }
 
@@ -62,37 +62,6 @@ public class ContractServiceTests
         // Assert
         Assert.Equal(contracts, result);
         _contractRepositoryMock.Verify(x => x.GetContracts(), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetContractsForContractor_ReturnsListOfContracts_WhenValidContractorId()
-    {
-        // Arrange
-        var contractorId = Guid.NewGuid();
-        var contracts = new List<Contract> { new Contract { Id = Guid.NewGuid(), ContractorId = contractorId }, new Contract { Id = Guid.NewGuid(), ContractorId = contractorId } };
-        _contractRepositoryMock.Setup(x => x.GetContractForContractor(contractorId)).ReturnsAsync(contracts);
-
-        // Act
-        var result = await _contractService.GetContractsForContractor(contractorId);
-
-        // Assert
-        Assert.Equal(contracts, result);
-        _contractRepositoryMock.Verify(x => x.GetContractForContractor(contractorId), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetContractsForContractor_ReturnsEmptyList_WhenInvalidContractorId()
-    {
-        // Arrange
-        var contractorId = Guid.NewGuid();
-        _contractRepositoryMock.Setup(x => x.GetContractForContractor(contractorId)).ReturnsAsync(new List<Contract>());
-
-        // Act
-        var result = await _contractService.GetContractsForContractor(contractorId);
-
-        // Assert
-        Assert.Empty(result);
-        _contractRepositoryMock.Verify(x => x.GetContractForContractor(contractorId), Times.Once);
     }
 
     [Fact]

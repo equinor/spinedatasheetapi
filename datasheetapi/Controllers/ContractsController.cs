@@ -25,58 +25,18 @@ public class ContractsController : ControllerBase
         _contractService = contractService;
     }
 
-    [HttpGet("{id}", Name = "GetContract")]
-    public async Task<ActionResult<ContractDto?>> GetContract([FromQuery] Guid id)
+    [HttpGet("{contractId}", Name = "GetContract")]
+    public async Task<ActionResult<ContractDto?>> GetContract([NotEmptyGuid] Guid contractId)
     {
-        if (id == Guid.Empty)
-        {
-            return BadRequest();
-        }
-
-        try
-        {
-            var contract = await _contractService.GetContract(id);
-            if (contract == null)
-            {
-                return NotFound();
-            }
-            return contract.ToDtoOrNull();
-        }
-
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting contract with id {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var contract = await _contractService.GetContract(contractId);
+        return contract.ToDtoOrNull();
     }
 
     [HttpGet(Name = "GetContracts")]
     public async Task<ActionResult<List<ContractDto>>> GetContracts()
     {
-        try
-        {
-            var contracts = await _contractService.GetContracts();
-            return contracts.ToDto();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting all contracts");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var contracts = await _contractService.GetContracts();
+        return contracts.ToDto();
     }
 
-    [HttpGet("contractor/{id}", Name = "GetContractsForContractor")]
-    public async Task<ActionResult<List<ContractDto>>> GetContractsForContractor([FromQuery] Guid id)
-    {
-        try
-        {
-            var contracts = await _contractService.GetContractsForContractor(id);
-            return contracts.ToDto();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting contracts for contractor with id {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
 }
