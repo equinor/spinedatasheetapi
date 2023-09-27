@@ -26,8 +26,7 @@ public class ContractsController : ControllerBase
     }
 
     [HttpGet("{contractId}", Name = "GetContract")]
-    public async Task<ActionResult<ContractDto?>> GetContract(
-        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid contractId)
+    public async Task<ActionResult<ContractDto?>> GetContract([NotEmptyGuid] Guid contractId)
     {
         var contract = await _contractService.GetContract(contractId);
         return contract.ToDtoOrNull();

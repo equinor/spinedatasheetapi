@@ -35,16 +35,14 @@ public class ProjectsController : ControllerBase
     }
 
     [HttpGet("{projectId}", Name = "GetProject")]
-    public async Task<ActionResult<ProjectDto>> GetProject(
-        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid projectId)
+    public async Task<ActionResult<ProjectDto>> GetProject([NotEmptyGuid] Guid projectId)
     {
         var project = await _projectService.GetProject(projectId);
         return project.ToDto();
     }
 
     [HttpGet("{fusionContextId}/users", Name = "GetUsersForProject")]
-    public async Task<ActionResult<List<UserTagDto>?>> GetUsersForProject(
-        [NotEmptyGuid(ErrorMessage = "The GUID must not be empty.")] Guid fusionContextId,
+    public async Task<ActionResult<List<UserTagDto>?>> GetUsersForProject([NotEmptyGuid] Guid fusionContextId,
         [FromQuery] string? search, [FromQuery] int top = 20, [FromQuery] int skip = 0)
     {
         var fusionRepsonse = await _fusionPeopleService.GetAllPersonsOnProject(fusionContextId, search ?? "", top, skip);

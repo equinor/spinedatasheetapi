@@ -17,7 +17,7 @@ public class ContractService : IContractService
 
     public async Task<Contract> GetContract(Guid contractId)
     {
-        return await _contractRepository.GetContract(contractId) ?? 
+        return await _contractRepository.GetContract(contractId) ??
             throw new NotFoundException($"Unable to find contract - {contractId}.");
     }
 

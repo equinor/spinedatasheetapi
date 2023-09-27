@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Mvc.Filters;
 using datasheetapi.Exceptions;
+
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace datasheetapi.Helpers;
 public class ExceptionFilter : IActionFilter, IOrderedFilter
@@ -13,7 +14,7 @@ public class ExceptionFilter : IActionFilter, IOrderedFilter
         _logger = logger;
     }
 
-    public void OnActionExecuting(ActionExecutingContext context) 
+    public void OnActionExecuting(ActionExecutingContext context)
     {
         // Do nothing while executing.
     }

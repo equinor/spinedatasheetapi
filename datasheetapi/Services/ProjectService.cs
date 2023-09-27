@@ -17,7 +17,7 @@ public class ProjectService : IProjectService
 
     public async Task<Project> GetProject(Guid projectId)
     {
-        return await _projectRepository.GetProject(projectId) ?? 
+        return await _projectRepository.GetProject(projectId) ??
             throw new NotFoundException($"Unable to find project - {projectId}.");
     }
 
