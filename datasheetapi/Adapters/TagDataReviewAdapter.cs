@@ -35,7 +35,7 @@ public static class TagDataReviewAdapter
         return tagDataReviewDto.ToModel();
     }
 
-    private static TagDataReview ToModel(this TagDataReviewDto tagDataReviewDto)
+    public static TagDataReview ToModel(this TagDataReviewDto tagDataReviewDto)
     {
         return new TagDataReview
         {

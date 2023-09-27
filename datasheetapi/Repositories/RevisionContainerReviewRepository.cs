@@ -15,9 +15,9 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
         _context = context;
     }
 
-    public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid reviewId)
     {
-        var revisionContainerReview = await _context.RevisionContainerReviews.FindAsync(id);
+        var revisionContainerReview = await _context.RevisionContainerReviews.FindAsync(reviewId);
         return revisionContainerReview;
     }
 
@@ -27,13 +27,13 @@ public class RevisionContainerReviewRepository : IRevisionContainerReviewReposit
         return revisionContainerReviews;
     }
 
-    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid id)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForContainer(Guid revisionContainerId)
     {
-        var revisionContainerReviews = await _context.RevisionContainerReviews.FirstOrDefaultAsync(c => c.RevisionContainerId == id);
+        var revisionContainerReviews = await _context.RevisionContainerReviews.FirstOrDefaultAsync(c => c.RevisionContainerId == revisionContainerId);
         return revisionContainerReviews;
     }
 
-    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForRevisions(List<Guid> tagIds)
+    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForContainers(List<Guid> tagIds)
     {
         var revisionContainerReviews = await _context.RevisionContainerReviews.Where(c => tagIds.Contains(c.RevisionContainerId)).ToListAsync();
         return revisionContainerReviews;

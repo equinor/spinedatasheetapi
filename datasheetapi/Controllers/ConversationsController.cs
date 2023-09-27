@@ -45,7 +45,7 @@ public class ConversationsController : ControllerBase
         }
 
         var savedConversation = await _conversationService.CreateConversation(
-            conversation.ToModel(reviewId, GetAzureUniqueId()));
+            conversation.ToModel(reviewId, Utils.GetAzureUniqueId(HttpContext.User)));
         _logger.LogInformation("Created new conversation in the review {reviewId}.", reviewId);
 
         var userIdNameMap = await _conversationService.GetUserIdUserName(
@@ -87,7 +87,7 @@ public class ConversationsController : ControllerBase
     {
         _logger.LogDebug("Adding new message in the {conversationId} of review {reviewId}.",
             conversationId, reviewId);
-        var message = messageDto.ToMessageModel(GetAzureUniqueId());
+        var message = messageDto.ToMessageModel(Utils.GetAzureUniqueId(HttpContext.User));
 
         var savedMessage = await _conversationService.AddMessage(conversationId, message);
         _logger.LogInformation("Added new message in the conversation {conversationId}.", conversationId);
@@ -126,7 +126,7 @@ public class ConversationsController : ControllerBase
         [FromRoute][NotEmptyGuid] Guid messageId, [Required] MessageDto newMessageDto)
     {
         _logger.LogDebug("Updating the message {messageId}.", messageId);
-        var newMessage = newMessageDto.ToMessageModel(GetAzureUniqueId());
+        var newMessage = newMessageDto.ToMessageModel(Utils.GetAzureUniqueId(HttpContext.User));
 
         var message = await _conversationService.UpdateMessage(messageId, newMessage);
         _logger.LogInformation("Updated the message {messageId} on the conversation {conversationId} of review {reviewId}.",
@@ -142,20 +142,11 @@ public class ConversationsController : ControllerBase
         [FromRoute][NotEmptyGuid] Guid conversationId, [FromRoute][NotEmptyGuid] Guid messageId)
     {
         _logger.LogDebug("Deleting the message {messageId} on conversation {conversationId}.", messageId, conversationId);
-        await _conversationService.DeleteMessage(messageId, GetAzureUniqueId());
+        await _conversationService.DeleteMessage(messageId, Utils.GetAzureUniqueId(HttpContext.User));
         _logger.LogInformation("Deleted the message {messageId} on conversation {conversationId} of review {reviewId}.",
             messageId, conversationId, reviewId);
 
         return NoContent();
-    }
-
-    private Guid GetAzureUniqueId()
-    {
-        var httpContext = HttpContext;
-        var user = httpContext.User;
-        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-        return azureUniqueId;
     }
 
     private static bool ValidateProperty<T>(string propertyName)

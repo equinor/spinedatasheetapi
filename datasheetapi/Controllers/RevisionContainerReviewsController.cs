@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
+using datasheetapi.Adapters;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
 
@@ -23,95 +27,33 @@ public class RevisionContainerReviewsController : ControllerBase
         _reviewService = reviewService;
     }
 
-    [HttpGet("{id}", Name = "GetRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReviewDto>> GetRevisionReview([FromQuery] Guid id)
+    [HttpGet("{reviewId}", Name = "GetRevisionReview")]
+    public async Task<ActionResult<RevisionContainerReviewDto>> GetRevisionReview([NotEmptyGuid] Guid reviewId)
     {
-        if (id == Guid.Empty)
-        {
-            return BadRequest();
-        }
-
-        try
-        {
-            var review = await _reviewService.GetRevisionContainerReview(id);
-            if (review == null)
-            {
-                return NotFound();
-            }
-            return Ok(review);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting revision review for id {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var review = await _reviewService.GetRevisionContainerReview(reviewId);
+        return Ok(review);
     }
 
     [HttpGet(Name = "GetRevisionReviews")]
     public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviews()
     {
-        try
-        {
-            return await _reviewService.GetRevisionContainerReviewDtos();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting all revision reviews");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet("tag/{id}", Name = "GetRevisionReviewsForTag")]
-    public async Task<ActionResult<RevisionContainerReviewDto?>> GetRevisionReviewForTag(Guid id)
-    {
-        try
-        {
-            return await _reviewService.GetRevisionContainerReviewDtoForTag(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting revision reviews for tag {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
-
-    [HttpGet("project/{id}", Name = "GetRevisionReviewsForProject")]
-    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviewsForProject([FromQuery] Guid id)
-    {
-        try
-        {
-            return await _reviewService.GetRevisionContainerReviewDtosForProject(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting revision reviews for project {id}", id);
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+        var reviews = await _reviewService.GetRevisionContainerReviews();
+        return reviews.ToDto();
     }
 
     [HttpPost(Name = "CreateRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReviewDto>> CreateRevisionReview([FromBody] RevisionContainerReviewDto review)
+    public async Task<ActionResult<RevisionContainerReviewDto>> CreateRevisionReview(
+        [FromBody][Required] RevisionContainerReviewDto review)
     {
-        var httpContext = HttpContext;
-        var user = httpContext.User;
-        var fusionIdentity = user.Identities.FirstOrDefault(i => i is Fusion.Integration.Authentication.FusionIdentity) as Fusion.Integration.Authentication.FusionIdentity;
-        var azureUniqueId = fusionIdentity?.Profile?.AzureUniqueId ?? throw new Exception("Could not get Azure Unique Id");
-
-        if (review == null) { return BadRequest(); }
-
-        try
+        var existingReview = await _reviewService.GetRevisionContainerReviewForContainer(
+                review.RevisionContainerId);
+        if (existingReview != null)
         {
-            var existingReview = await _reviewService.GetRevisionContainerReviewForRevision(review.RevisionContainerId);
-            if (existingReview != null)
-            {
-                return Conflict("A review already exists for this revision");
-            }
-            return await _reviewService.CreateRevisionContainerReview(review, azureUniqueId);
+            return Conflict("A review already exists for this revision");
         }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error creating revision review");
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
+
+        var savedReview = await _reviewService.CreateRevisionContainerReview(
+                review.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));
+        return savedReview.ToDto();
     }
 }
