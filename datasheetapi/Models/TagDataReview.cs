@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace datasheetapi.Models;
 
 public class TagDataReview : BaseEntity

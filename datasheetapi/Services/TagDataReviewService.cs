@@ -1,3 +1,4 @@
+using datasheetapi.Exceptions;
 using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
@@ -17,21 +18,16 @@ public class TagDataReviewService : ITagDataReviewService
         _logger = loggerFactory.CreateLogger<TagDataReviewService>();
     }
 
-    public async Task<TagDataReview?> GetTagDataReview(Guid id)
+    public async Task<TagDataReview> GetTagDataReview(Guid reviewId)
     {
-        var review = await _reviewRepository.GetTagDataReview(id);
-        return review;
+        var review = await _reviewRepository.GetTagDataReview(reviewId);
+        return review ?? throw new NotFoundException($"Invalid reviewId - {reviewId}.");
     }
 
     public async Task<List<TagDataReview>> GetTagDataReviews()
     {
         var reviews = await _reviewRepository.GetTagDataReviews();
         return reviews;
-    }
-
-    public async Task<List<TagDataReview>> GetTagDataReviewsForProject(Guid projectId)
-    {
-        return await Task.Run(() => new List<TagDataReview>());
     }
 
     public async Task<List<TagDataReview>> GetTagDataReviewsForTag(string tagNo)
@@ -48,8 +44,9 @@ public class TagDataReviewService : ITagDataReviewService
 
     public async Task<TagDataReview> CreateTagDataReview(TagDataReview review, Guid azureUniqueId)
     {
-        if (string.IsNullOrEmpty(review.TagNo)) { throw new Exception("TagNo is required"); }
-        var _ = await _tagDataService.GetTagDataByTagNo(review.TagNo) ?? throw new Exception($"Invalid tag data id: {review.TagNo}");
+        if (string.IsNullOrEmpty(review.TagNo)) { throw new BadRequestException("TagNo is required"); }
+        var _ = await _tagDataService.GetTagDataByTagNo(review.TagNo) ??
+            throw new NotFoundException($"Invalid tag data id: {review.TagNo}");
         review.ApproverId = azureUniqueId;
 
         TagDataReview savedReview = await _reviewRepository.AddTagDataReview(review);

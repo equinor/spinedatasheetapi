@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using datasheetapi.Adapters;
-using datasheetapi.Dtos;
+using datasheetapi.Exceptions;
 using datasheetapi.Models;
 using datasheetapi.Services;
 
@@ -25,7 +20,7 @@ public class TagDataServiceTests
     }
 
     [Fact]
-    public async Task GetAllTagDataDtos_ReturnsExpectedResult()
+    public async Task GetAllTagData_ReturnsExpectedResult()
     {
         // Arrange
         var expectedTagData = new List<ITagData>
@@ -40,10 +35,10 @@ public class TagDataServiceTests
         var tagDataService = new TagDataService(_mockFAMService.Object);
 
         // Act
-        var result = await tagDataService.GetAllTagDataDtos();
+        var result = await tagDataService.GetAllTagData();
 
         // Assert
-        Assert.Equal(expectedTagData.ToDto(), result);
+        Assert.Equal(expectedTagData, result);
     }
 
     [Fact]
@@ -86,45 +81,14 @@ public class TagDataServiceTests
     }
 
     [Fact]
-    public async Task GetTagDataDtoById_ReturnsNull_WhenFAMServiceReturnsNull()
+    public async Task GetTagDataById_ThrowsException_WhenFAMServiceReturnsNull()
     {
         // Arrange
         _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
 
-        // Act
-        var result = await _tagDataService.GetTagDataDtoByTagNo("TAG-013");
-
-        // Assert
-        Assert.Null(result);
-    }
-
-    [Fact]
-    public async Task GetTagDataDtoById_ReturnsDto_WhenFAMServiceReturnsData()
-    {
-        // Arrange
-        var tagData = new TagData { TagNo = "TAG-014", Description = "Test Tag" };
-        _mockFAMService.Setup(x => x.GetTagData(tagData.TagNo)).ReturnsAsync(tagData);
-
-        // Act
-        var result = await _tagDataService.GetTagDataDtoByTagNo(tagData.TagNo);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(tagData.TagNo, result?.TagNo);
-        Assert.Equal(tagData.Description, result?.Description);
-    }
-
-    [Fact]
-    public async Task GetTagDataById_ReturnsNull_WhenFAMServiceReturnsNull()
-    {
-        // Arrange
-        _mockFAMService.Setup(x => x.GetTagData(It.IsAny<string>())).ReturnsAsync(null as ITagData);
-
-        // Act
-        var result = await _tagDataService.GetTagDataByTagNo("TAG-015");
-
-        // Assert
-        Assert.Null(result);
+        // Act & Assert
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            _tagDataService.GetTagDataByTagNo("TAG-015"));
     }
 
     [Fact]
@@ -141,44 +105,5 @@ public class TagDataServiceTests
         Assert.NotNull(result);
         Assert.Equal(tagData.TagNo, result?.TagNo);
         Assert.Equal(tagData.Description, result?.Description);
-    }
-
-    [Fact]
-    public async Task GetTagDataDtosForProject_ReturnsEmptyList_WhenFAMServiceReturnsEmptyList()
-    {
-        // Arrange
-        _mockFAMService.Setup(x => x.GetTagDataForProject(It.IsAny<Guid>())).ReturnsAsync(new List<ITagData>());
-
-        // Act
-        var result = await _tagDataService.GetTagDataDtosForProject(Guid.NewGuid());
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Empty(result);
-    }
-
-    [Fact]
-    public async Task GetTagDataDtosForProject_ReturnsList_WhenFAMServiceReturnsData()
-    {
-        // Arrange
-        var tagDataList = new List<TagData>
-        {
-            new TagData { Id = Guid.NewGuid(), Description = "Test Tag 1" },
-            new TagData { Id = Guid.NewGuid(), Description = "Test Tag 2" },
-            new TagData { Id = Guid.NewGuid(), Description = "Test Tag 3" }
-        };
-        _mockFAMService.Setup(x => x.GetTagDataForProject(It.IsAny<Guid>())).ReturnsAsync(tagDataList.Cast<ITagData>().ToList());
-
-        // Act
-        var result = await _tagDataService.GetTagDataDtosForProject(Guid.NewGuid());
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(tagDataList.Count, result.Count);
-        for (int i = 0; i < tagDataList.Count; i++)
-        {
-            Assert.Equal(tagDataList[i].Id, result[i].Id);
-            Assert.Equal(tagDataList[i].Description, result[i].Description);
-        }
     }
 }

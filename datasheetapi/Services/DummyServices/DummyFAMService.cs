@@ -23,9 +23,4 @@ public class DummyFAMService : IFAMService
     {
         return await Task.Run(() => _tagData);
     }
-
-    public async Task<List<ITagData>> GetTagDataForProject(Guid projectId)
-    {
-        return await Task.Run(() => _tagData);
-    }
 }

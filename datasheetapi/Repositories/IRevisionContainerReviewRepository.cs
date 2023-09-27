@@ -2,9 +2,9 @@ namespace datasheetapi.Repositories;
 
 public interface IRevisionContainerReviewRepository
 {
-    Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id);
+    Task<RevisionContainerReview?> GetRevisionContainerReview(Guid reviewId);
     Task<List<RevisionContainerReview>> GetRevisionContainerReviews();
-    Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid tagId);
-    Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForRevisions(List<Guid> tagIds);
+    Task<RevisionContainerReview?> GetRevisionContainerReviewForContainer(Guid revisionContainerId);
+    Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForContainers(List<Guid> revisionContainerIds);
     Task<RevisionContainerReview> AddRevisionContainerReview(RevisionContainerReview review);
 }

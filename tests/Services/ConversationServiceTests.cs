@@ -66,7 +66,8 @@ public class ConversationServiceTests
     {
         var conversation = SetUpConversation();
 
-        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(conversation.TagDataReviewId)).ReturnsAsync((TagDataReview?)null);
+        _tagDataReviewServiceMock.Setup(x => x.GetTagDataReview(conversation.TagDataReviewId))
+            .ThrowsAsync(new NotFoundException("Unbale to find the TagDataReview"));
 
         await Assert.ThrowsAsync<NotFoundException>(() => _conversatiosnService.CreateConversation(conversation));
     }

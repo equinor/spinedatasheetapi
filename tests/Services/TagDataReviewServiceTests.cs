@@ -1,3 +1,4 @@
+using datasheetapi.Exceptions;
 using datasheetapi.Models;
 using datasheetapi.Repositories;
 using datasheetapi.Services;
@@ -23,17 +24,15 @@ public class TagDataReviewServiceTests
     }
 
     [Fact]
-    public async Task GetTagDataReview_ReturnsNull_WhenReviewNotFound()
+    public async Task GetTagDataReview_ThrowsException_WhenReviewNotFound()
     {
         // Arrange
         var id = Guid.NewGuid();
         _reviewRepositoryMock.Setup(x => x.GetTagDataReview(id)).ReturnsAsync((TagDataReview?)null);
 
-        // Act
-        var result = await _tagDataReviewService.GetTagDataReview(id);
-
-        // Assert
-        Assert.Null(result);
+        // Act & Assert
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            _tagDataReviewService.GetTagDataReview(id));
     }
 
     [Fact]
@@ -65,20 +64,6 @@ public class TagDataReviewServiceTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(reviews, result);
-    }
-
-    [Fact]
-    public async Task GetTagDataReviewsForProject_ReturnsEmptyList()
-    {
-        // Arrange
-        var projectId = Guid.NewGuid();
-
-        // Act
-        var result = await _tagDataReviewService.GetTagDataReviewsForProject(projectId);
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Empty(result);
     }
 
     [Fact]
@@ -118,10 +103,12 @@ public class TagDataReviewServiceTests
     {
         // Arrange
         var review = new TagDataReview { TagNo = "TAG-011" };
-        _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ReturnsAsync((TagData?)null);
+        _tagDataServiceMock.Setup(x => x.GetTagDataByTagNo(review.TagNo)).ThrowsAsync(
+                new NotFoundException("Unable to find Tag Data"));
 
         // Act & Assert
-        await Assert.ThrowsAsync<Exception>(() => _tagDataReviewService.CreateTagDataReview(review, Guid.NewGuid()));
+        await Assert.ThrowsAsync<NotFoundException>(() =>
+            _tagDataReviewService.CreateTagDataReview(review, Guid.NewGuid()));
     }
 
     [Fact]

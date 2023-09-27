@@ -1,4 +1,5 @@
 using datasheetapi.Adapters;
+using datasheetapi.Exceptions;
 using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
@@ -10,7 +11,8 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
 
     private readonly IRevisionContainerReviewRepository _reviewRepository;
 
-    public RevisionContainerReviewService(ILoggerFactory loggerFactory, IRevisionContainerReviewRepository reviewRepository,
+    public RevisionContainerReviewService(ILoggerFactory loggerFactory,
+        IRevisionContainerReviewRepository reviewRepository,
         IRevisionContainerService revisionContainerService)
     {
         _reviewRepository = reviewRepository;
@@ -18,16 +20,11 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         _logger = loggerFactory.CreateLogger<RevisionContainerReviewService>();
     }
 
-    public async Task<RevisionContainerReview?> GetRevisionContainerReview(Guid id)
+    public async Task<RevisionContainerReview> GetRevisionContainerReview(Guid reviewId)
     {
-        var review = await _reviewRepository.GetRevisionContainerReview(id);
+        var review = await _reviewRepository.GetRevisionContainerReview(reviewId) ??
+            throw new NotFoundException($"Unable to find review - {reviewId}.");
         return review;
-    }
-
-    public async Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDto(Guid id)
-    {
-        var review = await _reviewRepository.GetRevisionContainerReview(id);
-        return review.ToDtoOrNull();
     }
 
     public async Task<List<RevisionContainerReview>> GetRevisionContainerReviews()
@@ -36,50 +33,22 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         return reviews;
     }
 
-    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForRevision(Guid id)
+    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForContainer(Guid revisionContainerId)
     {
-        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(id);
+        var reviews = await _reviewRepository.GetRevisionContainerReviewForContainer(revisionContainerId);
         return reviews;
     }
 
-    public async Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtos()
-    {
-        var reviews = await _reviewRepository.GetRevisionContainerReviews();
-        return reviews.ToDto();
-    }
-
-    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviewsForProject(Guid projectId)
-    {
-        return await Task.Run(() => new List<RevisionContainerReview>());
-    }
-
-    public async Task<List<RevisionContainerReviewDto>> GetRevisionContainerReviewDtosForProject(Guid projectId)
-    {
-        return await Task.Run(() => new List<RevisionContainerReviewDto>());
-    }
-
-    public async Task<RevisionContainerReviewDto?> GetRevisionContainerReviewDtoForTag(Guid tagId)
-    {
-        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
-        return reviews.ToDtoOrNull();
-    }
-
-    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForTag(Guid tagId)
-    {
-        var reviews = await _reviewRepository.GetRevisionContainerReviewForRevision(tagId);
-        return reviews;
-    }
-
-    public async Task<RevisionContainerReviewDto> CreateRevisionContainerReview(RevisionContainerReviewDto review, Guid azureUniqueId)
+    public async Task<RevisionContainerReview> CreateRevisionContainerReview(
+        RevisionContainerReview review, Guid azureUniqueId)
     {
         review.ApproverId = azureUniqueId;
 
-        var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.RevisionContainerId) ?? throw new Exception("Invalid revision container id");
+        var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.RevisionContainerId) ??
+            throw new BadRequestException($"Invalid revision container id - {review.RevisionContainerId}.");
 
-        var reviewModel = review.ToModelOrNull() ?? throw new Exception("Invalid review");
-        revisionContainer.RevisionContainerReview = reviewModel;
+        revisionContainer.RevisionContainerReview = review;
 
-        RevisionContainerReview savedReview = await _reviewRepository.AddRevisionContainerReview(reviewModel);
-        return savedReview.ToDtoOrNull() ?? throw new Exception("Saving revision container review failed");
+        return await _reviewRepository.AddRevisionContainerReview(review);
     }
 }

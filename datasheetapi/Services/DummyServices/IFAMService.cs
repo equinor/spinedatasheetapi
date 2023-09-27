@@ -2,7 +2,6 @@ namespace datasheetapi.Services;
 
 public interface IFAMService
 {
-    Task<ITagData?> GetTagData(string id);
+    Task<ITagData?> GetTagData(string tagNo);
     Task<List<ITagData>> GetTagData();
-    Task<List<ITagData>> GetTagDataForProject(Guid projectId);
 }

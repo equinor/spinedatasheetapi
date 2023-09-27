@@ -7,7 +7,7 @@ public static class RevisionContainerReviewAdapter
         return revisionContainerReview.ToDto();
     }
 
-    private static RevisionContainerReviewDto ToDto(this RevisionContainerReview revisionContainerReview)
+    public static RevisionContainerReviewDto ToDto(this RevisionContainerReview revisionContainerReview)
     {
         return new RevisionContainerReviewDto
         {
@@ -35,7 +35,7 @@ public static class RevisionContainerReviewAdapter
         return revisionContainerReviewDto.ToModel();
     }
 
-    private static RevisionContainerReview ToModel(this RevisionContainerReviewDto revisionContainerReviewDto)
+    public static RevisionContainerReview ToModel(this RevisionContainerReviewDto revisionContainerReviewDto)
     {
         return new RevisionContainerReview
         {
