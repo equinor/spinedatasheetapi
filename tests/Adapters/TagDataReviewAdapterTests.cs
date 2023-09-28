@@ -33,7 +33,7 @@ public class TagDataReviewAdapterTests
         Assert.Equal(tagDataReview.CreatedDate, result.CreatedDate);
         Assert.Equal(tagDataReview.ModifiedDate, result.ModifiedDate);
         Assert.Equal(tagDataReview.TagNo, result.TagNo);
-        Assert.Equal(tagDataReview.Status, result.Status);
+        Assert.Equal(tagDataReview.Status.MapReviewStatusModelToDto(), result.Status);
         Assert.Equal(tagDataReview.ApproverId, result.ApproverId);
         Assert.Equal(tagDataReview.CommentResponsible, result.CommentResponsible);
         Assert.Equal(tagDataReview.Approved, result.Approved);
@@ -73,7 +73,7 @@ public class TagDataReviewAdapterTests
             Assert.Equal(tagDataReviews[i].CreatedDate, result[i].CreatedDate);
             Assert.Equal(tagDataReviews[i].ModifiedDate, result[i].ModifiedDate);
             Assert.Equal(tagDataReviews[i].TagNo, result[i].TagNo);
-            Assert.Equal(tagDataReviews[i].Status, result[i].Status);
+            Assert.Equal(tagDataReviews[i].Status.MapReviewStatusModelToDto(), result[i].Status);
             Assert.Equal(tagDataReviews[i].ApproverId, result[i].ApproverId);
             Assert.Equal(tagDataReviews[i].CommentResponsible, result[i].CommentResponsible);
             Assert.Equal(tagDataReviews[i].Approved, result[i].Approved);
@@ -81,87 +81,24 @@ public class TagDataReviewAdapterTests
         }
     }
 
-    [Fact]
-    public void ToModelOrNull_WithNullTagDataReviewDto_ReturnsNull()
-    {
-        // Arrange
-        TagDataReviewDto? tagDataReviewDto = null;
-
-        // Act
-        var result = tagDataReviewDto.ToModelOrNull();
-
-        // Assert
-        Assert.Null(result);
-    }
 
     [Fact]
-    public void ToModelOrNull_WithNonNullTagDataReviewDto_ReturnsTagDataReview()
+    public void ToModel_WithNonNullTagDataReviewDto_ReturnsTagDataReview()
     {
         // Arrange
-        var tagDataReviewDto = GetTagDataReviewDto("Tag-005");
+        var tagDataReviewDto = new CreateTagDataReviewDto()
+        {
+            TagNo = "Tag-005",
+            Status = ReviewStatusDto.New
+        };
 
         // Act
-        var result = tagDataReviewDto.ToModelOrNull();
+        var result = tagDataReviewDto.ToModel();
 
         // Assert
         Assert.NotNull(result);
-        Assert.Equal(tagDataReviewDto.Id, result.Id);
-        Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
-        Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
         Assert.Equal(tagDataReviewDto.TagNo, result.TagNo);
-        Assert.Equal(tagDataReviewDto.Status, result.Status);
-        Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
-        Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
-        Assert.Equal(tagDataReviewDto.Approved, result.Approved);
-        Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Conversations);
-    }
-
-    [Fact]
-    public void ToModelOrNull_WithNullTagDataCommentDtos_ReturnsTagDataReviewWithEmptyComments()
-    {
-        // Arrange
-        var tagDataReviewDto = GetTagDataReviewDto("Tag-006");
-
-        // Act
-        var result = tagDataReviewDto.ToModelOrNull();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(tagDataReviewDto.Id, result.Id);
-        Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
-        Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReviewDto.TagNo, result.TagNo);
-        Assert.Equal(tagDataReviewDto.Status, result.Status);
-        Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
-        Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
-        Assert.Equal(tagDataReviewDto.Approved, result.Approved);
-        Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Conversations);
-        Assert.Empty(result.Conversations);
-    }
-
-    [Fact]
-    public void ToModelOrNull_WithNonNullTagDataCommentDtos_ReturnsTagDataReviewWithComments()
-    {
-        // Arrange
-        var tagDataReviewDto = GetTagDataReviewDto("Tag-007");
-        // Act
-        var result = tagDataReviewDto.ToModelOrNull();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(tagDataReviewDto.Id, result.Id);
-        Assert.Equal(tagDataReviewDto.CreatedDate, result.CreatedDate);
-        Assert.Equal(tagDataReviewDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(tagDataReviewDto.TagNo, result.TagNo);
-        Assert.Equal(tagDataReviewDto.Status, result.Status);
-        Assert.Equal(tagDataReviewDto.ApproverId, result.ApproverId);
-        Assert.Equal(tagDataReviewDto.CommentResponsible, result.CommentResponsible);
-        Assert.Equal(tagDataReviewDto.Approved, result.Approved);
-        Assert.Equal(tagDataReviewDto.TagDataVersion, result.TagDataVersion);
-        Assert.NotNull(result.Conversations);
-
+        Assert.Equal(tagDataReviewDto.Status.MapReviewStatusDtoToModel(), result.Status);
     }
 
     private static Conversation GetConversation()
@@ -200,7 +137,7 @@ public class TagDataReviewAdapterTests
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
             TagNo = tagNo,
-            Status = ReviewStatusEnum.New,
+            Status = ReviewStatusDto.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = Guid.NewGuid(),
             Approved = true,
