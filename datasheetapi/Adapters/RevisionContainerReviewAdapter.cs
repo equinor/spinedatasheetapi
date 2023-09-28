@@ -14,7 +14,7 @@ public static class RevisionContainerReviewAdapter
             Id = revisionContainerReview.Id,
             CreatedDate = revisionContainerReview.CreatedDate,
             ModifiedDate = revisionContainerReview.ModifiedDate,
-            Status = revisionContainerReview.Status,
+            Status = revisionContainerReview.Status.MapReviewStatusModelToDto(),
             ApproverId = revisionContainerReview.ApproverId,
             CommentResponsible = revisionContainerReview.CommentResponsible,
             Approved = revisionContainerReview.Approved,
@@ -42,7 +42,7 @@ public static class RevisionContainerReviewAdapter
             Id = revisionContainerReviewDto.Id,
             CreatedDate = revisionContainerReviewDto.CreatedDate,
             ModifiedDate = revisionContainerReviewDto.ModifiedDate,
-            Status = revisionContainerReviewDto.Status,
+            Status = revisionContainerReviewDto.Status.MapReviewStatusDtoToModel(),
             ApproverId = revisionContainerReviewDto.ApproverId,
             CommentResponsible = revisionContainerReviewDto.CommentResponsible,
             Approved = revisionContainerReviewDto.Approved,
@@ -51,9 +51,12 @@ public static class RevisionContainerReviewAdapter
         };
     }
 
-    public static List<RevisionContainerReview> ToModel(this List<RevisionContainerReviewDto>? revisionContainerReviewDtos)
+    public static RevisionContainerReview ToModel(this CreateContainerReviewDto dto)
     {
-        if (revisionContainerReviewDtos is null) { return new List<RevisionContainerReview>(); }
-        return revisionContainerReviewDtos.Select(ToModel).ToList();
+        return new RevisionContainerReview
+        {
+            RevisionContainerId = dto.RevisionContainerId,
+            Status = dto.Status.MapReviewStatusDtoToModel(),
+        };
     }
 }

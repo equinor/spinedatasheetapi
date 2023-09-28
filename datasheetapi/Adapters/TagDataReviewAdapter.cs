@@ -15,11 +15,43 @@ public static class TagDataReviewAdapter
             CreatedDate = tagDataReview.CreatedDate,
             ModifiedDate = tagDataReview.ModifiedDate,
             TagNo = tagDataReview.TagNo,
-            Status = tagDataReview.Status,
+            Status = tagDataReview.Status.MapReviewStatusModelToDto(),
             ApproverId = tagDataReview.ApproverId,
             CommentResponsible = tagDataReview.CommentResponsible,
             Approved = tagDataReview.Approved,
             TagDataVersion = tagDataReview.TagDataVersion,
+        };
+    }
+
+    public static ReviewStatusDto MapReviewStatusModelToDto(this ReviewStatusEnum model)
+    {
+        return model switch
+        {
+            ReviewStatusEnum.New => ReviewStatusDto.New,
+            ReviewStatusEnum.Reviewed => ReviewStatusDto.Reviewed,
+            ReviewStatusEnum.Resubmit => ReviewStatusDto.Resubmit,
+            ReviewStatusEnum.Diff => ReviewStatusDto.Diff,
+            ReviewStatusEnum.Duplicate => ReviewStatusDto.Duplicate,
+            ReviewStatusEnum.ReviewedWithComment => ReviewStatusDto.ReviewedWithComment,
+            ReviewStatusEnum.NotReviewed => ReviewStatusDto.NotReviewed,
+            ReviewStatusEnum.Deleted => ReviewStatusDto.Deleted,
+            _ => throw new ArgumentOutOfRangeException(nameof(model), $"Unknown status: {model}"),
+        };
+    }
+
+    public static ReviewStatusEnum MapReviewStatusDtoToModel(this ReviewStatusDto dto)
+    {
+        return dto switch
+        {
+            ReviewStatusDto.New => ReviewStatusEnum.New,
+            ReviewStatusDto.Reviewed => ReviewStatusEnum.Reviewed,
+            ReviewStatusDto.Resubmit => ReviewStatusEnum.Resubmit,
+            ReviewStatusDto.Diff => ReviewStatusEnum.Diff,
+            ReviewStatusDto.Duplicate => ReviewStatusEnum.Duplicate,
+            ReviewStatusDto.ReviewedWithComment => ReviewStatusEnum.ReviewedWithComment,
+            ReviewStatusDto.NotReviewed => ReviewStatusEnum.NotReviewed,
+            ReviewStatusDto.Deleted => ReviewStatusEnum.Deleted,
+            _ => throw new ArgumentOutOfRangeException(nameof(dto), $"Unknown status: {dto}"),
         };
     }
 
@@ -29,31 +61,12 @@ public static class TagDataReviewAdapter
         return tagDataReviews.Select(ToDto).ToList();
     }
 
-    public static TagDataReview? ToModelOrNull(this TagDataReviewDto? tagDataReviewDto)
-    {
-        if (tagDataReviewDto is null) { return null; }
-        return tagDataReviewDto.ToModel();
-    }
-
-    public static TagDataReview ToModel(this TagDataReviewDto tagDataReviewDto)
+    public static TagDataReview ToModel(this CreateTagDataReviewDto tagDataReviewDto)
     {
         return new TagDataReview
         {
-            Id = tagDataReviewDto.Id,
-            CreatedDate = tagDataReviewDto.CreatedDate,
-            ModifiedDate = tagDataReviewDto.ModifiedDate,
             TagNo = tagDataReviewDto.TagNo,
-            Status = tagDataReviewDto.Status,
-            ApproverId = tagDataReviewDto.ApproverId,
-            CommentResponsible = tagDataReviewDto.CommentResponsible,
-            Approved = tagDataReviewDto.Approved,
-            TagDataVersion = tagDataReviewDto.TagDataVersion,
+            Status = tagDataReviewDto.Status.MapReviewStatusDtoToModel(),
         };
-    }
-
-    public static List<TagDataReview> ToModel(this List<TagDataReviewDto>? tagDataReviewDtos)
-    {
-        if (tagDataReviewDtos is null) { return new List<TagDataReview>(); }
-        return tagDataReviewDtos.Select(ToModel).ToList();
     }
 }
