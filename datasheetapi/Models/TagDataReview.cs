@@ -11,6 +11,7 @@ public class TagDataReview : BaseEntity
     // Relationships
     public string? TagNo { get; set; }
     public List<Conversation> Conversations { get; set; } = new List<Conversation>();
+    public List<ReviewerTagDataReview> ReviewerReviews { get; set; } = new List<ReviewerTagDataReview>();
 }
 
 public enum ReviewStatusEnum
