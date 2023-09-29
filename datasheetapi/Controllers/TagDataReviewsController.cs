@@ -44,7 +44,7 @@ public class TagDataReviewsController : ControllerBase
 
     [HttpPost(Name = "CreateReview")]
     public async Task<ActionResult<TagDataReviewDto?>> CreateReview(
-        [FromBody][Required] TagDataReviewDto reviewDto)
+        [FromBody][Required] CreateTagDataReviewDto reviewDto)
     {
         var result = await _reviewService.CreateTagDataReview(
             reviewDto.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));

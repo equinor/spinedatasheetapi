@@ -43,7 +43,7 @@ public class RevisionContainerReviewsController : ControllerBase
 
     [HttpPost(Name = "CreateRevisionReview")]
     public async Task<ActionResult<RevisionContainerReviewDto>> CreateRevisionReview(
-        [FromBody][Required] RevisionContainerReviewDto review)
+        [FromBody][Required] CreateContainerReviewDto review)
     {
         var existingReview = await _reviewService.GetRevisionContainerReviewForContainer(
                 review.RevisionContainerId);

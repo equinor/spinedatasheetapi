@@ -1,7 +1,7 @@
 namespace datasheetapi.Dtos;
 public record RevisionContainerReviewDto : BaseEntityDto
 {
-    public ReviewStatusEnum Status { get; set; }
+    public ReviewStatusDto Status { get; set; }
     public Guid ApproverId { get; set; }
     public Guid CommentResponsible { get; set; }
     public bool Approved { get; set; }
