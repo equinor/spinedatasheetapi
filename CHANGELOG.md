@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/equinor/spinedatasheetapi/compare/v1.8.0...v1.8.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* Add Fusion QA environment mapping ([#106](https://github.com/equinor/spinedatasheetapi/issues/106)) ([b42e8e5](https://github.com/equinor/spinedatasheetapi/commit/b42e8e500817921196c8b561249d99f583fd29e9))
+
 ## [1.8.0](https://github.com/equinor/spinedatasheetapi/compare/v1.7.0...v1.8.0) (2023-09-28)
 
 
