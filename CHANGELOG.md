@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.8.1](https://github.com/equinor/spinedatasheetapi/compare/v1.8.0...v1.8.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* Add Fusion QA environment mapping ([#106](https://github.com/equinor/spinedatasheetapi/issues/106)) ([b42e8e5](https://github.com/equinor/spinedatasheetapi/commit/b42e8e500817921196c8b561249d99f583fd29e9))
+
+## [1.8.0](https://github.com/equinor/spinedatasheetapi/compare/v1.7.0...v1.8.0) (2023-09-28)
+
+
+### Features
+
+* Add endpoint and service for user lookup ([#93](https://github.com/equinor/spinedatasheetapi/issues/93)) ([adff941](https://github.com/equinor/spinedatasheetapi/commit/adff94173e3532ac0f4fb13d1eb045d17accddfd))
+* Add max length to comment text ([#87](https://github.com/equinor/spinedatasheetapi/issues/87)) ([efaac84](https://github.com/equinor/spinedatasheetapi/commit/efaac8457d475215621c12a8922652f4bcab9235))
+* Add more TR3111 properties to tag data ([564e46a](https://github.com/equinor/spinedatasheetapi/commit/564e46a581627a4457209943b1279c21a040a2cc))
+* Display message deleted ([#90](https://github.com/equinor/spinedatasheetapi/issues/90)) ([dafa491](https://github.com/equinor/spinedatasheetapi/commit/dafa491cf07471a58745441ea641a4484561ac14))
+* refactoring dto's enum ([#105](https://github.com/equinor/spinedatasheetapi/issues/105)) ([d79ded0](https://github.com/equinor/spinedatasheetapi/commit/d79ded09b02174d38410c309839c8da36dfa86b4))
+* Refactoring of tagdata & review collections ([#103](https://github.com/equinor/spinedatasheetapi/issues/103)) ([f4e4441](https://github.com/equinor/spinedatasheetapi/commit/f4e4441d7763fc46330f9b37e104e3b0bd511c65))
+* Refactoring the other collections ([#102](https://github.com/equinor/spinedatasheetapi/issues/102)) ([b9f1006](https://github.com/equinor/spinedatasheetapi/commit/b9f1006e379562cdef2c8124fd4ec298883e6626))
+* replacing comment with the conversation model ([#92](https://github.com/equinor/spinedatasheetapi/issues/92)) ([42e7f5d](https://github.com/equinor/spinedatasheetapi/commit/42e7f5d09cfe3ad3de9789ad50e1924d26a6aa50))
+* Updated instrument models ([11cd752](https://github.com/equinor/spinedatasheetapi/commit/11cd752ad5e516bf8a4e99bdb05b9bdb33bea6c3))
+
 ## [1.7.0](https://github.com/equinor/spinedatasheetapi/compare/v1.6.0...v1.7.0) (2023-08-18)
 
 

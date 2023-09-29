@@ -112,6 +112,7 @@ builder.Services.AddFusionIntegration(options =>
         "prod" => "FPRD",
         "radix-prod" => "FPRD",
         "radix-qa" => "FQA",
+        "fusion-fqa" => "FQA",
         "radix-dev" => "CI",
         _ => "CI",
     };
