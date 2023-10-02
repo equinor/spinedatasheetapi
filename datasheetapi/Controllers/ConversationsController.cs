@@ -67,11 +67,19 @@ public class ConversationsController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Get the list of conversation available under the reviewId
+    /// </summary>
+    /// <param name="reviewId">Unique Id for the review</param>
+    /// <param name="includeLatestMessage">Include Latest Message in the conversation. 
+    /// The latest message will be non soft deleted message if at least one exists, else it will send last soft deleted message.</param>
+    /// <returns></returns>
     [HttpGet(Name = "GetConversations")]
-    public async Task<ActionResult<List<GetConversationDto>>> GetConversations([NotEmptyGuid] Guid reviewId)
+    public async Task<ActionResult<List<GetConversationDto>>> GetConversations([NotEmptyGuid] Guid reviewId,
+        [FromQuery] bool includeLatestMessage = false)
     {
 
-        var conversations = await _conversationService.GetConversations(reviewId);
+        var conversations = await _conversationService.GetConversations(reviewId, includeLatestMessage);
 
         var userIds = conversations.SelectMany(conversation =>
                         conversation.Participants.Select(p => p.UserId)).ToList();
