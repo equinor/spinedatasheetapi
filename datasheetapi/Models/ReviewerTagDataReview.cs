@@ -1,13 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace datasheetapi.Models;
 
-public class ReviewerTagDataReview : BaseEntity
+public class ReviewerTagDataReview
 {
     public ReviewStatusEnum Status { get; set; }
-    public Guid ReviewerId { get; set; }
 
     // Relationships
-    public TagDataReview TagDataReview { get; set; } = null!;
+    public Guid TagDataReviewId { get; set; }
+    public Guid ReviewerId { get; set; }
 }
 

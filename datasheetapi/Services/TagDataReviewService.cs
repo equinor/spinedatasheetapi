@@ -24,6 +24,12 @@ public class TagDataReviewService : ITagDataReviewService
         return review ?? throw new NotFoundException($"Invalid reviewId - {reviewId}.");
     }
 
+    public async Task<bool> AnyTagDataReview(Guid reviewId)
+    {
+        var exists = await _reviewRepository.AnyTagDataReview(reviewId);
+        return exists;
+    }
+
     public async Task<List<TagDataReview>> GetTagDataReviews()
     {
         var reviews = await _reviewRepository.GetTagDataReviews();

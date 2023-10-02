@@ -21,6 +21,12 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         return review;
     }
 
+    public async Task<bool> AnyTagDataReview(Guid id)
+    {
+        var exists = await _context.TagDataReviews.AnyAsync(c => c.Id == id);
+        return exists;
+    }
+
     public async Task<List<TagDataReview>> GetTagDataReviews()
     {
         var reviews = await _context.TagDataReviews.ToListAsync();

@@ -1,6 +1,4 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace api.Database;
 
@@ -25,5 +23,8 @@ public class DatabaseContext : DbContext
     {
         modelBuilder.Entity<Participant>()
             .HasKey(e => new { e.UserId, e.ConversationId });
+
+        modelBuilder.Entity<ReviewerTagDataReview>()
+            .HasKey(e => new { e.ReviewerId, e.TagDataReviewId });
     }
 }
