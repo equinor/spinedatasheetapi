@@ -44,7 +44,7 @@ public class ConversationService : IConversationService
 
     public async Task<List<Conversation>> GetConversations(Guid reviewId, bool includeLatestMessage)
     {
-        if (includeLatestMessage) 
+        if (includeLatestMessage)
         {
             return await _conversationRepository.GetConversationsWithLatestMessage(reviewId, false);
         }

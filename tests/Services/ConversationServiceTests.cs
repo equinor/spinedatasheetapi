@@ -133,7 +133,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetConversations(conversation.TagDataReviewId)).ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => 
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
             _conversatiosnService.GetConversations(conversation.TagDataReviewId, false));
     }
 
