@@ -17,6 +17,7 @@ public class DatabaseContext : DbContext
     public DbSet<RevisionContainerReview> RevisionContainerReviews { get; set; } = null!;
     public DbSet<TagDataReview> TagDataReviews { get; set; } = null!;
     public DbSet<ReviewerTagDataReview> ReviewerTagDataReviews { get; set; } = null!;
+    public DbSet<Reviewer> Reviewers { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

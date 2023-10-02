@@ -23,7 +23,6 @@ public class TagDataController : ControllerBase
     [HttpGet("{tagNo}", Name = "GetTagDataByTagNo")]
     public async Task<ActionResult<ITagDataDto>> GetTagDataById([Required] string tagNo)
     {
-
         var tagData = await _tagDataService.GetTagDataByTagNo(tagNo);
 
         var tagDataDto = tagData.ToDto();
@@ -37,7 +36,6 @@ public class TagDataController : ControllerBase
     [HttpGet(Name = "GetAllTagData")]
     public async Task<ActionResult<List<ITagDataDto>>> GetAllTagData()
     {
-
         var allTagData = await _tagDataService.GetAllTagData();
         var tagDataDtos = allTagData.ToDto();
 

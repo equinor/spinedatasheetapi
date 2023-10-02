@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
 using datasheetapi.Adapters;
-using datasheetapi.Exceptions;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -21,7 +20,6 @@ public class TagDataReviewsController : ControllerBase
 {
     private readonly ILogger<TagDataReviewsController> _logger;
     private readonly ITagDataReviewService _reviewService;
-
     private readonly ReviewerTagDataReviewService _reviewerTagDataReviewService;
 
     public TagDataReviewsController(ILoggerFactory loggerFactory,
