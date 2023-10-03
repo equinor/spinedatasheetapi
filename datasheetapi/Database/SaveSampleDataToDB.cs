@@ -26,12 +26,6 @@ public static class SaveSampleDataToDB
         context.RevisionContainers.AddRange(revisionContainers);
         context.SaveChanges();
 
-        context.Reviewers.Add(new Reviewer
-        {
-            Id = new Guid("f4504605-96ca-475d-bbb5-ac65f4c4aae2"),
-            Project = projects[0]
-        });
-
         DummyData.GetTagDatas();
         context.SaveChanges();
     }
