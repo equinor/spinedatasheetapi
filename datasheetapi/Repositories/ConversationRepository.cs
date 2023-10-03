@@ -96,7 +96,34 @@ public class ConversationRepository : IConversationRepository
     public async Task<List<Conversation>> GetConversations(Guid reviewId)
     {
         return await _context.Conversations
-                .Include(p => p.Participants)
-                .Where(c => c.TagDataReviewId == reviewId).ToListAsync();
+            .Include(c => c.Participants)
+            .Where(c => c.TagDataReviewId == reviewId).ToListAsync();
+    }
+
+    public async Task<List<Conversation>> GetConversationsWithLatestMessage(Guid reviewId, bool includeSoftDeletedMessage)
+    {
+        var conversationWithLatestMessage = await _context.Conversations
+            .Include(c => c.Participants)
+            .Where(c => c.TagDataReviewId == reviewId)
+            .Select(c => new
+            {
+                Conversation = c,
+                LatestMessage = c.Messages
+                                .OrderByDescending(m => m.CreatedDate)
+                                .FirstOrDefault(m => m.SoftDeleted == includeSoftDeletedMessage)
+                                ?? c.Messages
+                                    .OrderByDescending(m => m.CreatedDate)
+                                    .First()
+            })
+           .ToListAsync();
+
+        return conversationWithLatestMessage
+          .Select(c =>
+              {
+                  c.Conversation.Messages =
+                      new List<Message> { c.LatestMessage };
+                  return c.Conversation;
+              })
+          .ToList();
     }
 }

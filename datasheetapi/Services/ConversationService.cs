@@ -42,10 +42,13 @@ public class ConversationService : IConversationService
             throw new NotFoundException($"Unable to find conversation for the conversationId - {conversationId} not found");
     }
 
-    public async Task<List<Conversation>> GetConversations(Guid reviewId)
+    public async Task<List<Conversation>> GetConversations(Guid reviewId, bool includeLatestMessage)
     {
-        var conversations = await _conversationRepository.GetConversations(reviewId);
-        return conversations;
+        if (includeLatestMessage)
+        {
+            return await _conversationRepository.GetConversationsWithLatestMessage(reviewId, false);
+        }
+        return await _conversationRepository.GetConversations(reviewId);
     }
 
     public async Task<Message> AddMessage(Guid conversationId, Message message)
