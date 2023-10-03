@@ -53,7 +53,7 @@ public class TagDataReviewsController : ControllerBase
         return result.ToDtoOrNull();
     }
 
-    [HttpPost("{reviewId}/reviewertagdatareview/", Name = "CreateReviewerTagDataReview")]
+    [HttpPost("{reviewId}/reviewertagdatareview", Name = "CreateReviewerTagDataReview")]
     public async Task<ActionResult<ReviewerTagDataReviewDto?>> CreateReviewerTagDataReview(
         [NotEmptyGuid] Guid reviewId,
         [Required] CreateReviewerTagDataReviewDto reviewDto)
