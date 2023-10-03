@@ -133,7 +133,8 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetConversations(conversation.TagDataReviewId)).ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _conversatiosnService.GetConversations(conversation.TagDataReviewId));
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            _conversatiosnService.GetConversations(conversation.TagDataReviewId, false));
     }
 
     [Fact]
@@ -143,12 +144,28 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetConversations(conversation.TagDataReviewId)).ReturnsAsync(new List<Conversation> { conversation });
 
-        var result = await _conversatiosnService.GetConversations(conversation.TagDataReviewId);
+        var result = await _conversatiosnService.GetConversations(conversation.TagDataReviewId, false);
 
         Assert.NotNull(result);
         Assert.Single(result);
         Assert.Equal(conversation.Id, result[0].Id);
         _conversationRepositoryMock.Verify(x => x.GetConversations(conversation.TagDataReviewId), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetConversationsWithLatestMessage_RunsOkay()
+    {
+        var conversation = SetUpConversation();
+
+        _conversationRepositoryMock.Setup(x => x.GetConversationsWithLatestMessage(conversation.TagDataReviewId, false))
+            .ReturnsAsync(new List<Conversation> { conversation });
+
+        var result = await _conversatiosnService.GetConversations(conversation.TagDataReviewId, true);
+
+        Assert.NotNull(result);
+        Assert.Single(result);
+        Assert.Equal(conversation.Id, result[0].Id);
+        _conversationRepositoryMock.Verify(x => x.GetConversationsWithLatestMessage(conversation.TagDataReviewId, false), Times.Once);
     }
 
     [Fact]

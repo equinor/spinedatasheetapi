@@ -4,7 +4,7 @@ namespace datasheetapi.Services
     {
         Task<Conversation> CreateConversation(Conversation conversation);
         Task<Conversation> GetConversation(Guid conversationId);
-        Task<List<Conversation>> GetConversations(Guid reviewId);
+        Task<List<Conversation>> GetConversations(Guid reviewId, bool includeLatestMessage);
 
         Task<Message> AddMessage(Guid conversationId, Message message);
         Task<Message> GetMessage(Guid messageId);
