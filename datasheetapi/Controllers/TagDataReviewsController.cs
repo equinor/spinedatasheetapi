@@ -53,14 +53,13 @@ public class TagDataReviewsController : ControllerBase
         return result.ToDtoOrNull();
     }
 
-    [HttpPost("{reviewId}/reviewers/{reviewerId}/reviewertagdatareview", Name = "CreateReviewerTagDataReview")]
+    [HttpPost("{reviewId}/reviewertagdatareview/", Name = "CreateReviewerTagDataReview")]
     public async Task<ActionResult<ReviewerTagDataReviewDto?>> CreateReviewerTagDataReview(
         [NotEmptyGuid] Guid reviewId,
-        [NotEmptyGuid] Guid reviewerId,
         [Required] CreateReviewerTagDataReviewDto reviewDto)
     {
         var result = await _reviewerTagDataReviewService.CreateReviewerTagDataReview(
-            reviewId, reviewerId, reviewDto.ToModel());
+            reviewId, reviewDto.ToModel());
 
         return result.ToDtoOrNull();
     }

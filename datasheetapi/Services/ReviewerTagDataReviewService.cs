@@ -23,12 +23,11 @@ public class ReviewerTagDataReviewService
         _reviewerTagDataReviewRepository = reviewerTagDataReviewRepository;
     }
 
-    public async Task<ReviewerTagDataReview> CreateReviewerTagDataReview(Guid reviewId, Guid reviewerId, ReviewerTagDataReview review)
+    public async Task<ReviewerTagDataReview> CreateReviewerTagDataReview(Guid reviewId, ReviewerTagDataReview review)
     {
         if (!await _reviewService.AnyTagDataReview(reviewId)) { throw new NotFoundException($"Invalid reviewId - {reviewId}."); }
 
         review.TagDataReviewId = reviewId;
-        review.ReviewerId = reviewerId;
 
         var result = await _reviewerTagDataReviewRepository.CreateReviewerTagDataReview(review);
 

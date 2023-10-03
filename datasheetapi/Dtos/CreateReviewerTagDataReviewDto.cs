@@ -5,4 +5,5 @@ public record CreateReviewerTagDataReviewDto
 {
     [Required]
     public ReviewStatusDto Status { get; set; }
+    public Guid ReviewerId { get; set; }
 }

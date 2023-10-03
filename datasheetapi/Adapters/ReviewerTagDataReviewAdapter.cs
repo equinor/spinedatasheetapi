@@ -22,6 +22,7 @@ public static class ReviewerTagDataReviewAdapter
         return new ReviewerTagDataReview
         {
             Status = tagDataReviewDto.Status.MapReviewStatusDtoToModel(),
+            ReviewerId = tagDataReviewDto.ReviewerId,
         };
     }
 }
