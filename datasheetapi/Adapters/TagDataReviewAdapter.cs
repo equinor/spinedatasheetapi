@@ -67,13 +67,13 @@ public static class TagDataReviewAdapter
         {
             TagNo = tagDataReviewDto.TagNo,
             Status = tagDataReviewDto.Status.MapReviewStatusDtoToModel(),
-            ReviewerReviews = new List<ReviewerTagDataReview>()
+            Reviewers = new List<Reviewer>()
         };
 
-        var reviewerTagDataReview = tagDataReviewDto.ReviewerTagDataReview?.ToModel();
+        var reviewerTagDataReview = tagDataReviewDto.ReviewerTagDataReviews?.ToModel();
         if (reviewerTagDataReview != null)
         {
-            model.ReviewerReviews.Add(reviewerTagDataReview);
+            model.Reviewers.AddRange(reviewerTagDataReview);
         }
 
         return model;

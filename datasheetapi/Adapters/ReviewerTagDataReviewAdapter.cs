@@ -1,13 +1,13 @@
 namespace datasheetapi.Adapters;
 public static class ReviewerTagDataReviewAdapter
 {
-    public static ReviewerTagDataReviewDto? ToDtoOrNull(this ReviewerTagDataReview? tagDataReview)
+    public static ReviewerTagDataReviewDto? ToDtoOrNull(this Reviewer? tagDataReview)
     {
         if (tagDataReview is null) { return null; }
         return tagDataReview.ToDto();
     }
 
-    private static ReviewerTagDataReviewDto ToDto(this ReviewerTagDataReview tagDataReview)
+    private static ReviewerTagDataReviewDto ToDto(this Reviewer tagDataReview)
     {
         return new ReviewerTagDataReviewDto
         {
@@ -17,12 +17,17 @@ public static class ReviewerTagDataReviewAdapter
         };
     }
 
-    public static ReviewerTagDataReview ToModel(this CreateReviewerTagDataReviewDto tagDataReviewDto)
+    public static Reviewer ToModel(this CreateReviewerTagDataReviewDto tagDataReviewDto)
     {
-        return new ReviewerTagDataReview
+        return new Reviewer
         {
             Status = tagDataReviewDto.Status.MapReviewStatusDtoToModel(),
             ReviewerId = tagDataReviewDto.ReviewerId,
         };
+    }
+
+    public static List<Reviewer> ToModel(this List<CreateReviewerTagDataReviewDto> tagDataReviewDtos)
+    {
+        return tagDataReviewDtos.Select(x =>  ToModel(x)).ToList();
     }
 }
