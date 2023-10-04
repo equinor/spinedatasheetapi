@@ -38,9 +38,9 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet(Name = "GetReviews")]
-    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews()
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews(Guid? reviewerId)
     {
-        var reviews = await _reviewService.GetTagDataReviews();
+        var reviews = await _reviewService.GetTagDataReviews(reviewerId);
         return reviews.ToDto();
     }
 

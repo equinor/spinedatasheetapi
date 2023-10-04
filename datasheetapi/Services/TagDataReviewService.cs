@@ -30,9 +30,9 @@ public class TagDataReviewService : ITagDataReviewService
         return exists;
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviews()
+    public async Task<List<TagDataReview>> GetTagDataReviews(Guid? reviewerId)
     {
-        var reviews = await _reviewRepository.GetTagDataReviews();
+        var reviews = await _reviewRepository.GetTagDataReviews(reviewerId);
         return reviews;
     }
 
