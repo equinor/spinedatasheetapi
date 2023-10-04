@@ -21,6 +21,12 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         return review;
     }
 
+    public async Task<bool> AnyTagDataReview(Guid id)
+    {
+        var exists = await _context.TagDataReviews.AnyAsync(c => c.Id == id);
+        return exists;
+    }
+
     public async Task<List<TagDataReview>> GetTagDataReviews()
     {
         var reviews = await _context.TagDataReviews.ToListAsync();
@@ -45,6 +51,12 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         review.Id = Guid.NewGuid();
         review.CreatedDate = DateTime.UtcNow;
         review.ModifiedDate = DateTime.UtcNow;
+
+        review.Reviewers.ForEach(r =>
+        {
+            r.CreatedDate = DateTime.UtcNow;
+            r.ModifiedDate = DateTime.UtcNow;
+        });
 
         var savedReview = _context.TagDataReviews.Add(review);
         await _context.SaveChangesAsync();

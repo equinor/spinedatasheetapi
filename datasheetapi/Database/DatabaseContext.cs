@@ -1,6 +1,4 @@
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace api.Database;
 
@@ -18,11 +16,15 @@ public class DatabaseContext : DbContext
     public DbSet<RevisionContainerTagNo> RevisionContainerTagNos { get; set; } = null!;
     public DbSet<RevisionContainerReview> RevisionContainerReviews { get; set; } = null!;
     public DbSet<TagDataReview> TagDataReviews { get; set; } = null!;
+    public DbSet<Reviewer> Reviewers { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Participant>()
             .HasKey(e => new { e.UserId, e.ConversationId });
+
+        modelBuilder.Entity<Reviewer>()
+            .HasKey(e => new { e.ReviewerId, e.TagDataReviewId });
     }
 }
