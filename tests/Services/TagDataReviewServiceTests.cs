@@ -56,10 +56,10 @@ public class TagDataReviewServiceTests
     {
         // Arrange
         var reviews = new List<TagDataReview> { new TagDataReview(), new TagDataReview() };
-        _reviewRepositoryMock.Setup(x => x.GetTagDataReviews()).ReturnsAsync(reviews);
+        _reviewRepositoryMock.Setup(x => x.GetTagDataReviews(null)).ReturnsAsync(reviews);
 
         // Act
-        var result = await _tagDataReviewService.GetTagDataReviews();
+        var result = await _tagDataReviewService.GetTagDataReviews(null);
 
         // Assert
         Assert.NotNull(result);
