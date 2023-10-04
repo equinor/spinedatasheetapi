@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Repositories
+namespace datasheetapi.Repositories
 {
     public interface IReviewerTagDataReviewRepository
     {

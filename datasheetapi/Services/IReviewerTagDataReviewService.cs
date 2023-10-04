@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Services
+namespace datasheetapi.Services
 {
     public interface IReviewerTagDataReviewService
     {
