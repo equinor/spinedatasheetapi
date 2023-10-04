@@ -19,12 +19,11 @@ public class ReviewerRepository : IReviewerRepository
         reviewers.ForEach(r => {
             r.CreatedDate = DateTime.UtcNow;
             r.ModifiedDate = DateTime.UtcNow;
-            var savedReview = _context.Reviewers.Add(r);
-            savedReviewers.Add(savedReview.Entity);
         });
 
+        _context.Reviewers.AddRange(reviewers);
         await _context.SaveChangesAsync();
 
-        return savedReviewers;
+        return reviewers;
     }
 }
