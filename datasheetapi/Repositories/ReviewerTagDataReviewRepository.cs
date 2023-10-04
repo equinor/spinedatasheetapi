@@ -2,7 +2,7 @@ using api.Database;
 
 namespace datasheetapi.Repositories;
 
-public class ReviewerTagDataReviewRepository
+public class ReviewerTagDataReviewRepository : IReviewerTagDataReviewRepository
 {
     private readonly DatabaseContext _context;
     private readonly ILogger<ReviewerTagDataReviewRepository> _logger;

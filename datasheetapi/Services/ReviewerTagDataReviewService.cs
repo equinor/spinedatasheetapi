@@ -3,7 +3,7 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class ReviewerTagDataReviewService
+public class ReviewerTagDataReviewService : IReviewerTagDataReviewService
 {
     private readonly ITagDataReviewService _reviewService;
 
