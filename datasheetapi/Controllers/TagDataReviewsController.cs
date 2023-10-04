@@ -20,10 +20,10 @@ public class TagDataReviewsController : ControllerBase
 {
     private readonly ILogger<TagDataReviewsController> _logger;
     private readonly ITagDataReviewService _reviewService;
-    private readonly ReviewerTagDataReviewService _reviewerTagDataReviewService;
+    private readonly IReviewerTagDataReviewService _reviewerTagDataReviewService;
 
     public TagDataReviewsController(ILoggerFactory loggerFactory,
-        ITagDataReviewService reviewService, ReviewerTagDataReviewService reviewerTagDataReviewService)
+        ITagDataReviewService reviewService, IReviewerTagDataReviewService reviewerTagDataReviewService)
     {
         _logger = loggerFactory.CreateLogger<TagDataReviewsController>();
         _reviewService = reviewService;

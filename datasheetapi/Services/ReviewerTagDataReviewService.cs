@@ -7,11 +7,11 @@ public class ReviewerTagDataReviewService : IReviewerTagDataReviewService
 {
     private readonly ITagDataReviewService _reviewService;
 
-    private readonly ReviewerTagDataReviewRepository _reviewerTagDataReviewRepository;
+    private readonly IReviewerTagDataReviewRepository _reviewerTagDataReviewRepository;
 
     public ReviewerTagDataReviewService(
         ITagDataReviewService reviewService,
-        ReviewerTagDataReviewRepository reviewerTagDataReviewRepository)
+        IReviewerTagDataReviewRepository reviewerTagDataReviewRepository)
     {
         _reviewService = reviewService;
         _reviewerTagDataReviewRepository = reviewerTagDataReviewRepository;
