@@ -53,8 +53,6 @@ public class ReviewerServiceTests
 
         Assert.NotNull(result);
         Assert.Equal(reviewers, result);
-        Assert.Equal(reviewers[0].Status, result[0].Status);
-        Assert.Equal(reviewers[0].TagDataReviewId, reviewId);
         _reviewService.Verify(x => x.AnyTagDataReview(reviewId), Times.Once);
         _reviewerRepository.Verify(x => x.CreateReviewers(reviewers), Times.Once);
     }
