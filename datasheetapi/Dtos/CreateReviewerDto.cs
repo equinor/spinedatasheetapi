@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace datasheetapi.Dtos;
-public record CreateReviewerTagDataReviewDto
+public record CreateReviewerDto
 {
     [Required]
     [NotEmptyGuid]

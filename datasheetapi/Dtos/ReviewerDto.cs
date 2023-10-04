@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace datasheetapi.Dtos;
-public record ReviewerTagDataReviewDto
+public record ReviewerDto
 {
     [Required]
     public ReviewStatusDto Status { get; set; }

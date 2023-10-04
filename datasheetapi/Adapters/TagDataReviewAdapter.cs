@@ -66,7 +66,6 @@ public static class TagDataReviewAdapter
         var model = new TagDataReview
         {
             TagNo = tagDataReviewDto.TagNo,
-            Status = tagDataReviewDto.Status.MapReviewStatusDtoToModel(),
             Reviewers = new List<Reviewer>()
         };
 

@@ -27,7 +27,6 @@ public class ReviewerService : IReviewerService
 
         reviewers.ForEach(r => {
             r.TagDataReviewId = reviewId;
-            r.Status = ReviewStatusEnum.New;
         });
 
         var result = await _reviewerRepository.CreateReviewers(reviewers);
