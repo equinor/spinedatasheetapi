@@ -20,14 +20,14 @@ public class TagDataReviewsController : ControllerBase
 {
     private readonly ILogger<TagDataReviewsController> _logger;
     private readonly ITagDataReviewService _reviewService;
-    private readonly IReviewerService _reviewerTagDataReviewService;
+    private readonly IReviewerService _reviewerService;
 
     public TagDataReviewsController(ILoggerFactory loggerFactory,
-        ITagDataReviewService reviewService, IReviewerService reviewerTagDataReviewService)
+        ITagDataReviewService reviewService, IReviewerService reviewerService)
     {
         _logger = loggerFactory.CreateLogger<TagDataReviewsController>();
         _reviewService = reviewService;
-        _reviewerTagDataReviewService = reviewerTagDataReviewService;
+        _reviewerService = reviewerService;
     }
 
     [HttpGet("{reviewId}", Name = "GetReviewById")]
@@ -53,12 +53,12 @@ public class TagDataReviewsController : ControllerBase
         return result.ToDtoOrNull();
     }
 
-    [HttpPost("{reviewId}/reviewertagdatareviews", Name = "CreateReviewerTagDataReview")]
-    public async Task<ActionResult<List<ReviewerDto>?>> CreateReviewerTagDataReview(
+    [HttpPost("{reviewId}/reviewers", Name = "CreateReviewers")]
+    public async Task<ActionResult<List<ReviewerDto>?>> CreateReviewers(
         [NotEmptyGuid] Guid reviewId,
         [Required] List<CreateReviewerDto> reviewDtos)
     {
-        var result = await _reviewerTagDataReviewService.CreateReviewers(
+        var result = await _reviewerService.CreateReviewers(
             reviewId, reviewDtos.ToModel());
 
         return result.ToDto();

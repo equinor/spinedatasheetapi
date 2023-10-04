@@ -11,10 +11,10 @@ public class ReviewerService : IReviewerService
 
     public ReviewerService(
         ITagDataReviewService reviewService,
-        IReviewerRepository reviewerTagDataReviewRepository)
+        IReviewerRepository reviewerRepository)
     {
         _reviewService = reviewService;
-        _reviewerRepository = reviewerTagDataReviewRepository;
+        _reviewerRepository = reviewerRepository;
     }
 
     public async Task<List<Reviewer>> CreateReviewers(Guid reviewId, List<Reviewer> reviewers)

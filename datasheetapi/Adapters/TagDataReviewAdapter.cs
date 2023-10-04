@@ -69,10 +69,10 @@ public static class TagDataReviewAdapter
             Reviewers = new List<Reviewer>()
         };
 
-        var reviewerTagDataReview = tagDataReviewDto.ReviewerTagDataReviews?.ToModel();
-        if (reviewerTagDataReview != null)
+        var reviewers = tagDataReviewDto.Reviewers?.ToModel();
+        if (reviewers != null)
         {
-            model.Reviewers.AddRange(reviewerTagDataReview);
+            model.Reviewers.AddRange(reviewers);
         }
 
         return model;
