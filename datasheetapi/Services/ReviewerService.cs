@@ -19,15 +19,9 @@ public class ReviewerService : IReviewerService
 
     public async Task<List<Reviewer>> CreateReviewers(Guid reviewId, List<Reviewer> reviewers)
     {
-        if (!await _reviewService.AnyTagDataReview(reviewId))
-        {
+        if (!await _reviewService.AnyTagDataReview(reviewId)) { throw new NotFoundException($"Invalid reviewId - {reviewId}."); }
 
-            throw new NotFoundException($"Invalid reviewId - {reviewId}.");
-        }
-
-        reviewers.ForEach(r => {
-            r.TagDataReviewId = reviewId;
-        });
+        reviewers.ForEach(r => r.TagDataReviewId = reviewId);
 
         var result = await _reviewerRepository.CreateReviewers(reviewers);
 
