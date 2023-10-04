@@ -13,17 +13,18 @@ public class ReviewerRepository : IReviewerRepository
         _context = context;
     }
 
-    public async Task<List<Reviewer>> CreateReviewers(List<Reviewer> reviews)
+    public async Task<List<Reviewer>> CreateReviewers(List<Reviewer> reviewers)
     {
-        reviews.ForEach(r => {
+        var savedReviewers = new List<Reviewer>();
+        reviewers.ForEach(r => {
             r.CreatedDate = DateTime.UtcNow;
             r.ModifiedDate = DateTime.UtcNow;
+            var savedReview = _context.Reviewers.Add(r);
+            savedReviewers.Add(savedReview.Entity);
         });
 
-        _context.Reviewers.AddRange(reviews);
         await _context.SaveChangesAsync();
 
-        var savedReviews = _context.Reviewers.Where(r => reviews.Contains(r)).ToList();
-        return savedReviews;
+        return savedReviewers;
     }
 }
