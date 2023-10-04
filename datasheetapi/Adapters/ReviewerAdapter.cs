@@ -14,6 +14,8 @@ public static class ReviewerAdapter
             Status = tagDataReview.Status.MapReviewStatusModelToDto(),
             ReviewerId = tagDataReview.ReviewerId,
             TagDataReviewId = tagDataReview.TagDataReviewId,
+            CreatedDate = tagDataReview.CreatedDate,
+            ModifiedDate = tagDataReview.ModifiedDate,
         };
     }
 
