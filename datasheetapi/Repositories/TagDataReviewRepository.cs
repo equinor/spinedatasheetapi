@@ -52,7 +52,8 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         review.CreatedDate = DateTime.UtcNow;
         review.ModifiedDate = DateTime.UtcNow;
 
-        review.Reviewers.ForEach(r => {
+        review.Reviewers.ForEach(r =>
+        {
             r.CreatedDate = DateTime.UtcNow;
             r.ModifiedDate = DateTime.UtcNow;
         });

@@ -16,7 +16,8 @@ public class ReviewerRepository : IReviewerRepository
     public async Task<List<Reviewer>> CreateReviewers(List<Reviewer> reviewers)
     {
         var savedReviewers = new List<Reviewer>();
-        reviewers.ForEach(r => {
+        reviewers.ForEach(r =>
+        {
             r.CreatedDate = DateTime.UtcNow;
             r.ModifiedDate = DateTime.UtcNow;
         });

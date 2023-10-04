@@ -36,6 +36,6 @@ public static class ReviewerAdapter
 
     public static List<Reviewer> ToModel(this List<CreateReviewerDto> tagDataReviewDtos)
     {
-        return tagDataReviewDtos.Select(x =>  ToModel(x)).ToList();
+        return tagDataReviewDtos.Select(x => ToModel(x)).ToList();
     }
 }
