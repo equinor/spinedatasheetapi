@@ -8,4 +8,3 @@ public class ReviewerTagDataReview
     public Guid TagDataReviewId { get; set; }
     public Guid ReviewerId { get; set; }
 }
-

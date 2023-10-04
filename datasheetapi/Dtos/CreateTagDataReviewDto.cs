@@ -7,4 +7,5 @@ public record CreateTagDataReviewDto
     public string TagNo { get; set; } = string.Empty;
     [Required]
     public ReviewStatusDto Status { get; set; }
+    public CreateReviewerTagDataReviewDto? ReviewerTagDataReview { get; set; }
 }
