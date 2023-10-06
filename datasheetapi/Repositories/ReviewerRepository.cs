@@ -1,5 +1,7 @@
 using api.Database;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace datasheetapi.Repositories;
 
 public class ReviewerRepository : IReviewerRepository
@@ -25,5 +27,22 @@ public class ReviewerRepository : IReviewerRepository
         await _context.SaveChangesAsync();
 
         return reviewers;
+    }
+
+    public async Task<Reviewer?> GetReviewer(Guid reviewId, Guid reviewerId)
+    {
+        var reviewer = await _context.Reviewers.FirstOrDefaultAsync(r => r.TagDataReviewId == reviewId && r.ReviewerId == reviewerId);
+        return reviewer;
+    }
+
+    public async Task<Reviewer> UpdateReviewer(Reviewer reviewer)
+    {
+        reviewer.ModifiedDate = DateTime.UtcNow;
+
+        _context.Reviewers.Update(reviewer);
+
+        await _context.SaveChangesAsync();
+
+        return reviewer;
     }
 }
