@@ -9,7 +9,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("/project/{projectId}/tags/{tagNo}/conversations")]
+[Route("/projects/{projectId}/tags/{tagNo}/conversations")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
