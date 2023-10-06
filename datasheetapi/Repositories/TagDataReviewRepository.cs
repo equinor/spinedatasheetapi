@@ -35,6 +35,7 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         }
 
         var reviews = await _context.TagDataReviews
+            .Include(t => t.Reviewers)
             .Where(t => t.Reviewers
                 .Any(x => x.ReviewerId == reviewerId))
             .ToListAsync();

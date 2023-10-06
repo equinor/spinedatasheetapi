@@ -68,9 +68,9 @@ public class TagDataReviewsController : ControllerBase
     public async Task<ActionResult<ReviewerDto?>> UpdateReview(
     [NotEmptyGuid] Guid reviewId,
     [NotEmptyGuid] Guid reviewerId,
-    [Required][FromBody] ReviewStatusDto reviewStatusDto)
+    [Required] UpdateReviewerDto updateReviewerDto)
     {
-        var reviewStatus = reviewStatusDto.MapReviewStatusDtoToModel();
+        var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
         var result = await _reviewerService.UpdateReviewer(reviewId, reviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
 
         return result.ToDtoOrNull();

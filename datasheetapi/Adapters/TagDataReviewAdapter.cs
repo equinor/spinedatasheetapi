@@ -20,6 +20,7 @@ public static class TagDataReviewAdapter
             CommentResponsible = tagDataReview.CommentResponsible,
             Approved = tagDataReview.Approved,
             TagDataVersion = tagDataReview.TagDataVersion,
+            Reviewer = tagDataReview.Reviewers.ToDto(),
         };
     }
 
