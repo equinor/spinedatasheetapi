@@ -38,9 +38,9 @@ public class TagDataReviewsController : ControllerBase
     }
 
     [HttpGet(Name = "GetReviews")]
-    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews()
+    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews(Guid? reviewerId)
     {
-        var reviews = await _reviewService.GetTagDataReviews();
+        var reviews = await _reviewService.GetTagDataReviews(reviewerId);
         return reviews.ToDto();
     }
 
@@ -62,5 +62,17 @@ public class TagDataReviewsController : ControllerBase
             reviewId, reviewDtos.ToModel());
 
         return result.ToDto();
+    }
+
+    [HttpPut("{reviewId}/reviewers/{reviewerId}", Name = "UpdateReview")]
+    public async Task<ActionResult<ReviewerDto?>> UpdateReview(
+    [NotEmptyGuid] Guid reviewId,
+    [NotEmptyGuid] Guid reviewerId,
+    [Required] UpdateReviewerDto updateReviewerDto)
+    {
+        var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
+        var result = await _reviewerService.UpdateReviewer(reviewId, reviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
+
+        return result.ToDtoOrNull();
     }
 }

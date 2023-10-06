@@ -27,9 +27,19 @@ public class TagDataReviewRepository : ITagDataReviewRepository
         return exists;
     }
 
-    public async Task<List<TagDataReview>> GetTagDataReviews()
+    public async Task<List<TagDataReview>> GetTagDataReviews(Guid? reviewerId)
     {
-        var reviews = await _context.TagDataReviews.ToListAsync();
+        if (reviewerId == null)
+        {
+            return await _context.TagDataReviews.ToListAsync();
+        }
+
+        var reviews = await _context.TagDataReviews
+            .Include(t => t.Reviewers)
+            .Where(t => t.Reviewers
+                .Any(x => x.ReviewerId == reviewerId))
+            .ToListAsync();
+
         return reviews;
     }
 
