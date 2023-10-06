@@ -2,7 +2,7 @@ namespace datasheetapi.Adapters;
 public static class ConversationAdapter
 {
     public static Conversation ToModel(this ConversationDto conversationDto,
-                            Guid reviewId,
+                            Guid projectId, string tagNo,
                             Guid azureUniqueId)
     {
         MessageDto messageDto = new()
@@ -14,7 +14,8 @@ public static class ConversationAdapter
             Property = conversationDto.Property,
             ConversationLevel = MapConversationLevelDTOToModel(conversationDto.ConversationLevel),
             ConversationStatus = MapConversationStatusDTOToModel(conversationDto.ConversationStatus),
-            TagDataReviewId = reviewId,
+            ProjectId = projectId,
+            TagNo = tagNo,
             Messages = new List<Message> { messageDto.ToMessageModel(azureUniqueId) },
             Participants = new List<Participant> { ToParticipantModel(azureUniqueId) }
         };
@@ -78,8 +79,7 @@ public static class ConversationAdapter
         return dto switch
         {
             ConversationLevelDto.Tag => ConversationLevel.Tag,
-            ConversationLevelDto.PurchaserRequirement => ConversationLevel.PurchaserRequirement,
-            ConversationLevelDto.SupplierOfferedValue => ConversationLevel.SupplierOfferedValue,
+            ConversationLevelDto.Property => ConversationLevel.Property,
             _ => throw new ArgumentOutOfRangeException(nameof(dto), $"Unknown status: {dto}"),
         };
     }
@@ -101,8 +101,7 @@ public static class ConversationAdapter
         return model switch
         {
             ConversationLevel.Tag => ConversationLevelDto.Tag,
-            ConversationLevel.PurchaserRequirement => ConversationLevelDto.PurchaserRequirement,
-            ConversationLevel.SupplierOfferedValue => ConversationLevelDto.SupplierOfferedValue,
+            ConversationLevel.Property => ConversationLevelDto.Property,
             _ => throw new ArgumentOutOfRangeException(nameof(model), $"Unknown status: {model}"),
         };
     }

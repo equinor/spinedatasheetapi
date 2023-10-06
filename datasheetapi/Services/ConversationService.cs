@@ -6,7 +6,7 @@ namespace datasheetapi.Services;
 public class ConversationService : IConversationService
 {
     private readonly ILogger<ContractService> _logger;
-    private readonly ITagDataReviewService _tagDataReviewService;
+    private readonly IFAMService _famService;
     private readonly IConversationRepository _conversationRepository;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
@@ -15,23 +15,21 @@ public class ConversationService : IConversationService
         IConversationRepository conversationRepository,
         IAzureUserCacheService azureUserCacheService,
         IFusionService fusionService,
-        ITagDataReviewService tagDataReviewService)
+        IFAMService famService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _conversationRepository = conversationRepository;
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
-        _tagDataReviewService = tagDataReviewService;
+        _famService = famService;
     }
 
     public async Task<Conversation> CreateConversation(Conversation conversation)
     {
-        var tagDataReview = await _tagDataReviewService.GetTagDataReview(
-                (Guid)conversation.TagDataReviewId)
-        ?? throw new NotFoundException("Invalid tag data review");
-
-        conversation.SetTagDataReview(tagDataReview);
-
+        // TODO: Not sure, how to verify the project from the tag. 
+        // This needs to be relook when we have integration to FAM
+        _ = await _famService.GetTagData(conversation.TagNo)
+            ?? throw new NotFoundException("Invalid tag data");
         return await _conversationRepository.CreateConversation(conversation);
     }
 
@@ -42,13 +40,13 @@ public class ConversationService : IConversationService
             throw new NotFoundException($"Unable to find conversation for the conversationId - {conversationId} not found");
     }
 
-    public async Task<List<Conversation>> GetConversations(Guid reviewId, bool includeLatestMessage)
+    public async Task<List<Conversation>> GetConversations(Guid projectId, string tagNo, bool includeLatestMessage)
     {
         if (includeLatestMessage)
         {
-            return await _conversationRepository.GetConversationsWithLatestMessage(reviewId, false);
+            return await _conversationRepository.GetConversationsWithLatestMessage(projectId, tagNo, false);
         }
-        return await _conversationRepository.GetConversations(reviewId);
+        return await _conversationRepository.GetConversations(projectId, tagNo);
     }
 
     public async Task<Message> AddMessage(Guid conversationId, Message message)

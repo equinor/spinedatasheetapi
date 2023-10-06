@@ -9,7 +9,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("/tag/reviews/{reviewId}/conversations")]
+[Route("/project/{projectId}/tag/{tagNo}/conversations")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -31,9 +31,11 @@ public class ConversationsController : ControllerBase
 
     [HttpPost(Name = "CreateConversation")]
     public async Task<ActionResult<GetConversationDto>> CreateConversation(
-        [FromRoute][NotEmptyGuid] Guid reviewId, [FromBody][Required] ConversationDto conversation)
+        [FromRoute][NotEmptyGuid] Guid projectId,
+        [FromRoute][Required] string tagNo,
+        [FromBody][Required] ConversationDto conversation)
     {
-        _logger.LogDebug("Creating new conversation in the review {reviewId}.", reviewId);
+        _logger.LogDebug("Creating new conversation in the tagNo {tagNo}.", tagNo);
         if (conversation.Property != null)
         {
             if (!ValidateProperty<InstrumentPurchaserRequirement>(conversation.Property) &&
@@ -45,8 +47,9 @@ public class ConversationsController : ControllerBase
         }
 
         var savedConversation = await _conversationService.CreateConversation(
-            conversation.ToModel(reviewId, Utils.GetAzureUniqueId(HttpContext.User)));
-        _logger.LogInformation("Created new conversation in the review {reviewId}.", reviewId);
+            conversation.ToModel(projectId, tagNo, Utils.GetAzureUniqueId(HttpContext.User)));
+        _logger.LogInformation(
+                "Created new conversation in tag {tagNo} & project {projectId}.", tagNo, projectId);
 
         var userIdNameMap = await _conversationService.GetUserIdUserName(
             savedConversation.Participants.Select(p => p.UserId).ToList());
@@ -55,9 +58,9 @@ public class ConversationsController : ControllerBase
 
     [HttpGet("{conversationId}", Name = "GetConversation")]
     public async Task<ActionResult<GetConversationDto>> GetConversation(
-        [NotEmptyGuid] Guid reviewId, [NotEmptyGuid] Guid conversationId)
+        [NotEmptyGuid] Guid projectId, [Required] string tagNo, [NotEmptyGuid] Guid conversationId)
     {
-        _logger.LogDebug("Fetching conversation on the reviewId {reviewId}", reviewId);
+        _logger.LogDebug("Fetching conversation for tagNo {tagNo} & project {projectId}", tagNo, projectId);
         var conversation = await _conversationService.GetConversation(conversationId);
 
         var userIdNameMap = await _conversationService.GetUserIdUserName(
@@ -75,86 +78,17 @@ public class ConversationsController : ControllerBase
     /// The latest message will be non soft deleted message if at least one exists, else it will send last soft deleted message.</param>
     /// <returns></returns>
     [HttpGet(Name = "GetConversations")]
-    public async Task<ActionResult<List<GetConversationDto>>> GetConversations([NotEmptyGuid] Guid reviewId,
-        [FromQuery] bool includeLatestMessage = false)
+    public async Task<ActionResult<List<GetConversationDto>>> GetConversations([NotEmptyGuid] Guid projectId,
+        [Required] string tagNo, [FromQuery] bool includeLatestMessage = false)
     {
 
-        var conversations = await _conversationService.GetConversations(reviewId, includeLatestMessage);
+        var conversations = await _conversationService.GetConversations(projectId, tagNo, includeLatestMessage);
 
         var userIds = conversations.SelectMany(conversation =>
                         conversation.Participants.Select(p => p.UserId)).ToList();
         var userIdNameMap = await _conversationService.GetUserIdUserName(userIds);
 
         return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
-    }
-
-    [HttpPost("{conversationId}/messages", Name = "AddMessage")]
-    public async Task<ActionResult<GetMessageDto>> AddMessage(
-        [FromRoute][NotEmptyGuid] Guid reviewId, [FromRoute][NotEmptyGuid] Guid conversationId,
-        [Required] MessageDto messageDto)
-    {
-        _logger.LogDebug("Adding new message in the {conversationId} of review {reviewId}.",
-            conversationId, reviewId);
-        var message = messageDto.ToMessageModel(Utils.GetAzureUniqueId(HttpContext.User));
-
-        var savedMessage = await _conversationService.AddMessage(conversationId, message);
-        _logger.LogInformation("Added new message in the conversation {conversationId}.", conversationId);
-
-        return savedMessage.ToMessageDto(await _conversationService.GetUserName(savedMessage.UserId));
-    }
-
-    [HttpGet("{conversationId}/messages/{messageId}", Name = "GetMessage")]
-    public async Task<ActionResult<GetMessageDto>> GetMessage(
-        [NotEmptyGuid] Guid reviewId, [NotEmptyGuid] Guid conversationId, [NotEmptyGuid] Guid messageId)
-    {
-        _logger.LogDebug("Fetching message on the conversation {conversationId} of review {reviewId}", conversationId, reviewId);
-        var message = await _conversationService.GetMessage(messageId);
-        var username = await _conversationService.GetUserName(message.UserId);
-
-        return message.ToMessageDto(username);
-    }
-
-    [HttpGet("{conversationId}/messages", Name = "GetMessages")]
-    public async Task<ActionResult<List<GetMessageDto>>> GetMessages(
-        [NotEmptyGuid] Guid reviewId, [NotEmptyGuid] Guid conversationId)
-    {
-        _logger.LogDebug("Fetching messages on the conversation {conversationId} of review {reviewId}",
-            conversationId, reviewId);
-        var messges = await _conversationService.GetMessages(conversationId);
-
-        var userIdNameMap = await _conversationService.GetUserIdUserName(
-                messges.Select(c => c.UserId).ToList());
-
-        return messges.ToMessageDtos(userIdNameMap);
-    }
-
-    [HttpPut("{conversationId}/messages/{messageId}", Name = "UpdateMessage")]
-    public async Task<ActionResult<GetMessageDto>> UpdateMessage(
-        [FromRoute][NotEmptyGuid] Guid reviewId, [FromRoute][NotEmptyGuid] Guid conversationId,
-        [FromRoute][NotEmptyGuid] Guid messageId, [Required] MessageDto newMessageDto)
-    {
-        _logger.LogDebug("Updating the message {messageId}.", messageId);
-        var newMessage = newMessageDto.ToMessageModel(Utils.GetAzureUniqueId(HttpContext.User));
-
-        var message = await _conversationService.UpdateMessage(messageId, newMessage);
-        _logger.LogInformation("Updated the message {messageId} on the conversation {conversationId} of review {reviewId}.",
-            messageId, conversationId, reviewId);
-
-        var userName = await _conversationService.GetUserName(message.UserId);
-        return message.ToMessageDto(userName);
-
-    }
-
-    [HttpDelete("{conversationId}/messages/{messageId}", Name = "DeleteMessage")]
-    public async Task<ActionResult> DeleteMessage([FromRoute][NotEmptyGuid] Guid reviewId,
-        [FromRoute][NotEmptyGuid] Guid conversationId, [FromRoute][NotEmptyGuid] Guid messageId)
-    {
-        _logger.LogDebug("Deleting the message {messageId} on conversation {conversationId}.", messageId, conversationId);
-        await _conversationService.DeleteMessage(messageId, Utils.GetAzureUniqueId(HttpContext.User));
-        _logger.LogInformation("Deleted the message {messageId} on conversation {conversationId} of review {reviewId}.",
-            messageId, conversationId, reviewId);
-
-        return NoContent();
     }
 
     private static bool ValidateProperty<T>(string propertyName)

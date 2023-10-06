@@ -16,15 +16,17 @@ public class ConversationAdapterTests
             ConversationLevel = ConversationLevelDto.Tag,
             ConversationStatus = ConversationStatusDto.Open,
         };
-        var reviewId = Guid.NewGuid();
+        var projectId = Guid.NewGuid();
+        var tagNo = "TAG-001";
         var userId = Guid.NewGuid();
 
-        var result = conversation.ToModel(reviewId, userId);
+        var result = conversation.ToModel(projectId, tagNo, userId);
 
         Assert.NotNull(result);
         Assert.Single(result.Participants);
         Assert.Single(result.Messages);
-        Assert.Equal(result.TagDataReviewId, reviewId);
+        Assert.Equal(result.ProjectId, projectId);
+        Assert.Equal(result.TagNo, tagNo);
         Assert.Equal(result.Property, conversation.Property);
         Assert.Equal(result.Messages[0].Text, conversation.Text);
         Assert.Equal(result.Messages[0].UserId, userId);
