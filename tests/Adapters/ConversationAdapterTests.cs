@@ -98,7 +98,7 @@ public class ConversationAdapterTests
 
 
     private static Conversation GetConversation(Guid userId,
-         Guid conversationId, string property, string message)
+        Guid conversationId, string property, string message)
     {
         return new()
         {
@@ -113,8 +113,7 @@ public class ConversationAdapterTests
         };
     }
 
-    private static Participant GetParticipant(Guid userId,
-             Guid conversationId)
+    private static Participant GetParticipant(Guid userId, Guid conversationId)
     {
         return new()
         {
@@ -124,7 +123,7 @@ public class ConversationAdapterTests
     }
 
     private static Message GetMessage(Guid userId,
-         Guid conversationId, string message, bool softDeleted)
+        Guid conversationId, string message, bool softDeleted)
     {
         return new()
         {
