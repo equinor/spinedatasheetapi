@@ -93,18 +93,19 @@ public class ConversationRepository : IConversationRepository
                 .Where(p => p.Id == conversationId).FirstOrDefaultAsync();
     }
 
-    public async Task<List<Conversation>> GetConversations(Guid reviewId)
+    public async Task<List<Conversation>> GetConversations(Guid projectId, string tagNo)
     {
         return await _context.Conversations
             .Include(c => c.Participants)
-            .Where(c => c.TagDataReviewId == reviewId).ToListAsync();
+            .Where(c => c.ProjectId == projectId && c.TagNo == tagNo).ToListAsync();
     }
 
-    public async Task<List<Conversation>> GetConversationsWithLatestMessage(Guid reviewId, bool includeSoftDeletedMessage)
+    public async Task<List<Conversation>> GetConversationsWithLatestMessage(Guid projectId,
+        string tagNo, bool includeSoftDeletedMessage)
     {
         var conversationWithLatestMessage = await _context.Conversations
             .Include(c => c.Participants)
-            .Where(c => c.TagDataReviewId == reviewId)
+            .Where(c => c.ProjectId == projectId && c.TagNo == tagNo)
             .Select(c => new
             {
                 Conversation = c,

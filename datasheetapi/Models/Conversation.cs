@@ -2,26 +2,19 @@ namespace datasheetapi.Models;
 
 public class Conversation : BaseEntity
 {
+    public Guid ProjectId { get; set; }
+    public string TagNo { get; set; } = string.Empty;
     public string? Property { get; set; }
     public ConversationLevel ConversationLevel { get; set; }
     public ConversationStatus ConversationStatus { get; set; }
     public List<Participant> Participants { get; set; } = new List<Participant>();
     public List<Message> Messages { get; set; } = new List<Message>();
-    public Guid TagDataReviewId { get; set; }
-    public TagDataReview? TagDataReview { get; set; }
-
-    public void SetTagDataReview(TagDataReview review)
-    {
-        TagDataReviewId = review.Id;
-        TagDataReview = review;
-    }
 }
 
 public enum ConversationLevel
 {
     Tag,
-    PurchaserRequirement,
-    SupplierOfferedValue,
+    Property,
 }
 
 
