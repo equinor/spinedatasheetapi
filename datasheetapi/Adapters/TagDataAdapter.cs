@@ -78,6 +78,7 @@ public static class TagDataAdapter
             PurchaseOrder = tagData.PurchaseOrder,
             Sequence = tagData.Sequence,
             System = tagData.System,
+            TagType = tagData.TagType,
             Version = tagData.Version,
             RevisionContainer = null,
         };
