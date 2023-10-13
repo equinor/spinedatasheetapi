@@ -18,6 +18,7 @@ namespace datasheetapi.Dtos
         string? PurchaseOrder { get; set; }
         string? Sequence { get; set; }
         string? System { get; set; }
+        string? TagType { get; set; }
         int Version { get; set; }
         TagDataReviewDto? Review { get; set; }
         RevisionContainerDto? RevisionContainer { get; set; }

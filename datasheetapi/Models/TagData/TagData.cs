@@ -15,5 +15,6 @@ public class TagData : ITagData
     public string? PurchaseOrder { get; set; }
     public string? Sequence { get; set; }
     public string? System { get; set; }
+    public string? TagType { get; set; }
     public int Version { get; set; }
 }

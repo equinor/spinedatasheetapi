@@ -15,6 +15,7 @@ namespace datasheetapi.Models
         string? PurchaseOrder { get; set; }
         string? Sequence { get; set; }
         string? System { get; set; }
+        string? TagType { get; set; }
         int Version { get; set; }
     }
 }

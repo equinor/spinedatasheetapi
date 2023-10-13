@@ -15,6 +15,7 @@ public record TagDataDto : ITagDataDto, IBaseEntityDto
     public string? PurchaseOrder { get; set; }
     public string? Sequence { get; set; }
     public string? System { get; set; }
+    public string? TagType { get; set; }
     public int Version { get; set; }
     public TagDataReviewDto? Review { get; set; }
     public RevisionContainerDto? RevisionContainer { get; set; }
