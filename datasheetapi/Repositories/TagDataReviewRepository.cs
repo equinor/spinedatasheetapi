@@ -31,7 +31,9 @@ public class TagDataReviewRepository : ITagDataReviewRepository
     {
         if (reviewerId == null)
         {
-            return await _context.TagDataReviews.ToListAsync();
+            return await _context.TagDataReviews
+            .Include(r => r.Reviewers)
+            .ToListAsync();
         }
 
         var reviews = await _context.TagDataReviews
