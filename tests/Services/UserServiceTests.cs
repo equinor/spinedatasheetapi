@@ -22,9 +22,9 @@ public class UserServiceTests
     public UserServiceTests()
     {
         _userService = new UserService(
-            new NullLoggerFactory(),
-            _azureUserCacheServiceMock.Object,
-            _fusionServiceMock.Object);
+        new NullLoggerFactory(),
+        _azureUserCacheServiceMock.Object,
+        _fusionServiceMock.Object);
     }
 
     public static AzureUser SetUpAzureUser()
@@ -38,7 +38,7 @@ public class UserServiceTests
 
         var userId = Guid.NewGuid();
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
-                    .ReturnsAsync(new AzureUser { AzureUniqueId = userId, Name = "Test User" });
+            .ReturnsAsync(new AzureUser { AzureUniqueId = userId, Name = "Test User" });
 
         await _userService.GetDisplayName(userId);
 
@@ -49,14 +49,15 @@ public class UserServiceTests
     [Fact]
     public async Task GetUserName_FetchUserNameFromFusion()
     {
-
         var user = SetUpAzureUser();
 
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
+            .ReturnsAsync((AzureUser?)null);
+
         _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
-                            "upn", Guid.NewGuid(), user.Name ?? ""));
+            .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
+                "upn", Guid.NewGuid(), user.Name ?? ""));
+
         var result = await _userService.GetDisplayName(user.AzureUniqueId);
 
         Assert.NotNull(result);
@@ -68,13 +69,12 @@ public class UserServiceTests
     [Fact]
     public async Task GetUserName_ReturnsUnknownUser_WhenUnableToFindUser()
     {
-
         var user = SetUpAzureUser();
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
+            .ReturnsAsync((AzureUser?)null);
 
         _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync((FusionPersonProfile?)null);
+            .ReturnsAsync((FusionPersonProfile?)null);
 
         var result = await _userService.GetDisplayName(user.AzureUniqueId);
         Assert.Equal("Unknown user", result);
@@ -86,10 +86,12 @@ public class UserServiceTests
         var user = SetUpAzureUser();
 
         _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
+            .ReturnsAsync((AzureUser?)null);
+
         _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
-                            "upn", Guid.NewGuid(), user.Name ?? ""));
+            .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
+                "upn", Guid.NewGuid(), user.Name ?? ""));
+
         var result = await _userService.GetDisplayNames(new List<Guid> { user.AzureUniqueId });
 
         Assert.NotNull(result);
