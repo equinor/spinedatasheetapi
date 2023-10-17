@@ -11,8 +11,5 @@ namespace datasheetapi.Services
         Task<List<Message>> GetMessages(Guid conversationId);
         Task DeleteMessage(Guid messageId, Guid azureUniqueId);
         Task<Message> UpdateMessage(Guid messageId, Message updatedMessage);
-        Task<Dictionary<Guid, string>> GetUserIdUserName(List<Guid> userIds);
-        Task<string> GetUserName(Guid userId);
-
     }
 }

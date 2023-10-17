@@ -19,13 +19,18 @@ namespace datasheetapi.Controllers;
 public class MessagesController : ControllerBase
 {
     private readonly IConversationService _conversationService;
+    private readonly IUserService _userService;
     private readonly ILogger<MessagesController> _logger;
 
-    public MessagesController(ILoggerFactory loggerFactory,
-                            IConversationService conversationService)
+    public MessagesController(
+        ILoggerFactory loggerFactory,
+        IConversationService conversationService,
+        IUserService userService
+        )
     {
         _logger = loggerFactory.CreateLogger<MessagesController>();
         _conversationService = conversationService;
+        _userService = userService;
     }
 
     [HttpPost("{conversationId}/messages", Name = "AddMessage")]
@@ -38,7 +43,7 @@ public class MessagesController : ControllerBase
         var savedMessage = await _conversationService.AddMessage(conversationId, message);
         _logger.LogInformation("Added new message in the conversation {conversationId}.", conversationId);
 
-        return savedMessage.ToMessageDto(await _conversationService.GetUserName(savedMessage.UserId));
+        return savedMessage.ToMessageDto(await _userService.GetDisplayName(savedMessage.UserId));
     }
 
     [HttpGet("{conversationId}/messages/{messageId}", Name = "GetMessage")]
@@ -47,7 +52,7 @@ public class MessagesController : ControllerBase
     {
         _logger.LogDebug("Fetching message on the conversation {conversationId}.", conversationId);
         var message = await _conversationService.GetMessage(messageId);
-        var username = await _conversationService.GetUserName(message.UserId);
+        var username = await _userService.GetDisplayName(message.UserId);
 
         return message.ToMessageDto(username);
     }
@@ -58,7 +63,7 @@ public class MessagesController : ControllerBase
         _logger.LogDebug("Fetching messages on the conversation {conversationId}.", conversationId);
         var messges = await _conversationService.GetMessages(conversationId);
 
-        var userIdNameMap = await _conversationService.GetUserIdUserName(
+        var userIdNameMap = await _userService.GetDisplayNames(
                 messges.Select(c => c.UserId).ToList());
 
         return messges.ToMessageDtos(userIdNameMap);
@@ -76,7 +81,7 @@ public class MessagesController : ControllerBase
         _logger.LogInformation("Updated the message {messageId} on the conversation {conversationId}.",
             messageId, conversationId);
 
-        var userName = await _conversationService.GetUserName(message.UserId);
+        var userName = await _userService.GetDisplayName(message.UserId);
         return message.ToMessageDto(userName);
 
     }

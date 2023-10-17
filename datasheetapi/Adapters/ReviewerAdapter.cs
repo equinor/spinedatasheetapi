@@ -1,13 +1,9 @@
 namespace datasheetapi.Adapters;
 public static class ReviewerAdapter
 {
-    public static ReviewerDto? ToDtoOrNull(this Reviewer? tagDataReview)
-    {
-        if (tagDataReview is null) { return null; }
-        return tagDataReview.ToDto();
-    }
-
-    private static ReviewerDto ToDto(this Reviewer tagDataReview)
+    public static ReviewerDto ToDto(
+        this Reviewer tagDataReview,
+        string displayName)
     {
         return new ReviewerDto
         {
@@ -16,13 +12,15 @@ public static class ReviewerAdapter
             TagDataReviewId = tagDataReview.TagDataReviewId,
             CreatedDate = tagDataReview.CreatedDate,
             ModifiedDate = tagDataReview.ModifiedDate,
+            DisplayName = displayName,
         };
     }
 
-    public static List<ReviewerDto> ToDto(this List<Reviewer>? tagDataReviews)
+    public static List<ReviewerDto> ToDto(
+        this List<Reviewer> tagDataReviews,
+        Dictionary<Guid, string> userIdNameMap)
     {
-        if (tagDataReviews is null) { return new List<ReviewerDto>(); }
-        return tagDataReviews.Select(ToDto).ToList();
+        return tagDataReviews.Select(review => ToDto(review, userIdNameMap[review.ReviewerId])).ToList();
     }
 
     public static Reviewer ToModel(this CreateReviewerDto tagDataReviewDto)

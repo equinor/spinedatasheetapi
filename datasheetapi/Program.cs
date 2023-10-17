@@ -152,6 +152,7 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
 builder.Services.AddScoped<IReviewerService, ReviewerService>();
 builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
@@ -166,6 +167,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
 builder.Services.AddSingleton<IAzureUserCacheService, AzureUserCacheService>();
+
 builder.Services.Configure<IConfiguration>(builder.Configuration);
 
 //Swagger config
