@@ -20,13 +20,18 @@ namespace datasheetapi.Controllers;
 public class ConversationsController : ControllerBase
 {
     private readonly IConversationService _conversationService;
+    private readonly IUserService _userService;
     private readonly ILogger<ConversationsController> _logger;
 
-    public ConversationsController(ILoggerFactory loggerFactory,
-                            IConversationService conversationService)
+    public ConversationsController(
+        ILoggerFactory loggerFactory,
+        IConversationService conversationService,
+        IUserService userService
+        )
     {
         _logger = loggerFactory.CreateLogger<ConversationsController>();
         _conversationService = conversationService;
+        _userService = userService;
     }
 
     [HttpPost(Name = "CreateConversation")]
@@ -51,7 +56,7 @@ public class ConversationsController : ControllerBase
         _logger.LogInformation(
                 "Created new conversation in tag {tagNo} & project {projectId}.", tagNo, projectId);
 
-        var userIdNameMap = await _conversationService.GetUserIdUserName(
+        var userIdNameMap = await _userService.GetDisplayNames(
             savedConversation.Participants.Select(p => p.UserId).ToList());
         return savedConversation.ToDto(userIdNameMap);
     }
@@ -63,7 +68,7 @@ public class ConversationsController : ControllerBase
         _logger.LogDebug("Fetching conversation for tagNo {tagNo} & project {projectId}", tagNo, projectId);
         var conversation = await _conversationService.GetConversation(conversationId);
 
-        var userIdNameMap = await _conversationService.GetUserIdUserName(
+        var userIdNameMap = await _userService.GetDisplayNames(
             conversation.Participants.Select(p => p.UserId).ToList());
 
         return conversation.ToDto(userIdNameMap);
@@ -86,7 +91,7 @@ public class ConversationsController : ControllerBase
 
         var userIds = conversations.SelectMany(conversation =>
                         conversation.Participants.Select(p => p.UserId)).ToList();
-        var userIdNameMap = await _conversationService.GetUserIdUserName(userIds);
+        var userIdNameMap = await _userService.GetDisplayNames(userIds);
 
         return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
     }

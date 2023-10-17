@@ -1,13 +1,9 @@
 namespace datasheetapi.Adapters;
 public static class TagDataReviewAdapter
 {
-    public static TagDataReviewDto? ToDtoOrNull(this TagDataReview? tagDataReview)
-    {
-        if (tagDataReview is null) { return null; }
-        return tagDataReview.ToDto();
-    }
-
-    private static TagDataReviewDto ToDto(this TagDataReview tagDataReview)
+    public static TagDataReviewDto ToDto(
+        this TagDataReview tagDataReview,
+        Dictionary<Guid, string> userIdNameMap)
     {
         return new TagDataReviewDto
         {
@@ -20,7 +16,7 @@ public static class TagDataReviewAdapter
             CommentResponsible = tagDataReview.CommentResponsible,
             Approved = tagDataReview.Approved,
             TagDataVersion = tagDataReview.TagDataVersion,
-            Reviewer = tagDataReview.Reviewers.ToDto(),
+            Reviewer = tagDataReview.Reviewers.ToDto(userIdNameMap),
         };
     }
 
@@ -56,10 +52,12 @@ public static class TagDataReviewAdapter
         };
     }
 
-    public static List<TagDataReviewDto> ToDto(this List<TagDataReview>? tagDataReviews)
+    public static List<TagDataReviewDto> ToDto(
+        this List<TagDataReview>? tagDataReviews,
+        Dictionary<Guid, string> userIdNameMap)
     {
         if (tagDataReviews is null) { return new List<TagDataReviewDto>(); }
-        return tagDataReviews.Select(ToDto).ToList();
+        return tagDataReviews.Select(r => ToDto(r, userIdNameMap)).ToList();
     }
 
     public static TagDataReview ToModel(this CreateTagDataReviewDto tagDataReviewDto)

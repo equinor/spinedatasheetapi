@@ -21,27 +21,43 @@ public class TagDataReviewsController : ControllerBase
     private readonly ILogger<TagDataReviewsController> _logger;
     private readonly ITagDataReviewService _reviewService;
     private readonly IReviewerService _reviewerService;
+    private readonly IUserService _userService;
 
-    public TagDataReviewsController(ILoggerFactory loggerFactory,
-        ITagDataReviewService reviewService, IReviewerService reviewerService)
+    public TagDataReviewsController(
+        ILoggerFactory loggerFactory,
+        ITagDataReviewService reviewService,
+        IReviewerService reviewerService,
+        IUserService userService
+        )
     {
         _logger = loggerFactory.CreateLogger<TagDataReviewsController>();
         _reviewService = reviewService;
         _reviewerService = reviewerService;
+        _userService = userService;
     }
 
     [HttpGet("{reviewId}", Name = "GetReviewById")]
     public async Task<ActionResult<TagDataReviewDto?>> GetReview([NotEmptyGuid] Guid reviewId)
     {
-        var review = await _reviewService.GetTagDataReview(reviewId);
-        return review.ToDtoOrNull();
+        var result = await _reviewService.GetTagDataReview(reviewId);
+
+        var reviewerIds = result.Reviewers.Select(r => r.ReviewerId).ToList();
+
+        var displayNameMap = await _userService.GetDisplayNames(reviewerIds);
+
+        return result.ToDto(displayNameMap);
     }
 
     [HttpGet(Name = "GetReviews")]
     public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews(Guid? reviewerId)
     {
         var reviews = await _reviewService.GetTagDataReviews(reviewerId);
-        return reviews.ToDto();
+
+        var userIds = reviews.SelectMany(tagReview =>
+                        tagReview.Reviewers.Select(p => p.ReviewerId)).ToList();
+        var userIdNameMap = await _userService.GetDisplayNames(userIds);
+
+        return reviews.Select(review => review.ToDto(userIdNameMap)).ToList();
     }
 
     [HttpPost(Name = "CreateReview")]
@@ -50,7 +66,12 @@ public class TagDataReviewsController : ControllerBase
     {
         var result = await _reviewService.CreateTagDataReview(
             reviewDto.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));
-        return result.ToDtoOrNull();
+
+        var reviewerIds = result.Reviewers.Select(r => r.ReviewerId).ToList();
+
+        var displayNameMap = await _userService.GetDisplayNames(reviewerIds);
+
+        return result.ToDto(displayNameMap);
     }
 
     [HttpPost("{reviewId}/reviewers", Name = "CreateReviewers")]
@@ -61,7 +82,12 @@ public class TagDataReviewsController : ControllerBase
         var result = await _reviewerService.CreateReviewers(
             reviewId, reviewDtos.ToModel());
 
-        return result.ToDto();
+        var userIds = result.Select(tagReview =>
+                tagReview.ReviewerId).ToList();
+
+        var userIdNameMap = await _userService.GetDisplayNames(userIds);
+
+        return result.ToDto(userIdNameMap);
     }
 
     [HttpPut("{reviewId}/reviewers/{reviewerId}", Name = "UpdateReview")]
@@ -73,6 +99,8 @@ public class TagDataReviewsController : ControllerBase
         var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
         var result = await _reviewerService.UpdateReviewer(reviewId, reviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
 
-        return result.ToDtoOrNull();
+        var displayName = await _userService.GetDisplayName(result.ReviewerId);
+
+        return result.ToDto(displayName);
     }
 }

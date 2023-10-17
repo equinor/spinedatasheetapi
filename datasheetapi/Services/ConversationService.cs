@@ -8,19 +8,13 @@ public class ConversationService : IConversationService
     private readonly ILogger<ContractService> _logger;
     private readonly IFAMService _famService;
     private readonly IConversationRepository _conversationRepository;
-    private readonly IAzureUserCacheService _azureUserCacheService;
-    private readonly IFusionService _fusionService;
 
     public ConversationService(ILoggerFactory loggerFactory,
         IConversationRepository conversationRepository,
-        IAzureUserCacheService azureUserCacheService,
-        IFusionService fusionService,
         IFAMService famService)
     {
         _logger = loggerFactory.CreateLogger<ContractService>();
         _conversationRepository = conversationRepository;
-        _azureUserCacheService = azureUserCacheService;
-        _fusionService = fusionService;
         _famService = famService;
     }
 
@@ -101,38 +95,5 @@ public class ConversationService : IConversationService
         existingMessage.Text = updatedMessage.Text;
         existingMessage.IsEdited = true;
         return await _conversationRepository.UpdateMessage(existingMessage);
-    }
-
-    public async Task<string> GetUserName(Guid userId)
-    {
-        var azureUser = await _azureUserCacheService.GetAzureUserAsync(userId);
-        if (azureUser == null)
-        {
-            var user = await _fusionService.ResolveUserFromPersonId(userId);
-            if (user != null)
-            {
-                azureUser = new AzureUser { AzureUniqueId = userId, Name = user?.Name };
-                _azureUserCacheService.AddAzureUser(azureUser);
-            }
-        }
-        if (azureUser != null)
-        {
-            return azureUser.Name ?? "Unknown user";
-        }
-        else
-        {
-            throw new NotFoundException("Unable to find the username for the userId: " + userId);
-        }
-    }
-
-    public async Task<Dictionary<Guid, string>> GetUserIdUserName(List<Guid> userIds)
-    {
-        var userIdUserNameMap = new Dictionary<Guid, string>();
-        foreach (Guid userId in userIds)
-        {
-            var userName = await GetUserName(userId);
-            userIdUserNameMap.TryAdd(userId, userName);
-        }
-        return userIdUserNameMap;
     }
 }

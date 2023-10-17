@@ -2,8 +2,8 @@ namespace datasheetapi.Adapters;
 public static class ConversationAdapter
 {
     public static Conversation ToModel(this ConversationDto conversationDto,
-                            Guid projectId, string tagNo,
-                            Guid azureUniqueId)
+        Guid projectId, string tagNo,
+        Guid azureUniqueId)
     {
         MessageDto messageDto = new()
         {
@@ -22,7 +22,7 @@ public static class ConversationAdapter
     }
 
     public static GetConversationDto ToDto(this Conversation conversation,
-                            Dictionary<Guid, string> userIdNameMap)
+        Dictionary<Guid, string> userIdNameMap)
     {
         return new GetConversationDto
         {
@@ -38,8 +38,8 @@ public static class ConversationAdapter
     }
 
     public static Message ToMessageModel(
-                    this MessageDto messageDto,
-                    Guid azureUniqueId)
+        this MessageDto messageDto,
+        Guid azureUniqueId)
     {
         return new Message
         {
@@ -51,15 +51,15 @@ public static class ConversationAdapter
     }
 
     public static List<GetMessageDto> ToMessageDtos(this List<Message> messages,
-                                                    Dictionary<Guid, string> userIdNameMap)
+        Dictionary<Guid, string> userIdNameMap)
     {
         return messages.Select(message =>
             ToMessageDto(message, userIdNameMap[message.UserId])).ToList();
     }
 
     public static GetMessageDto ToMessageDto(
-                    this Message message,
-                    string commenterName)
+        this Message message,
+        string commenterName)
     {
         return new GetMessageDto
         {
@@ -129,15 +129,15 @@ public static class ConversationAdapter
     }
 
     private static List<UserDto> ToParticipantDtos(this List<Participant> participants,
-                                                    Dictionary<Guid, string> userIdNameMap)
+        Dictionary<Guid, string> userIdNameMap)
     {
         return participants.Select(user =>
             ToParticipantDto(user, userIdNameMap[user.UserId])).ToList();
     }
 
     private static UserDto ToParticipantDto(
-                    Participant participant,
-                    string commenterName)
+        Participant participant,
+        string commenterName)
     {
         return new UserDto
         {
