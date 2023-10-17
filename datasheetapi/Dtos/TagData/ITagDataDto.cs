@@ -19,6 +19,7 @@ namespace datasheetapi.Dtos
         string? Sequence { get; set; }
         string? System { get; set; }
         string? TagType { get; set; }
+        string? SubTagType { get; set; }
         int Version { get; set; }
         TagDataReviewDto? Review { get; set; }
         RevisionContainerDto? RevisionContainer { get; set; }

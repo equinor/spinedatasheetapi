@@ -137,6 +137,8 @@ public static class DummyData
         Sequence = "Sequence1",
         System = "System1",
         Version = 3,
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -405,6 +407,8 @@ public static class DummyData
         EngineeringCode = "",
         PurchaseOrder = "",
         Version = 1,
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -672,6 +676,8 @@ public static class DummyData
         ContractName = "Contract 1",
         EngineeringCode = "",
         PurchaseOrder = "",
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -939,6 +945,8 @@ public static class DummyData
         ContractName = "Contract 1",
         EngineeringCode = "",
         PurchaseOrder = "",
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = null,
@@ -1206,6 +1214,8 @@ public static class DummyData
         ContractName = "Contract 1",
         EngineeringCode = "",
         PurchaseOrder = "",
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1473,6 +1483,8 @@ public static class DummyData
         ContractName = "Contract 1",
         EngineeringCode = "",
         PurchaseOrder = "",
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentSupplierOfferedProduct = new()
         {
             Manufacturer = "KROHNE",
@@ -1739,6 +1751,8 @@ public static class DummyData
         ContractName = "Contract 1",
         EngineeringCode = "",
         PurchaseOrder = "",
+        TagType = "Flow Transmitter",
+        SubTagType = "Coriolis",
         InstrumentPurchaserRequirement = new()
         {
             Manufacturer = "KROHNE",
