@@ -16,6 +16,7 @@ namespace datasheetapi.Models
         string? Sequence { get; set; }
         string? System { get; set; }
         string? TagType { get; set; }
+        string? SubTagType { get; set; }
         int Version { get; set; }
     }
 }

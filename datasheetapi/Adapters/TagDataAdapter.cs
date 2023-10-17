@@ -79,6 +79,7 @@ public static class TagDataAdapter
             Sequence = tagData.Sequence,
             System = tagData.System,
             TagType = tagData.TagType,
+            SubTagType = tagData.SubTagType,
             Version = tagData.Version,
             RevisionContainer = null,
         };
