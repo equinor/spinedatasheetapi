@@ -7,25 +7,14 @@ namespace tests.Adapters;
 public class TagDataReviewAdapterTests
 {
     [Fact]
-    public void ToDtoOrNull_WithNullTagDataReview_ReturnsNull()
-    {
-        // Arrange
-        TagDataReview? tagDataReview = null;
-
-        // Act
-        var result = tagDataReview.ToDtoOrNull();
-
-        // Assert
-        Assert.Null(result);
-    }
-
-    [Fact]
     public void ToDtoOrNull_WithNonNullTagDataReview_ReturnsTagDataReviewDto()
     {
+        // Arrange
+        var displayNameMap = GetDisplayNameMap();
         TagDataReview tagDataReview = GetTagDataReview("Tag-002", 1);
 
         // Act
-        var result = tagDataReview.ToDtoOrNull();
+        var result = tagDataReview.ToDto(displayNameMap);
 
         // Assert
         Assert.NotNull(result);
@@ -41,28 +30,15 @@ public class TagDataReviewAdapterTests
     }
 
     [Fact]
-    public void ToDto_WithNullTagDataReviews_ReturnsEmptyList()
-    {
-        // Arrange
-        List<TagDataReview>? tagDataReviews = null;
-
-        // Act
-        var result = tagDataReviews.ToDto();
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Empty(result);
-    }
-
-    [Fact]
     public void ToDto_WithNonNullTagDataReviews_ReturnsListOfTagDataReviewDtos()
     {
         // Arrange
+        var displayNameMap = GetDisplayNameMap();
         var tagDataReviews = new List<TagDataReview>
                 { GetTagDataReview("Tag-003", 1), GetTagDataReview("Tag-004", 2) };
 
         // Act
-        var result = tagDataReviews.ToDto();
+        var result = tagDataReviews.ToDto(displayNameMap);
 
         // Assert
         Assert.NotNull(result);
@@ -109,6 +85,18 @@ public class TagDataReviewAdapterTests
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
         };
+    }
+
+    private static Dictionary<Guid, string> GetDisplayNameMap(string displayName = "Test User")
+    {
+        var userId = Guid.NewGuid();
+
+        Dictionary<Guid, string> displayNameMap = new()
+        {
+            { userId, displayName }
+        };
+
+        return displayNameMap;
     }
 
     private static TagDataReview GetTagDataReview(string tagNo, int version)

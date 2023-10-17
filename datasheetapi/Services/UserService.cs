@@ -9,9 +9,9 @@ public class UserService : IUserService
     private readonly IFusionService _fusionService;
 
     public UserService(
+        ILoggerFactory loggerFactory,
         IAzureUserCacheService azureUserCacheService,
-        IFusionService fusionService,
-        ILoggerFactory loggerFactory)
+        IFusionService fusionService)
     {
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
@@ -36,7 +36,7 @@ public class UserService : IUserService
         }
         else
         {
-            _logger.LogWarning("Unable to find the username for the userId: " + userId);
+            _logger.LogWarning($"Unable to find the username for the userId: {userId}");
             return "Unknown user";
         }
     }

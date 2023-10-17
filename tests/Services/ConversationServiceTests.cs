@@ -19,15 +19,13 @@ public class ConversationServiceTests
     private readonly Mock<IFusionService> _fusionServiceMock = new();
     private readonly Mock<IFAMService> _famServiceMock = new();
 
-    private readonly ConversationService _conversatiosnService;
+    private readonly ConversationService _conversationService;
 
     public ConversationServiceTests()
     {
-        _conversatiosnService = new ConversationService(
+        _conversationService = new ConversationService(
             _loggerFactoryMock.Object,
             _conversationRepositoryMock.Object,
-            _azureUserCacheServiceMock.Object,
-            _fusionServiceMock.Object,
             _famServiceMock.Object);
     }
 
@@ -45,11 +43,6 @@ public class ConversationServiceTests
         return conversation;
     }
 
-    public static AzureUser SetUpAzureUser()
-    {
-        return new AzureUser { AzureUniqueId = Guid.NewGuid(), Name = "some name" };
-    }
-
     [Fact]
     public async Task CreateConversation_ThrowsSavingConversationThrowsException()
     {
@@ -61,7 +54,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x =>
             x.CreateConversation(conversation)).ThrowsAsync(new DbUpdateException());
 
-        await Assert.ThrowsAsync<DbUpdateException>(() => _conversatiosnService.CreateConversation(conversation));
+        await Assert.ThrowsAsync<DbUpdateException>(() => _conversationService.CreateConversation(conversation));
     }
 
     [Fact]
@@ -74,7 +67,7 @@ public class ConversationServiceTests
                     .ReturnsAsync(new TagData { TagNo = "TAG-016", Description = "Test Tag" });
         _conversationRepositoryMock.Setup(x => x.CreateConversation(conversation)).ReturnsAsync(conversation);
 
-        var result = await _conversatiosnService.CreateConversation(conversation);
+        var result = await _conversationService.CreateConversation(conversation);
 
         Assert.NotNull(result);
         Assert.Equal(conversation.Id, result.Id);
@@ -88,7 +81,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetConversation(conversation.Id)).ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _conversatiosnService.GetConversation(conversation.Id));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _conversationService.GetConversation(conversation.Id));
     }
 
     [Fact]
@@ -98,7 +91,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetConversation(conversation.Id)).ReturnsAsync(conversation);
 
-        var result = await _conversatiosnService.GetConversation(conversation.Id);
+        var result = await _conversationService.GetConversation(conversation.Id);
 
         Assert.NotNull(result);
         Assert.Equal(conversation.Id, result.Id);
@@ -115,7 +108,7 @@ public class ConversationServiceTests
                 .ThrowsAsync(new ArgumentNullException());
 
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            _conversatiosnService.GetConversations(conversation.ProjectId, conversation.TagNo, false));
+            _conversationService.GetConversations(conversation.ProjectId, conversation.TagNo, false));
     }
 
     [Fact]
@@ -127,7 +120,7 @@ public class ConversationServiceTests
             x.GetConversations(conversation.ProjectId, conversation.TagNo))
                 .ReturnsAsync(new List<Conversation> { conversation });
 
-        var result = await _conversatiosnService.GetConversations(conversation.ProjectId,
+        var result = await _conversationService.GetConversations(conversation.ProjectId,
             conversation.TagNo, false);
 
         Assert.NotNull(result);
@@ -146,7 +139,7 @@ public class ConversationServiceTests
             x.GetConversationsWithLatestMessage(conversation.ProjectId, conversation.TagNo, false))
                 .ReturnsAsync(new List<Conversation> { conversation });
 
-        var result = await _conversatiosnService.GetConversations(conversation.ProjectId,
+        var result = await _conversationService.GetConversations(conversation.ProjectId,
             conversation.TagNo, true);
 
         Assert.NotNull(result);
@@ -163,7 +156,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
                 .ThrowsAsync(new Exception());
 
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService
+        await Assert.ThrowsAsync<Exception>(() => _conversationService
                 .AddMessage(message.ConversationId, message));
     }
 
@@ -175,7 +168,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetConversation(message.ConversationId))
                     .ReturnsAsync((Conversation?)null);
 
-        await Assert.ThrowsAsync<Exception>(() => _conversatiosnService
+        await Assert.ThrowsAsync<Exception>(() => _conversationService
                     .AddMessage(message.ConversationId, message));
     }
 
@@ -188,7 +181,7 @@ public class ConversationServiceTests
                 .ReturnsAsync(SetUpConversation());
         _conversationRepositoryMock.Setup(x => x.AddMessage(message)).ThrowsAsync(new DbUpdateException());
 
-        await Assert.ThrowsAsync<DbUpdateException>(() => _conversatiosnService
+        await Assert.ThrowsAsync<DbUpdateException>(() => _conversationService
             .AddMessage(message.ConversationId, message));
     }
 
@@ -201,7 +194,7 @@ public class ConversationServiceTests
                     .ReturnsAsync(SetUpConversation());
         _conversationRepositoryMock.Setup(x => x.AddMessage(message)).ReturnsAsync(message);
 
-        var result = await _conversatiosnService.AddMessage(message.ConversationId, message);
+        var result = await _conversationService.AddMessage(message.ConversationId, message);
 
         Assert.NotNull(result);
         Assert.Equal(message.Id, result.Id);
@@ -215,7 +208,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id)).ThrowsAsync(new ArgumentNullException());
 
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _conversatiosnService.GetMessage(message.Id));
+        await Assert.ThrowsAsync<ArgumentNullException>(() => _conversationService.GetMessage(message.Id));
     }
 
     [Fact]
@@ -225,7 +218,7 @@ public class ConversationServiceTests
 
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id)).ReturnsAsync(message);
 
-        var result = await _conversatiosnService.GetMessage(message.Id);
+        var result = await _conversationService.GetMessage(message.Id);
 
         Assert.NotNull(result);
         Assert.Equal(message.Id, result.Id);
@@ -241,7 +234,7 @@ public class ConversationServiceTests
             .ThrowsAsync(new ArgumentNullException());
 
         await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            _conversatiosnService.GetMessages(conversationId));
+            _conversationService.GetMessages(conversationId));
     }
 
     [Fact]
@@ -252,7 +245,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessages(message.ConversationId))
                     .ReturnsAsync(new List<Message> { message });
 
-        var result = await _conversatiosnService.GetMessages(message.ConversationId);
+        var result = await _conversationService.GetMessages(message.ConversationId);
 
         Assert.NotNull(result);
         Assert.Single(result);
@@ -268,7 +261,7 @@ public class ConversationServiceTests
         var message = SetUpMessage();
 
         await Assert.ThrowsAsync<BadRequestException>(() =>
-                _conversatiosnService.DeleteMessage(message.Id, Guid.Empty));
+                _conversationService.DeleteMessage(message.Id, Guid.Empty));
     }
 
     [Fact]
@@ -280,7 +273,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync((Message?)null);
         await Assert.ThrowsAsync<NotFoundException>(() =>
-                _conversatiosnService.DeleteMessage(message.Id, message.UserId));
+                _conversationService.DeleteMessage(message.Id, message.UserId));
     }
 
     [Fact]
@@ -292,7 +285,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync(message);
         await Assert.ThrowsAsync<BadRequestException>(() =>
-                _conversatiosnService.DeleteMessage(message.Id, Guid.NewGuid()));
+                _conversationService.DeleteMessage(message.Id, Guid.NewGuid()));
     }
 
     [Fact]
@@ -303,7 +296,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id)).ReturnsAsync(message);
         _conversationRepositoryMock.Setup(x => x.UpdateMessage(message));
 
-        await _conversatiosnService.DeleteMessage(message.Id, message.UserId);
+        await _conversationService.DeleteMessage(message.Id, message.UserId);
 
         _conversationRepositoryMock.Verify(x => x.UpdateMessage(message), Times.Once);
     }
@@ -318,7 +311,7 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id)).ReturnsAsync(message);
         _conversationRepositoryMock.Setup(x => x.UpdateMessage(message)).ReturnsAsync(message);
 
-        var result = await _conversatiosnService.UpdateMessage(message.Id, message);
+        var result = await _conversationService.UpdateMessage(message.Id, message);
 
         Assert.NotNull(result);
         Assert.Equal(result.Text, updatedMessage);
@@ -338,67 +331,6 @@ public class ConversationServiceTests
         _conversationRepositoryMock.Setup(x => x.GetMessage(message.Id))
                     .ReturnsAsync(message);
         await Assert.ThrowsAsync<BadRequestException>(() =>
-                _conversatiosnService.UpdateMessage(message.Id, updatedMessage));
-    }
-
-    [Fact]
-    public async Task GetUserName_FetchUserNameFromCacheWhenCacheIsLoaded()
-    {
-
-        var userId = Guid.NewGuid();
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(userId))
-                    .ReturnsAsync(new AzureUser { AzureUniqueId = userId, Name = "Test User" });
-
-        await _conversatiosnService.GetUserName(userId);
-
-        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(userId), Times.Never);
-        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(userId), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetUserName_FetchUserNameFromFusion()
-    {
-
-        var user = SetUpAzureUser();
-
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
-                            "upn", Guid.NewGuid(), user.Name ?? ""));
-        var result = await _conversatiosnService.GetUserName(user.AzureUniqueId);
-
-        Assert.NotNull(result);
-        Assert.Equal(user.Name, result);
-        _fusionServiceMock.Verify(x => x.ResolveUserFromPersonId(user.AzureUniqueId), Times.Once);
-        _azureUserCacheServiceMock.Verify(x => x.GetAzureUserAsync(user.AzureUniqueId), Times.Once);
-    }
-
-    [Fact]
-    public async Task GetUserName_ThrowsException_whenUnableToFindUser()
-    {
-
-        var user = SetUpAzureUser();
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync((FusionPersonProfile?)null);
-        await Assert.ThrowsAsync<NotFoundException>(() => _conversatiosnService.GetUserName(user.AzureUniqueId));
-    }
-
-    [Fact]
-    public async Task GetUserIdUserName_RunsOkay()
-    {
-        var user = SetUpAzureUser();
-
-        _azureUserCacheServiceMock.Setup(x => x.GetAzureUserAsync(user.AzureUniqueId))
-                    .ReturnsAsync((AzureUser?)null);
-        _fusionServiceMock.Setup(x => x.ResolveUserFromPersonId(user.AzureUniqueId))
-                     .ReturnsAsync(new FusionPersonProfile(FusionAccountType.Employee,
-                            "upn", Guid.NewGuid(), user.Name ?? ""));
-        var result = await _conversatiosnService.GetUserIdUserName(new List<Guid> { user.AzureUniqueId });
-
-        Assert.NotNull(result);
-        Assert.Equal(user.Name, result[user.AzureUniqueId]);
+                _conversationService.UpdateMessage(message.Id, updatedMessage));
     }
 }
