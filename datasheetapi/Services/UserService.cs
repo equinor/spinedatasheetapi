@@ -4,13 +4,18 @@ namespace datasheetapi.Services;
 
 public class UserService : IUserService
 {
+    private readonly ILogger<UserService> _logger;
     private readonly IAzureUserCacheService _azureUserCacheService;
     private readonly IFusionService _fusionService;
 
-    public UserService(IAzureUserCacheService azureUserCacheService, IFusionService fusionService)
+    public UserService(
+        IAzureUserCacheService azureUserCacheService,
+        IFusionService fusionService,
+        ILoggerFactory loggerFactory)
     {
         _azureUserCacheService = azureUserCacheService;
         _fusionService = fusionService;
+        _logger = loggerFactory.CreateLogger<UserService>();
     }
 
     public async Task<string> GetDisplayName(Guid userId)
@@ -31,7 +36,8 @@ public class UserService : IUserService
         }
         else
         {
-            throw new NotFoundException("Unable to find the username for the userId: " + userId);
+            _logger.LogWarning("Unable to find the username for the userId: " + userId);
+            return "Unknown user";
         }
     }
 
