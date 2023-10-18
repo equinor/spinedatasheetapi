@@ -16,43 +16,43 @@ namespace datasheetapi.Controllers;
     ApplicationRole.ReadOnlyUser,
     ApplicationRole.User
 )]
-public class RevisionContainerReviewsController : ControllerBase
+public class ContainerReviewsController : ControllerBase
 {
-    private readonly ILogger<RevisionContainerReviewsController> _logger;
+    private readonly ILogger<ContainerReviewsController> _logger;
     private readonly IRevisionContainerReviewService _reviewService;
 
-    public RevisionContainerReviewsController(ILoggerFactory loggerFactory, IRevisionContainerReviewService reviewService)
+    public ContainerReviewsController(ILoggerFactory loggerFactory, IRevisionContainerReviewService reviewService)
     {
-        _logger = loggerFactory.CreateLogger<RevisionContainerReviewsController>();
+        _logger = loggerFactory.CreateLogger<ContainerReviewsController>();
         _reviewService = reviewService;
     }
 
     [HttpGet("{reviewId}", Name = "GetRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReviewDto>> GetRevisionReview([NotEmptyGuid] Guid reviewId)
+    public async Task<ActionResult<ContainerReviewDto>> GetRevisionReview([NotEmptyGuid] Guid reviewId)
     {
         var review = await _reviewService.GetRevisionContainerReview(reviewId);
         return Ok(review);
     }
 
     [HttpGet(Name = "GetRevisionReviews")]
-    public async Task<ActionResult<List<RevisionContainerReviewDto>>> GetRevisionReviews()
+    public async Task<ActionResult<List<ContainerReviewDto>>> GetRevisionReviews()
     {
         var reviews = await _reviewService.GetRevisionContainerReviews();
         return reviews.ToDto();
     }
 
     [HttpPost(Name = "CreateRevisionReview")]
-    public async Task<ActionResult<RevisionContainerReviewDto>> CreateRevisionReview(
+    public async Task<ActionResult<ContainerReviewDto>> CreateRevisionReview(
         [FromBody][Required] CreateContainerReviewDto review)
     {
-        var existingReview = await _reviewService.GetRevisionContainerReviewForContainer(
+        var existingReview = await _reviewService.GetContainerReviewForContainer(
                 review.RevisionContainerId);
         if (existingReview != null)
         {
             return Conflict("A review already exists for this revision");
         }
 
-        var savedReview = await _reviewService.CreateRevisionContainerReview(
+        var savedReview = await _reviewService.CreateContainerReview(
                 review.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));
         return savedReview.ToDto();
     }

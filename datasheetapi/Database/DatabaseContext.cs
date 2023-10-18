@@ -12,11 +12,11 @@ public class DatabaseContext : DbContext
     public DbSet<Participant> Participants { get; set; } = null!;
     public DbSet<Message> Messages { get; set; } = null!;
     public DbSet<Contract> Contracts { get; set; } = null!;
-    public DbSet<RevisionContainer> RevisionContainers { get; set; } = null!;
-    public DbSet<RevisionContainerTagNo> RevisionContainerTagNos { get; set; } = null!;
-    public DbSet<RevisionContainerReview> RevisionContainerReviews { get; set; } = null!;
-    public DbSet<TagDataReview> TagDataReviews { get; set; } = null!;
-    public DbSet<Reviewer> Reviewers { get; set; } = null!;
+    public DbSet<Container> Containers { get; set; } = null!;
+    public DbSet<ContainerTags> ContainerTags { get; set; } = null!;
+    public DbSet<ContainerReview> ContainerReviews { get; set; } = null!;
+    public DbSet<ContainerReviewer> ContainerReviewers { get; set; } = null!;
+    public DbSet<TagReviewer> TagReviewers { get; set; } = null!;
     public DbSet<Project> Projects { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Participant>()
             .HasKey(e => new { e.UserId, e.ConversationId });
 
-        modelBuilder.Entity<Reviewer>()
-            .HasKey(e => new { e.ReviewerId, e.TagDataReviewId });
+        //modelBuilder.Entity<ContainerReviewer>()
+        //    .HasKey(e => new { e.UserId, e.ContainerReview });
     }
 }

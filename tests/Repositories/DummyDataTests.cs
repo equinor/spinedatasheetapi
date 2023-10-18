@@ -56,11 +56,11 @@ public class DummyDataTests
     public void TestGetRevisionContainers()
     {
         // Arrange
-        var expected = new List<RevisionContainer>
+        var expected = new List<Container>
             {
-                DummyData.revisionContainerA,
-                DummyData.revisionContainerB,
-                DummyData.revisionContainerC
+                DummyData.containerA,
+                DummyData.containerB,
+                DummyData.containerC
             };
 
         // Act
@@ -95,7 +95,7 @@ public class DummyDataTests
     public void TestAddRevisionContainerToContractIfMissing()
     {
         // Arrange
-        var revisionContainer = new RevisionContainer
+        var revisionContainer = new Container
         {
             Id = Guid.NewGuid(),
             RevisionNumber = 3,
@@ -108,6 +108,6 @@ public class DummyDataTests
         DummyData.AddRevisionContainerToContractIfMissing(revisionContainer, DummyData.contract1);
 
         // Assert
-        Assert.Contains(revisionContainer, DummyData.contract1.RevisionContainers);
+        Assert.Contains(revisionContainer, DummyData.contract1.Containers);
     }
 }

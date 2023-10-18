@@ -9,7 +9,7 @@ public class RevisionContainerReviewAdapterTests
     public void ToDtoOrNull_WithNullRevisionContainerReview_ReturnsNull()
     {
         // Arrange
-        RevisionContainerReview? revisionContainerReview = null;
+        ContainerReview? revisionContainerReview = null;
 
         // Act
         var result = revisionContainerReview.ToDtoOrNull();
@@ -36,15 +36,15 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReview.ApproverId, result.ApproverId);
         Assert.Equal(revisionContainerReview.CommentResponsible, result.CommentResponsible);
         Assert.Equal(revisionContainerReview.Approved, result.Approved);
-        Assert.Equal(revisionContainerReview.RevisionContainerVersion, result.RevisionContainerVersion);
-        Assert.Equal(revisionContainerReview.RevisionContainerId, result.RevisionContainerId);
+        Assert.Equal(revisionContainerReview.RevisionContainerVersion, result.ContainerVersion);
+        Assert.Equal(revisionContainerReview.ContainerId, result.ContainerId);
     }
 
     [Fact]
     public void ToDto_WithNullRevisionContainerReviews_ReturnsEmptyList()
     {
         // Arrange
-        List<RevisionContainerReview>? revisionContainerReviews = null;
+        List<ContainerReview>? revisionContainerReviews = null;
 
         // Act
         var result = revisionContainerReviews.ToDto();
@@ -58,7 +58,7 @@ public class RevisionContainerReviewAdapterTests
     public void ToDto_WithNonNullRevisionContainerReviews_ReturnsListOfRevisionContainerReviewDtos()
     {
         // Arrange
-        var revisionContainerReviews = new List<RevisionContainerReview>
+        var revisionContainerReviews = new List<ContainerReview>
                     { GetRevisionContainerReview(1), GetRevisionContainerReview(2),};
 
         // Act
@@ -76,8 +76,8 @@ public class RevisionContainerReviewAdapterTests
             Assert.Equal(revisionContainerReviews[i].ApproverId, result[i].ApproverId);
             Assert.Equal(revisionContainerReviews[i].CommentResponsible, result[i].CommentResponsible);
             Assert.Equal(revisionContainerReviews[i].Approved, result[i].Approved);
-            Assert.Equal(revisionContainerReviews[i].RevisionContainerVersion, result[i].RevisionContainerVersion);
-            Assert.Equal(revisionContainerReviews[i].RevisionContainerId, result[i].RevisionContainerId);
+            Assert.Equal(revisionContainerReviews[i].RevisionContainerVersion, result[i].ContainerVersion);
+            Assert.Equal(revisionContainerReviews[i].ContainerId, result[i].ContainerId);
         }
     }
 
@@ -85,7 +85,7 @@ public class RevisionContainerReviewAdapterTests
     public void ToModelOrNull_WithNullRevisionContainerReviewDto_ReturnsNull()
     {
         // Arrange
-        RevisionContainerReviewDto? revisionContainerReviewDto = null;
+        ContainerReviewDto? revisionContainerReviewDto = null;
 
         // Act
         var result = revisionContainerReviewDto.ToModelOrNull();
@@ -97,7 +97,7 @@ public class RevisionContainerReviewAdapterTests
     [Fact]
     public void ToModelOrNull_WithNonNullRevisionContainerReviewDto_ReturnsRevisionContainerReview()
     {
-        RevisionContainerReviewDto revisionContainerReviewDto = GetContainerReviewDto(1);
+        ContainerReviewDto revisionContainerReviewDto = GetContainerReviewDto(1);
 
         // Act
         var result = revisionContainerReviewDto.ToModelOrNull();
@@ -111,8 +111,8 @@ public class RevisionContainerReviewAdapterTests
         Assert.Equal(revisionContainerReviewDto.ApproverId, result.ApproverId);
         Assert.Equal(revisionContainerReviewDto.CommentResponsible, result.CommentResponsible);
         Assert.Equal(revisionContainerReviewDto.Approved, result.Approved);
-        Assert.Equal(revisionContainerReviewDto.RevisionContainerVersion, result.RevisionContainerVersion);
-        Assert.Equal(revisionContainerReviewDto.RevisionContainerId, result.RevisionContainerId);
+        Assert.Equal(revisionContainerReviewDto.ContainerVersion, result.RevisionContainerVersion);
+        Assert.Equal(revisionContainerReviewDto.ContainerId, result.ContainerId);
         Assert.NotNull(result.Conversations);
         Assert.Empty(result.Conversations);
     }
@@ -133,31 +133,31 @@ public class RevisionContainerReviewAdapterTests
         // Assert
         Assert.NotNull(result);
 
-        Assert.Equal(revisionContainerReviewDto.RevisionContainerId, result.RevisionContainerId);
+        Assert.Equal(revisionContainerReviewDto.RevisionContainerId, result.ContainerId);
         Assert.Equal(revisionContainerReviewDto.Status.MapReviewStatusDtoToModel(), result.Status);
     }
 
-    private static RevisionContainerReview GetRevisionContainerReview(int version)
+    private static ContainerReview GetRevisionContainerReview(int version)
     {
-        return new RevisionContainerReview
+        return new ContainerReview
         {
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            Status = ReviewStatusEnum.New,
+            Status = ReviewStateEnum.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = new Guid(),
             Approved = false,
             RevisionContainerVersion = version,
-            RevisionContainerId = Guid.NewGuid(),
+            ContainerId = Guid.NewGuid(),
             Conversations = new List<Conversation>(),
         };
     }
 
-    private static RevisionContainerReviewDto GetContainerReviewDto(int version)
+    private static ContainerReviewDto GetContainerReviewDto(int version)
     {
         // Arrange
-        return new RevisionContainerReviewDto
+        return new ContainerReviewDto
         {
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
@@ -166,8 +166,8 @@ public class RevisionContainerReviewAdapterTests
             ApproverId = Guid.NewGuid(),
             CommentResponsible = new Guid(),
             Approved = false,
-            RevisionContainerVersion = version,
-            RevisionContainerId = Guid.NewGuid(),
+            ContainerVersion = version,
+            ContainerId = Guid.NewGuid(),
         };
     }
 }

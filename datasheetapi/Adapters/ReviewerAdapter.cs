@@ -2,14 +2,13 @@ namespace datasheetapi.Adapters;
 public static class ReviewerAdapter
 {
     public static ReviewerDto ToDto(
-        this Reviewer tagDataReview,
+        this TagReviewer tagDataReview,
         string displayName)
     {
         return new ReviewerDto
         {
-            Status = tagDataReview.Status.MapReviewStatusModelToDto(),
+            //Status = tagDataReview.State.MapReviewStatusModelToDto(),
             ReviewerId = tagDataReview.ReviewerId,
-            TagDataReviewId = tagDataReview.TagDataReviewId,
             CreatedDate = tagDataReview.CreatedDate,
             ModifiedDate = tagDataReview.ModifiedDate,
             DisplayName = displayName,
@@ -17,22 +16,22 @@ public static class ReviewerAdapter
     }
 
     public static List<ReviewerDto> ToDto(
-        this List<Reviewer> tagDataReviews,
+        this List<TagReviewer> tagDataReviews,
         Dictionary<Guid, string> userIdNameMap)
     {
         return tagDataReviews.Select(review => ToDto(review, userIdNameMap[review.ReviewerId])).ToList();
     }
 
-    public static Reviewer ToModel(this CreateReviewerDto tagDataReviewDto)
+    public static TagReviewer ToModel(this CreateReviewerDto tagDataReviewDto)
     {
-        return new Reviewer
+        return new TagReviewer
         {
-            Status = ReviewStatusEnum.New,
+            State = TagReviewerStateEnum.NotReviewed,
             ReviewerId = tagDataReviewDto.ReviewerId,
         };
     }
 
-    public static List<Reviewer> ToModel(this List<CreateReviewerDto> tagDataReviewDtos)
+    public static List<TagReviewer> ToModel(this List<CreateReviewerDto> tagDataReviewDtos)
     {
         return tagDataReviewDtos.Select(x => ToModel(x)).ToList();
     }

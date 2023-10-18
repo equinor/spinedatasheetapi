@@ -5,35 +5,35 @@ namespace datasheetapi.Services;
 public class RevisionContainerService : IRevisionContainerService
 {
     private readonly ILogger<RevisionContainerService> _logger;
-    private readonly IRevisionContainerRepository _revisionContainerRepository;
+    private readonly IContainerRepository _revisionContainerRepository;
 
-    public RevisionContainerService(ILoggerFactory loggerFactory, IRevisionContainerRepository revisionContainerRepository)
+    public RevisionContainerService(ILoggerFactory loggerFactory, IContainerRepository revisionContainerRepository)
     {
         _revisionContainerRepository = revisionContainerRepository;
         _logger = loggerFactory.CreateLogger<RevisionContainerService>();
     }
 
-    public async Task<RevisionContainer?> GetRevisionContainer(Guid id)
+    public async Task<Container?> GetRevisionContainer(Guid id)
     {
-        var revisionContainer = await _revisionContainerRepository.GetRevisionContainer(id);
+        var revisionContainer = await _revisionContainerRepository.GetContainer(id);
         return revisionContainer;
     }
 
-    public async Task<RevisionContainer?> GetRevisionContainerWithReviewForTagNo(string tagNo)
+    public async Task<Container?> GetRevisionContainerWithReviewForTagNo(string tagNo)
     {
-        var revisionContainer = await _revisionContainerRepository.GetRevisionContainerWithReviewForTagNo(tagNo);
+        var revisionContainer = await _revisionContainerRepository.GetContainerWithReviewForTagNo(tagNo);
         return revisionContainer;
     }
 
-    public async Task<List<RevisionContainer>> GetRevisionContainers()
+    public async Task<List<Container>> GetRevisionContainers()
     {
-        var revisionContainer = await _revisionContainerRepository.GetRevisionContainers();
+        var revisionContainer = await _revisionContainerRepository.GetContainers();
         return revisionContainer;
     }
 
-    public async Task<List<RevisionContainer>> GetRevisionContainersForContract(Guid tagId)
+    public async Task<List<Container>> GetRevisionContainersForContract(Guid tagId)
     {
-        var revisionContainer = await _revisionContainerRepository.GetRevisionContainersForContract(tagId);
+        var revisionContainer = await _revisionContainerRepository.GetContainersForContract(tagId);
         return revisionContainer;
     }
 }

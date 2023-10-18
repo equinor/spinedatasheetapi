@@ -1,6 +1,6 @@
 namespace datasheetapi.Models
 {
-    public enum RevisionStatus
+    public enum RevisionStateEnum
     {
         None = 0,
         NotReviewed = 1,

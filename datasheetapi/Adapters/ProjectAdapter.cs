@@ -6,8 +6,6 @@ public static class ProjectAdapter
         return new ProjectDto
         {
             Id = project.Id,
-            CreatedDate = project.CreatedDate,
-            ModifiedDate = project.ModifiedDate,
             Contracts = project.Contracts.ToDto(),
         };
     }
@@ -29,8 +27,6 @@ public static class ProjectAdapter
         return new Project
         {
             Id = projectDto.Id,
-            CreatedDate = projectDto.CreatedDate,
-            ModifiedDate = projectDto.ModifiedDate,
             Contracts = projectDto.Contracts.ToModel(),
         };
     }

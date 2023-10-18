@@ -1,74 +1,35 @@
 namespace datasheetapi.Adapters;
 public static class TagDataReviewAdapter
 {
-    public static TagDataReviewDto ToDto(
-        this TagDataReview tagDataReview,
-        Dictionary<Guid, string> userIdNameMap)
-    {
-        return new TagDataReviewDto
-        {
-            Id = tagDataReview.Id,
-            CreatedDate = tagDataReview.CreatedDate,
-            ModifiedDate = tagDataReview.ModifiedDate,
-            TagNo = tagDataReview.TagNo,
-            Status = tagDataReview.Status.MapReviewStatusModelToDto(),
-            ApproverId = tagDataReview.ApproverId,
-            CommentResponsible = tagDataReview.CommentResponsible,
-            Approved = tagDataReview.Approved,
-            TagDataVersion = tagDataReview.TagDataVersion,
-            Reviewer = tagDataReview.Reviewers.ToDto(userIdNameMap),
-        };
-    }
-
-    public static ReviewStatusDto MapReviewStatusModelToDto(this ReviewStatusEnum model)
+    public static ReviewStatusDto MapReviewStatusModelToDto(this ReviewStateEnum model)
     {
         return model switch
         {
-            ReviewStatusEnum.New => ReviewStatusDto.New,
-            ReviewStatusEnum.Reviewed => ReviewStatusDto.Reviewed,
-            ReviewStatusEnum.Resubmit => ReviewStatusDto.Resubmit,
-            ReviewStatusEnum.Diff => ReviewStatusDto.Diff,
-            ReviewStatusEnum.Duplicate => ReviewStatusDto.Duplicate,
-            ReviewStatusEnum.ReviewedWithComment => ReviewStatusDto.ReviewedWithComment,
-            ReviewStatusEnum.NotReviewed => ReviewStatusDto.NotReviewed,
-            ReviewStatusEnum.Deleted => ReviewStatusDto.Deleted,
+            ReviewStateEnum.New => ReviewStatusDto.New,
+            ReviewStateEnum.Reviewed => ReviewStatusDto.Reviewed,
+            ReviewStateEnum.Resubmit => ReviewStatusDto.Resubmit,
+            ReviewStateEnum.Diff => ReviewStatusDto.Diff,
+            ReviewStateEnum.Duplicate => ReviewStatusDto.Duplicate,
+            ReviewStateEnum.ReviewedWithComment => ReviewStatusDto.ReviewedWithComment,
+            ReviewStateEnum.NotReviewed => ReviewStatusDto.NotReviewed,
+            ReviewStateEnum.Deleted => ReviewStatusDto.Deleted,
             _ => throw new ArgumentOutOfRangeException(nameof(model), $"Unknown status: {model}"),
         };
     }
 
-    public static ReviewStatusEnum MapReviewStatusDtoToModel(this ReviewStatusDto dto)
+    public static ReviewStateEnum MapReviewStatusDtoToModel(this ReviewStatusDto dto)
     {
         return dto switch
         {
-            ReviewStatusDto.New => ReviewStatusEnum.New,
-            ReviewStatusDto.Reviewed => ReviewStatusEnum.Reviewed,
-            ReviewStatusDto.Resubmit => ReviewStatusEnum.Resubmit,
-            ReviewStatusDto.Diff => ReviewStatusEnum.Diff,
-            ReviewStatusDto.Duplicate => ReviewStatusEnum.Duplicate,
-            ReviewStatusDto.ReviewedWithComment => ReviewStatusEnum.ReviewedWithComment,
-            ReviewStatusDto.NotReviewed => ReviewStatusEnum.NotReviewed,
-            ReviewStatusDto.Deleted => ReviewStatusEnum.Deleted,
+            ReviewStatusDto.New => ReviewStateEnum.New,
+            ReviewStatusDto.Reviewed => ReviewStateEnum.Reviewed,
+            ReviewStatusDto.Resubmit => ReviewStateEnum.Resubmit,
+            ReviewStatusDto.Diff => ReviewStateEnum.Diff,
+            ReviewStatusDto.Duplicate => ReviewStateEnum.Duplicate,
+            ReviewStatusDto.ReviewedWithComment => ReviewStateEnum.ReviewedWithComment,
+            ReviewStatusDto.NotReviewed => ReviewStateEnum.NotReviewed,
+            ReviewStatusDto.Deleted => ReviewStateEnum.Deleted,
             _ => throw new ArgumentOutOfRangeException(nameof(dto), $"Unknown status: {dto}"),
         };
-    }
-
-    public static List<TagDataReviewDto> ToDto(
-        this List<TagDataReview>? tagDataReviews,
-        Dictionary<Guid, string> userIdNameMap)
-    {
-        if (tagDataReviews is null) { return new List<TagDataReviewDto>(); }
-        return tagDataReviews.Select(r => ToDto(r, userIdNameMap)).ToList();
-    }
-
-    public static TagDataReview ToModel(this CreateTagDataReviewDto tagDataReviewDto)
-    {
-        var reviewers = tagDataReviewDto.Reviewers?.ToModel();
-        var model = new TagDataReview
-        {
-            TagNo = tagDataReviewDto.TagNo,
-            Reviewers = reviewers ?? new List<Reviewer>(),
-        };
-
-        return model;
     }
 }

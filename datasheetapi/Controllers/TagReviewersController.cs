@@ -16,62 +16,21 @@ namespace datasheetapi.Controllers;
     ApplicationRole.ReadOnlyUser,
     ApplicationRole.User
 )]
-public class TagDataReviewsController : ControllerBase
+public class TagReviewersController : ControllerBase
 {
-    private readonly ILogger<TagDataReviewsController> _logger;
-    private readonly ITagDataReviewService _reviewService;
+    private readonly ILogger<TagReviewersController> _logger;
     private readonly IReviewerService _reviewerService;
     private readonly IUserService _userService;
 
-    public TagDataReviewsController(
+    public TagReviewersController(
         ILoggerFactory loggerFactory,
-        ITagDataReviewService reviewService,
         IReviewerService reviewerService,
         IUserService userService
         )
     {
-        _logger = loggerFactory.CreateLogger<TagDataReviewsController>();
-        _reviewService = reviewService;
+        _logger = loggerFactory.CreateLogger<TagReviewersController>();
         _reviewerService = reviewerService;
         _userService = userService;
-    }
-
-    [HttpGet("{reviewId}", Name = "GetReviewById")]
-    public async Task<ActionResult<TagDataReviewDto?>> GetReview([NotEmptyGuid] Guid reviewId)
-    {
-        var result = await _reviewService.GetTagDataReview(reviewId);
-
-        var reviewerIds = result.Reviewers.Select(r => r.ReviewerId).ToList();
-
-        var displayNameMap = await _userService.GetDisplayNames(reviewerIds);
-
-        return result.ToDto(displayNameMap);
-    }
-
-    [HttpGet(Name = "GetReviews")]
-    public async Task<ActionResult<List<TagDataReviewDto>>> GetReviews(Guid? reviewerId)
-    {
-        var reviews = await _reviewService.GetTagDataReviews(reviewerId);
-
-        var userIds = reviews.SelectMany(tagReview =>
-                        tagReview.Reviewers.Select(p => p.ReviewerId)).ToList();
-        var userIdNameMap = await _userService.GetDisplayNames(userIds);
-
-        return reviews.Select(review => review.ToDto(userIdNameMap)).ToList();
-    }
-
-    [HttpPost(Name = "CreateReview")]
-    public async Task<ActionResult<TagDataReviewDto?>> CreateReview(
-        [FromBody][Required] CreateTagDataReviewDto reviewDto)
-    {
-        var result = await _reviewService.CreateTagDataReview(
-            reviewDto.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));
-
-        var reviewerIds = result.Reviewers.Select(r => r.ReviewerId).ToList();
-
-        var displayNameMap = await _userService.GetDisplayNames(reviewerIds);
-
-        return result.ToDto(displayNameMap);
     }
 
     [HttpPost("{reviewId}/reviewers", Name = "CreateReviewers")]

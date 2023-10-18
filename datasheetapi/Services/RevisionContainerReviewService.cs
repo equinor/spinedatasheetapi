@@ -9,10 +9,10 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
     private readonly ILogger<RevisionContainerReviewService> _logger;
     private readonly IRevisionContainerService _revisionContainerService;
 
-    private readonly IRevisionContainerReviewRepository _reviewRepository;
+    private readonly IContainerReviewRepository _reviewRepository;
 
     public RevisionContainerReviewService(ILoggerFactory loggerFactory,
-        IRevisionContainerReviewRepository reviewRepository,
+        IContainerReviewRepository reviewRepository,
         IRevisionContainerService revisionContainerService)
     {
         _reviewRepository = reviewRepository;
@@ -20,35 +20,34 @@ public class RevisionContainerReviewService : IRevisionContainerReviewService
         _logger = loggerFactory.CreateLogger<RevisionContainerReviewService>();
     }
 
-    public async Task<RevisionContainerReview> GetRevisionContainerReview(Guid reviewId)
+    public async Task<ContainerReview> GetRevisionContainerReview(Guid reviewId)
     {
         var review = await _reviewRepository.GetRevisionContainerReview(reviewId) ??
             throw new NotFoundException($"Unable to find review - {reviewId}.");
         return review;
     }
 
-    public async Task<List<RevisionContainerReview>> GetRevisionContainerReviews()
+    public async Task<List<ContainerReview>> GetRevisionContainerReviews()
     {
         var reviews = await _reviewRepository.GetRevisionContainerReviews();
         return reviews;
     }
 
-    public async Task<RevisionContainerReview?> GetRevisionContainerReviewForContainer(Guid revisionContainerId)
+    public async Task<ContainerReview?> GetContainerReviewForContainer(Guid revisionContainerId)
     {
         var reviews = await _reviewRepository.GetRevisionContainerReviewForContainer(revisionContainerId);
         return reviews;
     }
 
-    public async Task<RevisionContainerReview> CreateRevisionContainerReview(
-        RevisionContainerReview review, Guid azureUniqueId)
+    public Task<ContainerReview> CreateContainerReview(
+        ContainerReview review, Guid azureUniqueId)
     {
-        review.ApproverId = azureUniqueId;
+        throw new NotImplementedException();
+        //var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.ContainerId) ??
+        //    throw new BadRequestException($"Invalid revision container id - {review.ContainerId}.");
 
-        var revisionContainer = await _revisionContainerService.GetRevisionContainer(review.RevisionContainerId) ??
-            throw new BadRequestException($"Invalid revision container id - {review.RevisionContainerId}.");
+        //revisionContainer.RevisionContainerReview = review;
 
-        revisionContainer.RevisionContainerReview = review;
-
-        return await _reviewRepository.AddRevisionContainerReview(review);
+        //return await _reviewRepository.AddRevisionContainerReview(review);
     }
 }

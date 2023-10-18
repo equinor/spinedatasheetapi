@@ -19,7 +19,7 @@ public record TagDataDto : ITagDataDto, IBaseEntityDto
     public string? SubTagType { get; set; }
     public int Version { get; set; }
     public TagDataReviewDto? Review { get; set; }
-    public RevisionContainerDto? RevisionContainer { get; set; }
+    public ContainerDto? RevisionContainer { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime ModifiedDate { get; set; }
 }

@@ -107,7 +107,7 @@ public class TagDataReviewAdapterTests
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
             TagNo = tagNo,
-            Status = ReviewStatusEnum.New,
+            Status = ReviewStateEnum.New,
             ApproverId = Guid.NewGuid(),
             CommentResponsible = Guid.NewGuid(),
             Approved = true,

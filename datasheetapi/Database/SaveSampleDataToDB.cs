@@ -23,7 +23,7 @@ public static class SaveSampleDataToDB
         context.SaveChanges();
 
         var revisionContainers = DummyData.GetRevisionContainers();
-        context.RevisionContainers.AddRange(revisionContainers);
+        context.Containers.AddRange(revisionContainers);
         context.SaveChanges();
 
         DummyData.GetTagDatas();

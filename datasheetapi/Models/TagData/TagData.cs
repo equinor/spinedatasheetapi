@@ -17,5 +17,4 @@ public class TagData : ITagData
     public string? System { get; set; }
     public string? TagType { get; set; }
     public string? SubTagType { get; set; }
-    public int Version { get; set; }
 }

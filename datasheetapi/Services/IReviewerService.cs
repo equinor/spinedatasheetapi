@@ -2,7 +2,7 @@ namespace datasheetapi.Services
 {
     public interface IReviewerService
     {
-        Task<List<Reviewer>> CreateReviewers(Guid reviewId, List<Reviewer> reviewers);
-        Task<Reviewer> UpdateReviewer(Guid reviewId, Guid reviewerId, Guid userFromToken, ReviewStatusEnum reviewStatus);
+        Task<List<TagReviewer>> CreateReviewers(Guid reviewId, List<TagReviewer> reviewers);
+        Task<TagReviewer> UpdateReviewer(Guid reviewId, Guid reviewerId, Guid userFromToken, ReviewStateEnum reviewStatus);
     }
 }

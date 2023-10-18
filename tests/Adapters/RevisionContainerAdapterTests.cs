@@ -9,7 +9,7 @@ public class RevisionContainerAdapterTests
     public void ToDtoOrNull_WithNullRevisionContainer_ReturnsNull()
     {
         // Arrange
-        RevisionContainer? revisionContainer = null;
+        Container? revisionContainer = null;
 
         // Act
         var result = revisionContainer.ToDtoOrNull();
@@ -22,7 +22,7 @@ public class RevisionContainerAdapterTests
     public void ToDtoOrNull_WithNonNullRevisionContainer_ReturnsRevisionContainerDto()
     {
         // Arrange
-        var revisionContainer = new RevisionContainer
+        var revisionContainer = new Container
         {
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
@@ -30,8 +30,8 @@ public class RevisionContainerAdapterTests
             RevisionContainerName = "Test Revision Container",
             RevisionNumber = 1,
             RevisionContainerDate = DateTime.UtcNow,
-            TagNo = new List<RevisionContainerTagNo>(),
-            RevisionContainerReview = new RevisionContainerReview(),
+            Tags = new List<ContainerTags>(),
+            RevisionContainerReview = new ContainerReview(),
             ContractId = Guid.NewGuid(),
             Contract = null,
         };
@@ -57,7 +57,7 @@ public class RevisionContainerAdapterTests
     public void ToDto_WithNullRevisionContainers_ReturnsEmptyList()
     {
         // Arrange
-        List<RevisionContainer>? revisionContainers = null;
+        List<Container>? revisionContainers = null;
 
         // Act
         var result = revisionContainers.ToDto();
@@ -71,9 +71,9 @@ public class RevisionContainerAdapterTests
     public void ToDto_WithNonNullRevisionContainers_ReturnsListOfRevisionContainerDtos()
     {
         // Arrange
-        var revisionContainers = new List<RevisionContainer>
+        var revisionContainers = new List<Container>
         {
-            new RevisionContainer
+            new Container
             {
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -81,12 +81,12 @@ public class RevisionContainerAdapterTests
                 RevisionContainerName = "Test Revision Container 1",
                 RevisionNumber = 1,
                 RevisionContainerDate = DateTime.UtcNow,
-                TagNo = new List<RevisionContainerTagNo>(),
-                RevisionContainerReview = new RevisionContainerReview(),
+                Tags = new List<ContainerTags>(),
+                RevisionContainerReview = new ContainerReview(),
                 ContractId = Guid.NewGuid(),
                 Contract = null,
             },
-            new RevisionContainer
+            new Container
             {
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -94,8 +94,8 @@ public class RevisionContainerAdapterTests
                 RevisionContainerName = "Test Revision Container 2",
                 RevisionNumber = 2,
                 RevisionContainerDate = DateTime.UtcNow,
-                TagNo = new List<RevisionContainerTagNo>(),
-                RevisionContainerReview = new RevisionContainerReview(),
+                Tags = new List<ContainerTags>(),
+                RevisionContainerReview = new ContainerReview(),
                 ContractId = Guid.NewGuid(),
                 Contract = null,
             },
@@ -126,7 +126,7 @@ public class RevisionContainerAdapterTests
     public void ToModelOrNull_WithNullRevisionContainerDto_ReturnsNull()
     {
         // Arrange
-        RevisionContainerDto? revisionContainerDto = null;
+        ContainerDto? revisionContainerDto = null;
 
         // Act
         var result = revisionContainerDto.ToModelOrNull();
@@ -139,7 +139,7 @@ public class RevisionContainerAdapterTests
     public void ToModelOrNull_WithNonNullRevisionContainerDto_ReturnsRevisionContainer()
     {
         // Arrange
-        var revisionContainerDto = new RevisionContainerDto
+        var revisionContainerDto = new ContainerDto
         {
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
@@ -148,7 +148,7 @@ public class RevisionContainerAdapterTests
             RevisionNumber = 1,
             RevisionContainerDate = DateTime.UtcNow,
             TagData = new List<ITagDataDto>(),
-            RevisionContainerReview = new RevisionContainerReviewDto(),
+            RevisionContainerReview = new ContainerReviewDto(),
             ContractId = Guid.NewGuid(),
             Contract = null,
         };
@@ -173,7 +173,7 @@ public class RevisionContainerAdapterTests
     public void ToModel_WithNullRevisionContainerDtos_ReturnsEmptyList()
     {
         // Arrange
-        List<RevisionContainerDto>? revisionContainerDtos = null;
+        List<ContainerDto>? revisionContainerDtos = null;
 
         // Act
         var result = revisionContainerDtos.ToModel();
@@ -187,9 +187,9 @@ public class RevisionContainerAdapterTests
     public void ToModel_WithNonNullRevisionContainerDtos_ReturnsListOfRevisionContainers()
     {
         // Arrange
-        var revisionContainerDtos = new List<RevisionContainerDto>
+        var revisionContainerDtos = new List<ContainerDto>
         {
-            new RevisionContainerDto
+            new ContainerDto
             {
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -198,11 +198,11 @@ public class RevisionContainerAdapterTests
                 RevisionNumber = 1,
                 RevisionContainerDate = DateTime.UtcNow,
                 TagData = new List<ITagDataDto>(),
-                RevisionContainerReview = new RevisionContainerReviewDto(),
+                RevisionContainerReview = new ContainerReviewDto(),
                 ContractId = Guid.NewGuid(),
                 Contract = null,
             },
-            new RevisionContainerDto
+            new ContainerDto
             {
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
@@ -211,7 +211,7 @@ public class RevisionContainerAdapterTests
                 RevisionNumber = 2,
                 RevisionContainerDate = DateTime.UtcNow,
                 TagData = new List<ITagDataDto>(),
-                RevisionContainerReview = new RevisionContainerReviewDto(),
+                RevisionContainerReview = new ContainerReviewDto(),
                 ContractId = Guid.NewGuid(),
                 Contract = null,
             },

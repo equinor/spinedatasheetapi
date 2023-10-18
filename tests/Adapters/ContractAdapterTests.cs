@@ -27,7 +27,7 @@ public class ContractAdapterTests
             ContractName = "Test Contract",
             ContractorId = Guid.NewGuid(),
             ProjectId = Guid.NewGuid(),
-            RevisionContainers = new List<RevisionContainer>(),
+            Containers = new List<Container>(),
         };
 
         // Act
@@ -67,14 +67,14 @@ public class ContractAdapterTests
                 ContractName = "Test Contract 1",
                 ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
-                RevisionContainers = new List<RevisionContainer>(),
+                Containers = new List<Container>(),
             },
             new Contract
             {
                 ContractName = "Test Contract 2",
                 ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
-                RevisionContainers = new List<RevisionContainer>(),
+                Containers = new List<Container>(),
             },
         };
 
@@ -116,7 +116,7 @@ public class ContractAdapterTests
             ContractName = "Test Contract",
             ContractorId = Guid.NewGuid(),
             ProjectId = Guid.NewGuid(),
-            RevisionContainers = new List<RevisionContainerDto>(),
+            RevisionContainers = new List<ContainerDto>(),
         };
 
         // Act
@@ -127,8 +127,8 @@ public class ContractAdapterTests
         Assert.Equal(contractDto.ContractName, result.ContractName);
         Assert.Equal(contractDto.ContractorId, result.ContractorId);
         Assert.Equal(contractDto.ProjectId, result.ProjectId);
-        Assert.NotNull(result.RevisionContainers);
-        Assert.Empty(result.RevisionContainers);
+        Assert.NotNull(result.Containers);
+        Assert.Empty(result.Containers);
     }
 
     [Fact]
@@ -156,14 +156,14 @@ public class ContractAdapterTests
                 ContractName = "Test Contract 1",
                 ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
-                RevisionContainers = new List<RevisionContainerDto>(),
+                RevisionContainers = new List<ContainerDto>(),
             },
             new ContractDto
             {
                 ContractName = "Test Contract 2",
                 ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
-                RevisionContainers = new List<RevisionContainerDto>(),
+                RevisionContainers = new List<ContainerDto>(),
             },
         };
 
@@ -178,8 +178,8 @@ public class ContractAdapterTests
             Assert.Equal(contractDtos[i].ContractName, result[i].ContractName);
             Assert.Equal(contractDtos[i].ContractorId, result[i].ContractorId);
             Assert.Equal(contractDtos[i].ProjectId, result[i].ProjectId);
-            Assert.NotNull(result[i].RevisionContainers);
-            Assert.Empty(result[i].RevisionContainers);
+            Assert.NotNull(result[i].Containers);
+            Assert.Empty(result[i].Containers);
         }
     }
 }

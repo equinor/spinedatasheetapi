@@ -23,9 +23,9 @@ public class ReviewerServiceTests
     [Fact]
     public async Task CreateReviewerTagDataReview_ThrowsIfReviewDoesNotExist()
     {
-        List<Reviewer> reviewers = new()
+        List<TagReviewer> reviewers = new()
         {
-            new Reviewer { Status = 0, ReviewerId = Guid.NewGuid() }
+            new TagReviewer { State = 0, ReviewerId = Guid.NewGuid() }
         };
         var reviewId = Guid.NewGuid();
 
@@ -37,10 +37,10 @@ public class ReviewerServiceTests
     [Fact]
     public async Task CreateReviewerTagDataReview_RunsOkayWithCorrectInput()
     {
-        List<Reviewer> reviewers = new()
+        List<TagReviewer> reviewers = new()
         {
-            new Reviewer { Status = 0, ReviewerId = Guid.NewGuid() },
-            new Reviewer { Status = 0, ReviewerId = Guid.NewGuid() }
+            new TagReviewer { State = 0, ReviewerId = Guid.NewGuid() },
+            new TagReviewer { State = 0, ReviewerId = Guid.NewGuid() }
         };
 
         var reviewId = Guid.NewGuid();

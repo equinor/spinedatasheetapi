@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 
 namespace datasheetapi.Dtos;
-public record RevisionContainerDto : BaseEntityDto
+public record ContainerDto : BaseEntityDto
 {
     public string RevisionContainerName { get; set; } = string.Empty;
     public int RevisionNumber { get; set; }
@@ -9,7 +9,7 @@ public record RevisionContainerDto : BaseEntityDto
 
     [JsonConverter(typeof(ListITagDataDtoConverter))]
     public List<ITagDataDto> TagData { get; set; } = new List<ITagDataDto>();
-    public RevisionContainerReviewDto? RevisionContainerReview { get; set; }
+    public ContainerReviewDto? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }
     public ContractDto? Contract { get; set; }
 }
