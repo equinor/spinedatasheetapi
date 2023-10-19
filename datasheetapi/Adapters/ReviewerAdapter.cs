@@ -8,9 +8,7 @@ public static class ReviewerAdapter
         return new ReviewerDto
         {
             //Status = tagDataReview.State.MapReviewStatusModelToDto(),
-            ReviewerId = tagDataReview.ReviewerId,
-            CreatedDate = tagDataReview.CreatedDate,
-            ModifiedDate = tagDataReview.ModifiedDate,
+            ReviewerId = tagDataReview.UserId,
             DisplayName = displayName,
         };
     }
@@ -19,7 +17,7 @@ public static class ReviewerAdapter
         this List<TagReviewer> tagDataReviews,
         Dictionary<Guid, string> userIdNameMap)
     {
-        return tagDataReviews.Select(review => ToDto(review, userIdNameMap[review.ReviewerId])).ToList();
+        return tagDataReviews.Select(review => ToDto(review, userIdNameMap[review.UserId])).ToList();
     }
 
     public static TagReviewer ToModel(this CreateReviewerDto tagDataReviewDto)
@@ -27,7 +25,7 @@ public static class ReviewerAdapter
         return new TagReviewer
         {
             State = TagReviewerStateEnum.NotReviewed,
-            ReviewerId = tagDataReviewDto.ReviewerId,
+            UserId = tagDataReviewDto.ReviewerId,
         };
     }
 

@@ -8,7 +8,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("revisionreviews")]
+[Route("container-reviews")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -27,7 +27,7 @@ public class ContainerReviewsController : ControllerBase
         _reviewService = reviewService;
     }
 
-    [HttpGet("{reviewId}", Name = "GetRevisionReview")]
+    [HttpGet("{containerReviewId}", Name = "GetRevisionReview")]
     public async Task<ActionResult<ContainerReviewDto>> GetRevisionReview([NotEmptyGuid] Guid reviewId)
     {
         var review = await _reviewService.GetRevisionContainerReview(reviewId);

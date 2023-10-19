@@ -21,7 +21,5 @@ namespace datasheetapi.Dtos
         string? TagType { get; set; }
         string? SubTagType { get; set; }
         int Version { get; set; }
-        TagDataReviewDto? Review { get; set; }
-        ContainerDto? RevisionContainer { get; set; }
     }
 }

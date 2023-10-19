@@ -24,7 +24,7 @@ public class DatabaseContext : DbContext
         modelBuilder.Entity<Participant>()
             .HasKey(e => new { e.UserId, e.ConversationId });
 
-        //modelBuilder.Entity<ContainerReviewer>()
-        //    .HasKey(e => new { e.UserId, e.ContainerReview });
+        modelBuilder.Entity<ContainerTags>()
+            .HasKey(e => new { e.ContainerId, e.TagNo });
     }
 }

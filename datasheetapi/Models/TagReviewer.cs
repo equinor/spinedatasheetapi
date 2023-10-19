@@ -4,15 +4,12 @@ public class TagReviewer
 {
     public Guid Id { get; set; }
 
-    public string Tag { get; set; } = null!;
-    public Guid ProjectId { get; set; }
-    public Guid ReviewerId { get; set; }
-
+    public Guid UserId { get; set; }
+    public string TagNo { get; set; } = string.Empty;
     public TagReviewerStateEnum State { get; set; }
 
-    public DateTime CreatedDate { get; set; }
-    public DateTime ModifiedDate { get; set; }
-
+    public Guid ContainerReviewId { get; set; }
+    public ContainerReviewer ContainerReviewer { get; set; } = null!;
 }
 
 public enum TagReviewerStateEnum

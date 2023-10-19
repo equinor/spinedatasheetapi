@@ -15,24 +15,13 @@ public class TagDataEnrichmentService : ITagDataEnrichmentService
         _userService = userService;
     }
 
-    public async Task<ITagDataDto> AddRevisionContainerWithReview(ITagDataDto tagDataDto)
+    public Task<ITagDataDto> AddRevisionContainerWithReview(ITagDataDto tagDataDto)
     {
-        if (tagDataDto.TagNo == null) { return tagDataDto; }
-        var revisionContainer = await _revisionContainerService.GetRevisionContainerWithReviewForTagNo(tagDataDto.TagNo);
-        tagDataDto.RevisionContainer = revisionContainer.ToDtoOrNull();
-
-        return tagDataDto;
+        throw new NotImplementedException();
     }
 
-    public async Task<List<ITagDataDto>> AddRevisionContainerWithReview(List<ITagDataDto> tagDataDto)
+    public Task<List<ITagDataDto>> AddRevisionContainerWithReview(List<ITagDataDto> tagDataDto)
     {
-        foreach (var tag in tagDataDto)
-        {
-            if (tag.TagNo == null) { continue; }
-            var revisionContainer = await _revisionContainerService.GetRevisionContainerWithReviewForTagNo(tag.TagNo);
-            tag.RevisionContainer = revisionContainer.ToDtoOrNull();
-        }
-
-        return tagDataDto;
+        throw new NotImplementedException();
     }
 }

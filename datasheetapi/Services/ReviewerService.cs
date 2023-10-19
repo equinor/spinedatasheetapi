@@ -21,12 +21,12 @@ public class ReviewerService : IReviewerService
         return result;
     }
 
-    public async Task<TagReviewer> UpdateReviewer(Guid reviewId, Guid reviewerId, Guid userFromToken, ReviewStateEnum reviewStatus)
+    public async Task<TagReviewer> UpdateReviewer(Guid reviewerId, Guid userFromToken, ReviewStateEnum reviewStatus)
     {
         if (reviewerId != userFromToken) { throw new BadRequestException("Reviewer cannot update other people's review"); }
 
-        var existingReviewer = await _reviewerRepository.GetReviewer(reviewId, reviewerId)
-            ?? throw new NotFoundException($"Reviewer with reviewId {reviewId} and reviewerId {reviewerId} not found");
+        var existingReviewer = await _reviewerRepository.GetReviewer(reviewerId)
+            ?? throw new NotFoundException($"Reviewer with reviewerId {reviewerId} not found");
 
         existingReviewer.State = TagReviewerStateEnum.NotReviewed;
 

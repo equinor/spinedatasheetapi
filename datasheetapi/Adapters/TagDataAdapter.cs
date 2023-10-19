@@ -80,7 +80,6 @@ public static class TagDataAdapter
             System = tagData.System,
             TagType = tagData.TagType,
             SubTagType = tagData.SubTagType,
-            RevisionContainer = null,
         };
     }
 }

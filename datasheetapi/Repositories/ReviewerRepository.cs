@@ -17,19 +17,13 @@ public class ReviewerRepository : IReviewerRepository
 
     public async Task<List<TagReviewer>> CreateReviewers(List<TagReviewer> reviewers)
     {
-        reviewers.ForEach(r =>
-        {
-            r.CreatedDate = DateTime.UtcNow;
-            r.ModifiedDate = DateTime.UtcNow;
-        });
-
         _context.TagReviewers.AddRange(reviewers);
         await _context.SaveChangesAsync();
 
         return reviewers;
     }
 
-    public Task<TagReviewer?> GetReviewer(Guid reviewId, Guid reviewerId)
+    public Task<TagReviewer?> GetReviewer(Guid reviewerId)
     {
         throw new NotImplementedException();
         //var reviewer = await _context.TagReviewers.FirstOrDefaultAsync(r => r.TagDataReviewId == reviewId && r.ReviewerId == reviewerId);
@@ -38,8 +32,6 @@ public class ReviewerRepository : IReviewerRepository
 
     public async Task<TagReviewer> UpdateReviewer(TagReviewer reviewer)
     {
-        reviewer.ModifiedDate = DateTime.UtcNow;
-
         _context.TagReviewers.Update(reviewer);
 
         await _context.SaveChangesAsync();

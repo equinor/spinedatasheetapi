@@ -4,6 +4,6 @@ namespace datasheetapi.Repositories
     {
         Task<List<TagReviewer>> CreateReviewers(List<TagReviewer> review);
         Task<TagReviewer> UpdateReviewer(TagReviewer reviewer);
-        Task<TagReviewer?> GetReviewer(Guid reviewId, Guid reviewerId);
+        Task<TagReviewer?> GetReviewer(Guid reviewerId);
     }
 }
