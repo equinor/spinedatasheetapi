@@ -42,9 +42,9 @@ public class ContainerReviewerRepository
         return containerReviewers;
     }
 
-    public async Task<ContainerReview> AddContainerReviewer(ContainerReview review)
+    public async Task<ContainerReviewer> AddContainerReviewer(ContainerReviewer review)
     {
-        var savedReview = _context.ContainerReviews.Add(review);
+        var savedReview = _context.ContainerReviewers.Add(review);
         await _context.SaveChangesAsync();
 
         return savedReview.Entity;

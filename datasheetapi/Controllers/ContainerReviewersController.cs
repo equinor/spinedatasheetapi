@@ -60,20 +60,16 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPost]
-    public Task<ActionResult<List<ReviewerDto>?>> CreateContainerReviewers(
+    public async Task<ActionResult<List<ReviewerDto>?>> CreateContainerReviewer(
         [NotEmptyGuid] Guid reviewId,
-        [Required] List<CreateReviewerDto> reviewDtos)
+        [Required] CreateReviewerDto reviewDto)
     {
-        throw new NotImplementedException();
-        //var result = await _containerReviewerService.CreateContainerReviewer(
-        //    reviewId, reviewDtos.ToModel());
+        var a = new ContainerReviewer();
 
-        //var userIds = result.Select(tagReview =>
-        //        tagReview.UserId).ToList();
+        var result = await _containerReviewerService.CreateContainerReviewer(
+            a);
 
-        //var userIdNameMap = await _userService.GetDisplayNames(userIds);
-
-        //return result.ToDto(userIdNameMap);
+        return Ok(result);
     }
 
     [HttpPut("{containerReviewerId}")]

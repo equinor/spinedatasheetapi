@@ -7,13 +7,13 @@ namespace datasheetapi.Services;
 public class ContainerReviewerService
 {
     private readonly ILogger<ContainerReviewService> _logger;
-    private readonly IContainerService _containerService;
+    private readonly IContainerReviewService _containerService;
 
     private readonly ContainerReviewerRepository _containerReviewerRepository;
 
     public ContainerReviewerService(ILoggerFactory loggerFactory,
         ContainerReviewerRepository containerReviewerRepository,
-        IContainerService containerService)
+        IContainerReviewService containerService)
     {
         _containerReviewerRepository = containerReviewerRepository;
         _containerService = containerService;
@@ -39,13 +39,12 @@ public class ContainerReviewerService
         return reviews;
     }
 
-    public Task<ContainerReviewer> CreateContainerReviewer(
-        ContainerReview review, Guid azureUniqueId)
+    public async Task<ContainerReviewer> CreateContainerReviewer(
+        ContainerReviewer review, Guid azureUniqueId)
     {
-        throw new NotImplementedException();
-        //var _ = await _containerService.GetContainer(review.ContainerId) ??
-        //    throw new BadRequestException($"Invalid revision container id - {review.ContainerId}.");
+        var _ = await _containerService.GetContainerReview(review.ContainerReviewId) ??
+            throw new BadRequestException($"Invalid container review id - {review.ContainerReviewId}.");
 
-        //return await _containerReviewerRepository.AddContainerReviewer(review);
+        return await _containerReviewerRepository.AddContainerReviewer(review);
     }
 }
