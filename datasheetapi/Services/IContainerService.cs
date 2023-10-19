@@ -2,8 +2,8 @@ namespace datasheetapi.Services;
 
 public interface IContainerService
 {
-    Task<Container?> GetRevisionContainer(Guid id);
-    Task<Container?> GetRevisionContainerWithReviewForTagNo(string tagNo);
-    Task<List<Container>> GetRevisionContainers();
-    Task<List<Container>> GetRevisionContainersForContract(Guid tagId);
+    Task<Container?> GetContainer(Guid id);
+    Task<Container?> GetContainerWithReviewForTagNo(string tagNo);
+    Task<List<Container>> GetContainers();
+    Task<List<Container>> GetContainersForContract(Guid tagId);
 }

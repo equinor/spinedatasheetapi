@@ -73,7 +73,7 @@ public class RevisionContainerReviewServiceTests
         // Arrange
         var review = new ContainerReviewDto { ContainerId = Guid.NewGuid() };
         var azureUniqueId = Guid.NewGuid();
-        _revisionContainerServiceMock.Setup(x => x.GetRevisionContainers()).ReturnsAsync(new List<Container>());
+        _revisionContainerServiceMock.Setup(x => x.GetContainers()).ReturnsAsync(new List<Container>());
 
         // Act & Assert
         await Assert.ThrowsAsync<BadRequestException>(() =>
@@ -106,7 +106,7 @@ public class RevisionContainerReviewServiceTests
             ContainerId = Guid.NewGuid(),
         };
 
-        _revisionContainerServiceMock.Setup(s => s.GetRevisionContainer(reviewDto.ContainerId)).ReturnsAsync(revisionContainer);
+        _revisionContainerServiceMock.Setup(s => s.GetContainer(reviewDto.ContainerId)).ReturnsAsync(revisionContainer);
         _reviewRepositoryMock.Setup(s => s.AddContainerReview(It.IsAny<ContainerReview>())).ReturnsAsync(savedReview);
 
         // Act
@@ -116,6 +116,6 @@ public class RevisionContainerReviewServiceTests
         Assert.NotNull(result);
         Assert.Equal(savedReview.Id, result.Id);
         Assert.Equal(azureUniqueId, result.ApproverId);
-        _revisionContainerServiceMock.Verify(s => s.GetRevisionContainer(reviewDto.ContainerId), Times.Once);
+        _revisionContainerServiceMock.Verify(s => s.GetContainer(reviewDto.ContainerId), Times.Once);
     }
 }

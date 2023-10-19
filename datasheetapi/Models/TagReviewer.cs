@@ -8,7 +8,7 @@ public class TagReviewer
     public string TagNo { get; set; } = string.Empty;
     public TagReviewerStateEnum State { get; set; }
 
-    public Guid ContainerReviewId { get; set; }
+    public Guid ContainerReviewerId { get; set; }
     public ContainerReviewer ContainerReviewer { get; set; } = null!;
 }
 

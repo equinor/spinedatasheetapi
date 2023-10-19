@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace datasheetapi.Repositories;
 
-public class ReviewerRepository : IReviewerRepository
+public class TagReviewerRepository : ITagReviewerRepository
 {
     private readonly DatabaseContext _context;
-    private readonly ILogger<ReviewerRepository> _logger;
+    private readonly ILogger<TagReviewerRepository> _logger;
 
-    public ReviewerRepository(ILoggerFactory loggerFactory, DatabaseContext context)
+    public TagReviewerRepository(ILoggerFactory loggerFactory, DatabaseContext context)
     {
-        _logger = loggerFactory.CreateLogger<ReviewerRepository>();
+        _logger = loggerFactory.CreateLogger<TagReviewerRepository>();
         _context = context;
     }
 

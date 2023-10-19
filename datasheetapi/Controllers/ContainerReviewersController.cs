@@ -8,7 +8,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("container-reviewers")]
+[Route("container-reviews/{containerReviewId}/container-reviewers")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -19,52 +19,74 @@ namespace datasheetapi.Controllers;
 public class ContainerReviewersController : ControllerBase
 {
     private readonly ILogger<ContainerReviewersController> _logger;
-    private readonly IReviewerService _reviewerService;
+    private readonly ContainerReviewerService _containerReviewerService;
     private readonly IUserService _userService;
 
     public ContainerReviewersController(
         ILoggerFactory loggerFactory,
-        IReviewerService reviewerService,
+        ContainerReviewerService containerReviewerService,
         IUserService userService
         )
     {
         _logger = loggerFactory.CreateLogger<ContainerReviewersController>();
-        _reviewerService = reviewerService;
+        _containerReviewerService = containerReviewerService;
         _userService = userService;
+    }
+
+    [HttpGet("/container-reviewers")]
+    public Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviewers([FromQuery] Guid userId)
+    {
+        throw new NotImplementedException();
     }
 
     [HttpGet("{containerReviewerId}")]
     public async Task<ActionResult<ContainerReviewDto>> GetContainerReviewer(Guid containerReviewerId)
     {
+        var result = await _containerReviewerService.GetContainerReviewer(containerReviewerId);
 
+        //var dto = result.ToDto();
+
+        return Ok(result);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviewersForContainerReview(Guid containerReviewId, [FromQuery] Guid userId)
+    {
+        var result = await _containerReviewerService.GetContainerReviewersForContainerReview(containerReviewId, userId);
+
+        //var dto = result.ToDto();
+
+        return Ok(result);
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<ReviewerDto>?>> CreateContainerReviewers(
+    public Task<ActionResult<List<ReviewerDto>?>> CreateContainerReviewers(
         [NotEmptyGuid] Guid reviewId,
         [Required] List<CreateReviewerDto> reviewDtos)
     {
-        var result = await _reviewerService.CreateReviewers(
-            reviewId, reviewDtos.ToModel());
+        throw new NotImplementedException();
+        //var result = await _containerReviewerService.CreateContainerReviewer(
+        //    reviewId, reviewDtos.ToModel());
 
-        var userIds = result.Select(tagReview =>
-                tagReview.UserId).ToList();
+        //var userIds = result.Select(tagReview =>
+        //        tagReview.UserId).ToList();
 
-        var userIdNameMap = await _userService.GetDisplayNames(userIds);
+        //var userIdNameMap = await _userService.GetDisplayNames(userIds);
 
-        return result.ToDto(userIdNameMap);
+        //return result.ToDto(userIdNameMap);
     }
 
-    [HttpPut("{reviewerId}")]
-    public async Task<ActionResult<ReviewerDto?>> UpdateContainerReviewer(
-        [NotEmptyGuid] Guid reviewerId,
+    [HttpPut("{containerReviewerId}")]
+    public Task<ActionResult<ReviewerDto?>> UpdateContainerReviewer(
+        [NotEmptyGuid] Guid containerReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {
-        var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
-        var result = await _reviewerService.UpdateReviewer(reviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
+        throw new NotImplementedException();
+        //var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
+        //var result = await _containerReviewerService.UpdateReviewer(containerReviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
 
-        var displayName = await _userService.GetDisplayName(result.UserId);
+        //var displayName = await _userService.GetDisplayName(result.UserId);
 
-        return result.ToDto(displayName);
+        //return result.ToDto(displayName);
     }
 }

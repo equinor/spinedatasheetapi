@@ -8,7 +8,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("container-reviews/{containerReviewId}/container-reviewers/{containerReviewerId}/tag-reviewers")]
+[Route("container-reviewers/{containerReviewerId}/tag-reviewers")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -19,26 +19,44 @@ namespace datasheetapi.Controllers;
 public class TagReviewersController : ControllerBase
 {
     private readonly ILogger<TagReviewersController> _logger;
-    private readonly IReviewerService _reviewerService;
+    private readonly ITagReviewerService _tagReviewerService;
     private readonly IUserService _userService;
 
     public TagReviewersController(
         ILoggerFactory loggerFactory,
-        IReviewerService reviewerService,
+        ITagReviewerService reviewerService,
         IUserService userService
         )
     {
         _logger = loggerFactory.CreateLogger<TagReviewersController>();
-        _reviewerService = reviewerService;
+        _tagReviewerService = reviewerService;
         _userService = userService;
     }
 
-    [HttpPost("", Name = "CreateReviewers")]
-    public async Task<ActionResult<List<ReviewerDto>?>> CreateReviewers(
+    [HttpGet("/tag-reviewers")]
+    public Task<ActionResult<List<ContainerReviewDto>>> GetAllTagReviewers([FromQuery] Guid userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet("{tagReviewerId}")]
+    public Task<ActionResult<ContainerReviewDto>> GetTagReviewer(Guid tagReviewerId)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpGet]
+    public Task<ActionResult<List<ContainerReviewDto>>> GetTagReviewers()
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<List<ReviewerDto>?>> CreateTagReviewers(
         [NotEmptyGuid] Guid reviewId,
         [Required] List<CreateReviewerDto> reviewDtos)
     {
-        var result = await _reviewerService.CreateReviewers(
+        var result = await _tagReviewerService.CreateReviewers(
             reviewId, reviewDtos.ToModel());
 
         var userIds = result.Select(tagReview =>
@@ -49,13 +67,13 @@ public class TagReviewersController : ControllerBase
         return result.ToDto(userIdNameMap);
     }
 
-    [HttpPut("{reviewerId}", Name = "UpdateReview")]
-    public async Task<ActionResult<ReviewerDto?>> UpdateReview(
-        [NotEmptyGuid] Guid reviewerId,
+    [HttpPut("{tagReviewerId}")]
+    public async Task<ActionResult<ReviewerDto?>> UpdateTagReviewer(
+        [NotEmptyGuid] Guid tagReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {
         var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
-        var result = await _reviewerService.UpdateReviewer(reviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
+        var result = await _tagReviewerService.UpdateReviewer(tagReviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
 
         var displayName = await _userService.GetDisplayName(result.UserId);
 

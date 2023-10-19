@@ -1,6 +1,6 @@
 namespace datasheetapi.Repositories
 {
-    public interface IReviewerRepository
+    public interface ITagReviewerRepository
     {
         Task<List<TagReviewer>> CreateReviewers(List<TagReviewer> review);
         Task<TagReviewer> UpdateReviewer(TagReviewer reviewer);

@@ -11,13 +11,13 @@ public class RevisionContainerServiceTests
 {
     private readonly Mock<ILoggerFactory> _loggerFactoryMock;
     private readonly Mock<IContainerRepository> _revisionContainerRepositoryMock;
-    private readonly RevisionContainerService _revisionContainerService;
+    private readonly ContainerService _revisionContainerService;
 
     public RevisionContainerServiceTests()
     {
         _loggerFactoryMock = new Mock<ILoggerFactory>();
         _revisionContainerRepositoryMock = new Mock<IContainerRepository>();
-        _revisionContainerService = new RevisionContainerService(_loggerFactoryMock.Object, _revisionContainerRepositoryMock.Object);
+        _revisionContainerService = new ContainerService(_loggerFactoryMock.Object, _revisionContainerRepositoryMock.Object);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class RevisionContainerServiceTests
         _revisionContainerRepositoryMock.Setup(x => x.GetContainer(id)).ReturnsAsync((Container?)null);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainer(id);
+        var result = await _revisionContainerService.GetContainer(id);
 
         // Assert
         Assert.Null(result);
@@ -43,7 +43,7 @@ public class RevisionContainerServiceTests
         _revisionContainerRepositoryMock.Setup(x => x.GetContainer(id)).ReturnsAsync(container);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainer(id);
+        var result = await _revisionContainerService.GetContainer(id);
 
         // Assert
         Assert.NotNull(result);
@@ -58,7 +58,7 @@ public class RevisionContainerServiceTests
         _revisionContainerRepositoryMock.Setup(x => x.GetContainers()).ReturnsAsync(containers);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainers();
+        var result = await _revisionContainerService.GetContainers();
 
         // Assert
         Assert.NotNull(result);
@@ -74,7 +74,7 @@ public class RevisionContainerServiceTests
         _revisionContainerRepositoryMock.Setup(x => x.GetContainersForContract(contractId)).ReturnsAsync(containers);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainersForContract(contractId);
+        var result = await _revisionContainerService.GetContainersForContract(contractId);
 
         // Assert
         Assert.NotNull(result);

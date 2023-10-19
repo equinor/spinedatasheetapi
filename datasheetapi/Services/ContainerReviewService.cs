@@ -42,7 +42,7 @@ public class ContainerReviewService : IContainerReviewService
     public async Task<ContainerReview> CreateContainerReview(
         ContainerReview review, Guid azureUniqueId)
     {
-        var _ = await _containerService.GetRevisionContainer(review.ContainerId) ??
+        var _ = await _containerService.GetContainer(review.ContainerId) ??
             throw new BadRequestException($"Invalid revision container id - {review.ContainerId}.");
 
         return await _containerReviewRepository.AddContainerReview(review);

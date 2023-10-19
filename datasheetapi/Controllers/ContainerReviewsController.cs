@@ -28,15 +28,16 @@ public class ContainerReviewsController : ControllerBase
     }
 
     [HttpGet("{containerReviewId}")]
-    public async Task<ActionResult<ContainerReviewDto>> GetContainerReview([NotEmptyGuid] Guid reviewId)
+    public async Task<ActionResult<ContainerReviewDto>> GetContainerReview([NotEmptyGuid] Guid containerReviewId)
     {
-        var review = await _containerReviewService.GetContainerReview(reviewId);
+        var review = await _containerReviewService.GetContainerReview(containerReviewId);
         return Ok(review);
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviews()
+    public async Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviews([FromQuery] Guid containerId)
     {
+        // TODO: Add filtering on containerId
         var reviews = await _containerReviewService.GetContainerReviews();
         return reviews.ToDto();
     }
@@ -53,7 +54,9 @@ public class ContainerReviewsController : ControllerBase
         }
 
         var savedReview = await _containerReviewService.CreateContainerReview(
-                review.ToModel(), Utils.GetAzureUniqueId(HttpContext.User));
+                review.ToModel(),
+                Utils.GetAzureUniqueId(HttpContext.User));
+
         return savedReview.ToDto();
     }
 }

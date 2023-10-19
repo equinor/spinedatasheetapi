@@ -3,20 +3,20 @@ using datasheetapi.Repositories;
 
 namespace datasheetapi.Services;
 
-public class ReviewerService : IReviewerService
+public class TagReviewerService : ITagReviewerService
 {
 
-    private readonly IReviewerRepository _reviewerRepository;
+    private readonly ITagReviewerRepository _tagReviewerRepository;
 
-    public ReviewerService(
-        IReviewerRepository reviewerRepository)
+    public TagReviewerService(
+        ITagReviewerRepository reviewerRepository)
     {
-        _reviewerRepository = reviewerRepository;
+        _tagReviewerRepository = reviewerRepository;
     }
 
     public async Task<List<TagReviewer>> CreateReviewers(Guid reviewId, List<TagReviewer> reviewers)
     {
-        var result = await _reviewerRepository.CreateReviewers(reviewers);
+        var result = await _tagReviewerRepository.CreateReviewers(reviewers);
 
         return result;
     }
@@ -25,12 +25,12 @@ public class ReviewerService : IReviewerService
     {
         if (reviewerId != userFromToken) { throw new BadRequestException("Reviewer cannot update other people's review"); }
 
-        var existingReviewer = await _reviewerRepository.GetReviewer(reviewerId)
+        var existingReviewer = await _tagReviewerRepository.GetReviewer(reviewerId)
             ?? throw new NotFoundException($"Reviewer with reviewerId {reviewerId} not found");
 
         existingReviewer.State = TagReviewerStateEnum.NotReviewed;
 
-        var result = await _reviewerRepository.UpdateReviewer(existingReviewer);
+        var result = await _tagReviewerRepository.UpdateReviewer(existingReviewer);
         return result;
     }
 }

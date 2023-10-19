@@ -9,9 +9,9 @@ namespace tests.Services;
 public class ReviewerServiceTests
 {
     private readonly Mock<ITagDataReviewService> _reviewService = new();
-    private readonly Mock<IReviewerRepository> _reviewerRepository = new();
+    private readonly Mock<ITagReviewerRepository> _reviewerRepository = new();
 
-    private readonly ReviewerService _reviewerService;
+    private readonly TagReviewerService _reviewerService;
 
     public ReviewerServiceTests()
     {
