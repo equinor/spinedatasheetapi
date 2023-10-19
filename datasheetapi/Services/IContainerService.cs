@@ -1,6 +1,6 @@
 namespace datasheetapi.Services;
 
-public interface IRevisionContainerService
+public interface IContainerService
 {
     Task<Container?> GetRevisionContainer(Guid id);
     Task<Container?> GetRevisionContainerWithReviewForTagNo(string tagNo);

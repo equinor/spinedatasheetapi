@@ -14,15 +14,15 @@ public class RevisionContainerReviewServiceTests
 {
     private readonly Mock<ILoggerFactory> _loggerFactoryMock;
     private readonly Mock<IContainerReviewRepository> _reviewRepositoryMock;
-    private readonly Mock<IRevisionContainerService> _revisionContainerServiceMock;
-    private readonly RevisionContainerReviewService _reviewService;
+    private readonly Mock<IContainerService> _revisionContainerServiceMock;
+    private readonly ContainerReviewService _reviewService;
 
     public RevisionContainerReviewServiceTests()
     {
         _loggerFactoryMock = new Mock<ILoggerFactory>();
         _reviewRepositoryMock = new Mock<IContainerReviewRepository>();
-        _revisionContainerServiceMock = new Mock<IRevisionContainerService>();
-        _reviewService = new RevisionContainerReviewService(_loggerFactoryMock.Object, _reviewRepositoryMock.Object, _revisionContainerServiceMock.Object);
+        _revisionContainerServiceMock = new Mock<IContainerService>();
+        _reviewService = new ContainerReviewService(_loggerFactoryMock.Object, _reviewRepositoryMock.Object, _revisionContainerServiceMock.Object);
     }
 
     [Fact]
@@ -30,10 +30,10 @@ public class RevisionContainerReviewServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReview(id)).ReturnsAsync((ContainerReview?)null);
+        _reviewRepositoryMock.Setup(x => x.GetContainerReview(id)).ReturnsAsync((ContainerReview?)null);
 
         // Act & Assert
-        await Assert.ThrowsAsync<NotFoundException>(() => _reviewService.GetRevisionContainerReview(id));
+        await Assert.ThrowsAsync<NotFoundException>(() => _reviewService.GetContainerReview(id));
     }
 
     [Fact]
@@ -42,10 +42,10 @@ public class RevisionContainerReviewServiceTests
         // Arrange
         var id = Guid.NewGuid();
         var review = new ContainerReview { Id = id };
-        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReview(id)).ReturnsAsync(review);
+        _reviewRepositoryMock.Setup(x => x.GetContainerReview(id)).ReturnsAsync(review);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReview(id);
+        var result = await _reviewService.GetContainerReview(id);
 
         // Assert
         Assert.NotNull(result);
@@ -57,10 +57,10 @@ public class RevisionContainerReviewServiceTests
     {
         // Arrange
         var reviews = new List<ContainerReview> { new ContainerReview(), new ContainerReview() };
-        _reviewRepositoryMock.Setup(x => x.GetRevisionContainerReviews()).ReturnsAsync(reviews);
+        _reviewRepositoryMock.Setup(x => x.GetContainerReviews()).ReturnsAsync(reviews);
 
         // Act
-        var result = await _reviewService.GetRevisionContainerReviews();
+        var result = await _reviewService.GetContainerReviews();
 
         // Assert
         Assert.NotNull(result);
@@ -107,7 +107,7 @@ public class RevisionContainerReviewServiceTests
         };
 
         _revisionContainerServiceMock.Setup(s => s.GetRevisionContainer(reviewDto.ContainerId)).ReturnsAsync(revisionContainer);
-        _reviewRepositoryMock.Setup(s => s.AddRevisionContainerReview(It.IsAny<ContainerReview>())).ReturnsAsync(savedReview);
+        _reviewRepositoryMock.Setup(s => s.AddContainerReview(It.IsAny<ContainerReview>())).ReturnsAsync(savedReview);
 
         // Act
         var result = await _reviewService.CreateContainerReview(reviewDto.ToModel(), azureUniqueId);

@@ -1,9 +1,9 @@
 namespace datasheetapi.Services;
 
-public interface IRevisionContainerReviewService
+public interface IContainerReviewService
 {
-    Task<ContainerReview> GetRevisionContainerReview(Guid id);
-    Task<List<ContainerReview>> GetRevisionContainerReviews();
+    Task<ContainerReview> GetContainerReview(Guid id);
+    Task<List<ContainerReview>> GetContainerReviews();
     Task<ContainerReview?> GetContainerReviewForContainer(Guid revisionContainerId);
     Task<ContainerReview> CreateContainerReview(ContainerReview review, Guid azureUniqueId);
 }

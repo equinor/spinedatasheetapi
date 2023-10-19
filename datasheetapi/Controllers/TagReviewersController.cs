@@ -8,7 +8,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("container-reviews/{containerReviewId}/container-reviewers/{userId}/tag-reviewers")]
+[Route("container-reviews/{containerReviewId}/container-reviewers/{containerReviewerId}/tag-reviewers")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(

@@ -4,11 +4,11 @@ namespace datasheetapi.Services;
 
 public class TagDataEnrichmentService : ITagDataEnrichmentService
 {
-    private readonly IRevisionContainerService _revisionContainerService;
+    private readonly IContainerService _revisionContainerService;
     private readonly IUserService _userService;
 
     public TagDataEnrichmentService(
-        IRevisionContainerService revisionContainerService,
+        IContainerService revisionContainerService,
         IUserService userService)
     {
         _revisionContainerService = revisionContainerService;

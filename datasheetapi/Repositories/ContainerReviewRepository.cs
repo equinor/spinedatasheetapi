@@ -15,34 +15,26 @@ public class ContainerReviewRepository : IContainerReviewRepository
         _context = context;
     }
 
-    public async Task<ContainerReview?> GetRevisionContainerReview(Guid reviewId)
+    public async Task<ContainerReview?> GetContainerReview(Guid reviewId)
     {
-        var revisionContainerReview = await _context.ContainerReviews.FindAsync(reviewId);
-        return revisionContainerReview;
+        var containerReview = await _context.ContainerReviews.FindAsync(reviewId);
+        return containerReview;
     }
 
-    public async Task<List<ContainerReview>> GetRevisionContainerReviews()
+    public async Task<List<ContainerReview>> GetContainerReviews()
     {
-        var revisionContainerReviews = await _context.ContainerReviews.ToListAsync();
-        return revisionContainerReviews;
+        var containerReviews = await _context.ContainerReviews.ToListAsync();
+        return containerReviews;
     }
 
-    public async Task<ContainerReview?> GetRevisionContainerReviewForContainer(Guid revisionContainerId)
+    public async Task<ContainerReview?> GetContainerReviewForContainer(Guid revisionContainerId)
     {
-        var revisionContainerReviews = await _context.ContainerReviews.FirstOrDefaultAsync(c => c.ContainerId == revisionContainerId);
-        return revisionContainerReviews;
+        var containerReviews = await _context.ContainerReviews.FirstOrDefaultAsync(c => c.ContainerId == revisionContainerId);
+        return containerReviews;
     }
 
-    public async Task<List<ContainerReview>> GetRevisionContainerReviewsForContainers(List<Guid> tagIds)
+    public async Task<ContainerReview> AddContainerReview(ContainerReview review)
     {
-        var revisionContainerReviews = await _context.ContainerReviews.Where(c => tagIds.Contains(c.ContainerId)).ToListAsync();
-        return revisionContainerReviews;
-    }
-
-    public async Task<ContainerReview> AddRevisionContainerReview(ContainerReview review)
-    {
-        review.Id = Guid.NewGuid();
-
         var savedReview = _context.ContainerReviews.Add(review);
         await _context.SaveChangesAsync();
 

@@ -8,7 +8,7 @@ using Microsoft.Identity.Web.Resource;
 namespace datasheetapi.Controllers;
 
 [ApiController]
-[Route("container-reviews/{containerReviewId}/container-reviewers")]
+[Route("container-reviewers")]
 [Authorize]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 [RequiresApplicationRoles(
@@ -31,6 +31,12 @@ public class ContainerReviewersController : ControllerBase
         _logger = loggerFactory.CreateLogger<ContainerReviewersController>();
         _reviewerService = reviewerService;
         _userService = userService;
+    }
+
+    [HttpGet("{containerReviewerId}")]
+    public async Task<ActionResult<ContainerReviewDto>> GetContainerReviewer(Guid containerReviewerId)
+    {
+
     }
 
     [HttpPost]
