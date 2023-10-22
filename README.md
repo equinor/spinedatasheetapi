@@ -11,7 +11,7 @@
 
 ## Summary Description
 
-Lorem ipsum dolor sit amet. Qui consequuntur repudiandae et tempore modi ut cumque Quis id veniam sint ea perspiciatis quasi et Quis voluptatem qui architecto explicabo. Ex fugiat quia et quam dolores et minima omnis a illo dolor. Non assumenda saepe sed quia tempore qui dolorem molestias et laudantium praesentium id molestiae ipsa. Eum quam eaque in corrupti delectus ut adipisci distinctio 33 omnis accusamus.
+Datasheet is a Fusion application that lets the user view datasheets and review tag data from Spine.
 
 ## Runbook
 
