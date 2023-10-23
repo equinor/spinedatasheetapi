@@ -24,7 +24,7 @@ authentication, as far as I know.
 Then, to start the backend, you can run
 
 ```cmd
-cd backend/api
+cd datasheetapi
 dotnet run
 ```
 
@@ -33,7 +33,6 @@ dotnet run
 Run frontend from [spinedatasheetweb](https://github.com/equinor/spinedatasheetweb) repo.
 
 ```cmd
-cd frontend
 yarn install
 yarn start
 ```
