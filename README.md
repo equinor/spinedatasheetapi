@@ -13,9 +13,7 @@
 
 Datasheet is a Fusion application that lets the user view datasheets and review tag data from Spine.
 
-## Runbook
-
-[Runbook](https://github.com/equinor/spinedatasheetapi/blob/main/documentation/runbook.md) is found in this repo.
+## [Runbook](https://github.com/equinor/spinedatasheetapi/blob/main/documentation/runbook.md)
 
 ## Architechture
 
