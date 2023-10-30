@@ -28,7 +28,7 @@ public class ContainerReviewersController : ControllerBase
         ILoggerFactory loggerFactory,
         ContainerReviewerService containerReviewerService,
         IUserService userService
-        )
+    )
     {
         _logger = loggerFactory.CreateLogger<ContainerReviewersController>();
         _containerReviewerService = containerReviewerService;
@@ -52,7 +52,8 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewersForContainerReview(Guid containerReviewId, [FromQuery] Guid userId)
+    public async Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewersForContainerReview(
+        Guid containerReviewId, [FromQuery] Guid userId)
     {
         var result = await _containerReviewerService.GetContainerReviewersForContainerReview(containerReviewId, userId);
 
@@ -62,13 +63,14 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ContainerReviewerDto>> CreateContainerReviewer(Guid containerReviewId, [Required] CreateContainerReviewerDto reviewDto)
+    public async Task<ActionResult<ContainerReviewerDto>> CreateContainerReviewer(Guid containerReviewId,
+        [Required] CreateContainerReviewerDto reviewDto)
     {
         var containerReviewerModel = reviewDto.ToModel();
 
         var result = await _containerReviewerService.CreateContainerReviewer(containerReviewId, containerReviewerModel);
 
-        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { result.UserId});
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { result.UserId });
 
         return Ok(result.ToDto(userIdNameMap));
     }

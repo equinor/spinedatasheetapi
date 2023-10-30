@@ -14,6 +14,7 @@ public class ContainerReviewer
 
 public enum ContainerReviewerStateEnum
 {
+    Open,
     Complete,
     Abandoned
 }

@@ -28,7 +28,7 @@ public class ContainerReviewerRepository
     {
         var exists = await _context.ContainerReviewers.AnyAsync(
             cr => cr.ContainerReviewId == containerReviewId
-            && cr.UserId == userId);
+                  && cr.UserId == userId);
         return exists;
     }
 
@@ -38,13 +38,14 @@ public class ContainerReviewerRepository
         return containerReviews;
     }
 
-    public async Task<List<ContainerReviewer>> GetContainerReviewersForContainerReview(Guid containerReviewId, Guid userId)
+    public async Task<List<ContainerReviewer>> GetContainerReviewersForContainerReview(Guid containerReviewId,
+        Guid userId)
     {
         var collection = _context.ContainerReviewers as IQueryable<ContainerReviewer>;
 
         collection = collection.Where(cr => cr.ContainerReviewId == containerReviewId);
 
-        if (userId !=  Guid.Empty)
+        if (userId != Guid.Empty)
         {
             collection = collection.Where(cr => cr.UserId == userId);
         }

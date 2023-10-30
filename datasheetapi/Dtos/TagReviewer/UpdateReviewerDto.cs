@@ -4,5 +4,5 @@ namespace datasheetapi.Dtos.TagReviewer;
 public record UpdateReviewerDto
 {
     [Required]
-    public ReviewStatusDto ReviewStatus { get; set; }
+    public TagReviewerStateEnumDto State { get; set; }
 }

@@ -3,6 +3,7 @@ using datasheetapi.Dtos.ContainerReviewer;
 using datasheetapi.Dtos.TagReviewer;
 
 namespace datasheetapi.Adapters;
+
 public static class ContainerReviewerAdapter
 {
     public static ContainerReviewer ToModel(this CreateContainerReviewerDto dto)
@@ -10,6 +11,7 @@ public static class ContainerReviewerAdapter
         return new ContainerReviewer
         {
             UserId = dto.UserId,
+            State = ContainerReviewerStateEnum.Open,
             TagReviewers = dto.TagReviewers?.ToModel() ?? new List<TagReviewer>()
         };
     }
@@ -27,12 +29,13 @@ public static class ContainerReviewerAdapter
     }
 
     public static ContainerReviewerStateEnumDto MapContainerReviewStateEnumToDto(ContainerReviewerStateEnum state)
-{
-    return state switch
     {
-        ContainerReviewerStateEnum.Abandoned => ContainerReviewerStateEnumDto.Abandoned,
-        ContainerReviewerStateEnum.Complete => ContainerReviewerStateEnumDto.Complete,
-        _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
-    };
-}
+        return state switch
+        {
+            ContainerReviewerStateEnum.Open => ContainerReviewerStateEnumDto.Open,
+            ContainerReviewerStateEnum.Abandoned => ContainerReviewerStateEnumDto.Abandoned,
+            ContainerReviewerStateEnum.Complete => ContainerReviewerStateEnumDto.Complete,
+            _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
+        };
+    }
 }

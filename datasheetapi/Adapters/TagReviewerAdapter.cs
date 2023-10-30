@@ -9,9 +9,9 @@ public static class TagReviewerAdapter
     {
         return new TagReviewerDto
         {
-            //Status = tagDataReview.State.MapReviewStatusModelToDto(),
             Id = tagDataReview.Id,
             UserId = tagDataReview.UserId,
+            State = MapTagReviewerStateModelToDto(tagDataReview.State),
             DisplayName = displayName ?? string.Empty,
             TagNo = tagDataReview.TagNo,
             ContainerReviewId = tagDataReview.ContainerReviewerId,
@@ -38,5 +38,25 @@ public static class TagReviewerAdapter
     public static List<TagReviewer> ToModel(this List<CreateTagReviewerDto> tagDataReviewDtos)
     {
         return tagDataReviewDtos.Select(x => ToModel(x)).ToList();
+    }
+
+    public static TagReviewerStateEnumDto MapTagReviewerStateModelToDto(TagReviewerStateEnum state)
+    {
+        return state switch
+        {
+            TagReviewerStateEnum.NotReviewed => TagReviewerStateEnumDto.NotReviewed,
+            TagReviewerStateEnum.Reviewed => TagReviewerStateEnumDto.Reviewed,
+            _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
+        };
+    }
+
+    public static TagReviewerStateEnum MapTagReviewerStateDtoToModel(TagReviewerStateEnumDto state)
+    {
+        return state switch
+        {
+            TagReviewerStateEnumDto.NotReviewed => TagReviewerStateEnum.NotReviewed,
+            TagReviewerStateEnumDto.Reviewed => TagReviewerStateEnum.Reviewed,
+            _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
+        };
     }
 }

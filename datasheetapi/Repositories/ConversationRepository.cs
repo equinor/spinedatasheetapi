@@ -24,7 +24,7 @@ public class ConversationRepository : IConversationRepository
     public async Task<List<Message>> GetMessages(Guid conversationId)
     {
         var messages = await _context.Messages
-                .Where(c => c.ConversationId == conversationId).ToListAsync();
+            .Where(c => c.ConversationId == conversationId).ToListAsync();
         return messages;
     }
 
@@ -62,6 +62,7 @@ public class ConversationRepository : IConversationRepository
                     ModifiedDate = DateTime.UtcNow
                 });
         }
+
         var savedMessage = _context.Messages.Add(message);
         await _context.SaveChangesAsync();
         return savedMessage.Entity;
@@ -88,9 +89,9 @@ public class ConversationRepository : IConversationRepository
     public async Task<Conversation?> GetConversation(Guid conversationId)
     {
         return await _context.Conversations
-                .Include(p => p.Participants)
-                .Include(p => p.Messages)
-                .Where(p => p.Id == conversationId).FirstOrDefaultAsync();
+            .Include(p => p.Participants)
+            .Include(p => p.Messages)
+            .Where(p => p.Id == conversationId).FirstOrDefaultAsync();
     }
 
     public async Task<List<Conversation>> GetConversations(Guid projectId, string tagNo)
@@ -110,21 +111,21 @@ public class ConversationRepository : IConversationRepository
             {
                 Conversation = c,
                 LatestMessage = c.Messages
-                                .OrderByDescending(m => m.CreatedDate)
-                                .FirstOrDefault(m => m.SoftDeleted == includeSoftDeletedMessage)
+                                    .OrderByDescending(m => m.CreatedDate)
+                                    .FirstOrDefault(m => m.SoftDeleted == includeSoftDeletedMessage)
                                 ?? c.Messages
                                     .OrderByDescending(m => m.CreatedDate)
                                     .First()
             })
-           .ToListAsync();
+            .ToListAsync();
 
         return conversationWithLatestMessage
-          .Select(c =>
-              {
-                  c.Conversation.Messages =
-                      new List<Message> { c.LatestMessage };
-                  return c.Conversation;
-              })
-          .ToList();
+            .Select(c =>
+            {
+                c.Conversation.Messages =
+                    new List<Message> { c.LatestMessage };
+                return c.Conversation;
+            })
+            .ToList();
     }
 }

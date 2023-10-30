@@ -72,10 +72,13 @@ public class TagReviewersController : ControllerBase
 
     [HttpPut("{tagReviewerId}")]
     public async Task<ActionResult<TagReviewerDto?>> UpdateTagReviewer(
+        Guid containerReviewerId,
         [NotEmptyGuid] Guid tagReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {
-        var result = await _tagReviewerService.UpdateReviewer(tagReviewerId, Utils.GetAzureUniqueId(HttpContext.User), ReviewStateEnum.New);
+        var reviewerState = TagReviewerAdapter.MapTagReviewerStateDtoToModel(updateReviewerDto.State);
+
+        var result = await _tagReviewerService.UpdateTagReviewer(tagReviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewerState);
 
         var displayName = await _userService.GetDisplayName(result.UserId);
 

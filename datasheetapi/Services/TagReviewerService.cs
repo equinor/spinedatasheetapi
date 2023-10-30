@@ -5,7 +5,6 @@ namespace datasheetapi.Services;
 
 public class TagReviewerService : ITagReviewerService
 {
-
     private readonly ITagReviewerRepository _tagReviewerRepository;
 
     public TagReviewerService(
@@ -32,16 +31,21 @@ public class TagReviewerService : ITagReviewerService
         return result;
     }
 
-    public async Task<TagReviewer> UpdateReviewer(Guid reviewerId, Guid userFromToken, ReviewStateEnum reviewStatus)
+    public async Task<TagReviewer> UpdateTagReviewer(Guid reviewerId, Guid userFromToken,
+        TagReviewerStateEnum tagReviewerStatus)
     {
-        if (reviewerId != userFromToken) { throw new BadRequestException("Reviewer cannot update other people's review"); }
 
-        var existingReviewer = await _tagReviewerRepository.GetReviewer(reviewerId)
-            ?? throw new NotFoundException($"Reviewer with reviewerId {reviewerId} not found");
+        var existingReviewer = await _tagReviewerRepository.GetTagReviewer(reviewerId)
+                               ?? throw new NotFoundException($"Reviewer with reviewerId {reviewerId} not found");
 
-        existingReviewer.State = TagReviewerStateEnum.NotReviewed;
+        if (existingReviewer.UserId != userFromToken)
+        {
+            throw new BadRequestException("Reviewer cannot update other people's reviewer state");
+        }
 
-        var result = await _tagReviewerRepository.UpdateReviewer(existingReviewer);
+        existingReviewer.State = tagReviewerStatus;
+
+        var result = await _tagReviewerRepository.UpdateTagReviewer(existingReviewer);
         return result;
     }
 }

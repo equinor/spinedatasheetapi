@@ -29,7 +29,8 @@ public class ContainerReviewRepository : IContainerReviewRepository
 
     public async Task<ContainerReview?> GetContainerReviewForContainer(Guid revisionContainerId)
     {
-        var containerReviews = await _context.ContainerReviews.FirstOrDefaultAsync(c => c.ContainerId == revisionContainerId);
+        var containerReviews =
+            await _context.ContainerReviews.FirstOrDefaultAsync(c => c.ContainerId == revisionContainerId);
         return containerReviews;
     }
 
