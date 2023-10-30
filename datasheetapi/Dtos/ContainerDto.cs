@@ -9,7 +9,6 @@ public record ContainerDto : BaseEntityDto
 
     [JsonConverter(typeof(ListITagDataDtoConverter))]
     public List<ITagDataDto> TagData { get; set; } = new List<ITagDataDto>();
-    public ContainerReviewDto? RevisionContainerReview { get; set; }
     public Guid ContractId { get; set; }
     public ContractDto? Contract { get; set; }
 }

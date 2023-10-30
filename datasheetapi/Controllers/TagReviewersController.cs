@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using datasheetapi.Adapters;
+using datasheetapi.Dtos.TagReviewer;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -34,25 +35,25 @@ public class TagReviewersController : ControllerBase
     }
 
     [HttpGet("/tag-reviewers")]
-    public Task<ActionResult<List<ContainerReviewDto>>> GetAllTagReviewers([FromQuery] Guid userId)
+    public Task<ActionResult<List<TagReviewerDto>>> GetAllTagReviewers([FromQuery] Guid userId)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet("{tagReviewerId}")]
-    public Task<ActionResult<ContainerReviewDto>> GetTagReviewer(Guid tagReviewerId)
+    public Task<ActionResult<TagReviewerDto>> GetTagReviewer(Guid tagReviewerId)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet]
-    public Task<ActionResult<List<ContainerReviewDto>>> GetTagReviewers()
+    public Task<ActionResult<List<TagReviewerDto>>> GetTagReviewers()
     {
         throw new NotImplementedException();
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<ReviewerDto>?>> CreateTagReviewers(
+    public async Task<ActionResult<List<TagReviewerDto>?>> CreateTagReviewers(
         [NotEmptyGuid] Guid reviewId,
         [Required] List<CreateReviewerDto> reviewDtos)
     {
@@ -68,7 +69,7 @@ public class TagReviewersController : ControllerBase
     }
 
     [HttpPut("{tagReviewerId}")]
-    public async Task<ActionResult<ReviewerDto?>> UpdateTagReviewer(
+    public async Task<ActionResult<TagReviewerDto?>> UpdateTagReviewer(
         [NotEmptyGuid] Guid tagReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {

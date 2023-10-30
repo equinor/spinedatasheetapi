@@ -144,13 +144,13 @@ builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
-builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
-builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
+builder.Services.AddScoped<IContainerReviewService, ContainerReviewService>();
+builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
-builder.Services.AddScoped<IReviewerService, ReviewerService>();
-builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
+builder.Services.AddScoped<ITagReviewerService, TagReviewerService>();
+builder.Services.AddScoped<ITagReviewerRepository, TagReviewerRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();

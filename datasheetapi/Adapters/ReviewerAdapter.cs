@@ -1,19 +1,21 @@
+using datasheetapi.Dtos.TagReviewer;
+
 namespace datasheetapi.Adapters;
 public static class ReviewerAdapter
 {
-    public static ReviewerDto ToDto(
+    public static TagReviewerDto ToDto(
         this TagReviewer tagDataReview,
         string displayName)
     {
-        return new ReviewerDto
+        return new TagReviewerDto
         {
             //Status = tagDataReview.State.MapReviewStatusModelToDto(),
-            ReviewerId = tagDataReview.UserId,
+            UserId = tagDataReview.UserId,
             DisplayName = displayName,
         };
     }
 
-    public static List<ReviewerDto> ToDto(
+    public static List<TagReviewerDto> ToDto(
         this List<TagReviewer> tagDataReviews,
         Dictionary<Guid, string> userIdNameMap)
     {

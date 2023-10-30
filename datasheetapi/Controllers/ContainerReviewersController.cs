@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
 using datasheetapi.Adapters;
+using datasheetapi.Dtos.ContainerReviewer;
+using datasheetapi.Dtos.TagReviewer;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
@@ -34,13 +36,13 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpGet("/container-reviewers")]
-    public Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviewers([FromQuery] Guid userId)
+    public Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewers([FromQuery] Guid userId)
     {
         throw new NotImplementedException();
     }
 
     [HttpGet("{containerReviewerId}")]
-    public async Task<ActionResult<ContainerReviewDto>> GetContainerReviewer(Guid containerReviewerId)
+    public async Task<ActionResult<ContainerReviewerDto>> GetContainerReviewer(Guid containerReviewerId)
     {
         var result = await _containerReviewerService.GetContainerReviewer(containerReviewerId);
 
@@ -50,7 +52,7 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ContainerReviewDto>>> GetContainerReviewersForContainerReview(Guid containerReviewId, [FromQuery] Guid userId)
+    public async Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewersForContainerReview(Guid containerReviewId, [FromQuery] Guid userId)
     {
         var result = await _containerReviewerService.GetContainerReviewersForContainerReview(containerReviewId, userId);
 
@@ -60,7 +62,7 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<ReviewerDto>?>> CreateContainerReviewer(
+    public async Task<ActionResult<List<TagReviewerDto>?>> CreateContainerReviewer(
         [NotEmptyGuid] Guid reviewId,
         [Required] CreateReviewerDto reviewDto)
     {
@@ -73,7 +75,7 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPut("{containerReviewerId}")]
-    public Task<ActionResult<ReviewerDto?>> UpdateContainerReviewer(
+    public Task<ActionResult<TagReviewerDto?>> UpdateContainerReviewer(
         [NotEmptyGuid] Guid containerReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {

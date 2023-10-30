@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos.ContainerReview;
 public record CreateContainerReviewDto
 {
     [NotEmptyGuid]

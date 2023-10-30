@@ -40,7 +40,7 @@ public class ContainerReviewerService
     }
 
     public async Task<ContainerReviewer> CreateContainerReviewer(
-        ContainerReviewer review, Guid azureUniqueId)
+        ContainerReviewer review)
     {
         var _ = await _containerService.GetContainerReview(review.ContainerReviewId) ??
             throw new BadRequestException($"Invalid container review id - {review.ContainerReviewId}.");
