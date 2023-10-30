@@ -64,7 +64,7 @@ public class DummyDataTests
             };
 
         // Act
-        var actual = DummyData.GetRevisionContainers();
+        var actual = DummyData.GetContainers();
 
         // Assert
         Assert.Equal(expected.Count, actual.Count);
@@ -105,7 +105,7 @@ public class DummyDataTests
         };
 
         // Act
-        DummyData.AddRevisionContainerToContractIfMissing(revisionContainer, DummyData.contract1);
+        DummyData.AddContainerToContractIfMissing(revisionContainer, DummyData.contract1);
 
         // Assert
         Assert.Contains(revisionContainer, DummyData.contract1.Containers);

@@ -55,7 +55,7 @@ public class TagReviewersController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<List<TagReviewerDto>?>> CreateTagReviewers(
         [NotEmptyGuid] Guid reviewId,
-        [Required] List<CreateReviewerDto> reviewDtos)
+        [Required] List<CreateTagReviewerDto> reviewDtos)
     {
         var result = await _tagReviewerService.CreateReviewers(
             reviewId, reviewDtos.ToModel());
@@ -73,8 +73,7 @@ public class TagReviewersController : ControllerBase
         [NotEmptyGuid] Guid tagReviewerId,
         [Required] UpdateReviewerDto updateReviewerDto)
     {
-        var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
-        var result = await _tagReviewerService.UpdateReviewer(tagReviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
+        var result = await _tagReviewerService.UpdateReviewer(tagReviewerId, Utils.GetAzureUniqueId(HttpContext.User), ReviewStateEnum.New);
 
         var displayName = await _userService.GetDisplayName(result.UserId);
 

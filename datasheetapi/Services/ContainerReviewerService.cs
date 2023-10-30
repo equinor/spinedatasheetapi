@@ -39,12 +39,13 @@ public class ContainerReviewerService
         return reviews;
     }
 
-    public async Task<ContainerReviewer> CreateContainerReviewer(
-        ContainerReviewer review)
+    public async Task<ContainerReviewer> CreateContainerReviewer(Guid containerReviewId, ContainerReviewer review)
     {
-        var _ = await _containerService.GetContainerReview(review.ContainerReviewId) ??
-            throw new BadRequestException($"Invalid container review id - {review.ContainerReviewId}.");
+        var _ = await _containerService.GetContainerReview(containerReviewId) ??
+            throw new BadRequestException($"Invalid container review id - {containerReviewId}.");
 
-        return await _containerReviewerRepository.AddContainerReviewer(review);
+        review.ContainerReviewId = containerReviewId;
+
+        return await _containerReviewerRepository.CreateContainerReviewer(review);
     }
 }

@@ -62,16 +62,15 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<TagReviewerDto>?>> CreateContainerReviewer(
-        [NotEmptyGuid] Guid reviewId,
-        [Required] CreateReviewerDto reviewDto)
+    public async Task<ActionResult<ContainerReviewerDto>> CreateContainerReviewer(Guid containerReviewId, [Required] CreateContainerReviewerDto reviewDto)
     {
-        var a = new ContainerReviewer();
+        var containerReviewerModel = reviewDto.ToModel();
 
-        var result = await _containerReviewerService.CreateContainerReviewer(
-            a);
+        var result = await _containerReviewerService.CreateContainerReviewer(containerReviewId, containerReviewerModel);
 
-        return Ok(result);
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { result.UserId});
+
+        return Ok(result.ToDto(userIdNameMap));
     }
 
     [HttpPut("{containerReviewerId}")]

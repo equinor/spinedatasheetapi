@@ -144,14 +144,18 @@ builder.Services.AddScoped<ITagDataService, TagDataService>();
 builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
-builder.Services.AddScoped<IContainerReviewService, ContainerReviewService>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
-builder.Services.AddScoped<ITagReviewerService, TagReviewerService>();
 builder.Services.AddScoped<ITagReviewerRepository, TagReviewerRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IContainerReviewService, ContainerReviewService>();
+builder.Services.AddScoped<ContainerReviewerService>();
+builder.Services.AddScoped<ITagReviewerService, TagReviewerService>();
+
+builder.Services.AddScoped<ContainerReviewerRepository>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
@@ -161,10 +165,12 @@ builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
 builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
 builder.Services.AddScoped<IContainerReviewRepository, ContainerReviewRepository>();
 
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
 builder.Services.AddSingleton<IAzureUserCacheService, AzureUserCacheService>();
+
 
 builder.Services.Configure<IConfiguration>(builder.Configuration);
 
