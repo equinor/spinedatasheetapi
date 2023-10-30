@@ -19,9 +19,10 @@ public static class ContainerReviewerAdapter
         return new ContainerReviewerDto
         {
             Id = model.Id,
+            ContainerReviewId = model.ContainerReviewId,
             State = MapContainerReviewStateEnumToDto(model.State),
             UserId = model.UserId,
-            TagReviewers = TagReviewerAdapter.ToDto(model.TagReviewers, userIdNameMap),
+            TagReviewers = model.TagReviewers.ToDto(userIdNameMap),
         };
     }
 

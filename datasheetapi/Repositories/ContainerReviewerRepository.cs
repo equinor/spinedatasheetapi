@@ -17,8 +17,19 @@ public class ContainerReviewerRepository
 
     public async Task<ContainerReviewer?> GetContainerReviewer(Guid reviewId)
     {
-        var containerReview = await _context.ContainerReviewers.FindAsync(reviewId);
+        var containerReview = await _context.ContainerReviewers
+            .Include(cr => cr.TagReviewers)
+            .FirstOrDefaultAsync(cr => cr.Id == reviewId);
+
         return containerReview;
+    }
+
+    public async Task<bool> AnyContainerReviewerWithUserIdAndContainerReviewId(Guid userId, Guid containerReviewId)
+    {
+        var exists = await _context.ContainerReviewers.AnyAsync(
+            cr => cr.ContainerReviewId == containerReviewId
+            && cr.UserId == userId);
+        return exists;
     }
 
     public async Task<List<ContainerReviewer>> GetContainerReviewers()

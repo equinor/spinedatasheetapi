@@ -14,9 +14,20 @@ public class TagReviewerService : ITagReviewerService
         _tagReviewerRepository = reviewerRepository;
     }
 
-    public async Task<List<TagReviewer>> CreateReviewers(Guid reviewId, List<TagReviewer> reviewers)
+    public async Task<List<TagReviewer>> CreateReviewers(Guid containerReviewerId, List<TagReviewer> tagReviewers)
     {
-        var result = await _tagReviewerRepository.CreateReviewers(reviewers);
+        tagReviewers.ForEach(tr => tr.ContainerReviewerId = containerReviewerId);
+
+        foreach (var tagReviewer in tagReviewers)
+        {
+            if (await _tagReviewerRepository.AnyTagReviewerWithTagNoAndContainerReviewerId(tagReviewer.TagNo,
+                    containerReviewerId))
+            {
+                throw new ConflictException($"Tag reviewer for tag {tagReviewer.TagNo} already exists");
+            }
+        }
+
+        var result = await _tagReviewerRepository.CreateReviewers(tagReviewers);
 
         return result;
     }

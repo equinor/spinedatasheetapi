@@ -54,11 +54,13 @@ public class TagReviewersController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<List<TagReviewerDto>?>> CreateTagReviewers(
-        [NotEmptyGuid] Guid reviewId,
-        [Required] List<CreateTagReviewerDto> reviewDtos)
+        [NotEmptyGuid] Guid containerReviewerId,
+        [Required] List<CreateTagReviewerDto> tagReviewerDtos)
     {
+        var tagReviewersList = tagReviewerDtos.ToModel();
+
         var result = await _tagReviewerService.CreateReviewers(
-            reviewId, reviewDtos.ToModel());
+            containerReviewerId, tagReviewersList);
 
         var userIds = result.Select(tagReview =>
                 tagReview.UserId).ToList();

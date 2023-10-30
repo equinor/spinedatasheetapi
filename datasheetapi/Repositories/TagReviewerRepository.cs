@@ -23,6 +23,13 @@ public class TagReviewerRepository : ITagReviewerRepository
         return reviewers;
     }
 
+    public async Task<bool> AnyTagReviewerWithTagNoAndContainerReviewerId(string tagNo, Guid containerReviewerId)
+    {
+        var exists = await _context.TagReviewers.AnyAsync(tr =>
+                tr.TagNo == tagNo && tr.ContainerReviewerId == containerReviewerId);
+        return exists;
+    }
+
     public Task<TagReviewer?> GetReviewer(Guid reviewerId)
     {
         throw new NotImplementedException();

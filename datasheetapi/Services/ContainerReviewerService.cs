@@ -44,6 +44,15 @@ public class ContainerReviewerService
         var _ = await _containerService.GetContainerReview(containerReviewId) ??
             throw new BadRequestException($"Invalid container review id - {containerReviewId}.");
 
+        var containerReviewerExists =
+            await _containerReviewerRepository.AnyContainerReviewerWithUserIdAndContainerReviewId(review.UserId,
+                containerReviewId);
+
+        if (containerReviewerExists)
+        {
+            throw new ConflictException($"Container reviewer already exists");
+        }
+
         review.ContainerReviewId = containerReviewId;
 
         return await _containerReviewerRepository.CreateContainerReviewer(review);
