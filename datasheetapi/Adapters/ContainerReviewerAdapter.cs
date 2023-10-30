@@ -22,19 +22,30 @@ public static class ContainerReviewerAdapter
         {
             Id = model.Id,
             ContainerReviewId = model.ContainerReviewId,
-            State = MapContainerReviewStateEnumToDto(model.State),
+            State = MapContainerReviewStateModelToDto(model.State),
             UserId = model.UserId,
             TagReviewers = model.TagReviewers.ToDto(userIdNameMap),
         };
     }
 
-    public static ContainerReviewerStateEnumDto MapContainerReviewStateEnumToDto(ContainerReviewerStateEnum state)
+    public static ContainerReviewerStateEnumDto MapContainerReviewStateModelToDto(ContainerReviewerStateEnum state)
     {
         return state switch
         {
             ContainerReviewerStateEnum.Open => ContainerReviewerStateEnumDto.Open,
             ContainerReviewerStateEnum.Abandoned => ContainerReviewerStateEnumDto.Abandoned,
             ContainerReviewerStateEnum.Complete => ContainerReviewerStateEnumDto.Complete,
+            _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
+        };
+    }
+
+    public static ContainerReviewerStateEnum MapContainerReviewStateDtoToModel(ContainerReviewerStateEnumDto state)
+    {
+        return state switch
+        {
+            ContainerReviewerStateEnumDto.Open => ContainerReviewerStateEnum.Open,
+            ContainerReviewerStateEnumDto.Abandoned => ContainerReviewerStateEnum.Abandoned,
+            ContainerReviewerStateEnumDto.Complete => ContainerReviewerStateEnum.Complete,
             _ => throw new ArgumentOutOfRangeException(nameof(state), $"Unknown state: {state}"),
         };
     }

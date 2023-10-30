@@ -61,4 +61,13 @@ public class ContainerReviewerRepository
 
         return savedReview.Entity;
     }
+
+    public async Task<ContainerReviewer> UpdateContainerReviewer(ContainerReviewer reviewer)
+    {
+        _context.ContainerReviewers.Update(reviewer);
+
+        await _context.SaveChangesAsync();
+
+        return reviewer;
+    }
 }

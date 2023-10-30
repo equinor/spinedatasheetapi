@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace datasheetapi.Dtos.TagReviewer;
-public record UpdateReviewerDto
+public record UpdateTagReviewerDto
 {
     [Required]
     public TagReviewerStateEnumDto State { get; set; }

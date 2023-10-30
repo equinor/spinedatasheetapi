@@ -57,4 +57,22 @@ public class ContainerReviewerService
 
         return await _containerReviewerRepository.CreateContainerReviewer(review);
     }
+
+    public async Task<ContainerReviewer> UpdateContainerReviewer(Guid reviewerId, Guid userFromToken,
+        ContainerReviewerStateEnum containerReviewerStatus)
+    {
+
+        var existingReviewer = await _containerReviewerRepository.GetContainerReviewer(reviewerId)
+                               ?? throw new NotFoundException($"Container reviewer with Id: {reviewerId} not found");
+
+        if (existingReviewer.UserId != userFromToken)
+        {
+            throw new BadRequestException("Reviewer cannot update other people's container state");
+        }
+
+        existingReviewer.State = containerReviewerStatus;
+
+        var result = await _containerReviewerRepository.UpdateContainerReviewer(existingReviewer);
+        return result;
+    }
 }

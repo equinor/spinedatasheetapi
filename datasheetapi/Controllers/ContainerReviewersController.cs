@@ -76,16 +76,16 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpPut("{containerReviewerId}")]
-    public Task<ActionResult<TagReviewerDto?>> UpdateContainerReviewer(
+    public async Task<ActionResult<ContainerReviewerDto?>> UpdateContainerReviewer(
         [NotEmptyGuid] Guid containerReviewerId,
-        [Required] UpdateReviewerDto updateReviewerDto)
+        [Required] UpdateContainerReviewerDto updateTagReviewerDto)
     {
-        throw new NotImplementedException();
-        //var reviewStatus = updateReviewerDto.ReviewStatus.MapReviewStatusDtoToModel();
-        //var result = await _containerReviewerService.UpdateReviewer(containerReviewerId, Utils.GetAzureUniqueId(HttpContext.User), reviewStatus);
+        var reviewState = ContainerReviewerAdapter.MapContainerReviewStateDtoToModel(updateTagReviewerDto.State);
+        var result = await _containerReviewerService.UpdateContainerReviewer(containerReviewerId,
+            Utils.GetAzureUniqueId(HttpContext.User), reviewState);
 
-        //var displayName = await _userService.GetDisplayName(result.UserId);
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { result.UserId });
 
-        //return result.ToDto(displayName);
+        return result.ToDto(userIdNameMap);
     }
 }
