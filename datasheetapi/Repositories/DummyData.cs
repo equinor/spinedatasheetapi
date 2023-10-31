@@ -68,9 +68,9 @@ public static class DummyData
     {
         Id = new Guid("699544e7-e2a5-4a40-945d-be31f8f02a66"),
         RevisionNumber = 2,
-        RevisionContainerName = "Container A",
+        ContainerName = "Container A",
         Tags = new List<ContainerTags>(),
-        RevisionContainerDate = DateTimeOffset.Now.AddDays(-2),
+        ContainerDate = DateTimeOffset.Now.AddDays(-2),
         ContractId = new Guid("03108cfc-1f7a-4a56-828b-12e5a72c3c7d")
     };
 
@@ -78,9 +78,9 @@ public static class DummyData
     {
         Id = new Guid("9e8dd591-3cbd-4511-8d4a-54e31ea085bf"),
         RevisionNumber = 5,
-        RevisionContainerName = "Container B",
+        ContainerName = "Container B",
         Tags = new List<ContainerTags>(),
-        RevisionContainerDate = DateTimeOffset.Now.AddDays(-11),
+        ContainerDate = DateTimeOffset.Now.AddDays(-11),
         ContractId = new Guid("03108cfc-1f7a-4a56-828b-12e5a72c3c7d")
     };
 
@@ -88,9 +88,9 @@ public static class DummyData
     {
         Id = new Guid("d82f23f4-1612-421a-980e-4315ec642496"),
         RevisionNumber = 1,
-        RevisionContainerName = "Container C",
+        ContainerName = "Container C",
         Tags = new List<ContainerTags>(),
-        RevisionContainerDate = DateTimeOffset.Now.AddDays(-7),
+        ContainerDate = DateTimeOffset.Now.AddDays(-7),
         ContractId = new Guid("4bf24571-c88d-4a3b-a1df-1905e392b7a7")
     };
 
@@ -146,7 +146,7 @@ public static class DummyData
         var revisionContainerTagNo = new ContainerTags
         {
             TagNo = tagNo,
-            RevisionContainer = revisionContainer
+            Container = revisionContainer
         };
         revisionContainer.Tags.Add(revisionContainerTagNo);
     }

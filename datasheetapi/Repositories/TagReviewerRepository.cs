@@ -15,6 +15,20 @@ public class TagReviewerRepository : ITagReviewerRepository
         _context = context;
     }
 
+    public async Task<List<TagReviewer>> GetAllTagReviewers(Guid userId)
+    {
+        var collection = _context.TagReviewers as IQueryable<TagReviewer>;
+
+        if (userId != Guid.Empty)
+        {
+            collection = collection.Where(tr => tr.UserId == userId);
+        }
+
+        var tagReviewers = await collection.ToListAsync();
+
+        return tagReviewers;
+    }
+
     public async Task<List<TagReviewer>> CreateReviewers(List<TagReviewer> reviewers)
     {
         _context.TagReviewers.AddRange(reviewers);

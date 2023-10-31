@@ -35,9 +35,16 @@ public class TagReviewersController : ControllerBase
     }
 
     [HttpGet("/tag-reviewers")]
-    public Task<ActionResult<List<TagReviewerDto>>> GetAllTagReviewers([FromQuery] Guid userId)
+    public async Task<ActionResult<List<TagReviewerDto>>> GetAllTagReviewers([FromQuery] Guid userId)
     {
-        throw new NotImplementedException();
+        var result = await _tagReviewerService.GetAllTagReviewers(userId);
+
+        var userIds = result.Select(tagReview =>
+            tagReview.UserId).ToList();
+
+        var userIdNameMap = await _userService.GetDisplayNames(userIds);
+
+        return result.ToDto(userIdNameMap);
     }
 
     [HttpGet("{tagReviewerId}")]

@@ -99,8 +99,8 @@ public class DummyDataTests
         {
             Id = Guid.NewGuid(),
             RevisionNumber = 3,
-            RevisionContainerName = "New Container",
-            RevisionContainerDate = DateTimeOffset.Now.AddDays(-5),
+            ContainerName = "New Container",
+            ContainerDate = DateTimeOffset.Now.AddDays(-5),
             Contract = DummyData.contract1
         };
 

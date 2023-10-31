@@ -36,9 +36,16 @@ public class ContainerReviewersController : ControllerBase
     }
 
     [HttpGet("/container-reviewers")]
-    public Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewers([FromQuery] Guid userId)
+    public async Task<ActionResult<List<ContainerReviewerDto>>> GetContainerReviewers([FromQuery] Guid userId)
     {
-        throw new NotImplementedException();
+        var result = await _containerReviewerService.GetContainerReviewers(userId);
+
+        // TODO: Implement this properly
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { userId });
+
+        var dto = result.ToDto(userIdNameMap);
+
+        return Ok(dto);
     }
 
     [HttpGet("{containerReviewerId}")]

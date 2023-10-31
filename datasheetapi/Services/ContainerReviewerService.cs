@@ -27,9 +27,9 @@ public class ContainerReviewerService
         return review;
     }
 
-    public async Task<List<ContainerReviewer>> GetContainerReviewers()
+    public async Task<List<ContainerReviewer>> GetContainerReviewers(Guid userId)
     {
-        var reviews = await _containerReviewerRepository.GetContainerReviewers();
+        var reviews = await _containerReviewerRepository.GetContainerReviewers(userId);
         return reviews;
     }
 

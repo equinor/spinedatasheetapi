@@ -13,11 +13,11 @@ public static class ContainerAdapter
         return new ContainerDto
         {
             Id = revisionContainer.Id,
-            RevisionContainerName = revisionContainer.RevisionContainerName,
+            ContainerName = revisionContainer.ContainerName,
             RevisionNumber = revisionContainer.RevisionNumber,
-            RevisionContainerDate = revisionContainer.RevisionContainerDate,
+            ContainerDate = revisionContainer.ContainerDate,
             ContractId = revisionContainer.ContractId,
-            Contract = null,
+            TagNos = revisionContainer.Tags.Select(t => t.TagNo).ToList()
         };
     }
 
@@ -38,9 +38,9 @@ public static class ContainerAdapter
         return new Container
         {
             Id = revisionContainerDto.Id,
-            RevisionContainerName = revisionContainerDto.RevisionContainerName,
+            ContainerName = revisionContainerDto.ContainerName,
             RevisionNumber = revisionContainerDto.RevisionNumber,
-            RevisionContainerDate = revisionContainerDto.RevisionContainerDate,
+            ContainerDate = revisionContainerDto.ContainerDate,
             ContractId = revisionContainerDto.ContractId,
         };
     }

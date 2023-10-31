@@ -32,10 +32,17 @@ public class ContainerReviewerRepository
         return exists;
     }
 
-    public async Task<List<ContainerReviewer>> GetContainerReviewers()
+    public async Task<List<ContainerReviewer>> GetContainerReviewers(Guid userId)
     {
-        var containerReviews = await _context.ContainerReviewers.ToListAsync();
-        return containerReviews;
+        var collection = _context.ContainerReviewers as IQueryable<ContainerReviewer>;
+
+        if (userId != Guid.Empty)
+        {
+            collection = collection.Where(cr => cr.UserId == userId);
+        }
+
+        var containerReviewers = await collection.ToListAsync();
+        return containerReviewers;
     }
 
     public async Task<List<ContainerReviewer>> GetContainerReviewersForContainerReview(Guid containerReviewId,

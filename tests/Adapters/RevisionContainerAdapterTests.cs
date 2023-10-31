@@ -27,9 +27,9 @@ public class RevisionContainerAdapterTests
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.UtcNow,
             ModifiedDate = DateTime.UtcNow,
-            RevisionContainerName = "Test Revision Container",
+            ContainerName = "Test Revision Container",
             RevisionNumber = 1,
-            RevisionContainerDate = DateTime.UtcNow,
+            ContainerDate = DateTime.UtcNow,
             Tags = new List<ContainerTags>(),
             RevisionContainerReview = new ContainerReview(),
             ContractId = Guid.NewGuid(),
@@ -44,9 +44,9 @@ public class RevisionContainerAdapterTests
         Assert.Equal(revisionContainer.Id, result.Id);
         Assert.Equal(revisionContainer.CreatedDate, result.CreatedDate);
         Assert.Equal(revisionContainer.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(revisionContainer.RevisionContainerName, result.RevisionContainerName);
+        Assert.Equal(revisionContainer.ContainerName, result.RevisionContainerName);
         Assert.Equal(revisionContainer.RevisionNumber, result.RevisionNumber);
-        Assert.Equal(revisionContainer.RevisionContainerDate, result.RevisionContainerDate);
+        Assert.Equal(revisionContainer.ContainerDate, result.RevisionContainerDate);
         Assert.NotNull(result.TagData);
         Assert.NotNull(result.RevisionContainerReview);
         Assert.Equal(revisionContainer.ContractId, result.ContractId);
@@ -78,9 +78,9 @@ public class RevisionContainerAdapterTests
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                RevisionContainerName = "Test Revision Container 1",
+                ContainerName = "Test Revision Container 1",
                 RevisionNumber = 1,
-                RevisionContainerDate = DateTime.UtcNow,
+                ContainerDate = DateTime.UtcNow,
                 Tags = new List<ContainerTags>(),
                 RevisionContainerReview = new ContainerReview(),
                 ContractId = Guid.NewGuid(),
@@ -91,9 +91,9 @@ public class RevisionContainerAdapterTests
                 Id = Guid.NewGuid(),
                 CreatedDate = DateTime.UtcNow,
                 ModifiedDate = DateTime.UtcNow,
-                RevisionContainerName = "Test Revision Container 2",
+                ContainerName = "Test Revision Container 2",
                 RevisionNumber = 2,
-                RevisionContainerDate = DateTime.UtcNow,
+                ContainerDate = DateTime.UtcNow,
                 Tags = new List<ContainerTags>(),
                 RevisionContainerReview = new ContainerReview(),
                 ContractId = Guid.NewGuid(),
@@ -112,9 +112,9 @@ public class RevisionContainerAdapterTests
             Assert.Equal(revisionContainers[i].Id, result[i].Id);
             Assert.Equal(revisionContainers[i].CreatedDate, result[i].CreatedDate);
             Assert.Equal(revisionContainers[i].ModifiedDate, result[i].ModifiedDate);
-            Assert.Equal(revisionContainers[i].RevisionContainerName, result[i].RevisionContainerName);
+            Assert.Equal(revisionContainers[i].ContainerName, result[i].RevisionContainerName);
             Assert.Equal(revisionContainers[i].RevisionNumber, result[i].RevisionNumber);
-            Assert.Equal(revisionContainers[i].RevisionContainerDate, result[i].RevisionContainerDate);
+            Assert.Equal(revisionContainers[i].ContainerDate, result[i].RevisionContainerDate);
             Assert.NotNull(result[i].TagData);
             Assert.NotNull(result[i].RevisionContainerReview);
             Assert.Equal(revisionContainers[i].ContractId, result[i].ContractId);
@@ -161,9 +161,9 @@ public class RevisionContainerAdapterTests
         Assert.Equal(revisionContainerDto.Id, result.Id);
         Assert.Equal(revisionContainerDto.CreatedDate, result.CreatedDate);
         Assert.Equal(revisionContainerDto.ModifiedDate, result.ModifiedDate);
-        Assert.Equal(revisionContainerDto.RevisionContainerName, result.RevisionContainerName);
+        Assert.Equal(revisionContainerDto.RevisionContainerName, result.ContainerName);
         Assert.Equal(revisionContainerDto.RevisionNumber, result.RevisionNumber);
-        Assert.Equal(revisionContainerDto.RevisionContainerDate, result.RevisionContainerDate);
+        Assert.Equal(revisionContainerDto.RevisionContainerDate, result.ContainerDate);
         Assert.NotNull(result.RevisionContainerReview);
         Assert.Equal(revisionContainerDto.ContractId, result.ContractId);
         Assert.Null(result.Contract);
@@ -228,9 +228,9 @@ public class RevisionContainerAdapterTests
             Assert.Equal(revisionContainerDtos[i].Id, result[i].Id);
             Assert.Equal(revisionContainerDtos[i].CreatedDate, result[i].CreatedDate);
             Assert.Equal(revisionContainerDtos[i].ModifiedDate, result[i].ModifiedDate);
-            Assert.Equal(revisionContainerDtos[i].RevisionContainerName, result[i].RevisionContainerName);
+            Assert.Equal(revisionContainerDtos[i].RevisionContainerName, result[i].ContainerName);
             Assert.Equal(revisionContainerDtos[i].RevisionNumber, result[i].RevisionNumber);
-            Assert.Equal(revisionContainerDtos[i].RevisionContainerDate, result[i].RevisionContainerDate);
+            Assert.Equal(revisionContainerDtos[i].RevisionContainerDate, result[i].ContainerDate);
             Assert.NotNull(result[i].RevisionContainerReview);
             Assert.Equal(revisionContainerDtos[i].ContractId, result[i].ContractId);
             Assert.Null(result[i].Contract);

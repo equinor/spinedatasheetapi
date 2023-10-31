@@ -32,7 +32,7 @@ public class ContainerRepository : IContainerRepository
 
     public async Task<List<Container>> GetContainers()
     {
-        var revisionContainers = await _context.Containers.ToListAsync();
+        var revisionContainers = await _context.Containers.Include(c => c.Tags).ToListAsync();
         return revisionContainers;
     }
 

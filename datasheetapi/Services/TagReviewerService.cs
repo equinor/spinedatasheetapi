@@ -13,6 +13,12 @@ public class TagReviewerService : ITagReviewerService
         _tagReviewerRepository = reviewerRepository;
     }
 
+    public async Task<List<TagReviewer>> GetAllTagReviewers(Guid userId)
+    {
+        var reviewers = await _tagReviewerRepository.GetAllTagReviewers(userId);
+        return reviewers;
+    }
+
     public async Task<List<TagReviewer>> CreateReviewers(Guid containerReviewerId, List<TagReviewer> tagReviewers)
     {
         tagReviewers.ForEach(tr => tr.ContainerReviewerId = containerReviewerId);
