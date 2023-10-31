@@ -28,6 +28,12 @@ public static class ContainerReviewerAdapter
         };
     }
 
+    public static List<ContainerReviewerDto> ToDto(this List<ContainerReviewer> model,
+        Dictionary<Guid, string> userIdNameMap)
+    {
+        return model.Select(m => m.ToDto(userIdNameMap)).ToList();
+    }
+
     public static ContainerReviewerStateEnumDto MapContainerReviewStateModelToDto(ContainerReviewerStateEnum state)
     {
         return state switch

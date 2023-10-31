@@ -46,9 +46,11 @@ public class ContainerReviewersController : ControllerBase
     {
         var result = await _containerReviewerService.GetContainerReviewer(containerReviewerId);
 
-        //var dto = result.ToDto();
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { result.UserId });
 
-        return Ok(result);
+        var dto = result.ToDto(userIdNameMap);
+
+        return Ok(dto);
     }
 
     [HttpGet]
@@ -57,9 +59,12 @@ public class ContainerReviewersController : ControllerBase
     {
         var result = await _containerReviewerService.GetContainerReviewersForContainerReview(containerReviewId, userId);
 
-        //var dto = result.ToDto();
+        // TODO: Implement this properly
+        var userIdNameMap = await _userService.GetDisplayNames(new List<Guid> { userId });
 
-        return Ok(result);
+        var dto = result.ToList().ToDto(userIdNameMap);
+
+        return Ok(dto);
     }
 
     [HttpPost]
