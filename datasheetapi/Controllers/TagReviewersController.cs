@@ -47,12 +47,6 @@ public class TagReviewersController : ControllerBase
         return result.ToDto(userIdNameMap);
     }
 
-    [HttpGet("{tagReviewerId}")]
-    public Task<ActionResult<TagReviewerDto>> GetTagReviewer(Guid tagReviewerId)
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpGet]
     public Task<ActionResult<List<TagReviewerDto>>> GetTagReviewers()
     {
