@@ -19,12 +19,6 @@ public class ContainerService : IContainerService
         return revisionContainer;
     }
 
-    public async Task<Container?> GetContainerWithReviewForTagNo(string tagNo)
-    {
-        var revisionContainer = await _containerRepository.GetContainerWithReviewForTagNo(tagNo);
-        return revisionContainer;
-    }
-
     public async Task<List<Container>> GetContainers()
     {
         var revisionContainer = await _containerRepository.GetContainers();

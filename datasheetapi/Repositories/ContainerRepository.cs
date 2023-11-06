@@ -21,15 +21,6 @@ public class ContainerRepository : IContainerRepository
         return revisionContainer;
     }
 
-    public Task<Container?> GetContainerWithReviewForTagNo(string tagNo)
-    {
-        throw new NotImplementedException();
-        //var containerTagNo = await _context.ContainerTags.Include(x => x.RevisionContainer).ThenInclude(x => x.RevisionContainerReview).FirstOrDefaultAsync(x => x.TagNo == tagNo);
-        //if (containerTagNo == null) { return null; }
-        //var container = containerTagNo.RevisionContainer;
-        //return container;
-    }
-
     public async Task<List<Container>> GetContainers()
     {
         var revisionContainers = await _context.Containers.Include(c => c.Tags).ToListAsync();
