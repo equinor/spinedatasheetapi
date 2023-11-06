@@ -141,7 +141,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
-builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
 builder.Services.AddScoped<IContainerService, ContainerService>();
