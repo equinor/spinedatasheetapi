@@ -6,5 +6,5 @@ public record CreateContainerReviewDto
     [NotEmptyGuid]
     public Guid RevisionContainerId { get; set; }
     [Required]
-    public ReviewStatusDto Status { get; set; }
+    public ContainerReviewStateEnumDto State { get; set; }
 }
