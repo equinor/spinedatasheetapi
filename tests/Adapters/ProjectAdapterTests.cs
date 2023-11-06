@@ -13,8 +13,6 @@ public class ProjectAdapterTests
         var project = new Project
         {
             Id = Guid.NewGuid(),
-            CreatedDate = DateTime.UtcNow,
-            ModifiedDate = DateTime.UtcNow,
             Contracts = new List<Contract>(),
         };
 
@@ -24,8 +22,6 @@ public class ProjectAdapterTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(project.Id, result.Id);
-        Assert.Equal(project.CreatedDate, result.CreatedDate);
-        Assert.Equal(project.ModifiedDate, result.ModifiedDate);
         Assert.NotNull(result.Contracts);
         Assert.Empty(result.Contracts);
     }
@@ -53,15 +49,11 @@ public class ProjectAdapterTests
             new Project
             {
                 Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
                 Contracts = new List<Contract>(),
             },
             new Project
             {
                 Id = Guid.NewGuid(),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow,
                 Contracts = new List<Contract>(),
             },
         };
@@ -75,8 +67,6 @@ public class ProjectAdapterTests
         for (int i = 0; i < projects.Count; i++)
         {
             Assert.Equal(projects[i].Id, result[i].Id);
-            Assert.Equal(projects[i].CreatedDate, result[i].CreatedDate);
-            Assert.Equal(projects[i].ModifiedDate, result[i].ModifiedDate);
             Assert.NotNull(result[i].Contracts);
             Assert.Empty(result[i].Contracts);
         }
@@ -113,8 +103,6 @@ public class ProjectAdapterTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(projectDto.Id, result.Id);
-        Assert.Equal(projectDto.CreatedDate, result.CreatedDate);
-        Assert.Equal(projectDto.ModifiedDate, result.ModifiedDate);
         Assert.NotNull(result.Contracts);
         Assert.Empty(result.Contracts);
     }
@@ -164,8 +152,6 @@ public class ProjectAdapterTests
         for (int i = 0; i < projectDtos.Count; i++)
         {
             Assert.Equal(projectDtos[i].Id, result[i].Id);
-            Assert.Equal(projectDtos[i].CreatedDate, result[i].CreatedDate);
-            Assert.Equal(projectDtos[i].ModifiedDate, result[i].ModifiedDate);
             Assert.NotNull(result[i].Contracts);
             Assert.Empty(result[i].Contracts);
         }

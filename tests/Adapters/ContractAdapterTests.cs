@@ -25,7 +25,6 @@ public class ContractAdapterTests
         var contract = new Contract
         {
             ContractName = "Test Contract",
-            ContractorId = Guid.NewGuid(),
             ProjectId = Guid.NewGuid(),
             Containers = new List<Container>(),
         };
@@ -36,7 +35,6 @@ public class ContractAdapterTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(contract.ContractName, result.ContractName);
-        Assert.Equal(contract.ContractorId, result.ContractorId);
         Assert.Equal(contract.ProjectId, result.ProjectId);
         Assert.NotNull(result.RevisionContainers);
         Assert.Empty(result.RevisionContainers);
@@ -65,14 +63,12 @@ public class ContractAdapterTests
             new Contract
             {
                 ContractName = "Test Contract 1",
-                ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
                 Containers = new List<Container>(),
             },
             new Contract
             {
                 ContractName = "Test Contract 2",
-                ContractorId = Guid.NewGuid(),
                 ProjectId = Guid.NewGuid(),
                 Containers = new List<Container>(),
             },
@@ -87,7 +83,6 @@ public class ContractAdapterTests
         for (int i = 0; i < contracts.Count; i++)
         {
             Assert.Equal(contracts[i].ContractName, result[i].ContractName);
-            Assert.Equal(contracts[i].ContractorId, result[i].ContractorId);
             Assert.Equal(contracts[i].ProjectId, result[i].ProjectId);
             Assert.NotNull(result[i].RevisionContainers);
             Assert.Empty(result[i].RevisionContainers);
@@ -125,7 +120,6 @@ public class ContractAdapterTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(contractDto.ContractName, result.ContractName);
-        Assert.Equal(contractDto.ContractorId, result.ContractorId);
         Assert.Equal(contractDto.ProjectId, result.ProjectId);
         Assert.NotNull(result.Containers);
         Assert.Empty(result.Containers);
@@ -176,7 +170,6 @@ public class ContractAdapterTests
         for (int i = 0; i < contractDtos.Count; i++)
         {
             Assert.Equal(contractDtos[i].ContractName, result[i].ContractName);
-            Assert.Equal(contractDtos[i].ContractorId, result[i].ContractorId);
             Assert.Equal(contractDtos[i].ProjectId, result[i].ProjectId);
             Assert.NotNull(result[i].Containers);
             Assert.Empty(result[i].Containers);

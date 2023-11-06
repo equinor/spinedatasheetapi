@@ -31,7 +31,6 @@ public class TagDataAdapterTests
             Category = "Instrument",
             Description = "Instrument Tag",
             Discipline = "Instrumentation",
-            Version = 1,
             InstrumentPurchaserRequirement = new InstrumentPurchaserRequirement(),
             InstrumentSupplierOfferedProduct = new InstrumentSupplierOfferedProduct(),
         };
@@ -47,8 +46,6 @@ public class TagDataAdapterTests
         Assert.Equal(tagData.Category, result.Category);
         Assert.Equal(tagData.Description, result.Description);
         Assert.Equal(tagData.Discipline, result.Discipline);
-        Assert.Equal(tagData.Version, result.Version);
-        Assert.Null(result.RevisionContainer);
         Assert.IsType<InstrumentTagDataDto>(result);
         var instrumentDto = (InstrumentTagDataDto)result;
         Assert.Equal(tagData.InstrumentPurchaserRequirement, instrumentDto.InstrumentPurchaserRequirement);
@@ -83,7 +80,6 @@ public class TagDataAdapterTests
                 Category = "Instrument",
                 Description = "Instrument Tag",
                 Discipline = "Instrumentation",
-                Version = 1,
                 InstrumentPurchaserRequirement = new InstrumentPurchaserRequirement(),
                 InstrumentSupplierOfferedProduct = new InstrumentSupplierOfferedProduct(),
             },
@@ -95,7 +91,6 @@ public class TagDataAdapterTests
                 Category = "Electrical",
                 Description = "Electrical Tag",
                 Discipline = "Electrical",
-                Version = 2,
                 ElectricalPurchaserRequirement = new ElectricalPurchaserRequirement(),
                 ElectricalSupplierOfferedProduct = new ElectricalSupplierOfferedProduct(),
             },
@@ -115,8 +110,6 @@ public class TagDataAdapterTests
             Assert.Equal(tagData[i].Category, result[i].Category);
             Assert.Equal(tagData[i].Description, result[i].Description);
             Assert.Equal(tagData[i].Discipline, result[i].Discipline);
-            Assert.Equal(tagData[i].Version, result[i].Version);
-            Assert.Null(result[i].RevisionContainer);
             if (tagData[i] is InstrumentTagData instrumentTagData)
             {
                 Assert.IsType<InstrumentTagDataDto>(result[i]);

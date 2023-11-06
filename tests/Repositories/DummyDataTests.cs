@@ -81,7 +81,6 @@ public class DummyDataTests
         {
             Id = Guid.NewGuid(),
             ContractName = "New Contract",
-            Project = DummyData.project1
         };
 
         // Act
@@ -101,7 +100,6 @@ public class DummyDataTests
             RevisionNumber = 3,
             ContainerName = "New Container",
             ContainerDate = DateTimeOffset.Now.AddDays(-5),
-            Contract = DummyData.contract1
         };
 
         // Act
