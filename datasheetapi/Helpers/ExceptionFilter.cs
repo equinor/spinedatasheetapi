@@ -38,6 +38,14 @@ public class ExceptionFilter : IActionFilter, IOrderedFilter
             };
             context.ExceptionHandled = true;
         }
+        else if (context.Exception is ConflictException conflictException)
+        {
+            context.Result = new ObjectResult(AssembleErrorDto(conflictException.Value))
+            {
+                StatusCode = StatusCodes.Status409Conflict
+            };
+            context.ExceptionHandled = true;
+        }
         else if (context.Exception is Exception exception)
         {
             _logger.LogError(exception, "Error while preforming the action");

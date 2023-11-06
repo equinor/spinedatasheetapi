@@ -17,6 +17,5 @@ namespace datasheetapi.Models
         string? System { get; set; }
         string? TagType { get; set; }
         string? SubTagType { get; set; }
-        int Version { get; set; }
     }
 }

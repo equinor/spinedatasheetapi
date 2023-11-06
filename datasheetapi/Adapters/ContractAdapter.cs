@@ -12,12 +12,9 @@ public static class ContractAdapter
         return new ContractDto
         {
             Id = contract.Id,
-            CreatedDate = contract.CreatedDate,
-            ModifiedDate = contract.ModifiedDate,
             ContractName = contract.ContractName,
-            ContractorId = contract.ContractorId,
             ProjectId = contract.ProjectId,
-            RevisionContainers = contract.RevisionContainers.ToDto(),
+            RevisionContainers = contract.Containers.ToDto(),
         };
     }
 
@@ -38,9 +35,8 @@ public static class ContractAdapter
         return new Contract
         {
             ContractName = contractDto.ContractName,
-            ContractorId = contractDto.ContractorId,
             ProjectId = contractDto.ProjectId,
-            RevisionContainers = contractDto.RevisionContainers.ToModel(),
+            Containers = contractDto.RevisionContainers.ToModel(),
         };
     }
 

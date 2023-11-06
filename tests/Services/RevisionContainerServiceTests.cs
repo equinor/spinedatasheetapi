@@ -10,14 +10,14 @@ namespace tests.Services;
 public class RevisionContainerServiceTests
 {
     private readonly Mock<ILoggerFactory> _loggerFactoryMock;
-    private readonly Mock<IRevisionContainerRepository> _revisionContainerRepositoryMock;
-    private readonly RevisionContainerService _revisionContainerService;
+    private readonly Mock<IContainerRepository> _revisionContainerRepositoryMock;
+    private readonly ContainerService _revisionContainerService;
 
     public RevisionContainerServiceTests()
     {
         _loggerFactoryMock = new Mock<ILoggerFactory>();
-        _revisionContainerRepositoryMock = new Mock<IRevisionContainerRepository>();
-        _revisionContainerService = new RevisionContainerService(_loggerFactoryMock.Object, _revisionContainerRepositoryMock.Object);
+        _revisionContainerRepositoryMock = new Mock<IContainerRepository>();
+        _revisionContainerService = new ContainerService(_loggerFactoryMock.Object, _revisionContainerRepositoryMock.Object);
     }
 
     [Fact]
@@ -25,10 +25,10 @@ public class RevisionContainerServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        _revisionContainerRepositoryMock.Setup(x => x.GetRevisionContainer(id)).ReturnsAsync((RevisionContainer?)null);
+        _revisionContainerRepositoryMock.Setup(x => x.GetContainer(id)).ReturnsAsync((Container?)null);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainer(id);
+        var result = await _revisionContainerService.GetContainer(id);
 
         // Assert
         Assert.Null(result);
@@ -39,11 +39,11 @@ public class RevisionContainerServiceTests
     {
         // Arrange
         var id = Guid.NewGuid();
-        var container = new RevisionContainer { Id = id };
-        _revisionContainerRepositoryMock.Setup(x => x.GetRevisionContainer(id)).ReturnsAsync(container);
+        var container = new Container { Id = id };
+        _revisionContainerRepositoryMock.Setup(x => x.GetContainer(id)).ReturnsAsync(container);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainer(id);
+        var result = await _revisionContainerService.GetContainer(id);
 
         // Assert
         Assert.NotNull(result);
@@ -54,11 +54,11 @@ public class RevisionContainerServiceTests
     public async Task GetRevisionContainers_ReturnsContainers()
     {
         // Arrange
-        var containers = new List<RevisionContainer> { new RevisionContainer(), new RevisionContainer() };
-        _revisionContainerRepositoryMock.Setup(x => x.GetRevisionContainers()).ReturnsAsync(containers);
+        var containers = new List<Container> { new Container(), new Container() };
+        _revisionContainerRepositoryMock.Setup(x => x.GetContainers()).ReturnsAsync(containers);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainers();
+        var result = await _revisionContainerService.GetContainers();
 
         // Assert
         Assert.NotNull(result);
@@ -70,11 +70,11 @@ public class RevisionContainerServiceTests
     {
         // Arrange
         var contractId = Guid.NewGuid();
-        var containers = new List<RevisionContainer> { new RevisionContainer(), new RevisionContainer() };
-        _revisionContainerRepositoryMock.Setup(x => x.GetRevisionContainersForContract(contractId)).ReturnsAsync(containers);
+        var containers = new List<Container> { new Container(), new Container() };
+        _revisionContainerRepositoryMock.Setup(x => x.GetContainersForContract(contractId)).ReturnsAsync(containers);
 
         // Act
-        var result = await _revisionContainerService.GetRevisionContainersForContract(contractId);
+        var result = await _revisionContainerService.GetContainersForContract(contractId);
 
         // Assert
         Assert.NotNull(result);

@@ -16,15 +16,15 @@ public static class SaveSampleDataToDB
 
         var projects = DummyData.GetProjects();
         context.Projects.AddRange(projects);
-        context.SaveChanges();
 
         var contracts = DummyData.GetContracts();
         context.Contracts.AddRange(contracts);
-        context.SaveChanges();
 
-        var revisionContainers = DummyData.GetRevisionContainers();
-        context.RevisionContainers.AddRange(revisionContainers);
-        context.SaveChanges();
+        var containers = DummyData.GetContainers();
+        context.Containers.AddRange(containers);
+
+        var containerReviews = DummyData.GetContainerReviews();
+        context.ContainerReviews.AddRange(containerReviews);
 
         DummyData.GetTagDatas();
         context.SaveChanges();

@@ -6,5 +6,5 @@ public record class ContractDto : BaseEntityDto
 
     // Relationships
     public Guid ProjectId { get; set; }
-    public List<RevisionContainerDto> RevisionContainers { get; set; } = new List<RevisionContainerDto>();
+    public List<ContainerDto> RevisionContainers { get; set; } = new List<ContainerDto>();
 }

@@ -141,32 +141,35 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddApplicationInsightsTelemetry(appInsightTelemetryOptions);
 builder.Services.AddScoped<ITagDataService, TagDataService>();
-builder.Services.AddScoped<ITagDataEnrichmentService, TagDataEnrichmentService>();
 builder.Services.AddScoped<IContractService, ContractService>();
 builder.Services.AddScoped<IConversationService, ConversationService>();
-builder.Services.AddScoped<ITagDataReviewService, TagDataReviewService>();
-builder.Services.AddScoped<IRevisionContainerReviewService, RevisionContainerReviewService>();
-builder.Services.AddScoped<IRevisionContainerService, RevisionContainerService>();
+builder.Services.AddScoped<IContainerService, ContainerService>();
 builder.Services.AddScoped<IFusionService, FusionService>();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<IFusionPeopleService, FusionPeopleService>();
-builder.Services.AddScoped<IReviewerService, ReviewerService>();
-builder.Services.AddScoped<IReviewerRepository, ReviewerRepository>();
+builder.Services.AddScoped<ITagReviewerRepository, TagReviewerRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IContainerReviewService, ContainerReviewService>();
+builder.Services.AddScoped<ContainerReviewerService>();
+builder.Services.AddScoped<ITagReviewerService, TagReviewerService>();
+
+builder.Services.AddScoped<ContainerReviewerRepository>();
 
 builder.Services.AddSingleton<IFAMService, DummyFAMService>();
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IContractRepository, ContractRepository>();
 builder.Services.AddScoped<IConversationRepository, ConversationRepository>();
-builder.Services.AddScoped<ITagDataReviewRepository, TagDataReviewRepository>();
-builder.Services.AddScoped<IRevisionContainerRepository, RevisionContainerRepository>();
-builder.Services.AddScoped<IRevisionContainerReviewRepository, RevisionContainerReviewRepository>();
+builder.Services.AddScoped<IContainerRepository, ContainerRepository>();
+builder.Services.AddScoped<IContainerReviewRepository, ContainerReviewRepository>();
+
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<IAuthorizationHandler, ApplicationRoleAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationPolicyProvider, ApplicationRolePolicyProvider>();
 builder.Services.AddSingleton<IAzureUserCacheService, AzureUserCacheService>();
+
 
 builder.Services.Configure<IConfiguration>(builder.Configuration);
 
