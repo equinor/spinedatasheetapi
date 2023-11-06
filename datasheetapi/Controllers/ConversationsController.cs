@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using datasheetapi.Adapters;
+using datasheetapi.Dtos.Conversation;
 using datasheetapi.Exceptions;
 
 using Microsoft.AspNetCore.Authorization;
@@ -79,7 +80,7 @@ public class ConversationsController : ControllerBase
     /// Get the list of conversation available under the reviewId
     /// </summary>
     /// <param name="reviewId">Unique Id for the review</param>
-    /// <param name="includeLatestMessage">Include Latest Message in the conversation. 
+    /// <param name="includeLatestMessage">Include Latest Message in the conversation.
     /// The latest message will be non soft deleted message if at least one exists, else it will send last soft deleted message.</param>
     /// <returns></returns>
     [HttpGet(Name = "GetConversations")]

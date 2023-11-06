@@ -4,6 +4,7 @@ public interface IConversationRepository
 {
     Task<Conversation> CreateConversation(Conversation conversation);
     Task<Conversation?> GetConversation(Guid conversationId);
+    Task<List<Conversation>> GetConversationsForTagNos(ICollection<string> tagNos);
     Task<List<Conversation>> GetConversationsWithLatestMessage(Guid projectId,
         string tagNo, bool includeSoftDeletedMessage);
     Task<List<Conversation>> GetConversations(Guid projectId, string tagNo);

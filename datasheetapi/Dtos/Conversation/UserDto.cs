@@ -1,4 +1,4 @@
-namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos.Conversation;
 public record UserDto
 {
     public Guid UserId { get; set; }

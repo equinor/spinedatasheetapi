@@ -20,7 +20,7 @@ public class ConversationService : IConversationService
 
     public async Task<Conversation> CreateConversation(Conversation conversation)
     {
-        // TODO: Not sure, how to verify the project from the tag. 
+        // TODO: Not sure, how to verify the project from the tag.
         // This needs to be relook when we have integration to FAM
         _ = await _famService.GetTagData(conversation.TagNo)
             ?? throw new NotFoundException("Invalid tag data");
@@ -41,6 +41,11 @@ public class ConversationService : IConversationService
             return await _conversationRepository.GetConversationsWithLatestMessage(projectId, tagNo, false);
         }
         return await _conversationRepository.GetConversations(projectId, tagNo);
+    }
+
+    public async Task<List<Conversation>> GetConversationsForTagNos(ICollection<string> tagNos)
+    {
+        return await _conversationRepository.GetConversationsForTagNos(tagNos);
     }
 
     public async Task<Message> AddMessage(Guid conversationId, Message message)

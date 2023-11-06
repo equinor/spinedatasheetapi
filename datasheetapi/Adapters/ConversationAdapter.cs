@@ -1,3 +1,5 @@
+using datasheetapi.Dtos.Conversation;
+
 namespace datasheetapi.Adapters;
 public static class ConversationAdapter
 {
@@ -35,6 +37,19 @@ public static class ConversationAdapter
             Messages = ToMessageDtos(conversation.Messages, userIdNameMap),
             Participants = ToParticipantDtos(conversation.Participants, userIdNameMap),
         };
+    }
+
+    public static GetConversationForContainerDto ToDtoWithTagNo(this Conversation conversation,
+        Dictionary<Guid, string> userIdNameMap)
+    {
+        throw new NotImplementedException();
+        // var dto = conversation.ToDto(userIdNameMap);
+        // GetConversationForContainerDto dtoWithTagNo = new GetConversationForContainerDto();
+        // dtoWithTagNo = dto;
+
+
+        // dto.TagNo = conversation.TagNo;
+        // return dto;
     }
 
     public static Message ToMessageModel(

@@ -1,6 +1,9 @@
-namespace datasheetapi.Dtos;
-public record GetConversationDto : BaseEntityDto
+namespace datasheetapi.Dtos.Conversation;
+public class GetConversationDto
 {
+    public Guid Id { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime ModifiedDate { get; set; }
     public string? Property { get; set; }
     public ConversationStatusDto ConversationStatus { get; set; }
     public ConversationLevelDto ConversationLevel { get; set; }
