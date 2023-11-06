@@ -1,4 +1,4 @@
-﻿namespace datasheetapi.Exceptions;
+namespace datasheetapi.Exceptions;
 
 public class ConflictException : Exception
 {

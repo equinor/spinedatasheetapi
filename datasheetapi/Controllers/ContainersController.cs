@@ -1,4 +1,4 @@
-﻿using datasheetapi.Adapters;
+using datasheetapi.Adapters;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
