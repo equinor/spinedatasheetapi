@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using datasheetapi.Adapters;
+using datasheetapi.Dtos.Conversation;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;

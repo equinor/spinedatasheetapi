@@ -1,5 +1,6 @@
 using datasheetapi.Adapters;
 using datasheetapi.Dtos;
+using datasheetapi.Dtos.Conversation;
 using datasheetapi.Models;
 
 namespace tests.Adapters;

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos.Conversation;
 public record GetMessageDto : BaseEntityDto
 {
     public Guid UserId { get; set; }

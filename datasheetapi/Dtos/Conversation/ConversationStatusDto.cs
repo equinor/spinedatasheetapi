@@ -1,4 +1,4 @@
-namespace datasheetapi.Dtos;
+namespace datasheetapi.Dtos.Conversation;
 
 public enum ConversationStatusDto
 {

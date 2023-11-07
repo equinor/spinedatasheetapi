@@ -101,6 +101,32 @@ public class ConversationRepository : IConversationRepository
             .Where(c => c.ProjectId == projectId && c.TagNo == tagNo).ToListAsync();
     }
 
+    public async Task<List<Conversation>> GetConversationsForTagNos(ICollection<string> tagNos)
+    {
+        var conversationWithLatestMessage = await _context.Conversations
+            .Include(c => c.Participants)
+            .Where(c => tagNos.Contains(c.TagNo))
+            .Select(c => new
+            {
+                Conversation = c,
+                LatestMessage = c.Messages
+                                    .OrderByDescending(m => m.CreatedDate)
+                                    .FirstOrDefault(m => m.SoftDeleted == false)
+                                ?? c.Messages
+                                    .OrderByDescending(m => m.CreatedDate)
+                                    .First()
+            })
+            .ToListAsync();
+
+        return conversationWithLatestMessage
+            .Select(c =>
+            {
+                c.Conversation.Messages = new List<Message> { c.LatestMessage };
+                return c.Conversation;
+            })
+            .ToList();
+    }
+
     public async Task<List<Conversation>> GetConversationsWithLatestMessage(Guid projectId,
         string tagNo, bool includeSoftDeletedMessage)
     {

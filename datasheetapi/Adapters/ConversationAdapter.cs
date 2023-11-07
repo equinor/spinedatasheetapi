@@ -1,3 +1,5 @@
+using datasheetapi.Dtos.Conversation;
+
 namespace datasheetapi.Adapters;
 public static class ConversationAdapter
 {
@@ -29,6 +31,7 @@ public static class ConversationAdapter
             Id = conversation.Id,
             CreatedDate = conversation.CreatedDate,
             ModifiedDate = conversation.ModifiedDate,
+            TagNo = conversation.TagNo,
             Property = conversation.Property,
             ConversationLevel = MapConversationLevelModelToDto(conversation.ConversationLevel),
             ConversationStatus = MapConversationStatusModelToDto(conversation.ConversationStatus),
