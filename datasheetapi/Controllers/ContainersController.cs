@@ -53,7 +53,7 @@ public class ContainersController : ControllerBase
     }
 
     [HttpGet("{containerId}/conversations")]
-    public async Task<ActionResult<List<GetConversationForContainerDto>>> GetConversations([NotEmptyGuid] Guid containerId)
+    public async Task<ActionResult<List<GetConversationDto>>> GetConversations([NotEmptyGuid] Guid containerId)
     {
         var container = await _containerService.GetContainer(containerId) ??
                         throw new NotFoundException($"Container with id {containerId} not found");
@@ -65,6 +65,6 @@ public class ContainersController : ControllerBase
             conversation.Participants.Select(p => p.UserId)).ToList();
         var userIdNameMap = await _userService.GetDisplayNames(userIds);
 
-        return conversations.Select(conversation => conversation.ToDtoWithTagNo(userIdNameMap)).ToList();
+        return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
     }
 }

@@ -31,25 +31,13 @@ public static class ConversationAdapter
             Id = conversation.Id,
             CreatedDate = conversation.CreatedDate,
             ModifiedDate = conversation.ModifiedDate,
+            TagNo = conversation.TagNo,
             Property = conversation.Property,
             ConversationLevel = MapConversationLevelModelToDto(conversation.ConversationLevel),
             ConversationStatus = MapConversationStatusModelToDto(conversation.ConversationStatus),
             Messages = ToMessageDtos(conversation.Messages, userIdNameMap),
             Participants = ToParticipantDtos(conversation.Participants, userIdNameMap),
         };
-    }
-
-    public static GetConversationForContainerDto ToDtoWithTagNo(this Conversation conversation,
-        Dictionary<Guid, string> userIdNameMap)
-    {
-        throw new NotImplementedException();
-        // var dto = conversation.ToDto(userIdNameMap);
-        // GetConversationForContainerDto dtoWithTagNo = new GetConversationForContainerDto();
-        // dtoWithTagNo = dto;
-
-
-        // dto.TagNo = conversation.TagNo;
-        // return dto;
     }
 
     public static Message ToMessageModel(
