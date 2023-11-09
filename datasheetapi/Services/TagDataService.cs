@@ -18,6 +18,13 @@ public class TagDataService : ITagDataService
         return tagData ?? throw new NotFoundException($"Unable to find Tag Data for Tag No - {tagNo}.");
     }
 
+    public async Task<List<ITagData>> GetTagDataByTagNos(List<string> tagNos)
+    {
+        var tagData = await _FAMService.GetTagDataForTagNos(tagNos);
+
+        return tagData;
+    }
+
     public async Task<List<ITagData>> GetAllTagData()
     {
         var allTagData = await _FAMService.GetTagData();

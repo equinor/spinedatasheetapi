@@ -24,18 +24,21 @@ public class ContainersController : ControllerBase
     private readonly IConversationService _conversationService;
     private readonly ILogger<ContractsController> _logger;
     private readonly IUserService _userService;
+    private readonly ITagDataService _tagDataService;
 
     public ContainersController(
         ILoggerFactory loggerFactory,
         IContainerService containerService,
         IConversationService conversationService,
-        IUserService userService
+        IUserService userService,
+        ITagDataService tagDataService
         )
     {
         _logger = loggerFactory.CreateLogger<ContractsController>();
         _containerService = containerService;
         _conversationService = conversationService;
         _userService = userService;
+        _tagDataService = tagDataService;
     }
 
     [HttpGet("{containerId}")]
@@ -66,5 +69,18 @@ public class ContainersController : ControllerBase
         var userIdNameMap = await _userService.GetDisplayNames(userIds);
 
         return conversations.Select(conversation => conversation.ToDto(userIdNameMap)).ToList();
+    }
+
+    [HttpGet("{containerId}/tags")]
+    public async Task<ActionResult<List<TagDataDto>>> GetTags([NotEmptyGuid] Guid containerId)
+    {
+        var container = await _containerService.GetContainer(containerId) ??
+                        throw new NotFoundException($"Container with id {containerId} not found");
+
+        var tagNos = container.Tags.Select(t => t.TagNo).ToList();
+
+        var tags = await _tagDataService.GetTagDataByTagNos(tagNos);
+
+        return Ok(tags.ToDto());
     }
 }
