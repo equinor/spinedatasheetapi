@@ -17,7 +17,7 @@ public class ContainerRepository : IContainerRepository
 
     public async Task<Container?> GetContainer(Guid id)
     {
-        var revisionContainer = await _context.Containers.Include(c => c.Tags).FirstOrDefaultAsync();
+        var revisionContainer = await _context.Containers.Include(c => c.Tags).FirstOrDefaultAsync(c => c.Id == id);
         return revisionContainer;
     }
 
