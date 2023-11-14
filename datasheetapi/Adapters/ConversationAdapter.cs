@@ -87,7 +87,7 @@ public static class ConversationAdapter
         };
     }
 
-    private static ConversationStatus MapConversationStatusDTOToModel(ConversationStatusDto dto)
+    public static ConversationStatus MapConversationStatusDTOToModel(ConversationStatusDto dto)
     {
         return dto switch
         {

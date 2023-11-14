@@ -3,6 +3,7 @@ namespace datasheetapi.Services
     public interface IConversationService
     {
         Task<Conversation> CreateConversation(Conversation conversation);
+        Task<Conversation> UpdateConversation(Guid conversationId, ConversationStatus status);
         Task<Conversation> GetConversation(Guid conversationId);
         Task<List<Conversation>> GetConversations(Guid projectId, string tagNo, bool includeLatestMessage);
         Task<List<Conversation>> GetConversationsForTagNos(ICollection<string> tagNos);

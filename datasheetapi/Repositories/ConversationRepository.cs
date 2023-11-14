@@ -86,6 +86,16 @@ public class ConversationRepository : IConversationRepository
         return savedConversation.Entity;
     }
 
+    public async Task<Conversation> UpdateConversation(Conversation entity)
+    {
+        entity.ModifiedDate = DateTime.UtcNow;
+
+        var updatedConversation = _context.Conversations.Update(entity);
+        await _context.SaveChangesAsync();
+
+        return updatedConversation.Entity;
+    }
+
     public async Task<Conversation?> GetConversation(Guid conversationId)
     {
         return await _context.Conversations

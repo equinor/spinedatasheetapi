@@ -62,6 +62,21 @@ public class ConversationsController : ControllerBase
         return savedConversation.ToDto(userIdNameMap);
     }
 
+    [HttpPut("{conversationId}", Name = "UpdateConversation")]
+    public async Task<ActionResult<GetConversationDto>> UpdateConversation(
+        Guid projectId,
+        [Required] string tagNo,
+        Guid conversationId,
+        [Required] UpdateConversationDto conversation)
+    {
+        var savedConversation = await _conversationService.UpdateConversation(conversationId, ConversationAdapter.MapConversationStatusDTOToModel(conversation.ConversationStatus));
+
+        var userIdNameMap = await _userService.GetDisplayNames(
+            savedConversation.Participants.Select(p => p.UserId).ToList());
+
+        return savedConversation.ToDto(userIdNameMap);
+    }
+
     [HttpGet("{conversationId}", Name = "GetConversation")]
     public async Task<ActionResult<GetConversationDto>> GetConversation(
         [NotEmptyGuid] Guid projectId, [Required] string tagNo, [NotEmptyGuid] Guid conversationId)
