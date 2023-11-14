@@ -3,6 +3,7 @@ namespace datasheetapi.Repositories;
 public interface IConversationRepository
 {
     Task<Conversation> CreateConversation(Conversation conversation);
+    Task<Conversation> UpdateConversation(Conversation entity);
     Task<Conversation?> GetConversation(Guid conversationId);
     Task<List<Conversation>> GetConversationsForTagNos(ICollection<string> tagNos);
     Task<List<Conversation>> GetConversationsWithLatestMessage(Guid projectId,

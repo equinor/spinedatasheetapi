@@ -21,10 +21,19 @@ public class ConversationService : IConversationService
     public async Task<Conversation> CreateConversation(Conversation conversation)
     {
         // TODO: Not sure, how to verify the project from the tag.
-        // This needs to be relook when we have integration to FAM
+        // This needs to be looked at when we have integration to FAM
         _ = await _famService.GetTagData(conversation.TagNo)
             ?? throw new NotFoundException("Invalid tag data");
         return await _conversationRepository.CreateConversation(conversation);
+    }
+
+    public async Task<Conversation> UpdateConversation(Guid conversationId, ConversationStatus status)
+    {
+        var existingConversation = await _conversationRepository.GetConversation(conversationId)
+                              ?? throw new NotFoundException($"Conversation with id {conversationId} not found");
+
+        existingConversation.ConversationStatus = status;
+        return await _conversationRepository.UpdateConversation(existingConversation);
     }
 
     public async Task<Conversation> GetConversation(Guid conversationId)
