@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.9.0](https://github.com/equinor/spinedatasheetapi/compare/v1.8.1...v1.9.0) (2023-11-14)
+
+
+### Features
+
+* Add displayname to reviewerdto ([#117](https://github.com/equinor/spinedatasheetapi/issues/117)) ([a78d167](https://github.com/equinor/spinedatasheetapi/commit/a78d16748587aaf531a83f3995d9e55b3576de88))
+* Add endpoint for updating conversation state ([#124](https://github.com/equinor/spinedatasheetapi/issues/124)) ([988c0df](https://github.com/equinor/spinedatasheetapi/commit/988c0df446bec2c7cdb5c061e899fa975b9a0d5e))
+* Add runbook ([2fbb69c](https://github.com/equinor/spinedatasheetapi/commit/2fbb69c9c29e98cdd712701a2c606aa87d53406c))
+* Add runbook ([#120](https://github.com/equinor/spinedatasheetapi/issues/120)) ([2fbb69c](https://github.com/equinor/spinedatasheetapi/commit/2fbb69c9c29e98cdd712701a2c606aa87d53406c))
+* Added sub tag type to tagdata and dummy data for tag type and sub tag type ([20b33d2](https://github.com/equinor/spinedatasheetapi/commit/20b33d20679ca967ca597b9873744ce19d7a206d))
+* Added tagType to tagData ([195bcd0](https://github.com/equinor/spinedatasheetapi/commit/195bcd000e11f7d0a19ded6915f3bf6ba194127c))
+* context & container - C4-diagram ([#113](https://github.com/equinor/spinedatasheetapi/issues/113)) ([203f494](https://github.com/equinor/spinedatasheetapi/commit/203f4947ce6a71d405a2a7be12a9ea8efb8a8f26))
+* conversations-with-latestMessage ([#108](https://github.com/equinor/spinedatasheetapi/issues/108)) ([fc4ce30](https://github.com/equinor/spinedatasheetapi/commit/fc4ce30fd150b7703642962e2c0dca4e78a1a14f))
+* Get conversations for container ([#121](https://github.com/equinor/spinedatasheetapi/issues/121)) ([8a724f7](https://github.com/equinor/spinedatasheetapi/commit/8a724f7c95cecbbf2a5b53ee62304fa9a92e072b))
+* Get reviews assigned to a reviewer ([#110](https://github.com/equinor/spinedatasheetapi/issues/110)) ([b35de94](https://github.com/equinor/spinedatasheetapi/commit/b35de94d3d85214ddf7b45afedccdb43c4cf7a64))
+* Get tagdata in a container ([#122](https://github.com/equinor/spinedatasheetapi/issues/122)) ([2f21d8e](https://github.com/equinor/spinedatasheetapi/commit/2f21d8ec339432c4fc777232641d2dd776048c37))
+* Moving the conversation under tag ([#111](https://github.com/equinor/spinedatasheetapi/issues/111)) ([936663b](https://github.com/equinor/spinedatasheetapi/commit/936663b1984f4f456ab0c45fb4ad77b55d3516c5))
+* Review per reviewer ([#104](https://github.com/equinor/spinedatasheetapi/issues/104)) ([0638c48](https://github.com/equinor/spinedatasheetapi/commit/0638c48c51b2796b7b1afe2398dc5366fad87852))
+* Update data model ([#119](https://github.com/equinor/spinedatasheetapi/issues/119)) ([c7d5ee1](https://github.com/equinor/spinedatasheetapi/commit/c7d5ee150b0a9792f960b29b5501a623c9592597))
+
+
+### Bug Fixes
+
+* add filtering on container id ([#123](https://github.com/equinor/spinedatasheetapi/issues/123)) ([6162ee1](https://github.com/equinor/spinedatasheetapi/commit/6162ee16d25639eab7b669874be1e62ebf7eb908))
+* Add reviewers to tagreview ([#116](https://github.com/equinor/spinedatasheetapi/issues/116)) ([1681391](https://github.com/equinor/spinedatasheetapi/commit/16813914f1f0ad34e3f101e13ef2dfc9ae47575b))
+* Update Fusion Integration Lib ([#114](https://github.com/equinor/spinedatasheetapi/issues/114)) ([6713e52](https://github.com/equinor/spinedatasheetapi/commit/6713e527bc18d563431f936ea5f3c855aabca6fc))
+
 ## [1.8.1](https://github.com/equinor/spinedatasheetapi/compare/v1.8.0...v1.8.1) (2023-09-29)
 
 
