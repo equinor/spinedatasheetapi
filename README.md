@@ -6,7 +6,7 @@
 
 ## Spine Datasheet
 
-- Product owner: [Monica Myklebust Polden](mailto:monp@equinor.com)
+- Product owner: [Olaf Grødem](mailto:ogro@equinor.com)
 - Business area: 
 
 ## Summary Description
