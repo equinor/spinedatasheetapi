@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.1](https://github.com/equinor/spinedatasheetapi/compare/v1.9.0...v1.9.1) (2024-11-05)
+
+
+### Bug Fixes
+
+* Change PO to Olaf in readme ([6bfe2cd](https://github.com/equinor/spinedatasheetapi/commit/6bfe2cd67f844a993a3260fd6fc315ce304ddab8))
+
+
+### For developers
+
+* Add CONTRIBUTING.md and LICENSE files ([cdf064c](https://github.com/equinor/spinedatasheetapi/commit/cdf064ced2f3bf84993fe2d35814e0a599b34f1a))
+* Create SECURITY.md ([b9e54fd](https://github.com/equinor/spinedatasheetapi/commit/b9e54fdb28543c13ccc818eebe172b93ac6f940a))
+* Update C4 diagrams ([#125](https://github.com/equinor/spinedatasheetapi/issues/125)) ([cbd579c](https://github.com/equinor/spinedatasheetapi/commit/cbd579ccb99ce311963b0cac3dc462271390362a))
+
 ## [1.9.0](https://github.com/equinor/spinedatasheetapi/compare/v1.8.1...v1.9.0) (2023-11-14)
 
 
